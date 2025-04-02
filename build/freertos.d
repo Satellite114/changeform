@@ -76,9 +76,8 @@ build/freertos.o: Core/Src/freertos.c \
  Middlewares/Third_Party/LwIP/system/arch/cpu.h \
  Middlewares/Third_Party/LwIP/src/include/lwip/prot/iana.h \
  Middlewares/Third_Party/LwIP/src/include/lwip/err.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h \
- Drivers/LCD_FMC/inc/lcdTest.h Drivers/LCD_FMC/inc/tftLCD.h \
- Core/Inc/gpio.h Core/Inc/main.h Core/Inc/ad7606.h Core/Inc/gpio.h
+ Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h Core/Inc/ad7606.h \
+ Core/Inc/main.h Core/Inc/gpio.h
 Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 Core/Inc/FreeRTOSConfig.h:
 Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -160,9 +159,6 @@ Middlewares/Third_Party/LwIP/system/arch/cpu.h:
 Middlewares/Third_Party/LwIP/src/include/lwip/prot/iana.h:
 Middlewares/Third_Party/LwIP/src/include/lwip/err.h:
 Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h:
-Drivers/LCD_FMC/inc/lcdTest.h:
-Drivers/LCD_FMC/inc/tftLCD.h:
-Core/Inc/gpio.h:
-Core/Inc/main.h:
 Core/Inc/ad7606.h:
+Core/Inc/main.h:
 Core/Inc/gpio.h:

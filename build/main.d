@@ -109,8 +109,7 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h Core/Inc/quadspi.h \
  Core/Inc/rtc.h Core/Inc/sdmmc.h Core/Inc/spi.h Core/Inc/tim.h \
  Core/Inc/usart.h Core/Inc/usb_otg.h Core/Inc/gpio.h Core/Inc/fmc.h \
- Core/Inc/ad7606.h Core/Inc/gpio.h Drivers/LCD_FMC/inc/lcdTest.h \
- Drivers/LCD_FMC/inc/tftLCD.h Drivers/LCD_FMC/inc/tftLCD.h
+ Core/Inc/ad7606.h Core/Inc/gpio.h
 Core/Inc/main.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 Core/Inc/stm32h7xx_hal_conf.h:
@@ -240,6 +239,3 @@ Core/Inc/gpio.h:
 Core/Inc/fmc.h:
 Core/Inc/ad7606.h:
 Core/Inc/gpio.h:
-Drivers/LCD_FMC/inc/lcdTest.h:
-Drivers/LCD_FMC/inc/tftLCD.h:
-Drivers/LCD_FMC/inc/tftLCD.h:

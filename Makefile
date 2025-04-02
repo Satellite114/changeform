@@ -54,8 +54,6 @@ Core/Src/usb_otg.c \
 Core/Src/stm32h7xx_it.c \
 Core/Src/stm32h7xx_hal_msp.c \
 Core/Src/stm32h7xx_hal_timebase_tim.c \
-Drivers/LCD_FMC/src/lcdTest.c \
-Drivers/LCD_FMC/src/tftLCD.c \
 Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c \
 Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c \
 Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c \
@@ -254,7 +252,8 @@ Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_q31.c \
 Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_f32.c \
 Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c \
 Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q31.c \
-Drivers/CMSIS/DSP/Source/TransformFunctions/arm_bitreversal2.c
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_bitreversal2.c \
+User/LCD/lcd.c
 
 
 # ASM sources
@@ -315,7 +314,6 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--IDrivers/LCD_FMC/inc \
 -IDrivers/STM32H7xx_HAL_Driver/Inc \
 -IDrivers/STM32H7xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32H7xx/Include \
@@ -346,7 +344,8 @@ C_INCLUDES =  \
 -IMiddlewares/Third_Party/LwIP/system/arch \
 -IUser/FFT \
 -IDrivers/CMSIS/DSP/Include \
--IDrivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/inc
+-IDrivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/inc \
+-IUser/LCD
 
 
 # compile gcc flags

@@ -27,8 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lwip/apps/httpd.h"
-#include "lcdTest.h"
 #include "ad7606.h"
+#include "lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -139,7 +139,7 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {
     osDelay(1);
-    LCD_TEST();
+ 
   }
   /* USER CODE END StartDefaultTask */
 }

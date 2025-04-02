@@ -37,8 +37,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ad7606.h"
-#include "lcdTest.h"
-#include "tftLCD.h"
 // #include "dsp_fft.h"
 /* USER CODE END Includes */
 
@@ -135,11 +133,7 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
-  LCD_RST_CLR();
-  HAL_Delay(50);
-  LCD_RST_SET();
-  HAL_Delay(50);
-  LCD_Init();
+
 
   // while(1)
   // {
