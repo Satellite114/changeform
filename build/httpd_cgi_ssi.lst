@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,21 +18,21 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.rodata.ADC_Handler.str1.4,"aMS",%progbits,1
-  19              		.align	2
-  20              	.LC0:
-  21 0000 25322E33 		.ascii	"%2.3f\000"
-  21      6600
-  22              		.section	.text.ADC_Handler,"ax",%progbits
-  23              		.align	1
-  24              		.global	ADC_Handler
-  25              		.syntax unified
-  26              		.thumb
-  27              		.thumb_func
-  29              	ADC_Handler:
-  30              	.LVL0:
-  31              	.LFB359:
-  32              		.file 1 "Core/Src/httpd_cgi_ssi.c"
+  18              		.file 1 "Core/Src/httpd_cgi_ssi.c"
+  19              		.section	.rodata.ADC_Handler.str1.4,"aMS",%progbits,1
+  20              		.align	2
+  21              	.LC0:
+  22 0000 25322E33 		.ascii	"%2.3f\000"
+  22      6600
+  23              		.section	.text.ADC_Handler,"ax",%progbits
+  24              		.align	1
+  25              		.global	ADC_Handler
+  26              		.syntax unified
+  27              		.thumb
+  28              		.thumb_func
+  30              	ADC_Handler:
+  31              	.LVL0:
+  32              	.LFB359:
    1:Core/Src/httpd_cgi_ssi.c **** /**
    2:Core/Src/httpd_cgi_ssi.c ****   ******************************************************************************
    3:Core/Src/httpd_cgi_ssi.c ****   * @file    httpd_cg_ssi.c
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
   23:Core/Src/httpd_cgi_ssi.c ****   * limitations under the License.
   24:Core/Src/httpd_cgi_ssi.c ****   *
   25:Core/Src/httpd_cgi_ssi.c ****   ******************************************************************************
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 2
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 2
 
 
   26:Core/Src/httpd_cgi_ssi.c ****   */
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
   80:Core/Src/httpd_cgi_ssi.c **** {
   33              		.loc 1 80 1 view -0
   34              		.cfi_startproc
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 3
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 3
 
 
   35              		@ args = 0, pretend = 0, frame = 16
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
   63              		.loc 1 106 1 view .LVU9
   64 0014 04B0     		add	sp, sp, #16
   65              	.LCFI2:
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 4
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 4
 
 
   66              		.cfi_remember_state
@@ -204,144 +204,141 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
   92:Core/Src/httpd_cgi_ssi.c ****      
   83              		.loc 1 92 34 is_stmt 0 view .LVU14
   84 0024 B8EEC77B 		vcvt.f64.s32	d7, s14
-  85              	.LVL5:
+  85 0028 9FED0F6B 		vldr.64	d6, .L8
+  86 002c 27EE067B 		vmul.f64	d7, d7, d6
   92:Core/Src/httpd_cgi_ssi.c ****      
-  86              		.loc 1 92 34 view .LVU15
-  87 0028 9FED0F6B 		vldr.64	d6, .L8
-  88 002c 27EE067B 		vmul.f64	d7, d7, d6
+  87              		.loc 1 92 6 view .LVU15
+  88 0030 B2EE046B 		vmov.f64	d6, #1.0e+1
+  89 0034 27EE067B 		vmul.f64	d7, d7, d6
+  90 0038 53EC172B 		vmov	r2, r3, d7
+  91              	.LVL5:
   92:Core/Src/httpd_cgi_ssi.c ****      
-  89              		.loc 1 92 6 view .LVU16
-  90 0030 B2EE046B 		vmov.f64	d6, #1.0e+1
-  91 0034 27EE067B 		vmul.f64	d7, d7, d6
-  92 0038 53EC172B 		vmov	r2, r3, d7
-  93              	.LVL6:
+  92              		.loc 1 92 6 view .LVU16
+  93 003c 0D49     		ldr	r1, .L8+12
+  94              	.LVL6:
   92:Core/Src/httpd_cgi_ssi.c ****      
-  94              		.loc 1 92 6 view .LVU17
-  95 003c 0D49     		ldr	r1, .L8+12
-  96              	.LVL7:
+  95              		.loc 1 92 6 view .LVU17
+  96 003e 01A8     		add	r0, sp, #4
+  97              	.LVL7:
   92:Core/Src/httpd_cgi_ssi.c ****      
-  97              		.loc 1 92 6 view .LVU18
-  98 003e 01A8     		add	r0, sp, #4
-  99              	.LVL8:
-  92:Core/Src/httpd_cgi_ssi.c ****      
- 100              		.loc 1 92 6 view .LVU19
- 101 0040 FFF7FEFF 		bl	sprintf
- 102              	.LVL9:
+  98              		.loc 1 92 6 view .LVU18
+  99 0040 FFF7FEFF 		bl	sprintf
+ 100              	.LVL8:
   94:Core/Src/httpd_cgi_ssi.c **** 		 {
- 103              		.loc 1 94 6 is_stmt 1 view .LVU20
+ 101              		.loc 1 94 6 is_stmt 1 view .LVU19
   85:Core/Src/httpd_cgi_ssi.c **** 		if (iIndex <8)
- 104              		.loc 1 85 7 is_stmt 0 view .LVU21
- 105 0044 0023     		movs	r3, #0
+ 102              		.loc 1 85 7 is_stmt 0 view .LVU20
+ 103 0044 0023     		movs	r3, #0
   94:Core/Src/httpd_cgi_ssi.c **** 		 {
- 106              		.loc 1 94 11 view .LVU22
- 107 0046 01E0     		b	.L3
- 108              	.LVL10:
- 109              	.L4:
+ 104              		.loc 1 94 11 view .LVU21
+ 105 0046 01E0     		b	.L3
+ 106              	.LVL9:
+ 107              	.L4:
   96:Core/Src/httpd_cgi_ssi.c **** 			 i++;
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 5
-
-
- 110              		.loc 1 96 5 is_stmt 1 view .LVU23
+ 108              		.loc 1 96 5 is_stmt 1 view .LVU22
   96:Core/Src/httpd_cgi_ssi.c **** 			 i++;
- 111              		.loc 1 96 18 is_stmt 0 view .LVU24
- 112 0048 E254     		strb	r2, [r4, r3]
-  97:Core/Src/httpd_cgi_ssi.c **** 		 }
- 113              		.loc 1 97 5 is_stmt 1 view .LVU25
-  97:Core/Src/httpd_cgi_ssi.c **** 		 }
- 114              		.loc 1 97 6 is_stmt 0 view .LVU26
- 115 004a 0133     		adds	r3, r3, #1
- 116              	.LVL11:
- 117              	.L3:
-  94:Core/Src/httpd_cgi_ssi.c **** 		 {
- 118              		.loc 1 94 11 is_stmt 1 view .LVU27
-  94:Core/Src/httpd_cgi_ssi.c **** 		 {
- 119              		.loc 1 94 17 is_stmt 0 view .LVU28
- 120 004c 03F11002 		add	r2, r3, #16
- 121 0050 6A44     		add	r2, sp, r2
- 122 0052 12F80C2C 		ldrb	r2, [r2, #-12]	@ zero_extendqisi2
-  94:Core/Src/httpd_cgi_ssi.c **** 		 {
- 123              		.loc 1 94 11 view .LVU29
- 124 0056 002A     		cmp	r2, #0
- 125 0058 F6D1     		bne	.L4
- 102:Core/Src/httpd_cgi_ssi.c **** 		return iInsertLen;
- 126              		.loc 1 102 3 is_stmt 1 view .LVU30
- 102:Core/Src/httpd_cgi_ssi.c **** 		return iInsertLen;
- 127              		.loc 1 102 14 is_stmt 0 view .LVU31
- 128 005a 2046     		mov	r0, r4
- 129 005c FFF7FEFF 		bl	strlen
- 130              	.LVL12:
- 103:Core/Src/httpd_cgi_ssi.c **** 		}
- 131              		.loc 1 103 3 is_stmt 1 view .LVU32
- 103:Core/Src/httpd_cgi_ssi.c **** 		}
- 132              		.loc 1 103 10 is_stmt 0 view .LVU33
- 133 0060 80B2     		uxth	r0, r0
- 134              	.LVL13:
- 103:Core/Src/httpd_cgi_ssi.c **** 		}
- 135              		.loc 1 103 10 view .LVU34
- 136 0062 D7E7     		b	.L2
- 137              	.L9:
- 138 0064 AFF30080 		.align	3
- 139              	.L8:
- 140 0068 00000000 		.word	0
- 141 006c 0000003F 		.word	1056964608
- 142 0070 00000000 		.word	testAdc
- 143 0074 00000000 		.word	.LC0
- 144              		.cfi_endproc
- 145              	.LFE359:
- 147              		.section	.rodata.LEDS_CGI_Handler.str1.4,"aMS",%progbits,1
- 148              		.align	2
- 149              	.LC1:
- 150 0000 6C656400 		.ascii	"led\000"
- 151              		.align	2
- 152              	.LC2:
- 153 0004 3100     		.ascii	"1\000"
- 154 0006 0000     		.align	2
- 155              	.LC3:
- 156 0008 3200     		.ascii	"2\000"
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 6
+ 109              		.loc 1 96 18 is_stmt 0 view .LVU23
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 5
 
 
- 157 000a 0000     		.align	2
- 158              	.LC4:
- 159 000c 3300     		.ascii	"3\000"
- 160 000e 0000     		.align	2
- 161              	.LC5:
- 162 0010 3400     		.ascii	"4\000"
- 163 0012 0000     		.align	2
- 164              	.LC6:
- 165 0014 2F53544D 		.ascii	"/STM32F4x7LED.html\000"
- 165      33324634 
- 165      78374C45 
- 165      442E6874 
- 165      6D6C00
- 166              		.section	.text.LEDS_CGI_Handler,"ax",%progbits
- 167              		.align	1
- 168              		.global	LEDS_CGI_Handler
- 169              		.syntax unified
- 170              		.thumb
- 171              		.thumb_func
- 173              	LEDS_CGI_Handler:
- 174              	.LVL14:
- 175              	.LFB360:
+ 110 0048 E254     		strb	r2, [r4, r3]
+  97:Core/Src/httpd_cgi_ssi.c **** 		 }
+ 111              		.loc 1 97 5 is_stmt 1 view .LVU24
+  97:Core/Src/httpd_cgi_ssi.c **** 		 }
+ 112              		.loc 1 97 6 is_stmt 0 view .LVU25
+ 113 004a 0133     		adds	r3, r3, #1
+ 114              	.LVL10:
+ 115              	.L3:
+  94:Core/Src/httpd_cgi_ssi.c **** 		 {
+ 116              		.loc 1 94 20 is_stmt 1 view .LVU26
+  94:Core/Src/httpd_cgi_ssi.c **** 		 {
+ 117              		.loc 1 94 17 is_stmt 0 view .LVU27
+ 118 004c 03F11002 		add	r2, r3, #16
+ 119 0050 6A44     		add	r2, sp, r2
+ 120 0052 12F80C2C 		ldrb	r2, [r2, #-12]	@ zero_extendqisi2
+  94:Core/Src/httpd_cgi_ssi.c **** 		 {
+ 121              		.loc 1 94 20 view .LVU28
+ 122 0056 002A     		cmp	r2, #0
+ 123 0058 F6D1     		bne	.L4
+ 102:Core/Src/httpd_cgi_ssi.c **** 		return iInsertLen;
+ 124              		.loc 1 102 3 is_stmt 1 view .LVU29
+ 102:Core/Src/httpd_cgi_ssi.c **** 		return iInsertLen;
+ 125              		.loc 1 102 14 is_stmt 0 view .LVU30
+ 126 005a 2046     		mov	r0, r4
+ 127 005c FFF7FEFF 		bl	strlen
+ 128              	.LVL11:
+ 103:Core/Src/httpd_cgi_ssi.c **** 		}
+ 129              		.loc 1 103 3 is_stmt 1 view .LVU31
+ 103:Core/Src/httpd_cgi_ssi.c **** 		}
+ 130              		.loc 1 103 10 is_stmt 0 view .LVU32
+ 131 0060 80B2     		uxth	r0, r0
+ 132              	.LVL12:
+ 103:Core/Src/httpd_cgi_ssi.c **** 		}
+ 133              		.loc 1 103 10 view .LVU33
+ 134 0062 D7E7     		b	.L2
+ 135              	.L9:
+ 136 0064 AFF30080 		.align	3
+ 137              	.L8:
+ 138 0068 00000000 		.word	0
+ 139 006c 0000003F 		.word	1056964608
+ 140 0070 00000000 		.word	testAdc
+ 141 0074 00000000 		.word	.LC0
+ 142              		.cfi_endproc
+ 143              	.LFE359:
+ 145              		.section	.rodata.LEDS_CGI_Handler.str1.4,"aMS",%progbits,1
+ 146              		.align	2
+ 147              	.LC1:
+ 148 0000 6C656400 		.ascii	"led\000"
+ 149              		.align	2
+ 150              	.LC2:
+ 151 0004 3100     		.ascii	"1\000"
+ 152 0006 0000     		.align	2
+ 153              	.LC3:
+ 154 0008 3200     		.ascii	"2\000"
+ 155 000a 0000     		.align	2
+ 156              	.LC4:
+ 157 000c 3300     		.ascii	"3\000"
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 6
+
+
+ 158 000e 0000     		.align	2
+ 159              	.LC5:
+ 160 0010 3400     		.ascii	"4\000"
+ 161 0012 0000     		.align	2
+ 162              	.LC6:
+ 163 0014 2F53544D 		.ascii	"/STM32F4x7LED.html\000"
+ 163      33324634 
+ 163      78374C45 
+ 163      442E6874 
+ 163      6D6C00
+ 164              		.section	.text.LEDS_CGI_Handler,"ax",%progbits
+ 165              		.align	1
+ 166              		.global	LEDS_CGI_Handler
+ 167              		.syntax unified
+ 168              		.thumb
+ 169              		.thumb_func
+ 171              	LEDS_CGI_Handler:
+ 172              	.LVL13:
+ 173              	.LFB360:
  107:Core/Src/httpd_cgi_ssi.c **** 
  108:Core/Src/httpd_cgi_ssi.c **** /**
  109:Core/Src/httpd_cgi_ssi.c ****   * @brief  CGI handler for LEDs control 
  110:Core/Src/httpd_cgi_ssi.c ****   */
  111:Core/Src/httpd_cgi_ssi.c **** const char * LEDS_CGI_Handler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
  112:Core/Src/httpd_cgi_ssi.c **** {
- 176              		.loc 1 112 1 is_stmt 1 view -0
- 177              		.cfi_startproc
- 178              		@ args = 0, pretend = 0, frame = 0
- 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174              		.loc 1 112 1 is_stmt 1 view -0
+ 175              		.cfi_startproc
+ 176              		@ args = 0, pretend = 0, frame = 0
+ 177              		@ frame_needed = 0, uses_anonymous_args = 0
  113:Core/Src/httpd_cgi_ssi.c ****   uint32_t i=0;
- 180              		.loc 1 113 3 view .LVU36
+ 178              		.loc 1 113 3 view .LVU35
  114:Core/Src/httpd_cgi_ssi.c ****   
  115:Core/Src/httpd_cgi_ssi.c ****   /* We have only one SSI handler iIndex = 0 */
  116:Core/Src/httpd_cgi_ssi.c ****   if (iIndex==0)
- 181              		.loc 1 116 3 view .LVU37
- 182              		.loc 1 116 6 is_stmt 0 view .LVU38
- 183 0000 0028     		cmp	r0, #0
- 184 0002 3ED0     		beq	.L18
+ 179              		.loc 1 116 3 view .LVU36
+ 180              		.loc 1 116 6 is_stmt 0 view .LVU37
+ 181 0000 0028     		cmp	r0, #0
+ 182 0002 3ED0     		beq	.L18
  117:Core/Src/httpd_cgi_ssi.c ****   {
  118:Core/Src/httpd_cgi_ssi.c ****     /* All leds off */
  119:Core/Src/httpd_cgi_ssi.c ****     // STM_EVAL_LEDOff(LED1);
@@ -358,12 +355,12 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
  130:Core/Src/httpd_cgi_ssi.c ****         /* switch led1 ON if 1 */
  131:Core/Src/httpd_cgi_ssi.c ****         if(strcmp(pcValue[i], "1") ==0) 
  132:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 7
-
-
  133:Core/Src/httpd_cgi_ssi.c ****         /* switch led2 ON if 2 */
  134:Core/Src/httpd_cgi_ssi.c ****         else if(strcmp(pcValue[i], "2") ==0) 
  135:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 7
+
+
  136:Core/Src/httpd_cgi_ssi.c ****         
  137:Core/Src/httpd_cgi_ssi.c ****         /* switch led3 ON if 3 */
  138:Core/Src/httpd_cgi_ssi.c ****         else if(strcmp(pcValue[i], "3") ==0) 
@@ -377,392 +374,387 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 1
  146:Core/Src/httpd_cgi_ssi.c ****   }
  147:Core/Src/httpd_cgi_ssi.c ****   /* uri to send after cgi call*/
  148:Core/Src/httpd_cgi_ssi.c ****   return "/STM32F4x7LED.html";  
- 185              		.loc 1 148 3 is_stmt 1 view .LVU39
+ 183              		.loc 1 148 3 is_stmt 1 view .LVU38
  149:Core/Src/httpd_cgi_ssi.c **** }
- 186              		.loc 1 149 1 is_stmt 0 view .LVU40
- 187 0004 2448     		ldr	r0, .L26
- 188              	.LVL15:
- 189              		.loc 1 149 1 view .LVU41
- 190 0006 7047     		bx	lr
- 191              	.LVL16:
- 192              	.L23:
- 193              	.LCFI4:
- 194              		.cfi_def_cfa_offset 24
- 195              		.cfi_offset 4, -24
- 196              		.cfi_offset 5, -20
- 197              		.cfi_offset 6, -16
- 198              		.cfi_offset 7, -12
- 199              		.cfi_offset 8, -8
- 200              		.cfi_offset 14, -4
+ 184              		.loc 1 149 1 is_stmt 0 view .LVU39
+ 185 0004 2448     		ldr	r0, .L26
+ 186              	.LVL14:
+ 187              		.loc 1 149 1 view .LVU40
+ 188 0006 7047     		bx	lr
+ 189              	.LVL15:
+ 190              	.L23:
+ 191              	.LCFI4:
+ 192              		.cfi_def_cfa_offset 24
+ 193              		.cfi_offset 4, -24
+ 194              		.cfi_offset 5, -20
+ 195              		.cfi_offset 6, -16
+ 196              		.cfi_offset 7, -12
+ 197              		.cfi_offset 8, -8
+ 198              		.cfi_offset 14, -4
  132:Core/Src/httpd_cgi_ssi.c ****         /* switch led2 ON if 2 */
- 201              		.loc 1 132 11 is_stmt 1 view .LVU42
- 202 0008 0122     		movs	r2, #1
- 203 000a 4FF48041 		mov	r1, #16384
- 204 000e 2348     		ldr	r0, .L26+4
- 205 0010 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 206              	.LVL17:
- 207              	.L13:
+ 199              		.loc 1 132 11 is_stmt 1 view .LVU41
+ 200 0008 0122     		movs	r2, #1
+ 201 000a 4FF48041 		mov	r1, #16384
+ 202 000e 2348     		ldr	r0, .L26+4
+ 203 0010 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 204              	.LVL16:
+ 205              	.L13:
  125:Core/Src/httpd_cgi_ssi.c ****     {
- 208              		.loc 1 125 29 discriminator 2 view .LVU43
+ 206              		.loc 1 125 30 discriminator 2 view .LVU42
+ 207 0014 0134     		adds	r4, r4, #1
+ 208              	.LVL17:
+ 209              	.L11:
  125:Core/Src/httpd_cgi_ssi.c ****     {
- 209              		.loc 1 125 30 is_stmt 0 discriminator 2 view .LVU44
- 210 0014 0134     		adds	r4, r4, #1
- 211              	.LVL18:
- 212              	.L11:
- 125:Core/Src/httpd_cgi_ssi.c ****     {
- 213              		.loc 1 125 15 is_stmt 1 discriminator 1 view .LVU45
- 125:Core/Src/httpd_cgi_ssi.c ****     {
- 214              		.loc 1 125 5 is_stmt 0 discriminator 1 view .LVU46
- 215 0016 A542     		cmp	r5, r4
- 216 0018 3AD9     		bls	.L22
+ 210              		.loc 1 125 16 discriminator 1 view .LVU43
+ 211 0016 A542     		cmp	r5, r4
+ 212 0018 3AD9     		bls	.L22
  128:Core/Src/httpd_cgi_ssi.c ****       {
- 217              		.loc 1 128 7 is_stmt 1 view .LVU47
+ 213              		.loc 1 128 7 view .LVU44
  128:Core/Src/httpd_cgi_ssi.c ****       {
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 8
+ 214              		.loc 1 128 11 is_stmt 0 view .LVU45
+ 215 001a 2149     		ldr	r1, .L26+8
+ 216 001c 56F82400 		ldr	r0, [r6, r4, lsl #2]
+ 217 0020 FFF7FEFF 		bl	strcmp
+ 218              	.LVL18:
+ 128:Core/Src/httpd_cgi_ssi.c ****       {
+ 219              		.loc 1 128 10 discriminator 1 view .LVU46
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 8
 
 
- 218              		.loc 1 128 11 is_stmt 0 view .LVU48
- 219 001a 2149     		ldr	r1, .L26+8
- 220 001c 56F82400 		ldr	r0, [r6, r4, lsl #2]
- 221 0020 FFF7FEFF 		bl	strcmp
- 222              	.LVL19:
- 128:Core/Src/httpd_cgi_ssi.c ****       {
- 223              		.loc 1 128 10 view .LVU49
- 224 0024 0028     		cmp	r0, #0
- 225 0026 F5D1     		bne	.L13
+ 220 0024 0028     		cmp	r0, #0
+ 221 0026 F5D1     		bne	.L13
  131:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 226              		.loc 1 131 9 is_stmt 1 view .LVU50
+ 222              		.loc 1 131 9 is_stmt 1 view .LVU47
  131:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 227              		.loc 1 131 12 is_stmt 0 view .LVU51
- 228 0028 58F82470 		ldr	r7, [r8, r4, lsl #2]
- 229 002c 1D49     		ldr	r1, .L26+12
- 230 002e 3846     		mov	r0, r7
- 231 0030 FFF7FEFF 		bl	strcmp
- 232              	.LVL20:
+ 223              		.loc 1 131 12 is_stmt 0 view .LVU48
+ 224 0028 58F82470 		ldr	r7, [r8, r4, lsl #2]
+ 225 002c 1D49     		ldr	r1, .L26+12
+ 226 002e 3846     		mov	r0, r7
+ 227 0030 FFF7FEFF 		bl	strcmp
+ 228              	.LVL19:
  131:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 233              		.loc 1 131 11 view .LVU52
- 234 0034 0028     		cmp	r0, #0
- 235 0036 E7D0     		beq	.L23
+ 229              		.loc 1 131 11 discriminator 1 view .LVU49
+ 230 0034 0028     		cmp	r0, #0
+ 231 0036 E7D0     		beq	.L23
  134:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 236              		.loc 1 134 14 is_stmt 1 view .LVU53
+ 232              		.loc 1 134 14 is_stmt 1 view .LVU50
  134:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 237              		.loc 1 134 17 is_stmt 0 view .LVU54
- 238 0038 1B49     		ldr	r1, .L26+16
- 239 003a 3846     		mov	r0, r7
- 240 003c FFF7FEFF 		bl	strcmp
- 241              	.LVL21:
+ 233              		.loc 1 134 17 is_stmt 0 view .LVU51
+ 234 0038 1B49     		ldr	r1, .L26+16
+ 235 003a 3846     		mov	r0, r7
+ 236 003c FFF7FEFF 		bl	strcmp
+ 237              	.LVL20:
  134:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 242              		.loc 1 134 16 view .LVU55
- 243 0040 88B1     		cbz	r0, .L24
+ 238              		.loc 1 134 16 discriminator 1 view .LVU52
+ 239 0040 88B1     		cbz	r0, .L24
  138:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 244              		.loc 1 138 14 is_stmt 1 view .LVU56
+ 240              		.loc 1 138 14 is_stmt 1 view .LVU53
  138:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 245              		.loc 1 138 17 is_stmt 0 view .LVU57
- 246 0042 1A49     		ldr	r1, .L26+20
- 247 0044 3846     		mov	r0, r7
- 248 0046 FFF7FEFF 		bl	strcmp
- 249              	.LVL22:
+ 241              		.loc 1 138 17 is_stmt 0 view .LVU54
+ 242 0042 1A49     		ldr	r1, .L26+20
+ 243 0044 3846     		mov	r0, r7
+ 244 0046 FFF7FEFF 		bl	strcmp
+ 245              	.LVL21:
  138:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 250              		.loc 1 138 16 view .LVU58
- 251 004a 98B1     		cbz	r0, .L25
+ 246              		.loc 1 138 16 discriminator 1 view .LVU55
+ 247 004a 98B1     		cbz	r0, .L25
  142:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 252              		.loc 1 142 14 is_stmt 1 view .LVU59
+ 248              		.loc 1 142 14 is_stmt 1 view .LVU56
  142:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 253              		.loc 1 142 17 is_stmt 0 view .LVU60
- 254 004c 1849     		ldr	r1, .L26+24
- 255 004e 3846     		mov	r0, r7
- 256 0050 FFF7FEFF 		bl	strcmp
- 257              	.LVL23:
+ 249              		.loc 1 142 17 is_stmt 0 view .LVU57
+ 250 004c 1849     		ldr	r1, .L26+24
+ 251 004e 3846     		mov	r0, r7
+ 252 0050 FFF7FEFF 		bl	strcmp
+ 253              	.LVL22:
  142:Core/Src/httpd_cgi_ssi.c ****           HAL_GPIO_WritePin(PG14_GPIO_Port,PG14_Pin,GPIO_PIN_SET);
- 258              		.loc 1 142 16 view .LVU61
- 259 0054 0028     		cmp	r0, #0
- 260 0056 DDD1     		bne	.L13
+ 254              		.loc 1 142 16 discriminator 1 view .LVU58
+ 255 0054 0028     		cmp	r0, #0
+ 256 0056 DDD1     		bne	.L13
  143:Core/Src/httpd_cgi_ssi.c ****       }
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 9
+ 257              		.loc 1 143 11 is_stmt 1 view .LVU59
+ 258 0058 0122     		movs	r2, #1
+ 259 005a 4FF48041 		mov	r1, #16384
+ 260 005e 0F48     		ldr	r0, .L26+4
+ 261 0060 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 262              	.LVL23:
+ 263 0064 D6E7     		b	.L13
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 9
 
 
- 261              		.loc 1 143 11 is_stmt 1 view .LVU62
- 262 0058 0122     		movs	r2, #1
- 263 005a 4FF48041 		mov	r1, #16384
- 264 005e 0F48     		ldr	r0, .L26+4
- 265 0060 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 266              	.LVL24:
- 267 0064 D6E7     		b	.L13
- 268              	.L24:
+ 264              	.L24:
  135:Core/Src/httpd_cgi_ssi.c ****         
- 269              		.loc 1 135 11 view .LVU63
- 270 0066 0122     		movs	r2, #1
- 271 0068 4FF48041 		mov	r1, #16384
- 272 006c 0B48     		ldr	r0, .L26+4
- 273 006e FFF7FEFF 		bl	HAL_GPIO_WritePin
- 274              	.LVL25:
- 275 0072 CFE7     		b	.L13
- 276              	.L25:
+ 265              		.loc 1 135 11 view .LVU60
+ 266 0066 0122     		movs	r2, #1
+ 267 0068 4FF48041 		mov	r1, #16384
+ 268 006c 0B48     		ldr	r0, .L26+4
+ 269 006e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 270              	.LVL24:
+ 271 0072 CFE7     		b	.L13
+ 272              	.L25:
  139:Core/Src/httpd_cgi_ssi.c ****         
- 277              		.loc 1 139 11 view .LVU64
- 278 0074 0122     		movs	r2, #1
- 279 0076 4FF48041 		mov	r1, #16384
- 280 007a 0848     		ldr	r0, .L26+4
- 281 007c FFF7FEFF 		bl	HAL_GPIO_WritePin
- 282              	.LVL26:
- 283 0080 C8E7     		b	.L13
- 284              	.LVL27:
- 285              	.L18:
- 286              	.LCFI5:
- 287              		.cfi_def_cfa_offset 0
- 288              		.cfi_restore 4
- 289              		.cfi_restore 5
- 290              		.cfi_restore 6
- 291              		.cfi_restore 7
- 292              		.cfi_restore 8
- 293              		.cfi_restore 14
+ 273              		.loc 1 139 11 view .LVU61
+ 274 0074 0122     		movs	r2, #1
+ 275 0076 4FF48041 		mov	r1, #16384
+ 276 007a 0848     		ldr	r0, .L26+4
+ 277 007c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 278              	.LVL25:
+ 279 0080 C8E7     		b	.L13
+ 280              	.LVL26:
+ 281              	.L18:
+ 282              	.LCFI5:
+ 283              		.cfi_def_cfa_offset 0
+ 284              		.cfi_restore 4
+ 285              		.cfi_restore 5
+ 286              		.cfi_restore 6
+ 287              		.cfi_restore 7
+ 288              		.cfi_restore 8
+ 289              		.cfi_restore 14
  112:Core/Src/httpd_cgi_ssi.c ****   uint32_t i=0;
- 294              		.loc 1 112 1 is_stmt 0 view .LVU65
- 295 0082 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
- 296              	.LCFI6:
- 297              		.cfi_def_cfa_offset 24
- 298              		.cfi_offset 4, -24
- 299              		.cfi_offset 5, -20
- 300              		.cfi_offset 6, -16
- 301              		.cfi_offset 7, -12
- 302              		.cfi_offset 8, -8
- 303              		.cfi_offset 14, -4
- 304 0086 0D46     		mov	r5, r1
- 305 0088 1646     		mov	r6, r2
- 306 008a 9846     		mov	r8, r3
+ 290              		.loc 1 112 1 is_stmt 0 view .LVU62
+ 291 0082 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 292              	.LCFI6:
+ 293              		.cfi_def_cfa_offset 24
+ 294              		.cfi_offset 4, -24
+ 295              		.cfi_offset 5, -20
+ 296              		.cfi_offset 6, -16
+ 297              		.cfi_offset 7, -12
+ 298              		.cfi_offset 8, -8
+ 299              		.cfi_offset 14, -4
+ 300 0086 0D46     		mov	r5, r1
+ 301 0088 1646     		mov	r6, r2
+ 302 008a 9846     		mov	r8, r3
  125:Core/Src/httpd_cgi_ssi.c ****     {
- 307              		.loc 1 125 11 view .LVU66
- 308 008c 0024     		movs	r4, #0
- 309 008e C2E7     		b	.L11
- 310              	.LVL28:
- 311              	.L22:
+ 303              		.loc 1 125 11 view .LVU63
+ 304 008c 0024     		movs	r4, #0
+ 305 008e C2E7     		b	.L11
+ 306              	.LVL27:
+ 307              	.L22:
  148:Core/Src/httpd_cgi_ssi.c **** }
- 312              		.loc 1 148 3 is_stmt 1 view .LVU67
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 10
+ 308              		.loc 1 148 3 is_stmt 1 view .LVU64
+ 309              		.loc 1 149 1 is_stmt 0 view .LVU65
+ 310 0090 0148     		ldr	r0, .L26
+ 311 0092 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 312              	.LVL28:
+ 313              	.L27:
+ 314              		.loc 1 149 1 view .LVU66
+ 315 0096 00BF     		.align	2
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 10
 
 
- 313              		.loc 1 149 1 is_stmt 0 view .LVU68
- 314 0090 0148     		ldr	r0, .L26
- 315 0092 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
- 316              	.LVL29:
- 317              	.L27:
- 318              		.loc 1 149 1 view .LVU69
- 319 0096 00BF     		.align	2
- 320              	.L26:
- 321 0098 14000000 		.word	.LC6
- 322 009c 00180258 		.word	1476532224
- 323 00a0 00000000 		.word	.LC1
- 324 00a4 04000000 		.word	.LC2
- 325 00a8 08000000 		.word	.LC3
- 326 00ac 0C000000 		.word	.LC4
- 327 00b0 10000000 		.word	.LC5
- 328              		.cfi_endproc
- 329              	.LFE360:
- 331              		.section	.text.httpd_ssi_init,"ax",%progbits
- 332              		.align	1
- 333              		.global	httpd_ssi_init
- 334              		.syntax unified
- 335              		.thumb
- 336              		.thumb_func
- 338              	httpd_ssi_init:
- 339              	.LFB361:
+ 316              	.L26:
+ 317 0098 14000000 		.word	.LC6
+ 318 009c 00180258 		.word	1476532224
+ 319 00a0 00000000 		.word	.LC1
+ 320 00a4 04000000 		.word	.LC2
+ 321 00a8 08000000 		.word	.LC3
+ 322 00ac 0C000000 		.word	.LC4
+ 323 00b0 10000000 		.word	.LC5
+ 324              		.cfi_endproc
+ 325              	.LFE360:
+ 327              		.section	.text.httpd_ssi_init,"ax",%progbits
+ 328              		.align	1
+ 329              		.global	httpd_ssi_init
+ 330              		.syntax unified
+ 331              		.thumb
+ 332              		.thumb_func
+ 334              	httpd_ssi_init:
+ 335              	.LFB361:
  150:Core/Src/httpd_cgi_ssi.c **** 
  151:Core/Src/httpd_cgi_ssi.c **** /**
  152:Core/Src/httpd_cgi_ssi.c ****  * Initialize SSI handlers
  153:Core/Src/httpd_cgi_ssi.c ****  */
  154:Core/Src/httpd_cgi_ssi.c **** void httpd_ssi_init(void)
  155:Core/Src/httpd_cgi_ssi.c **** {  
- 340              		.loc 1 155 1 is_stmt 1 view -0
- 341              		.cfi_startproc
- 342              		@ args = 0, pretend = 0, frame = 0
- 343              		@ frame_needed = 0, uses_anonymous_args = 0
- 344 0000 08B5     		push	{r3, lr}
- 345              	.LCFI7:
- 346              		.cfi_def_cfa_offset 8
- 347              		.cfi_offset 3, -8
- 348              		.cfi_offset 14, -4
+ 336              		.loc 1 155 1 is_stmt 1 view -0
+ 337              		.cfi_startproc
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+ 340 0000 08B5     		push	{r3, lr}
+ 341              	.LCFI7:
+ 342              		.cfi_def_cfa_offset 8
+ 343              		.cfi_offset 3, -8
+ 344              		.cfi_offset 14, -4
  156:Core/Src/httpd_cgi_ssi.c ****   /* configure SSI handlers (ADC page SSI) */
  157:Core/Src/httpd_cgi_ssi.c ****   http_set_ssi_handler(ADC_Handler, TAGCHAR, 16);
- 349              		.loc 1 157 3 view .LVU71
- 350 0002 1022     		movs	r2, #16
- 351 0004 0249     		ldr	r1, .L30
- 352 0006 0348     		ldr	r0, .L30+4
- 353 0008 FFF7FEFF 		bl	http_set_ssi_handler
- 354              	.LVL30:
+ 345              		.loc 1 157 3 view .LVU68
+ 346 0002 1022     		movs	r2, #16
+ 347 0004 0249     		ldr	r1, .L30
+ 348 0006 0348     		ldr	r0, .L30+4
+ 349 0008 FFF7FEFF 		bl	http_set_ssi_handler
+ 350              	.LVL29:
  158:Core/Src/httpd_cgi_ssi.c **** }
- 355              		.loc 1 158 1 is_stmt 0 view .LVU72
- 356 000c 08BD     		pop	{r3, pc}
- 357              	.L31:
- 358 000e 00BF     		.align	2
- 359              	.L30:
- 360 0010 00000000 		.word	.LANCHOR0
- 361 0014 00000000 		.word	ADC_Handler
- 362              		.cfi_endproc
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 11
+ 351              		.loc 1 158 1 is_stmt 0 view .LVU69
+ 352 000c 08BD     		pop	{r3, pc}
+ 353              	.L31:
+ 354 000e 00BF     		.align	2
+ 355              	.L30:
+ 356 0010 00000000 		.word	TAGCHAR
+ 357 0014 00000000 		.word	ADC_Handler
+ 358              		.cfi_endproc
+ 359              	.LFE361:
+ 361              		.section	.text.httpd_cgi_init,"ax",%progbits
+ 362              		.align	1
+ 363              		.global	httpd_cgi_init
+ 364              		.syntax unified
+ 365              		.thumb
+ 366              		.thumb_func
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 11
 
 
- 363              	.LFE361:
- 365              		.section	.text.httpd_cgi_init,"ax",%progbits
- 366              		.align	1
- 367              		.global	httpd_cgi_init
- 368              		.syntax unified
- 369              		.thumb
- 370              		.thumb_func
- 372              	httpd_cgi_init:
- 373              	.LFB362:
+ 368              	httpd_cgi_init:
+ 369              	.LFB362:
  159:Core/Src/httpd_cgi_ssi.c **** 
  160:Core/Src/httpd_cgi_ssi.c **** /**
  161:Core/Src/httpd_cgi_ssi.c ****  * Initialize CGI handlers
  162:Core/Src/httpd_cgi_ssi.c ****  */
  163:Core/Src/httpd_cgi_ssi.c **** void httpd_cgi_init(void)
  164:Core/Src/httpd_cgi_ssi.c **** { 
- 374              		.loc 1 164 1 is_stmt 1 view -0
- 375              		.cfi_startproc
- 376              		@ args = 0, pretend = 0, frame = 0
- 377              		@ frame_needed = 0, uses_anonymous_args = 0
- 378 0000 08B5     		push	{r3, lr}
- 379              	.LCFI8:
- 380              		.cfi_def_cfa_offset 8
- 381              		.cfi_offset 3, -8
- 382              		.cfi_offset 14, -4
+ 370              		.loc 1 164 1 is_stmt 1 view -0
+ 371              		.cfi_startproc
+ 372              		@ args = 0, pretend = 0, frame = 0
+ 373              		@ frame_needed = 0, uses_anonymous_args = 0
+ 374 0000 08B5     		push	{r3, lr}
+ 375              	.LCFI8:
+ 376              		.cfi_def_cfa_offset 8
+ 377              		.cfi_offset 3, -8
+ 378              		.cfi_offset 14, -4
  165:Core/Src/httpd_cgi_ssi.c ****   /* configure CGI handlers (LEDs control CGI) */
  166:Core/Src/httpd_cgi_ssi.c ****   CGI_TAB[0] = LEDS_CGI;
- 383              		.loc 1 166 3 view .LVU74
- 384              		.loc 1 166 14 is_stmt 0 view .LVU75
- 385 0002 054B     		ldr	r3, .L34
- 386 0004 054A     		ldr	r2, .L34+4
- 387 0006 92E80300 		ldm	r2, {r0, r1}
- 388 000a 83E80300 		stm	r3, {r0, r1}
+ 379              		.loc 1 166 3 view .LVU71
+ 380              		.loc 1 166 14 is_stmt 0 view .LVU72
+ 381 0002 054B     		ldr	r3, .L34
+ 382 0004 054A     		ldr	r2, .L34+4
+ 383 0006 92E80300 		ldm	r2, {r0, r1}
+ 384 000a 83E80300 		stm	r3, {r0, r1}
  167:Core/Src/httpd_cgi_ssi.c ****   http_set_cgi_handlers(CGI_TAB, 1);
- 389              		.loc 1 167 3 is_stmt 1 view .LVU76
- 390 000e 0121     		movs	r1, #1
- 391 0010 1846     		mov	r0, r3
- 392 0012 FFF7FEFF 		bl	http_set_cgi_handlers
- 393              	.LVL31:
+ 385              		.loc 1 167 3 is_stmt 1 view .LVU73
+ 386 000e 0121     		movs	r1, #1
+ 387 0010 1846     		mov	r0, r3
+ 388 0012 FFF7FEFF 		bl	http_set_cgi_handlers
+ 389              	.LVL30:
  168:Core/Src/httpd_cgi_ssi.c **** }
- 394              		.loc 1 168 1 is_stmt 0 view .LVU77
- 395 0016 08BD     		pop	{r3, pc}
- 396              	.L35:
- 397              		.align	2
- 398              	.L34:
- 399 0018 00000000 		.word	.LANCHOR1
- 400 001c 00000000 		.word	.LANCHOR2
- 401              		.cfi_endproc
- 402              	.LFE362:
- 404              		.global	CGI_TAB
- 405              		.global	LEDS_CGI
- 406              		.section	.rodata.str1.4,"aMS",%progbits,1
- 407              		.align	2
- 408              	.LC7:
- 409 0000 2F6C6564 		.ascii	"/leds.cgi\000"
- 409      732E6367 
- 409      6900
- 410              		.global	TAGCHAR
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 12
+ 390              		.loc 1 168 1 is_stmt 0 view .LVU74
+ 391 0016 08BD     		pop	{r3, pc}
+ 392              	.L35:
+ 393              		.align	2
+ 394              	.L34:
+ 395 0018 00000000 		.word	CGI_TAB
+ 396 001c 00000000 		.word	LEDS_CGI
+ 397              		.cfi_endproc
+ 398              	.LFE362:
+ 400              		.global	CGI_TAB
+ 401              		.section	.bss.CGI_TAB,"aw",%nobits
+ 402              		.align	2
+ 405              	CGI_TAB:
+ 406 0000 00000000 		.space	8
+ 406      00000000 
+ 407              		.global	LEDS_CGI
+ 408              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 409              		.align	2
+ 410              	.LC7:
+ 411 0000 2F6C6564 		.ascii	"/leds.cgi\000"
+ 411      732E6367 
+ 411      6900
+ 412              		.section	.rodata.LEDS_CGI,"a"
+ 413              		.align	2
+ 416              	LEDS_CGI:
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 12
 
 
- 411 000a 0000     		.align	2
- 412              	.LC8:
- 413 000c 413000   		.ascii	"A0\000"
- 414 000f 00       		.align	2
- 415              	.LC9:
- 416 0010 413100   		.ascii	"A1\000"
- 417 0013 00       		.align	2
- 418              	.LC10:
- 419 0014 413200   		.ascii	"A2\000"
- 420 0017 00       		.align	2
- 421              	.LC11:
- 422 0018 413300   		.ascii	"A3\000"
- 423 001b 00       		.align	2
- 424              	.LC12:
- 425 001c 413400   		.ascii	"A4\000"
- 426 001f 00       		.align	2
- 427              	.LC13:
- 428 0020 413500   		.ascii	"A5\000"
- 429 0023 00       		.align	2
- 430              	.LC14:
- 431 0024 413600   		.ascii	"A6\000"
- 432 0027 00       		.align	2
- 433              	.LC15:
- 434 0028 413700   		.ascii	"A7\000"
- 435              		.global	ADC_not_configured
- 436              		.global	ADC_Page_SSI_Handler
- 437              		.section	.bss.ADC_Page_SSI_Handler,"aw",%nobits
- 438              		.align	2
- 441              	ADC_Page_SSI_Handler:
- 442 0000 00000000 		.space	4
- 443              		.section	.bss.CGI_TAB,"aw",%nobits
- 444              		.align	2
- 445              		.set	.LANCHOR1,. + 0
- 448              	CGI_TAB:
- 449 0000 00000000 		.space	8
- 449      00000000 
- 450              		.section	.data.ADC_not_configured,"aw"
- 451              		.align	2
- 454              	ADC_not_configured:
- 455 0000 01000000 		.word	1
- 456              		.section	.data.TAGCHAR,"aw"
- 457              		.align	2
- 458              		.set	.LANCHOR0,. + 0
- 461              	TAGCHAR:
- 462 0000 0C000000 		.word	.LC8
- 463 0004 10000000 		.word	.LC9
- 464 0008 14000000 		.word	.LC10
- 465 000c 18000000 		.word	.LC11
- 466 0010 1C000000 		.word	.LC12
- 467 0014 20000000 		.word	.LC13
- 468 0018 24000000 		.word	.LC14
- 469 001c 28000000 		.word	.LC15
- 470              		.section	.rodata.LEDS_CGI,"a"
- 471              		.align	2
- 472              		.set	.LANCHOR2,. + 0
- 475              	LEDS_CGI:
- 476 0000 00000000 		.word	.LC7
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 13
+ 417 0000 00000000 		.word	.LC7
+ 418 0004 00000000 		.word	LEDS_CGI_Handler
+ 419              		.global	TAGCHAR
+ 420              		.section	.rodata.str1.4
+ 421 000a 0000     		.align	2
+ 422              	.LC8:
+ 423 000c 413000   		.ascii	"A0\000"
+ 424 000f 00       		.align	2
+ 425              	.LC9:
+ 426 0010 413100   		.ascii	"A1\000"
+ 427 0013 00       		.align	2
+ 428              	.LC10:
+ 429 0014 413200   		.ascii	"A2\000"
+ 430 0017 00       		.align	2
+ 431              	.LC11:
+ 432 0018 413300   		.ascii	"A3\000"
+ 433 001b 00       		.align	2
+ 434              	.LC12:
+ 435 001c 413400   		.ascii	"A4\000"
+ 436 001f 00       		.align	2
+ 437              	.LC13:
+ 438 0020 413500   		.ascii	"A5\000"
+ 439 0023 00       		.align	2
+ 440              	.LC14:
+ 441 0024 413600   		.ascii	"A6\000"
+ 442 0027 00       		.align	2
+ 443              	.LC15:
+ 444 0028 413700   		.ascii	"A7\000"
+ 445              		.section	.data.TAGCHAR,"aw"
+ 446              		.align	2
+ 449              	TAGCHAR:
+ 450 0000 0C000000 		.word	.LC8
+ 451 0004 10000000 		.word	.LC9
+ 452 0008 14000000 		.word	.LC10
+ 453 000c 18000000 		.word	.LC11
+ 454 0010 1C000000 		.word	.LC12
+ 455 0014 20000000 		.word	.LC13
+ 456 0018 24000000 		.word	.LC14
+ 457 001c 28000000 		.word	.LC15
+ 458              		.global	ADC_not_configured
+ 459              		.section	.data.ADC_not_configured,"aw"
+ 460              		.align	2
+ 463              	ADC_not_configured:
+ 464 0000 01000000 		.word	1
+ 465              		.global	ADC_Page_SSI_Handler
+ 466              		.section	.bss.ADC_Page_SSI_Handler,"aw",%nobits
+ 467              		.align	2
+ 470              	ADC_Page_SSI_Handler:
+ 471 0000 00000000 		.space	4
+ 472              		.text
+ 473              	.Letext0:
+ 474              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 475              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 476              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 477              		.file 5 "Middlewares/Third_Party/LwIP/src/include/lwip/arch.h"
+ 478              		.file 6 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 479              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 13
 
 
- 477 0004 00000000 		.word	LEDS_CGI_Handler
- 478              		.text
- 479              	.Letext0:
- 480              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 481              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 482              		.file 4 "Middlewares/Third_Party/LwIP/src/include/lwip/arch.h"
- 483              		.file 5 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 484              		.file 6 "Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h"
- 485              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
- 486              		.file 8 "Middlewares/Third_Party/LwIP/src/include/lwip/memp.h"
- 487              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 488              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s 			page 14
+ 480              		.file 8 "Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h"
+ 481              		.file 9 "Middlewares/Third_Party/LwIP/src/include/lwip/memp.h"
+ 482              		.file 10 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ 483              		.file 11 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ARM GAS  C:\usertemp\ccFN5a0o.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 httpd_cgi_ssi.c
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:19     .rodata.ADC_Handler.str1.4:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:23     .text.ADC_Handler:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:29     .text.ADC_Handler:00000000 ADC_Handler
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:140    .text.ADC_Handler:00000068 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:148    .rodata.LEDS_CGI_Handler.str1.4:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:167    .text.LEDS_CGI_Handler:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:173    .text.LEDS_CGI_Handler:00000000 LEDS_CGI_Handler
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:321    .text.LEDS_CGI_Handler:00000098 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:332    .text.httpd_ssi_init:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:338    .text.httpd_ssi_init:00000000 httpd_ssi_init
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:360    .text.httpd_ssi_init:00000010 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:366    .text.httpd_cgi_init:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:372    .text.httpd_cgi_init:00000000 httpd_cgi_init
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:399    .text.httpd_cgi_init:00000018 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:448    .bss.CGI_TAB:00000000 CGI_TAB
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:475    .rodata.LEDS_CGI:00000000 LEDS_CGI
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:407    .rodata.str1.4:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:461    .data.TAGCHAR:00000000 TAGCHAR
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:454    .data.ADC_not_configured:00000000 ADC_not_configured
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:441    .bss.ADC_Page_SSI_Handler:00000000 ADC_Page_SSI_Handler
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:438    .bss.ADC_Page_SSI_Handler:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:444    .bss.CGI_TAB:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:451    .data.ADC_not_configured:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:457    .data.TAGCHAR:00000000 $d
-C:\Users\zdy\AppData\Local\Temp\ccB3LnOj.s:471    .rodata.LEDS_CGI:00000000 $d
+C:\usertemp\ccFN5a0o.s:20     .rodata.ADC_Handler.str1.4:00000000 $d
+C:\usertemp\ccFN5a0o.s:24     .text.ADC_Handler:00000000 $t
+C:\usertemp\ccFN5a0o.s:30     .text.ADC_Handler:00000000 ADC_Handler
+C:\usertemp\ccFN5a0o.s:138    .text.ADC_Handler:00000068 $d
+C:\usertemp\ccFN5a0o.s:146    .rodata.LEDS_CGI_Handler.str1.4:00000000 $d
+C:\usertemp\ccFN5a0o.s:165    .text.LEDS_CGI_Handler:00000000 $t
+C:\usertemp\ccFN5a0o.s:171    .text.LEDS_CGI_Handler:00000000 LEDS_CGI_Handler
+C:\usertemp\ccFN5a0o.s:317    .text.LEDS_CGI_Handler:00000098 $d
+C:\usertemp\ccFN5a0o.s:328    .text.httpd_ssi_init:00000000 $t
+C:\usertemp\ccFN5a0o.s:334    .text.httpd_ssi_init:00000000 httpd_ssi_init
+C:\usertemp\ccFN5a0o.s:356    .text.httpd_ssi_init:00000010 $d
+C:\usertemp\ccFN5a0o.s:449    .data.TAGCHAR:00000000 TAGCHAR
+C:\usertemp\ccFN5a0o.s:362    .text.httpd_cgi_init:00000000 $t
+C:\usertemp\ccFN5a0o.s:368    .text.httpd_cgi_init:00000000 httpd_cgi_init
+C:\usertemp\ccFN5a0o.s:395    .text.httpd_cgi_init:00000018 $d
+C:\usertemp\ccFN5a0o.s:405    .bss.CGI_TAB:00000000 CGI_TAB
+C:\usertemp\ccFN5a0o.s:416    .rodata.LEDS_CGI:00000000 LEDS_CGI
+C:\usertemp\ccFN5a0o.s:402    .bss.CGI_TAB:00000000 $d
+C:\usertemp\ccFN5a0o.s:409    .rodata.str1.4:00000000 $d
+C:\usertemp\ccFN5a0o.s:413    .rodata.LEDS_CGI:00000000 $d
+C:\usertemp\ccFN5a0o.s:446    .data.TAGCHAR:00000000 $d
+C:\usertemp\ccFN5a0o.s:463    .data.ADC_not_configured:00000000 ADC_not_configured
+C:\usertemp\ccFN5a0o.s:460    .data.ADC_not_configured:00000000 $d
+C:\usertemp\ccFN5a0o.s:470    .bss.ADC_Page_SSI_Handler:00000000 ADC_Page_SSI_Handler
+C:\usertemp\ccFN5a0o.s:467    .bss.ADC_Page_SSI_Handler:00000000 $d
 
 UNDEFINED SYMBOLS
 sprintf

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,15 +18,15 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.MX_QUADSPI_Init,"ax",%progbits
-  19              		.align	1
-  20              		.global	MX_QUADSPI_Init
-  21              		.syntax unified
-  22              		.thumb
-  23              		.thumb_func
-  25              	MX_QUADSPI_Init:
-  26              	.LFB333:
-  27              		.file 1 "Core/Src/quadspi.c"
+  18              		.file 1 "Core/Src/quadspi.c"
+  19              		.section	.text.MX_QUADSPI_Init,"ax",%progbits
+  20              		.align	1
+  21              		.global	MX_QUADSPI_Init
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	MX_QUADSPI_Init:
+  27              	.LFB333:
    1:Core/Src/quadspi.c **** /**
    2:Core/Src/quadspi.c ****   ******************************************************************************
    3:Core/Src/quadspi.c ****   * @file    quadspi.c
@@ -35,7 +35,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
    6:Core/Src/quadspi.c ****   ******************************************************************************
    7:Core/Src/quadspi.c ****   * @attention
    8:Core/Src/quadspi.c ****   *
-   9:Core/Src/quadspi.c ****   * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
+   9:Core/Src/quadspi.c ****   * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   10:Core/Src/quadspi.c ****   * All rights reserved.</center></h2>
   11:Core/Src/quadspi.c ****   *
   12:Core/Src/quadspi.c ****   * This software component is licensed by ST under Ultimate Liberty license
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
   29:Core/Src/quadspi.c **** /* QUADSPI init function */
   30:Core/Src/quadspi.c **** void MX_QUADSPI_Init(void)
   31:Core/Src/quadspi.c **** {
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 2
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 2
 
 
   28              		.loc 1 31 1 view -0
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
   48:Core/Src/quadspi.c ****   hqspi.Init.DualFlash = QSPI_DUALFLASH_DISABLE;
   66              		.loc 1 48 3 is_stmt 1 view .LVU17
   67              		.loc 1 48 24 is_stmt 0 view .LVU18
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 3
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 3
 
 
   68 001c 0362     		str	r3, [r0, #32]
@@ -127,7 +127,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
   70              		.loc 1 49 7 is_stmt 0 view .LVU20
   71 001e FFF7FEFF 		bl	HAL_QSPI_Init
   72              	.LVL0:
-  73              		.loc 1 49 6 view .LVU21
+  73              		.loc 1 49 6 discriminator 1 view .LVU21
   74 0022 00B9     		cbnz	r0, .L4
   75              	.L1:
   50:Core/Src/quadspi.c ****   {
@@ -150,7 +150,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
   84              	.L6:
   85              		.align	2
   86              	.L5:
-  87 002c 00000000 		.word	.LANCHOR0
+  87 002c 00000000 		.word	hqspi
   88 0030 00500052 		.word	1375752192
   89              		.cfi_endproc
   90              	.LFE333:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  111              		.cfi_offset 5, -16
  112              		.cfi_offset 6, -12
  113              		.cfi_offset 7, -8
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 4
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 4
 
 
  114              		.cfi_offset 14, -4
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
   85:Core/Src/quadspi.c ****     PF7     ------> QUADSPI_BK1_IO2
   86:Core/Src/quadspi.c ****     PF8     ------> QUADSPI_BK1_IO0
   87:Core/Src/quadspi.c ****     PF9     ------> QUADSPI_BK1_IO1
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 5
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 5
 
 
   88:Core/Src/quadspi.c ****     PF10     ------> QUADSPI_CLK
@@ -297,8 +297,8 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  163 002e FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
  164              	.LVL7:
   73:Core/Src/quadspi.c ****     {
- 165              		.loc 1 73 8 view .LVU41
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 6
+ 165              		.loc 1 73 8 discriminator 1 view .LVU41
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 6
 
 
  166 0032 0028     		cmp	r0, #0
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  205 006c 42F04002 		orr	r2, r2, #64
  206 0070 C3F8E020 		str	r2, [r3, #224]
   82:Core/Src/quadspi.c ****     /**QUADSPI GPIO Configuration
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 7
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 7
 
 
  207              		.loc 1 82 5 view .LVU57
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  245 00a2 3393     		str	r3, [sp, #204]
   99:Core/Src/quadspi.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  246              		.loc 1 99 5 is_stmt 1 view .LVU74
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 8
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 8
 
 
   99:Core/Src/quadspi.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  282 00c4 0648     		ldr	r0, .L13+12
  283 00c6 FFF7FEFF 		bl	HAL_GPIO_Init
  284              	.LVL11:
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 9
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 9
 
 
  285              		.loc 1 116 1 is_stmt 0 view .LVU94
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  125:Core/Src/quadspi.c ****   /* USER CODE END QUADSPI_MspDeInit 0 */
  126:Core/Src/quadspi.c ****     /* Peripheral clock disable */
  127:Core/Src/quadspi.c ****     __HAL_RCC_QSPI_CLK_DISABLE();
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 10
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 10
 
 
  128:Core/Src/quadspi.c **** 
@@ -598,46 +598,45 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 1
  363              	.LFE335:
  365              		.global	hqspi
  366              		.section	.bss.hqspi,"aw",%nobits
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 11
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 11
 
 
  367              		.align	2
- 368              		.set	.LANCHOR0,. + 0
- 371              	hqspi:
- 372 0000 00000000 		.space	76
- 372      00000000 
- 372      00000000 
- 372      00000000 
- 372      00000000 
- 373              		.text
- 374              	.Letext0:
- 375              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 376              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 377              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 378              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
- 379              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
- 380              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
- 381              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h"
- 382              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_qspi.h"
- 383              		.file 10 "Core/Inc/main.h"
- 384              		.file 11 "Core/Inc/quadspi.h"
- 385              		.file 12 "<built-in>"
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s 			page 12
+ 370              	hqspi:
+ 371 0000 00000000 		.space	76
+ 371      00000000 
+ 371      00000000 
+ 371      00000000 
+ 371      00000000 
+ 372              		.text
+ 373              	.Letext0:
+ 374              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 375              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 376              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 377              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 378              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
+ 379              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 380              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h"
+ 381              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_qspi.h"
+ 382              		.file 10 "Core/Inc/quadspi.h"
+ 383              		.file 11 "Core/Inc/main.h"
+ 384              		.file 12 "<built-in>"
+ARM GAS  C:\usertemp\ccJlj5pH.s 			page 12
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 quadspi.c
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:19     .text.MX_QUADSPI_Init:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:25     .text.MX_QUADSPI_Init:00000000 MX_QUADSPI_Init
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:87     .text.MX_QUADSPI_Init:0000002c $d
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:93     .text.HAL_QSPI_MspInit:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:99     .text.HAL_QSPI_MspInit:00000000 HAL_QSPI_MspInit
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:296    .text.HAL_QSPI_MspInit:000000d4 $d
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:304    .text.HAL_QSPI_MspDeInit:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:310    .text.HAL_QSPI_MspDeInit:00000000 HAL_QSPI_MspDeInit
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:358    .text.HAL_QSPI_MspDeInit:00000030 $d
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:371    .bss.hqspi:00000000 hqspi
-C:\Users\zdy\AppData\Local\Temp\ccJqbZUx.s:367    .bss.hqspi:00000000 $d
+C:\usertemp\ccJlj5pH.s:20     .text.MX_QUADSPI_Init:00000000 $t
+C:\usertemp\ccJlj5pH.s:26     .text.MX_QUADSPI_Init:00000000 MX_QUADSPI_Init
+C:\usertemp\ccJlj5pH.s:87     .text.MX_QUADSPI_Init:0000002c $d
+C:\usertemp\ccJlj5pH.s:370    .bss.hqspi:00000000 hqspi
+C:\usertemp\ccJlj5pH.s:93     .text.HAL_QSPI_MspInit:00000000 $t
+C:\usertemp\ccJlj5pH.s:99     .text.HAL_QSPI_MspInit:00000000 HAL_QSPI_MspInit
+C:\usertemp\ccJlj5pH.s:296    .text.HAL_QSPI_MspInit:000000d4 $d
+C:\usertemp\ccJlj5pH.s:304    .text.HAL_QSPI_MspDeInit:00000000 $t
+C:\usertemp\ccJlj5pH.s:310    .text.HAL_QSPI_MspDeInit:00000000 HAL_QSPI_MspDeInit
+C:\usertemp\ccJlj5pH.s:358    .text.HAL_QSPI_MspDeInit:00000030 $d
+C:\usertemp\ccJlj5pH.s:367    .bss.hqspi:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_QSPI_Init

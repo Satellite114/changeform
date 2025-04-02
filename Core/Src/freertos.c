@@ -164,9 +164,6 @@ void StartTask02(void const * argument)
 }
 
 /* Private application code --------------------------------------------------*/
-
-
-
 /* USER CODE BEGIN Application */
 /**
   * @brief  EXTI line detection callback.

@@ -330,7 +330,7 @@ const struct http_ssi_tag_description http_ssi_tag_desc[] = {
   {"<!--#", "-->"},
   {"/*#", "*/"}
 };
-extern void httpd_ssi_init(void);
+
 #endif /* LWIP_HTTPD_SSI */
 
 #if LWIP_HTTPD_CGI
@@ -338,7 +338,6 @@ extern void httpd_ssi_init(void);
 static const tCGI *httpd_cgis;
 static int httpd_num_cgis;
 static int http_cgi_paramcount;
-extern void httpd_cgi_init(void);
 #define http_cgi_params     hs->params
 #define http_cgi_param_vals hs->param_vals
 #elif LWIP_HTTPD_CGI_SSI
@@ -2669,13 +2668,6 @@ httpd_init(void)
 #endif
   LWIP_DEBUGF(HTTPD_DEBUG, ("httpd_init\n"));
 
-#if LWIP_HTTPD_SSI
-  httpd_ssi_init();
-#endif
-  
-#if LWIP_HTTPD_CGI
-  httpd_cgi_init();
-#endif
   /* LWIP_ASSERT_CORE_LOCKED(); is checked by tcp_new() */
 
   pcb = altcp_tcp_new_ip_type(IPADDR_TYPE_ANY);

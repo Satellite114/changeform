@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,15 +18,15 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.MX_ADC1_Init,"ax",%progbits
-  19              		.align	1
-  20              		.global	MX_ADC1_Init
-  21              		.syntax unified
-  22              		.thumb
-  23              		.thumb_func
-  25              	MX_ADC1_Init:
-  26              	.LFB333:
-  27              		.file 1 "Core/Src/adc.c"
+  18              		.file 1 "Core/Src/adc.c"
+  19              		.section	.text.MX_ADC1_Init,"ax",%progbits
+  20              		.align	1
+  21              		.global	MX_ADC1_Init
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	MX_ADC1_Init:
+  27              	.LFB333:
    1:Core/Src/adc.c **** /**
    2:Core/Src/adc.c ****   ******************************************************************************
    3:Core/Src/adc.c ****   * @file    adc.c
@@ -35,7 +35,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
    6:Core/Src/adc.c ****   ******************************************************************************
    7:Core/Src/adc.c ****   * @attention
    8:Core/Src/adc.c ****   *
-   9:Core/Src/adc.c ****   * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
+   9:Core/Src/adc.c ****   * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   10:Core/Src/adc.c ****   * All rights reserved.</center></h2>
   11:Core/Src/adc.c ****   *
   12:Core/Src/adc.c ****   * This software component is licensed by ST under Ultimate Liberty license
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
   29:Core/Src/adc.c **** /* ADC1 init function */
   30:Core/Src/adc.c **** void MX_ADC1_Init(void)
   31:Core/Src/adc.c **** {
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 2
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 2
 
 
   28              		.loc 1 31 1 view -0
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
   65              		.loc 1 48 3 is_stmt 1 view .LVU11
   66              		.loc 1 48 27 is_stmt 0 view .LVU12
   67 0024 C360     		str	r3, [r0, #12]
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 3
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 3
 
 
   49:Core/Src/adc.c ****   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
@@ -172,13 +172,13 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  104              		.loc 1 60 7 is_stmt 0 view .LVU36
  105 0042 FFF7FEFF 		bl	HAL_ADC_Init
  106              	.LVL0:
- 107              		.loc 1 60 6 view .LVU37
+ 107              		.loc 1 60 6 discriminator 1 view .LVU37
  108 0046 E0B9     		cbnz	r0, .L6
  109              	.L2:
   61:Core/Src/adc.c ****   {
   62:Core/Src/adc.c ****     Error_Handler();
   63:Core/Src/adc.c ****   }
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 4
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 4
 
 
   64:Core/Src/adc.c ****   /** Configure the ADC multi-mode
@@ -195,7 +195,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  117 004e 1148     		ldr	r0, .L9
  118 0050 FFF7FEFF 		bl	HAL_ADCEx_MultiModeConfigChannel
  119              	.LVL1:
- 120              		.loc 1 67 6 view .LVU42
+ 120              		.loc 1 67 6 discriminator 1 view .LVU42
  121 0054 C0B9     		cbnz	r0, .L7
  122              	.L3:
   68:Core/Src/adc.c ****   {
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  148 006e 8DF81930 		strb	r3, [sp, #25]
   80:Core/Src/adc.c ****   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
  149              		.loc 1 80 3 is_stmt 1 view .LVU57
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 5
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 5
 
 
  150              		.loc 1 80 7 is_stmt 0 view .LVU58
@@ -246,7 +246,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  152 0074 0748     		ldr	r0, .L9
  153 0076 FFF7FEFF 		bl	HAL_ADC_ConfigChannel
  154              	.LVL2:
- 155              		.loc 1 80 6 view .LVU59
+ 155              		.loc 1 80 6 discriminator 1 view .LVU59
  156 007a 40B9     		cbnz	r0, .L8
  157              	.L1:
   81:Core/Src/adc.c ****   {
@@ -288,7 +288,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  183              	.L10:
  184              		.align	2
  185              	.L9:
- 186 0094 00000000 		.word	.LANCHOR0
+ 186 0094 00000000 		.word	hadc1
  187 0098 00200240 		.word	1073881088
  188 009c 0080F03E 		.word	1055948800
  189              		.cfi_endproc
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  194              		.global	HAL_ADC_MspInit
  195              		.syntax unified
  196              		.thumb
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 6
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 6
 
 
  197              		.thumb_func
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  101:Core/Src/adc.c ****   */
  102:Core/Src/adc.c ****     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC;
  103:Core/Src/adc.c ****     PeriphClkInitStruct.PLL2.PLL2M = 1;
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 7
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 7
 
 
  104:Core/Src/adc.c ****     PeriphClkInitStruct.PLL2.PLL2N = 18;
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  104:Core/Src/adc.c ****     PeriphClkInitStruct.PLL2.PLL2P = 2;
  259              		.loc 1 104 5 is_stmt 1 view .LVU80
  104:Core/Src/adc.c ****     PeriphClkInitStruct.PLL2.PLL2P = 2;
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 8
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 8
 
 
  260              		.loc 1 104 36 is_stmt 0 view .LVU81
@@ -468,7 +468,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  289 004c FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
  290              	.LVL10:
  112:Core/Src/adc.c ****     {
- 291              		.loc 1 112 8 view .LVU97
+ 291              		.loc 1 112 8 discriminator 1 view .LVU97
  292 0050 18BB     		cbnz	r0, .L16
  293              	.L13:
  118:Core/Src/adc.c **** 
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  296              		.loc 1 118 5 view .LVU99
  118:Core/Src/adc.c **** 
  297              		.loc 1 118 5 view .LVU100
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 9
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 9
 
 
  298 0052 144B     		ldr	r3, .L17+4
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  128:Core/Src/adc.c **** 
  337              		.loc 1 128 5 is_stmt 1 view .LVU116
  338 0090 31A9     		add	r1, sp, #196
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 10
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 10
 
 
  339 0092 0548     		ldr	r0, .L17+8
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  142:Core/Src/adc.c **** 
  143:Core/Src/adc.c ****   /* USER CODE END ADC1_MspDeInit 0 */
  144:Core/Src/adc.c ****     /* Peripheral clock disable */
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 11
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 11
 
 
  145:Core/Src/adc.c ****     __HAL_RCC_ADC12_CLK_DISABLE();
@@ -646,47 +646,46 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 1
  414              		.global	hadc1
  415              		.section	.bss.hadc1,"aw",%nobits
  416              		.align	2
- 417              		.set	.LANCHOR0,. + 0
- 420              	hadc1:
- 421 0000 00000000 		.space	100
- 421      00000000 
- 421      00000000 
- 421      00000000 
- 421      00000000 
- 422              		.text
- 423              	.Letext0:
- 424              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 425              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 426              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 12
+ 419              	hadc1:
+ 420 0000 00000000 		.space	100
+ 420      00000000 
+ 420      00000000 
+ 420      00000000 
+ 420      00000000 
+ 421              		.text
+ 422              	.Letext0:
+ 423              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 424              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 425              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 426              		.file 5 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h"
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 12
 
 
- 427              		.file 5 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h"
- 428              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
- 429              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
- 430              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
- 431              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
- 432              		.file 10 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc.h"
- 433              		.file 11 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc_ex.h"
- 434              		.file 12 "Core/Inc/main.h"
- 435              		.file 13 "Core/Inc/adc.h"
- 436              		.file 14 "<built-in>"
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s 			page 13
+ 427              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 428              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
+ 429              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 430              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 431              		.file 10 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc.h"
+ 432              		.file 11 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc_ex.h"
+ 433              		.file 12 "Core/Inc/adc.h"
+ 434              		.file 13 "Core/Inc/main.h"
+ 435              		.file 14 "<built-in>"
+ARM GAS  C:\usertemp\cczXGqoK.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 adc.c
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:19     .text.MX_ADC1_Init:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:25     .text.MX_ADC1_Init:00000000 MX_ADC1_Init
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:186    .text.MX_ADC1_Init:00000094 $d
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:193    .text.HAL_ADC_MspInit:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:199    .text.HAL_ADC_MspInit:00000000 HAL_ADC_MspInit
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:352    .text.HAL_ADC_MspInit:000000a0 $d
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:359    .text.HAL_ADC_MspDeInit:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:365    .text.HAL_ADC_MspDeInit:00000000 HAL_ADC_MspDeInit
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:408    .text.HAL_ADC_MspDeInit:00000024 $d
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:420    .bss.hadc1:00000000 hadc1
-C:\Users\zdy\AppData\Local\Temp\ccvdQeax.s:416    .bss.hadc1:00000000 $d
+C:\usertemp\cczXGqoK.s:20     .text.MX_ADC1_Init:00000000 $t
+C:\usertemp\cczXGqoK.s:26     .text.MX_ADC1_Init:00000000 MX_ADC1_Init
+C:\usertemp\cczXGqoK.s:186    .text.MX_ADC1_Init:00000094 $d
+C:\usertemp\cczXGqoK.s:419    .bss.hadc1:00000000 hadc1
+C:\usertemp\cczXGqoK.s:193    .text.HAL_ADC_MspInit:00000000 $t
+C:\usertemp\cczXGqoK.s:199    .text.HAL_ADC_MspInit:00000000 HAL_ADC_MspInit
+C:\usertemp\cczXGqoK.s:352    .text.HAL_ADC_MspInit:000000a0 $d
+C:\usertemp\cczXGqoK.s:359    .text.HAL_ADC_MspDeInit:00000000 $t
+C:\usertemp\cczXGqoK.s:365    .text.HAL_ADC_MspDeInit:00000000 HAL_ADC_MspDeInit
+C:\usertemp\cczXGqoK.s:408    .text.HAL_ADC_MspDeInit:00000024 $d
+C:\usertemp\cczXGqoK.s:416    .bss.hadc1:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_ADC_Init

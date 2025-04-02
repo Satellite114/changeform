@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,15 +18,15 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.MX_SDMMC1_SD_Init,"ax",%progbits
-  19              		.align	1
-  20              		.global	MX_SDMMC1_SD_Init
-  21              		.syntax unified
-  22              		.thumb
-  23              		.thumb_func
-  25              	MX_SDMMC1_SD_Init:
-  26              	.LFB333:
-  27              		.file 1 "Core/Src/sdmmc.c"
+  18              		.file 1 "Core/Src/sdmmc.c"
+  19              		.section	.text.MX_SDMMC1_SD_Init,"ax",%progbits
+  20              		.align	1
+  21              		.global	MX_SDMMC1_SD_Init
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	MX_SDMMC1_SD_Init:
+  27              	.LFB333:
    1:Core/Src/sdmmc.c **** /**
    2:Core/Src/sdmmc.c ****   ******************************************************************************
    3:Core/Src/sdmmc.c ****   * @file    sdmmc.c
@@ -35,7 +35,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
    6:Core/Src/sdmmc.c ****   ******************************************************************************
    7:Core/Src/sdmmc.c ****   * @attention
    8:Core/Src/sdmmc.c ****   *
-   9:Core/Src/sdmmc.c ****   * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
+   9:Core/Src/sdmmc.c ****   * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
   10:Core/Src/sdmmc.c ****   * All rights reserved.</center></h2>
   11:Core/Src/sdmmc.c ****   *
   12:Core/Src/sdmmc.c ****   * This software component is licensed by ST under Ultimate Liberty license
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
   29:Core/Src/sdmmc.c **** /* SDMMC1 init function */
   30:Core/Src/sdmmc.c **** 
   31:Core/Src/sdmmc.c **** void MX_SDMMC1_SD_Init(void)
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 2
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 2
 
 
   32:Core/Src/sdmmc.c **** {
@@ -113,12 +113,12 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
   57              	.L3:
   58              		.align	2
   59              	.L2:
-  60 0018 00000000 		.word	.LANCHOR0
+  60 0018 00000000 		.word	hsd1
   61 001c 00700052 		.word	1375760384
   62              		.cfi_endproc
   63              	.LFE333:
   65              		.section	.text.HAL_SD_MspInit,"ax",%progbits
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 3
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 3
 
 
   66              		.align	1
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  114 0020 01D0     		beq	.L8
  115              	.LVL3:
  116              	.L4:
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 4
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 4
 
 
   59:Core/Src/sdmmc.c ****   {
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  125              	.L8:
  126              	.LCFI3:
  127              		.cfi_restore_state
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 5
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 5
 
 
   65:Core/Src/sdmmc.c ****     PeriphClkInitStruct.SdmmcClockSelection = RCC_SDMMCCLKSOURCE_PLL;
@@ -257,7 +257,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  136 002e FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
  137              	.LVL5:
   67:Core/Src/sdmmc.c ****     {
- 138              		.loc 1 67 8 view .LVU30
+ 138              		.loc 1 67 8 discriminator 1 view .LVU30
  139 0032 0028     		cmp	r0, #0
  140 0034 3ED1     		bne	.L9
  141              	.L6:
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  166 005c D3F8E020 		ldr	r2, [r3, #224]
  167 0060 02F00402 		and	r2, r2, #4
  168 0064 0292     		str	r2, [sp, #8]
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 6
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 6
 
 
   75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  205              		.loc 1 90 31 is_stmt 0 view .LVU58
  206 0092 0C24     		movs	r4, #12
  207              	.LVL6:
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 7
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 7
 
 
   90:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  248 00c0 00440258 		.word	1476543488
  249 00c4 00080258 		.word	1476528128
  250 00c8 000C0258 		.word	1476529152
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 8
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 8
 
 
  251              		.cfi_endproc
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  129:Core/Src/sdmmc.c **** 
  130:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_MspDeInit 1 */
  131:Core/Src/sdmmc.c **** 
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 9
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 9
 
 
  132:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_MspDeInit 1 */
@@ -523,45 +523,44 @@ ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
  316              		.global	hsd1
  317              		.section	.bss.hsd1,"aw",%nobits
  318              		.align	2
- 319              		.set	.LANCHOR0,. + 0
- 322              	hsd1:
- 323 0000 00000000 		.space	124
- 323      00000000 
- 323      00000000 
- 323      00000000 
- 323      00000000 
- 324              		.text
- 325              	.Letext0:
- 326              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 327              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
- 328              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 329              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
- 330              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
- 331              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 10
+ 321              	hsd1:
+ 322 0000 00000000 		.space	124
+ 322      00000000 
+ 322      00000000 
+ 322      00000000 
+ 322      00000000 
+ 323              		.text
+ 324              	.Letext0:
+ 325              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 326              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 327              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 328              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 329              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
+ 330              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 331              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_sdmmc.h"
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 10
 
 
- 332              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_sdmmc.h"
- 333              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd.h"
- 334              		.file 10 "Core/Inc/main.h"
- 335              		.file 11 "Core/Inc/sdmmc.h"
- 336              		.file 12 "<built-in>"
-ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 11
+ 332              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd.h"
+ 333              		.file 10 "Core/Inc/sdmmc.h"
+ 334              		.file 11 "Core/Inc/main.h"
+ 335              		.file 12 "<built-in>"
+ARM GAS  C:\usertemp\ccyt4Dpb.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 sdmmc.c
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:19     .text.MX_SDMMC1_SD_Init:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:25     .text.MX_SDMMC1_SD_Init:00000000 MX_SDMMC1_SD_Init
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:60     .text.MX_SDMMC1_SD_Init:00000018 $d
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:66     .text.HAL_SD_MspInit:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:72     .text.HAL_SD_MspInit:00000000 HAL_SD_MspInit
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:247    .text.HAL_SD_MspInit:000000bc $d
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:255    .text.HAL_SD_MspDeInit:00000000 $t
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:261    .text.HAL_SD_MspDeInit:00000000 HAL_SD_MspDeInit
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:309    .text.HAL_SD_MspDeInit:00000030 $d
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:322    .bss.hsd1:00000000 hsd1
-C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:318    .bss.hsd1:00000000 $d
+C:\usertemp\ccyt4Dpb.s:20     .text.MX_SDMMC1_SD_Init:00000000 $t
+C:\usertemp\ccyt4Dpb.s:26     .text.MX_SDMMC1_SD_Init:00000000 MX_SDMMC1_SD_Init
+C:\usertemp\ccyt4Dpb.s:60     .text.MX_SDMMC1_SD_Init:00000018 $d
+C:\usertemp\ccyt4Dpb.s:321    .bss.hsd1:00000000 hsd1
+C:\usertemp\ccyt4Dpb.s:66     .text.HAL_SD_MspInit:00000000 $t
+C:\usertemp\ccyt4Dpb.s:72     .text.HAL_SD_MspInit:00000000 HAL_SD_MspInit
+C:\usertemp\ccyt4Dpb.s:247    .text.HAL_SD_MspInit:000000bc $d
+C:\usertemp\ccyt4Dpb.s:255    .text.HAL_SD_MspDeInit:00000000 $t
+C:\usertemp\ccyt4Dpb.s:261    .text.HAL_SD_MspDeInit:00000000 HAL_SD_MspDeInit
+C:\usertemp\ccyt4Dpb.s:309    .text.HAL_SD_MspDeInit:00000030 $d
+C:\usertemp\ccyt4Dpb.s:318    .bss.hsd1:00000000 $d
 
 UNDEFINED SYMBOLS
 memset
