@@ -1,0 +1,978 @@
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"sdcard_test.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "User/sdcard/sdcard_test.c"
+  19              		.section	.rodata.FatFs_Check.str1.4,"aMS",%progbits,1
+  20              		.align	2
+  21              	.LC0:
+  22 0000 0D207375 		.ascii	"\015 successed to mount SD\015\000"
+  22      63636573 
+  22      73656420 
+  22      746F206D 
+  22      6F756E74 
+  23 0019 000000   		.align	2
+  24              	.LC1:
+  25 001c 5344E58D 		.ascii	"SD\345\215\241\350\277\230\346\234\252\345\210\233\345"
+  25      A1E8BF98 
+  25      E69CAAE5 
+  25      889BE5
+  26 002b BBBAE696 		.ascii	"\273\272\346\226\207\344\273\266\347\263\273\347\273"
+  26      87E4BBB6 
+  26      E7B3BBE7 
+  26      BB
+  27 0038 9FEFBC8C 		.ascii	"\237\357\274\214\345\215\263\345\260\206\346\240\274"
+  27      E58DB3E5 
+  27      B086E6A0 
+  27      BC
+  28 0045 E5BC8FE5 		.ascii	"\345\274\217\345\214\226\015\000"
+  28      8C960D00 
+  29 004d 000000   		.align	2
+  30              	.LC2:
+  31 0050 303A00   		.ascii	"0:\000"
+  32 0053 00       		.align	2
+  33              	.LC3:
+  34 0054 5344E58D 		.ascii	"SD\345\215\241\346\240\274\345\274\217\345\214\226\346"
+  34      A1E6A0BC 
+  34      E5BC8FE5 
+  34      8C96E6
+  35 0063 8890E58A 		.ascii	"\210\220\345\212\237\357\274\201\015\000"
+  35      9FEFBC81 
+  35      0D00
+  36 006d 000000   		.align	2
+  37              	.LC4:
+  38 0070 E6A0BCE5 		.ascii	"\346\240\274\345\274\217\345\214\226\345\244\261\350"
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 2
+
+
+  38      BC8FE58C 
+  38      96E5A4B1 
+  38      E8
+  39 007d B4A5EFBC 		.ascii	"\264\245\357\274\214\350\257\267\346\243\200\346\237"
+  39      8CE8AFB7 
+  39      E6A380E6 
+  39      9F
+  40 008a A5E68896 		.ascii	"\245\346\210\226\346\233\264\346\215\242SD\345\215\241"
+  40      E69BB4E6 
+  40      8DA25344 
+  40      E58DA1
+  41 0099 EFBC810D 		.ascii	"\357\274\201\015\000"
+  41      00
+  42              		.section	.text.FatFs_Check,"ax",%progbits
+  43              		.align	1
+  44              		.global	FatFs_Check
+  45              		.syntax unified
+  46              		.thumb
+  47              		.thumb_func
+  49              	FatFs_Check:
+  50              	.LFB534:
+   1:User/sdcard/sdcard_test.c **** #include "sdcard_test.h"
+   2:User/sdcard/sdcard_test.c **** 
+   3:User/sdcard/sdcard_test.c **** FRESULT  MyFile_Res; // 文件操作结果
+   4:User/sdcard/sdcard_test.c **** //	函数：FatFs_Check
+   5:User/sdcard/sdcard_test.c **** //	功能：进行FatFs文件系统的挂载
+   6:User/sdcard/sdcard_test.c **** //
+   7:User/sdcard/sdcard_test.c **** void FatFs_Check(void) // 判断FatFs是否挂载成功，若没有创建FatFs则格式化SD卡
+   8:User/sdcard/sdcard_test.c **** {
+  51              		.loc 1 8 1 view -0
+  52              		.cfi_startproc
+  53              		@ args = 0, pretend = 0, frame = 512
+  54              		@ frame_needed = 0, uses_anonymous_args = 0
+  55 0000 10B5     		push	{r4, lr}
+  56              	.LCFI0:
+  57              		.cfi_def_cfa_offset 8
+  58              		.cfi_offset 4, -8
+  59              		.cfi_offset 14, -4
+  60 0002 ADF5027D 		sub	sp, sp, #520
+  61              	.LCFI1:
+  62              		.cfi_def_cfa_offset 528
+   9:User/sdcard/sdcard_test.c **** 	BYTE work[_MAX_SS];
+  63              		.loc 1 9 2 view .LVU1
+  10:User/sdcard/sdcard_test.c **** 
+  11:User/sdcard/sdcard_test.c **** 	FATFS_LinkDriver(&SD_Driver, SDPath);	  // 初始化驱动
+  64              		.loc 1 11 2 view .LVU2
+  65 0006 154C     		ldr	r4, .L6
+  66 0008 2146     		mov	r1, r4
+  67 000a 1548     		ldr	r0, .L6+4
+  68 000c FFF7FEFF 		bl	FATFS_LinkDriver
+  69              	.LVL0:
+  12:User/sdcard/sdcard_test.c **** 	MyFile_Res = f_mount(&SDFatFS, (const TCHAR*) SDPath, 1); //	挂载SD卡
+  70              		.loc 1 12 2 view .LVU3
+  71              		.loc 1 12 15 is_stmt 0 view .LVU4
+  72 0010 0122     		movs	r2, #1
+  73 0012 2146     		mov	r1, r4
+  74 0014 1348     		ldr	r0, .L6+8
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 3
+
+
+  75 0016 FFF7FEFF 		bl	f_mount
+  76              	.LVL1:
+  77              		.loc 1 12 13 discriminator 1 view .LVU5
+  78 001a 134B     		ldr	r3, .L6+12
+  79 001c 1870     		strb	r0, [r3]
+  13:User/sdcard/sdcard_test.c **** 
+  14:User/sdcard/sdcard_test.c **** 	if (MyFile_Res == FR_OK) // 判断是否挂载成功
+  80              		.loc 1 14 2 is_stmt 1 view .LVU6
+  81              		.loc 1 14 5 is_stmt 0 view .LVU7
+  82 001e 28B9     		cbnz	r0, .L2
+  15:User/sdcard/sdcard_test.c **** 			{
+  16:User/sdcard/sdcard_test.c **** 		//f_setlabel("UFO");
+  17:User/sdcard/sdcard_test.c **** 		printf("\r successed to mount SD\r\n");
+  83              		.loc 1 17 3 is_stmt 1 view .LVU8
+  84 0020 1248     		ldr	r0, .L6+16
+  85 0022 FFF7FEFF 		bl	puts
+  86              	.LVL2:
+  87              	.L1:
+  18:User/sdcard/sdcard_test.c **** 	} else {
+  19:User/sdcard/sdcard_test.c **** 		printf("SD卡还未创建文件系统，即将格式化\r\n");
+  20:User/sdcard/sdcard_test.c **** 
+  21:User/sdcard/sdcard_test.c **** 		MyFile_Res = f_mkfs("0:", FM_FAT32, 0, work, sizeof work); // 格式化SD卡，FAT32，簇默认�
+  22:User/sdcard/sdcard_test.c **** 
+  23:User/sdcard/sdcard_test.c **** 		if (MyFile_Res == FR_OK) // 判断是否格式化成功
+  24:User/sdcard/sdcard_test.c **** 			printf("SD卡格式化成功！\r\n");
+  25:User/sdcard/sdcard_test.c **** 		else
+  26:User/sdcard/sdcard_test.c **** 			printf("格式化失败，请检查或更换SD卡！\r\n");
+  27:User/sdcard/sdcard_test.c **** 	}
+  28:User/sdcard/sdcard_test.c **** }
+  88              		.loc 1 28 1 is_stmt 0 view .LVU9
+  89 0026 0DF5027D 		add	sp, sp, #520
+  90              	.LCFI2:
+  91              		.cfi_remember_state
+  92              		.cfi_def_cfa_offset 8
+  93              		@ sp needed
+  94 002a 10BD     		pop	{r4, pc}
+  95              	.L2:
+  96              	.LCFI3:
+  97              		.cfi_restore_state
+  19:User/sdcard/sdcard_test.c **** 
+  98              		.loc 1 19 3 is_stmt 1 view .LVU10
+  99 002c 1048     		ldr	r0, .L6+20
+ 100 002e FFF7FEFF 		bl	puts
+ 101              	.LVL3:
+  21:User/sdcard/sdcard_test.c **** 
+ 102              		.loc 1 21 3 view .LVU11
+  21:User/sdcard/sdcard_test.c **** 
+ 103              		.loc 1 21 16 is_stmt 0 view .LVU12
+ 104 0032 4FF40073 		mov	r3, #512
+ 105 0036 0093     		str	r3, [sp]
+ 106 0038 02AB     		add	r3, sp, #8
+ 107 003a 0022     		movs	r2, #0
+ 108 003c 0221     		movs	r1, #2
+ 109 003e 0D48     		ldr	r0, .L6+24
+ 110 0040 FFF7FEFF 		bl	f_mkfs
+ 111              	.LVL4:
+  21:User/sdcard/sdcard_test.c **** 
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 4
+
+
+ 112              		.loc 1 21 14 discriminator 1 view .LVU13
+ 113 0044 084B     		ldr	r3, .L6+12
+ 114 0046 1870     		strb	r0, [r3]
+  23:User/sdcard/sdcard_test.c **** 			printf("SD卡格式化成功！\r\n");
+ 115              		.loc 1 23 3 is_stmt 1 view .LVU14
+  23:User/sdcard/sdcard_test.c **** 			printf("SD卡格式化成功！\r\n");
+ 116              		.loc 1 23 6 is_stmt 0 view .LVU15
+ 117 0048 18B9     		cbnz	r0, .L4
+  24:User/sdcard/sdcard_test.c **** 		else
+ 118              		.loc 1 24 4 is_stmt 1 view .LVU16
+ 119 004a 0B48     		ldr	r0, .L6+28
+ 120 004c FFF7FEFF 		bl	puts
+ 121              	.LVL5:
+ 122 0050 E9E7     		b	.L1
+ 123              	.L4:
+  26:User/sdcard/sdcard_test.c **** 	}
+ 124              		.loc 1 26 4 view .LVU17
+ 125 0052 0A48     		ldr	r0, .L6+32
+ 126 0054 FFF7FEFF 		bl	puts
+ 127              	.LVL6:
+ 128              		.loc 1 28 1 is_stmt 0 view .LVU18
+ 129 0058 E5E7     		b	.L1
+ 130              	.L7:
+ 131 005a 00BF     		.align	2
+ 132              	.L6:
+ 133 005c 00000000 		.word	SDPath
+ 134 0060 00000000 		.word	SD_Driver
+ 135 0064 00000000 		.word	SDFatFS
+ 136 0068 00000000 		.word	MyFile_Res
+ 137 006c 00000000 		.word	.LC0
+ 138 0070 1C000000 		.word	.LC1
+ 139 0074 50000000 		.word	.LC2
+ 140 0078 54000000 		.word	.LC3
+ 141 007c 70000000 		.word	.LC4
+ 142              		.cfi_endproc
+ 143              	.LFE534:
+ 145              		.section	.rodata.FatFs_GetVolume.str1.4,"aMS",%progbits,1
+ 146              		.align	2
+ 147              	.LC5:
+ 148 0000 2D2D2D2D 		.ascii	"-------------------\350\216\267\345\217\226\350\256"
+ 148      2D2D2D2D 
+ 148      2D2D2D2D 
+ 148      2D2D2D2D 
+ 148      2D2D2DE8 
+ 149 001b BEE5A487 		.ascii	"\276\345\244\207\345\256\271\351\207\217\344\277\241"
+ 149      E5AEB9E9 
+ 149      878FE4BF 
+ 149      A1
+ 150 0028 E681AF2D 		.ascii	"\346\201\257-----------------\015\000"
+ 150      2D2D2D2D 
+ 150      2D2D2D2D 
+ 150      2D2D2D2D 
+ 150      2D2D2D2D 
+ 151 003e 0000     		.align	2
+ 152              	.LC6:
+ 153 0040 5344E5AE 		.ascii	"SD\345\256\271\351\207\217\357\274\232%ldMB\015\012"
+ 153      B9E9878F 
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 5
+
+
+ 153      EFBC9A25 
+ 153      6C644D42 
+ 153      0D0A
+ 154 0052 00       		.ascii	"\000"
+ 155 0053 00       		.align	2
+ 156              	.LC7:
+ 157 0054 5344E589 		.ascii	"SD\345\211\251\344\275\231\357\274\232%ldMB\015\012"
+ 157      A9E4BD99 
+ 157      EFBC9A25 
+ 157      6C644D42 
+ 157      0D0A
+ 158 0066 00       		.ascii	"\000"
+ 159              		.section	.text.FatFs_GetVolume,"ax",%progbits
+ 160              		.align	1
+ 161              		.global	FatFs_GetVolume
+ 162              		.syntax unified
+ 163              		.thumb
+ 164              		.thumb_func
+ 166              	FatFs_GetVolume:
+ 167              	.LFB535:
+  29:User/sdcard/sdcard_test.c **** //	函数：FatFs_GetVolume
+  30:User/sdcard/sdcard_test.c **** //	功能：计算设备的容量，包括总容量和剩余容量
+  31:User/sdcard/sdcard_test.c **** //
+  32:User/sdcard/sdcard_test.c **** void FatFs_GetVolume(void) // 计算设备容量
+  33:User/sdcard/sdcard_test.c **** {
+ 168              		.loc 1 33 1 is_stmt 1 view -0
+ 169              		.cfi_startproc
+ 170              		@ args = 0, pretend = 0, frame = 8
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172 0000 30B5     		push	{r4, r5, lr}
+ 173              	.LCFI4:
+ 174              		.cfi_def_cfa_offset 12
+ 175              		.cfi_offset 4, -12
+ 176              		.cfi_offset 5, -8
+ 177              		.cfi_offset 14, -4
+ 178 0002 83B0     		sub	sp, sp, #12
+ 179              	.LCFI5:
+ 180              		.cfi_def_cfa_offset 24
+  34:User/sdcard/sdcard_test.c **** 	FATFS *fs;							 // 定义结构体指针
+ 181              		.loc 1 34 2 view .LVU20
+  35:User/sdcard/sdcard_test.c **** 	uint32_t SD_CardCapacity = 0;		 // SD卡的总容量
+ 182              		.loc 1 35 2 view .LVU21
+ 183              	.LVL7:
+  36:User/sdcard/sdcard_test.c **** 	uint32_t SD_FreeCapacity = 0;		 // SD卡空闲容量
+ 184              		.loc 1 36 2 view .LVU22
+  37:User/sdcard/sdcard_test.c **** 	DWORD fre_clust, fre_sect, tot_sect; // 空闲簇，空闲扇区数，总扇区数
+ 185              		.loc 1 37 2 view .LVU23
+  38:User/sdcard/sdcard_test.c **** 
+  39:User/sdcard/sdcard_test.c **** 	f_getfree((const TCHAR*) SDPath, &fre_clust, &fs); // 获取SD卡剩余的簇
+ 186              		.loc 1 39 2 view .LVU24
+ 187 0004 01AA     		add	r2, sp, #4
+ 188 0006 6946     		mov	r1, sp
+ 189 0008 0D48     		ldr	r0, .L10
+ 190 000a FFF7FEFF 		bl	f_getfree
+ 191              	.LVL8:
+  40:User/sdcard/sdcard_test.c **** 
+  41:User/sdcard/sdcard_test.c **** 	tot_sect = (fs->n_fatent - 2) * fs->csize; // 总扇区数量 = 总的簇 * 每个簇包含的扇�
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 6
+
+
+ 192              		.loc 1 41 2 view .LVU25
+ 193              		.loc 1 41 16 is_stmt 0 view .LVU26
+ 194 000e 019B     		ldr	r3, [sp, #4]
+ 195 0010 9C69     		ldr	r4, [r3, #24]
+ 196              		.loc 1 41 27 view .LVU27
+ 197 0012 023C     		subs	r4, r4, #2
+ 198              		.loc 1 41 36 view .LVU28
+ 199 0014 5B89     		ldrh	r3, [r3, #10]
+ 200              		.loc 1 41 11 view .LVU29
+ 201 0016 03FB04F4 		mul	r4, r3, r4
+ 202              	.LVL9:
+  42:User/sdcard/sdcard_test.c **** 	fre_sect = fre_clust * fs->csize;		   // 计算剩余的可用扇区数
+ 203              		.loc 1 42 2 is_stmt 1 view .LVU30
+ 204              		.loc 1 42 23 is_stmt 0 view .LVU31
+ 205 001a 009A     		ldr	r2, [sp]
+ 206              		.loc 1 42 11 view .LVU32
+ 207 001c 02FB03F3 		mul	r3, r2, r3
+ 208              	.LVL10:
+  43:User/sdcard/sdcard_test.c **** 
+  44:User/sdcard/sdcard_test.c **** 	SD_CardCapacity = tot_sect / 2048; // SD卡总容量 = 总扇区数 * 512( 每扇区的字节数 )
+ 209              		.loc 1 44 2 is_stmt 1 view .LVU33
+ 210              		.loc 1 44 18 is_stmt 0 view .LVU34
+ 211 0020 E40A     		lsrs	r4, r4, #11
+ 212              	.LVL11:
+  45:User/sdcard/sdcard_test.c **** 	SD_FreeCapacity = fre_sect / 2048; // 计算剩余的容量，单位为M
+ 213              		.loc 1 45 2 is_stmt 1 view .LVU35
+ 214              		.loc 1 45 18 is_stmt 0 view .LVU36
+ 215 0022 DD0A     		lsrs	r5, r3, #11
+ 216              	.LVL12:
+  46:User/sdcard/sdcard_test.c **** 	printf("-------------------获取设备容量信息-----------------\r\n");
+ 217              		.loc 1 46 2 is_stmt 1 view .LVU37
+ 218 0024 0748     		ldr	r0, .L10+4
+ 219 0026 FFF7FEFF 		bl	puts
+ 220              	.LVL13:
+  47:User/sdcard/sdcard_test.c **** 	printf("SD容量：%ldMB\r\n", SD_CardCapacity);
+ 221              		.loc 1 47 2 view .LVU38
+ 222 002a 2146     		mov	r1, r4
+ 223 002c 0648     		ldr	r0, .L10+8
+ 224 002e FFF7FEFF 		bl	printf
+ 225              	.LVL14:
+  48:User/sdcard/sdcard_test.c **** 	printf("SD剩余：%ldMB\r\n", SD_FreeCapacity);
+ 226              		.loc 1 48 2 view .LVU39
+ 227 0032 2946     		mov	r1, r5
+ 228 0034 0548     		ldr	r0, .L10+12
+ 229 0036 FFF7FEFF 		bl	printf
+ 230              	.LVL15:
+  49:User/sdcard/sdcard_test.c **** }
+ 231              		.loc 1 49 1 is_stmt 0 view .LVU40
+ 232 003a 03B0     		add	sp, sp, #12
+ 233              	.LCFI6:
+ 234              		.cfi_def_cfa_offset 12
+ 235              		@ sp needed
+ 236 003c 30BD     		pop	{r4, r5, pc}
+ 237              	.LVL16:
+ 238              	.L11:
+ 239              		.loc 1 49 1 view .LVU41
+ 240 003e 00BF     		.align	2
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 7
+
+
+ 241              	.L10:
+ 242 0040 00000000 		.word	SDPath
+ 243 0044 00000000 		.word	.LC5
+ 244 0048 40000000 		.word	.LC6
+ 245 004c 54000000 		.word	.LC7
+ 246              		.cfi_endproc
+ 247              	.LFE535:
+ 249              		.section	.rodata.FatFs_FileTest.str1.4,"aMS",%progbits,1
+ 250              		.align	2
+ 251              	.LC9:
+ 252 0000 2D2D2D2D 		.ascii	"-------------FatFs \346\226\207\344\273\266\345\210"
+ 252      2D2D2D2D 
+ 252      2D2D2D2D 
+ 252      2D466174 
+ 252      467320E6 
+ 253 001b 9BE5BBBA 		.ascii	"\233\345\273\272\345\222\214\345\206\231\345\205\245"
+ 253      E5928CE5 
+ 253      8699E585 
+ 253      A5
+ 254 0028 E6B58BE8 		.ascii	"\346\265\213\350\257\225---------------\015\000"
+ 254      AF952D2D 
+ 254      2D2D2D2D 
+ 254      2D2D2D2D 
+ 254      2D2D2D2D 
+ 255 003f 00       		.align	2
+ 256              	.LC10:
+ 257 0040 303A7465 		.ascii	"0:test/Test.txt\000"
+ 257      73742F54 
+ 257      6573742E 
+ 257      74787400 
+ 258              		.align	2
+ 259              	.LC11:
+ 260 0050 E69687E4 		.ascii	"\346\226\207\344\273\266\346\211\223\345\274\200/\345"
+ 260      BBB6E689 
+ 260      93E5BC80 
+ 260      2FE5
+ 261 005e 889BE5BB 		.ascii	"\210\233\345\273\272\346\210\220\345\212\237\357\274"
+ 261      BAE68890 
+ 261      E58A9FEF 
+ 261      BC
+ 262 006b 8CE58786 		.ascii	"\214\345\207\206\345\244\207\345\206\231\345\205\245"
+ 262      E5A487E5 
+ 262      8699E585 
+ 262      A5
+ 263 0078 E695B0E6 		.ascii	"\346\225\260\346\215\256...\015\000"
+ 263      8DAE2E2E 
+ 263      2E0D00
+ 264 0083 00       		.align	2
+ 265              	.LC12:
+ 266 0084 E58699E5 		.ascii	"\345\206\231\345\205\245\346\210\220\345\212\237\357"
+ 266      85A5E688 
+ 266      90E58A9F 
+ 266      EF
+ 267 0091 BC8CE586 		.ascii	"\274\214\345\206\231\345\205\245\345\206\205\345\256"
+ 267      99E585A5 
+ 267      E58685E5 
+ 267      AE
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 8
+
+
+ 268 009e B9E4B8BA 		.ascii	"\271\344\270\272\357\274\232\015\000"
+ 268      EFBC9A0D 
+ 268      00
+ 269 00a7 00       		.align	2
+ 270              	.LC13:
+ 271 00a8 25730D0A 		.ascii	"%s\015\012\000"
+ 271      00
+ 272 00ad 000000   		.align	2
+ 273              	.LC14:
+ 274 00b0 2D2D2D2D 		.ascii	"-------------FatFs \346\226\207\344\273\266\350\257"
+ 274      2D2D2D2D 
+ 274      2D2D2D2D 
+ 274      2D466174 
+ 274      467320E6 
+ 275 00cb BBE58F96 		.ascii	"\273\345\217\226\346\265\213\350\257\225-----------"
+ 275      E6B58BE8 
+ 275      AF952D2D 
+ 275      2D2D2D2D 
+ 275      2D2D2D2D 
+ 276 00e0 2D2D2D2D 		.ascii	"----\015\000"
+ 276      0D00
+ 277 00e6 0000     		.align	2
+ 278              	.LC15:
+ 279 00e8 E69687E4 		.ascii	"\346\226\207\344\273\266\345\206\231\345\205\245\345"
+ 279      BBB6E586 
+ 279      99E585A5 
+ 279      E5
+ 280 00f5 A4B1E8B4 		.ascii	"\244\261\350\264\245\357\274\214\350\257\267\346\243"
+ 280      A5EFBC8C 
+ 280      E8AFB7E6 
+ 280      A3
+ 281 0102 80E69FA5 		.ascii	"\200\346\237\245SD\345\215\241\346\210\226\351\207\215"
+ 281      5344E58D 
+ 281      A1E68896 
+ 281      E9878D
+ 282 0111 E696B0E6 		.ascii	"\346\226\260\346\240\274\345\274\217\345\214\226!\015"
+ 282      A0BCE5BC 
+ 282      8FE58C96 
+ 282      210D
+ 283 011f 00       		.ascii	"\000"
+ 284              		.align	2
+ 285              	.LC16:
+ 286 0120 E697A0E6 		.ascii	"\346\227\240\346\263\225\346\211\223\345\274\200/\345"
+ 286      B395E689 
+ 286      93E5BC80 
+ 286      2FE5
+ 287 012e 889BE5BB 		.ascii	"\210\233\345\273\272\346\226\207\344\273\266\357\274"
+ 287      BAE69687 
+ 287      E4BBB6EF 
+ 287      BC
+ 288 013b 8CE8AFB7 		.ascii	"\214\350\257\267\346\243\200\346\237\245SD\345\215\241"
+ 288      E6A380E6 
+ 288      9FA55344 
+ 288      E58DA1
+ 289 014a E68896E9 		.ascii	"\346\210\226\351\207\215\346\226\260\346\240\274\345"
+ 289      878DE696 
+ 289      B0E6A0BC 
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 9
+
+
+ 289      E5
+ 290 0157 BC8FE58C 		.ascii	"\274\217\345\214\226!\015\000"
+ 290      96210D00 
+ 291 015f 00       		.align	2
+ 292              	.LC17:
+ 293 0160 E69687E4 		.ascii	"\346\226\207\344\273\266\350\257\273\345\217\226\346"
+ 293      BBB6E8AF 
+ 293      BBE58F96 
+ 293      E6
+ 294 016d 8890E58A 		.ascii	"\210\220\345\212\237\357\274\214\346\255\243\345\234"
+ 294      9FEFBC8C 
+ 294      E6ADA3E5 
+ 294      9C
+ 295 017a A8E6A0A1 		.ascii	"\250\346\240\241\351\252\214\346\225\260\346\215\256"
+ 295      E9AA8CE6 
+ 295      95B0E68D 
+ 295      AE
+ 296 0187 2E2E2E0D 		.ascii	"...\015\000"
+ 296      00
+ 297              		.align	2
+ 298              	.LC18:
+ 299 018c E6A0A1E9 		.ascii	"\346\240\241\351\252\214\345\244\261\350\264\245\357"
+ 299      AA8CE5A4 
+ 299      B1E8B4A5 
+ 299      EF
+ 300 0199 BC8CE8AF 		.ascii	"\274\214\350\257\267\346\243\200\346\237\245SD\345\215"
+ 300      B7E6A380 
+ 300      E69FA553 
+ 300      44E58D
+ 301 01a8 A1E68896 		.ascii	"\241\346\210\226\351\207\215\346\226\260\346\240\274"
+ 301      E9878DE6 
+ 301      96B0E6A0 
+ 301      BC
+ 302 01b5 E5BC8FE5 		.ascii	"\345\274\217\345\214\226!\015\000"
+ 302      8C96210D 
+ 302      00
+ 303 01be 0000     		.align	2
+ 304              	.LC19:
+ 305 01c0 E6A0A1E9 		.ascii	"\346\240\241\351\252\214\346\210\220\345\212\237\357"
+ 305      AA8CE688 
+ 305      90E58A9F 
+ 305      EF
+ 306 01cd BC8CE8AF 		.ascii	"\274\214\350\257\273\345\207\272\347\232\204\346\225"
+ 306      BBE587BA 
+ 306      E79A84E6 
+ 306      95
+ 307 01da B0E68DAE 		.ascii	"\260\346\215\256\344\270\272\357\274\232\015\000"
+ 307      E4B8BAEF 
+ 307      BC9A0D00 
+ 308 01e6 0000     		.align	2
+ 309              	.LC20:
+ 310 01e8 E697A0E6 		.ascii	"\346\227\240\346\263\225\350\257\273\345\217\226\346"
+ 310      B395E8AF 
+ 310      BBE58F96 
+ 310      E6
+ 311 01f5 9687E4BB 		.ascii	"\226\207\344\273\266\357\274\214\350\257\267\346\243"
+ 311      B6EFBC8C 
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 10
+
+
+ 311      E8AFB7E6 
+ 311      A3
+ 312 0202 80E69FA5 		.ascii	"\200\346\237\245SD\345\215\241\346\210\226\351\207\215"
+ 312      5344E58D 
+ 312      A1E68896 
+ 312      E9878D
+ 313 0211 E696B0E6 		.ascii	"\346\226\260\346\240\274\345\274\217\345\214\226!\015"
+ 313      A0BCE5BC 
+ 313      8FE58C96 
+ 313      210D
+ 314 021f 00       		.ascii	"\000"
+ 315              		.align	2
+ 316              	.LC8:
+ 317 0220 53544D33 		.ascii	"STM32H7B0 SD\345\215\241 \346\226\207\344\273\266\347"
+ 317      32483742 
+ 317      30205344 
+ 317      E58DA120 
+ 317      E69687E4 
+ 318 0237 B3BBE7BB 		.ascii	"\263\273\347\273\237\346\265\213\350\257\225\000"
+ 318      9FE6B58B 
+ 318      E8AF9500 
+ 319              		.section	.text.FatFs_FileTest,"ax",%progbits
+ 320              		.align	1
+ 321              		.global	FatFs_FileTest
+ 322              		.syntax unified
+ 323              		.thumb
+ 324              		.thumb_func
+ 326              	FatFs_FileTest:
+ 327              	.LFB536:
+  50:User/sdcard/sdcard_test.c **** 
+  51:User/sdcard/sdcard_test.c **** //	函数：FatFs_FileTest
+  52:User/sdcard/sdcard_test.c **** //	功能：进行文件写入和读取测试
+  53:User/sdcard/sdcard_test.c **** //
+  54:User/sdcard/sdcard_test.c **** uint8_t FatFs_FileTest(void) // 文件创建和写入测试
+  55:User/sdcard/sdcard_test.c **** {
+ 328              		.loc 1 55 1 is_stmt 1 view -0
+ 329              		.cfi_startproc
+ 330              		@ args = 0, pretend = 0, frame = 1624
+ 331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 332 0000 30B5     		push	{r4, r5, lr}
+ 333              	.LCFI7:
+ 334              		.cfi_def_cfa_offset 12
+ 335              		.cfi_offset 4, -12
+ 336              		.cfi_offset 5, -8
+ 337              		.cfi_offset 14, -4
+ 338 0002 ADF25C6D 		subw	sp, sp, #1628
+ 339              	.LCFI8:
+ 340              		.cfi_def_cfa_offset 1640
+  56:User/sdcard/sdcard_test.c **** 	uint8_t i = 0;
+ 341              		.loc 1 56 2 view .LVU43
+ 342              	.LVL17:
+  57:User/sdcard/sdcard_test.c **** 	uint16_t BufferSize = 0;
+ 343              		.loc 1 57 2 view .LVU44
+  58:User/sdcard/sdcard_test.c **** 	FIL MyFile;												   // 文件对象
+ 344              		.loc 1 58 2 view .LVU45
+  59:User/sdcard/sdcard_test.c **** 	UINT MyFile_Num;										   //	数据长度
+ 345              		.loc 1 59 2 view .LVU46
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 11
+
+
+  60:User/sdcard/sdcard_test.c **** 	BYTE MyFile_WriteBuffer[] = "STM32H7B0 SD卡 文件系统测试"; // 要写入的数据
+ 346              		.loc 1 60 2 view .LVU47
+ 347              		.loc 1 60 7 is_stmt 0 view .LVU48
+ 348 0006 0DF5806C 		add	ip, sp, #1024
+ 349 000a 474C     		ldr	r4, .L26
+ 350 000c 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 351 000e ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 352 0012 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 353 0014 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 354 0018 2368     		ldr	r3, [r4]
+ 355 001a 2CF8023B 		strh	r3, [ip], #2	@ movhi
+ 356 001e 1B0C     		lsrs	r3, r3, #16
+ 357 0020 8CF80030 		strb	r3, [ip]
+  61:User/sdcard/sdcard_test.c **** 	BYTE MyFile_ReadBuffer[1024];							   // 要读出的数据
+ 358              		.loc 1 61 2 is_stmt 1 view .LVU49
+  62:User/sdcard/sdcard_test.c **** 
+  63:User/sdcard/sdcard_test.c **** 	printf("-------------FatFs 文件创建和写入测试---------------\r\n");
+ 359              		.loc 1 63 2 view .LVU50
+ 360 0024 4148     		ldr	r0, .L26+4
+ 361 0026 FFF7FEFF 		bl	puts
+ 362              	.LVL18:
+  64:User/sdcard/sdcard_test.c **** 
+  65:User/sdcard/sdcard_test.c **** 	MyFile_Res = f_open(&MyFile, "0:test/Test.txt",
+ 363              		.loc 1 65 2 view .LVU51
+ 364              		.loc 1 65 15 is_stmt 0 view .LVU52
+ 365 002a 0A22     		movs	r2, #10
+ 366 002c 4049     		ldr	r1, .L26+8
+ 367 002e 0DF58560 		add	r0, sp, #1064
+ 368 0032 FFF7FEFF 		bl	f_open
+ 369              	.LVL19:
+ 370              		.loc 1 65 13 discriminator 1 view .LVU53
+ 371 0036 3F4B     		ldr	r3, .L26+12
+ 372 0038 1870     		strb	r0, [r3]
+  66:User/sdcard/sdcard_test.c **** 	FA_CREATE_ALWAYS | FA_WRITE); // 打开文件，若不存在则创建该文件
+  67:User/sdcard/sdcard_test.c **** 	if (MyFile_Res == FR_OK) {
+ 373              		.loc 1 67 2 is_stmt 1 view .LVU54
+ 374              		.loc 1 67 5 is_stmt 0 view .LVU55
+ 375 003a 0028     		cmp	r0, #0
+ 376 003c 4AD1     		bne	.L13
+  68:User/sdcard/sdcard_test.c **** 		printf("文件打开/创建成功，准备写入数据...\r\n");
+ 377              		.loc 1 68 3 is_stmt 1 view .LVU56
+ 378 003e 3E48     		ldr	r0, .L26+16
+ 379 0040 FFF7FEFF 		bl	puts
+ 380              	.LVL20:
+  69:User/sdcard/sdcard_test.c **** 
+  70:User/sdcard/sdcard_test.c **** 		MyFile_Res = f_write(&MyFile, MyFile_WriteBuffer,
+ 381              		.loc 1 70 3 view .LVU57
+ 382              		.loc 1 70 16 is_stmt 0 view .LVU58
+ 383 0044 0DF22443 		addw	r3, sp, #1060
+ 384 0048 2322     		movs	r2, #35
+ 385 004a 0DF58061 		add	r1, sp, #1024
+ 386 004e 0DF58560 		add	r0, sp, #1064
+ 387 0052 FFF7FEFF 		bl	f_write
+ 388              	.LVL21:
+ 389              		.loc 1 70 14 discriminator 1 view .LVU59
+ 390 0056 374B     		ldr	r3, .L26+12
+ 391 0058 1870     		strb	r0, [r3]
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 12
+
+
+  71:User/sdcard/sdcard_test.c **** 				sizeof(MyFile_WriteBuffer), &MyFile_Num); // 向文件写入数据
+  72:User/sdcard/sdcard_test.c **** 		if (MyFile_Res == FR_OK) {
+ 392              		.loc 1 72 3 is_stmt 1 view .LVU60
+ 393              		.loc 1 72 6 is_stmt 0 view .LVU61
+ 394 005a 90BB     		cbnz	r0, .L14
+  73:User/sdcard/sdcard_test.c **** 			printf("写入成功，写入内容为：\r\n");
+ 395              		.loc 1 73 4 is_stmt 1 view .LVU62
+ 396 005c 3748     		ldr	r0, .L26+20
+ 397 005e FFF7FEFF 		bl	puts
+ 398              	.LVL22:
+  74:User/sdcard/sdcard_test.c **** 			printf("%s\r\n", MyFile_WriteBuffer);
+ 399              		.loc 1 74 4 view .LVU63
+ 400 0062 0DF58061 		add	r1, sp, #1024
+ 401 0066 3648     		ldr	r0, .L26+24
+ 402 0068 FFF7FEFF 		bl	printf
+ 403              	.LVL23:
+  75:User/sdcard/sdcard_test.c **** 		} else {
+  76:User/sdcard/sdcard_test.c **** 			printf("文件写入失败，请检查SD卡或重新格式化!\r\n");
+  77:User/sdcard/sdcard_test.c **** 			f_close(&MyFile); // 关闭文件
+  78:User/sdcard/sdcard_test.c **** 			return ERROR;
+  79:User/sdcard/sdcard_test.c **** 		}
+  80:User/sdcard/sdcard_test.c **** 		f_close(&MyFile); // 关闭文件
+ 404              		.loc 1 80 3 view .LVU64
+ 405 006c 0DF58560 		add	r0, sp, #1064
+ 406 0070 FFF7FEFF 		bl	f_close
+ 407              	.LVL24:
+  81:User/sdcard/sdcard_test.c **** 	} else {
+  82:User/sdcard/sdcard_test.c **** 		printf("无法打开/创建文件，请检查SD卡或重新格式化!\r\n");
+  83:User/sdcard/sdcard_test.c **** 		f_close(&MyFile); // 关闭文件
+  84:User/sdcard/sdcard_test.c **** 		return ERROR;
+  85:User/sdcard/sdcard_test.c **** 	}
+  86:User/sdcard/sdcard_test.c **** 
+  87:User/sdcard/sdcard_test.c **** 	printf("-------------FatFs 文件读取测试---------------\r\n");
+ 408              		.loc 1 87 2 view .LVU65
+ 409 0074 3348     		ldr	r0, .L26+28
+ 410 0076 FFF7FEFF 		bl	puts
+ 411              	.LVL25:
+  88:User/sdcard/sdcard_test.c **** 
+  89:User/sdcard/sdcard_test.c **** 	BufferSize = sizeof(MyFile_WriteBuffer) / sizeof(BYTE); // 计算写入的数据长度
+ 412              		.loc 1 89 2 view .LVU66
+  90:User/sdcard/sdcard_test.c **** 	MyFile_Res = f_open(&MyFile, "0:test/Test.txt",
+ 413              		.loc 1 90 2 view .LVU67
+ 414              		.loc 1 90 15 is_stmt 0 view .LVU68
+ 415 007a 0122     		movs	r2, #1
+ 416 007c 2C49     		ldr	r1, .L26+8
+ 417 007e 0DF58560 		add	r0, sp, #1064
+ 418 0082 FFF7FEFF 		bl	f_open
+ 419              	.LVL26:
+ 420              		.loc 1 90 13 discriminator 1 view .LVU69
+ 421 0086 2B4D     		ldr	r5, .L26+12
+ 422 0088 2870     		strb	r0, [r5]
+  91:User/sdcard/sdcard_test.c **** 	FA_OPEN_EXISTING | FA_READ);						  // 打开文件，若不存在则创建该文件
+  92:User/sdcard/sdcard_test.c **** 	MyFile_Res = f_read(&MyFile, MyFile_ReadBuffer, BufferSize, &MyFile_Num); // 读取文件
+ 423              		.loc 1 92 2 is_stmt 1 view .LVU70
+ 424              		.loc 1 92 15 is_stmt 0 view .LVU71
+ 425 008a 0DF22443 		addw	r3, sp, #1060
+ 426 008e 2322     		movs	r2, #35
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 13
+
+
+ 427 0090 6946     		mov	r1, sp
+ 428 0092 0DF58560 		add	r0, sp, #1064
+ 429 0096 FFF7FEFF 		bl	f_read
+ 430              	.LVL27:
+ 431 009a 0446     		mov	r4, r0
+ 432              		.loc 1 92 13 discriminator 1 view .LVU72
+ 433 009c 2870     		strb	r0, [r5]
+  93:User/sdcard/sdcard_test.c **** 	if (MyFile_Res == FR_OK) {
+ 434              		.loc 1 93 2 is_stmt 1 view .LVU73
+ 435              		.loc 1 93 5 is_stmt 0 view .LVU74
+ 436 009e 0028     		cmp	r0, #0
+ 437 00a0 39D1     		bne	.L23
+  94:User/sdcard/sdcard_test.c **** 		printf("文件读取成功，正在校验数据...\r\n");
+ 438              		.loc 1 94 3 is_stmt 1 view .LVU75
+ 439 00a2 2948     		ldr	r0, .L26+32
+ 440 00a4 FFF7FEFF 		bl	puts
+ 441              	.LVL28:
+  95:User/sdcard/sdcard_test.c **** 
+  96:User/sdcard/sdcard_test.c **** 		for (i = 0; i < BufferSize; i++) {
+ 442              		.loc 1 96 3 view .LVU76
+ 443              		.loc 1 96 10 is_stmt 0 view .LVU77
+ 444 00a8 2346     		mov	r3, r4
+ 445              	.LVL29:
+ 446              	.L18:
+ 447              		.loc 1 96 17 is_stmt 1 discriminator 1 view .LVU78
+ 448 00aa 222B     		cmp	r3, #34
+ 449 00ac 27D8     		bhi	.L24
+  97:User/sdcard/sdcard_test.c **** 			if (MyFile_WriteBuffer[i] != MyFile_ReadBuffer[i]) // 校验数据
+ 450              		.loc 1 97 4 view .LVU79
+ 451              		.loc 1 97 26 is_stmt 0 view .LVU80
+ 452 00ae 0DF58062 		add	r2, sp, #1024
+ 453 00b2 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 454              		.loc 1 97 50 view .LVU81
+ 455 00b4 1DF80320 		ldrb	r2, [sp, r3]	@ zero_extendqisi2
+ 456              		.loc 1 97 7 view .LVU82
+ 457 00b8 9142     		cmp	r1, r2
+ 458 00ba 17D1     		bne	.L25
+  96:User/sdcard/sdcard_test.c **** 			if (MyFile_WriteBuffer[i] != MyFile_ReadBuffer[i]) // 校验数据
+ 459              		.loc 1 96 32 is_stmt 1 discriminator 2 view .LVU83
+ 460 00bc 0133     		adds	r3, r3, #1
+ 461              	.LVL30:
+  96:User/sdcard/sdcard_test.c **** 			if (MyFile_WriteBuffer[i] != MyFile_ReadBuffer[i]) // 校验数据
+ 462              		.loc 1 96 32 is_stmt 0 discriminator 2 view .LVU84
+ 463 00be DBB2     		uxtb	r3, r3
+ 464              	.LVL31:
+  96:User/sdcard/sdcard_test.c **** 			if (MyFile_WriteBuffer[i] != MyFile_ReadBuffer[i]) // 校验数据
+ 465              		.loc 1 96 32 discriminator 2 view .LVU85
+ 466 00c0 F3E7     		b	.L18
+ 467              	.LVL32:
+ 468              	.L14:
+  76:User/sdcard/sdcard_test.c **** 			f_close(&MyFile); // 关闭文件
+ 469              		.loc 1 76 4 is_stmt 1 view .LVU86
+ 470 00c2 2248     		ldr	r0, .L26+36
+ 471 00c4 FFF7FEFF 		bl	puts
+ 472              	.LVL33:
+  77:User/sdcard/sdcard_test.c **** 			return ERROR;
+ 473              		.loc 1 77 4 view .LVU87
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 14
+
+
+ 474 00c8 0DF58560 		add	r0, sp, #1064
+ 475 00cc FFF7FEFF 		bl	f_close
+ 476              	.LVL34:
+  78:User/sdcard/sdcard_test.c **** 		}
+ 477              		.loc 1 78 4 view .LVU88
+  78:User/sdcard/sdcard_test.c **** 		}
+ 478              		.loc 1 78 11 is_stmt 0 view .LVU89
+ 479 00d0 0124     		movs	r4, #1
+ 480 00d2 07E0     		b	.L17
+ 481              	.L13:
+  82:User/sdcard/sdcard_test.c **** 		f_close(&MyFile); // 关闭文件
+ 482              		.loc 1 82 3 is_stmt 1 view .LVU90
+ 483 00d4 1E48     		ldr	r0, .L26+40
+ 484 00d6 FFF7FEFF 		bl	puts
+ 485              	.LVL35:
+  83:User/sdcard/sdcard_test.c **** 		return ERROR;
+ 486              		.loc 1 83 3 view .LVU91
+ 487 00da 0DF58560 		add	r0, sp, #1064
+ 488 00de FFF7FEFF 		bl	f_close
+ 489              	.LVL36:
+  84:User/sdcard/sdcard_test.c **** 	}
+ 490              		.loc 1 84 3 view .LVU92
+  84:User/sdcard/sdcard_test.c **** 	}
+ 491              		.loc 1 84 10 is_stmt 0 view .LVU93
+ 492 00e2 0124     		movs	r4, #1
+ 493              	.LVL37:
+ 494              	.L17:
+  98:User/sdcard/sdcard_test.c **** 					{
+  99:User/sdcard/sdcard_test.c **** 				printf("校验失败，请检查SD卡或重新格式化!\r\n");
+ 100:User/sdcard/sdcard_test.c **** 				f_close(&MyFile); // 关闭文件
+ 101:User/sdcard/sdcard_test.c **** 				return ERROR;
+ 102:User/sdcard/sdcard_test.c **** 			}
+ 103:User/sdcard/sdcard_test.c **** 		}
+ 104:User/sdcard/sdcard_test.c **** 		printf("校验成功，读出的数据为：\r\n");
+ 105:User/sdcard/sdcard_test.c **** 		printf("%s\r\n", MyFile_ReadBuffer);
+ 106:User/sdcard/sdcard_test.c **** 	} else {
+ 107:User/sdcard/sdcard_test.c **** 		printf("无法读取文件，请检查SD卡或重新格式化!\r\n");
+ 108:User/sdcard/sdcard_test.c **** 		f_close(&MyFile); // 关闭文件
+ 109:User/sdcard/sdcard_test.c **** 		return ERROR;
+ 110:User/sdcard/sdcard_test.c **** 	}
+ 111:User/sdcard/sdcard_test.c **** 
+ 112:User/sdcard/sdcard_test.c **** 	f_close(&MyFile); // 关闭文件
+ 113:User/sdcard/sdcard_test.c **** 	return SUCCESS;
+ 114:User/sdcard/sdcard_test.c **** }
+ 495              		.loc 1 114 1 view .LVU94
+ 496 00e4 2046     		mov	r0, r4
+ 497 00e6 0DF25C6D 		addw	sp, sp, #1628
+ 498              	.LCFI9:
+ 499              		.cfi_remember_state
+ 500              		.cfi_def_cfa_offset 12
+ 501              		@ sp needed
+ 502 00ea 30BD     		pop	{r4, r5, pc}
+ 503              	.LVL38:
+ 504              	.L25:
+ 505              	.LCFI10:
+ 506              		.cfi_restore_state
+  99:User/sdcard/sdcard_test.c **** 				f_close(&MyFile); // 关闭文件
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 15
+
+
+ 507              		.loc 1 99 5 is_stmt 1 view .LVU95
+ 508 00ec 1948     		ldr	r0, .L26+44
+ 509 00ee FFF7FEFF 		bl	puts
+ 510              	.LVL39:
+ 100:User/sdcard/sdcard_test.c **** 				return ERROR;
+ 511              		.loc 1 100 5 view .LVU96
+ 512 00f2 0DF58560 		add	r0, sp, #1064
+ 513 00f6 FFF7FEFF 		bl	f_close
+ 514              	.LVL40:
+ 101:User/sdcard/sdcard_test.c **** 			}
+ 515              		.loc 1 101 5 view .LVU97
+ 101:User/sdcard/sdcard_test.c **** 			}
+ 516              		.loc 1 101 12 is_stmt 0 view .LVU98
+ 517 00fa 0124     		movs	r4, #1
+ 518 00fc F2E7     		b	.L17
+ 519              	.LVL41:
+ 520              	.L24:
+ 104:User/sdcard/sdcard_test.c **** 		printf("%s\r\n", MyFile_ReadBuffer);
+ 521              		.loc 1 104 3 is_stmt 1 view .LVU99
+ 522 00fe 1648     		ldr	r0, .L26+48
+ 523 0100 FFF7FEFF 		bl	puts
+ 524              	.LVL42:
+ 105:User/sdcard/sdcard_test.c **** 	} else {
+ 525              		.loc 1 105 3 view .LVU100
+ 526 0104 6946     		mov	r1, sp
+ 527 0106 0E48     		ldr	r0, .L26+24
+ 528 0108 FFF7FEFF 		bl	printf
+ 529              	.LVL43:
+ 112:User/sdcard/sdcard_test.c **** 	return SUCCESS;
+ 530              		.loc 1 112 2 view .LVU101
+ 531 010c 0DF58560 		add	r0, sp, #1064
+ 532 0110 FFF7FEFF 		bl	f_close
+ 533              	.LVL44:
+ 113:User/sdcard/sdcard_test.c **** }
+ 534              		.loc 1 113 2 view .LVU102
+ 113:User/sdcard/sdcard_test.c **** }
+ 535              		.loc 1 113 9 is_stmt 0 view .LVU103
+ 536 0114 E6E7     		b	.L17
+ 537              	.LVL45:
+ 538              	.L23:
+ 107:User/sdcard/sdcard_test.c **** 		f_close(&MyFile); // 关闭文件
+ 539              		.loc 1 107 3 is_stmt 1 view .LVU104
+ 540 0116 1148     		ldr	r0, .L26+52
+ 541 0118 FFF7FEFF 		bl	puts
+ 542              	.LVL46:
+ 108:User/sdcard/sdcard_test.c **** 		return ERROR;
+ 543              		.loc 1 108 3 view .LVU105
+ 544 011c 0DF58560 		add	r0, sp, #1064
+ 545 0120 FFF7FEFF 		bl	f_close
+ 546              	.LVL47:
+ 109:User/sdcard/sdcard_test.c **** 	}
+ 547              		.loc 1 109 3 view .LVU106
+ 109:User/sdcard/sdcard_test.c **** 	}
+ 548              		.loc 1 109 10 is_stmt 0 view .LVU107
+ 549 0124 0124     		movs	r4, #1
+ 550 0126 DDE7     		b	.L17
+ 551              	.L27:
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 16
+
+
+ 552              		.align	2
+ 553              	.L26:
+ 554 0128 20020000 		.word	.LC8
+ 555 012c 00000000 		.word	.LC9
+ 556 0130 40000000 		.word	.LC10
+ 557 0134 00000000 		.word	MyFile_Res
+ 558 0138 50000000 		.word	.LC11
+ 559 013c 84000000 		.word	.LC12
+ 560 0140 A8000000 		.word	.LC13
+ 561 0144 B0000000 		.word	.LC14
+ 562 0148 60010000 		.word	.LC17
+ 563 014c E8000000 		.word	.LC15
+ 564 0150 20010000 		.word	.LC16
+ 565 0154 8C010000 		.word	.LC18
+ 566 0158 C0010000 		.word	.LC19
+ 567 015c E8010000 		.word	.LC20
+ 568              		.cfi_endproc
+ 569              	.LFE536:
+ 571              		.global	MyFile_Res
+ 572              		.section	.bss.MyFile_Res,"aw",%nobits
+ 575              	MyFile_Res:
+ 576 0000 00       		.space	1
+ 577              		.text
+ 578              	.Letext0:
+ 579              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 580              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 581              		.file 4 "Middlewares/Third_Party/FatFs/src/integer.h"
+ 582              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 583              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 584              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 585              		.file 8 "Middlewares/Third_Party/FatFs/src/ff.h"
+ 586              		.file 9 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h"
+ 587              		.file 10 "Middlewares/Third_Party/FatFs/src/diskio.h"
+ 588              		.file 11 "Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 589              		.file 12 "FATFS/Target/sd_diskio.h"
+ 590              		.file 13 "FATFS/App/fatfs.h"
+ 591              		.file 14 "lvgl/src/core/lv_obj.h"
+ 592              		.file 15 "lvgl/src/widgets/lv_bar.h"
+ 593              		.file 16 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 594              		.file 17 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ 595              		.file 18 "<built-in>"
+ARM GAS  C:\usertemp\ccw32yfx.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 sdcard_test.c
+C:\usertemp\ccw32yfx.s:20     .rodata.FatFs_Check.str1.4:00000000 $d
+C:\usertemp\ccw32yfx.s:43     .text.FatFs_Check:00000000 $t
+C:\usertemp\ccw32yfx.s:49     .text.FatFs_Check:00000000 FatFs_Check
+C:\usertemp\ccw32yfx.s:133    .text.FatFs_Check:0000005c $d
+C:\usertemp\ccw32yfx.s:575    .bss.MyFile_Res:00000000 MyFile_Res
+C:\usertemp\ccw32yfx.s:146    .rodata.FatFs_GetVolume.str1.4:00000000 $d
+C:\usertemp\ccw32yfx.s:160    .text.FatFs_GetVolume:00000000 $t
+C:\usertemp\ccw32yfx.s:166    .text.FatFs_GetVolume:00000000 FatFs_GetVolume
+C:\usertemp\ccw32yfx.s:242    .text.FatFs_GetVolume:00000040 $d
+C:\usertemp\ccw32yfx.s:250    .rodata.FatFs_FileTest.str1.4:00000000 $d
+C:\usertemp\ccw32yfx.s:320    .text.FatFs_FileTest:00000000 $t
+C:\usertemp\ccw32yfx.s:326    .text.FatFs_FileTest:00000000 FatFs_FileTest
+C:\usertemp\ccw32yfx.s:554    .text.FatFs_FileTest:00000128 $d
+C:\usertemp\ccw32yfx.s:576    .bss.MyFile_Res:00000000 $d
+
+UNDEFINED SYMBOLS
+FATFS_LinkDriver
+f_mount
+puts
+f_mkfs
+SDPath
+SD_Driver
+SDFatFS
+f_getfree
+printf
+f_open
+f_write
+f_close
+f_read

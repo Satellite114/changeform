@@ -1,0 +1,440 @@
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_font.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/font/lv_font.c"
+  19              		.section	.text.lv_font_get_glyph_bitmap,"ax",%progbits
+  20              		.align	1
+  21              		.global	lv_font_get_glyph_bitmap
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	lv_font_get_glyph_bitmap:
+  27              	.LVL0:
+  28              	.LFB7:
+   1:lvgl/src/font/lv_font.c **** /**
+   2:lvgl/src/font/lv_font.c ****  * @file lv_font.c
+   3:lvgl/src/font/lv_font.c ****  *
+   4:lvgl/src/font/lv_font.c ****  */
+   5:lvgl/src/font/lv_font.c **** 
+   6:lvgl/src/font/lv_font.c **** /*********************
+   7:lvgl/src/font/lv_font.c ****  *      INCLUDES
+   8:lvgl/src/font/lv_font.c ****  *********************/
+   9:lvgl/src/font/lv_font.c **** 
+  10:lvgl/src/font/lv_font.c **** #include "lv_font.h"
+  11:lvgl/src/font/lv_font.c **** #include "../misc/lv_utils.h"
+  12:lvgl/src/font/lv_font.c **** #include "../misc/lv_log.h"
+  13:lvgl/src/font/lv_font.c **** #include "../misc/lv_assert.h"
+  14:lvgl/src/font/lv_font.c **** 
+  15:lvgl/src/font/lv_font.c **** /*********************
+  16:lvgl/src/font/lv_font.c ****  *      DEFINES
+  17:lvgl/src/font/lv_font.c ****  *********************/
+  18:lvgl/src/font/lv_font.c **** 
+  19:lvgl/src/font/lv_font.c **** /**********************
+  20:lvgl/src/font/lv_font.c ****  *      TYPEDEFS
+  21:lvgl/src/font/lv_font.c ****  **********************/
+  22:lvgl/src/font/lv_font.c **** 
+  23:lvgl/src/font/lv_font.c **** /**********************
+  24:lvgl/src/font/lv_font.c ****  *  STATIC PROTOTYPES
+  25:lvgl/src/font/lv_font.c ****  **********************/
+  26:lvgl/src/font/lv_font.c **** 
+  27:lvgl/src/font/lv_font.c **** /**********************
+  28:lvgl/src/font/lv_font.c ****  *  STATIC VARIABLES
+  29:lvgl/src/font/lv_font.c ****  **********************/
+  30:lvgl/src/font/lv_font.c **** 
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 2
+
+
+  31:lvgl/src/font/lv_font.c **** /**********************
+  32:lvgl/src/font/lv_font.c ****  * GLOBAL PROTOTYPES
+  33:lvgl/src/font/lv_font.c ****  **********************/
+  34:lvgl/src/font/lv_font.c **** 
+  35:lvgl/src/font/lv_font.c **** /**********************
+  36:lvgl/src/font/lv_font.c ****  *      MACROS
+  37:lvgl/src/font/lv_font.c ****  **********************/
+  38:lvgl/src/font/lv_font.c **** 
+  39:lvgl/src/font/lv_font.c **** /**********************
+  40:lvgl/src/font/lv_font.c ****  *   GLOBAL FUNCTIONS
+  41:lvgl/src/font/lv_font.c ****  **********************/
+  42:lvgl/src/font/lv_font.c **** 
+  43:lvgl/src/font/lv_font.c **** /**
+  44:lvgl/src/font/lv_font.c ****  * Return with the bitmap of a font.
+  45:lvgl/src/font/lv_font.c ****  * @param font_p pointer to a font
+  46:lvgl/src/font/lv_font.c ****  * @param letter an UNICODE character code
+  47:lvgl/src/font/lv_font.c ****  * @return pointer to the bitmap of the letter
+  48:lvgl/src/font/lv_font.c ****  */
+  49:lvgl/src/font/lv_font.c **** const uint8_t * lv_font_get_glyph_bitmap(const lv_font_t * font_p, uint32_t letter)
+  50:lvgl/src/font/lv_font.c **** {
+  29              		.loc 1 50 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  51:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(font_p);
+  33              		.loc 1 51 5 view .LVU1
+  34              		.loc 1 51 5 view .LVU2
+  35 0000 18B1     		cbz	r0, .L3
+  50:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(font_p);
+  36              		.loc 1 50 1 is_stmt 0 view .LVU3
+  37 0002 08B5     		push	{r3, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 3, -8
+  41              		.cfi_offset 14, -4
+  42              		.loc 1 51 5 is_stmt 1 discriminator 2 view .LVU4
+  43              		.loc 1 51 27 discriminator 2 view .LVU5
+  52:lvgl/src/font/lv_font.c ****     return font_p->get_glyph_bitmap(font_p, letter);
+  44              		.loc 1 52 5 view .LVU6
+  45              		.loc 1 52 18 is_stmt 0 view .LVU7
+  46 0004 4268     		ldr	r2, [r0, #4]
+  47              		.loc 1 52 12 view .LVU8
+  48 0006 9047     		blx	r2
+  49              	.LVL1:
+  53:lvgl/src/font/lv_font.c **** }
+  50              		.loc 1 53 1 view .LVU9
+  51 0008 08BD     		pop	{r3, pc}
+  52              	.LVL2:
+  53              	.L3:
+  54              	.LCFI1:
+  55              		.cfi_def_cfa_offset 0
+  56              		.cfi_restore 3
+  57              		.cfi_restore 14
+  51:lvgl/src/font/lv_font.c ****     return font_p->get_glyph_bitmap(font_p, letter);
+  58              		.loc 1 51 5 is_stmt 1 discriminator 1 view .LVU10
+  51:lvgl/src/font/lv_font.c ****     return font_p->get_glyph_bitmap(font_p, letter);
+  59              		.loc 1 51 5 discriminator 1 view .LVU11
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 3
+
+
+  51:lvgl/src/font/lv_font.c ****     return font_p->get_glyph_bitmap(font_p, letter);
+  60              		.loc 1 51 5 discriminator 1 view .LVU12
+  51:lvgl/src/font/lv_font.c ****     return font_p->get_glyph_bitmap(font_p, letter);
+  61              		.loc 1 51 5 discriminator 1 view .LVU13
+  51:lvgl/src/font/lv_font.c ****     return font_p->get_glyph_bitmap(font_p, letter);
+  62              		.loc 1 51 5 discriminator 1 view .LVU14
+  63 000a FEE7     		b	.L3
+  64              		.cfi_endproc
+  65              	.LFE7:
+  67              		.section	.text.lv_font_get_glyph_dsc,"ax",%progbits
+  68              		.align	1
+  69              		.global	lv_font_get_glyph_dsc
+  70              		.syntax unified
+  71              		.thumb
+  72              		.thumb_func
+  74              	lv_font_get_glyph_dsc:
+  75              	.LVL3:
+  76              	.LFB8:
+  54:lvgl/src/font/lv_font.c **** 
+  55:lvgl/src/font/lv_font.c **** /**
+  56:lvgl/src/font/lv_font.c ****  * Get the descriptor of a glyph
+  57:lvgl/src/font/lv_font.c ****  * @param font_p pointer to font
+  58:lvgl/src/font/lv_font.c ****  * @param dsc_out store the result descriptor here
+  59:lvgl/src/font/lv_font.c ****  * @param letter an UNICODE letter code
+  60:lvgl/src/font/lv_font.c ****  * @param letter_next the next letter after `letter`. Used for kerning
+  61:lvgl/src/font/lv_font.c ****  * @return true: descriptor is successfully loaded into `dsc_out`.
+  62:lvgl/src/font/lv_font.c ****  *         false: the letter was not found, no data is loaded to `dsc_out`
+  63:lvgl/src/font/lv_font.c ****  */
+  64:lvgl/src/font/lv_font.c **** bool lv_font_get_glyph_dsc(const lv_font_t * font_p, lv_font_glyph_dsc_t * dsc_out, uint32_t letter
+  65:lvgl/src/font/lv_font.c ****                            uint32_t letter_next)
+  66:lvgl/src/font/lv_font.c **** {
+  77              		.loc 1 66 1 view -0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  67:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(font_p);
+  81              		.loc 1 67 5 view .LVU16
+  82              		.loc 1 67 5 view .LVU17
+  83 0000 48B1     		cbz	r0, .L8
+  66:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(font_p);
+  84              		.loc 1 66 1 is_stmt 0 view .LVU18
+  85 0002 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  86              	.LCFI2:
+  87              		.cfi_def_cfa_offset 24
+  88              		.cfi_offset 4, -24
+  89              		.cfi_offset 5, -20
+  90              		.cfi_offset 6, -16
+  91              		.cfi_offset 7, -12
+  92              		.cfi_offset 8, -8
+  93              		.cfi_offset 14, -4
+  94 0006 0D46     		mov	r5, r1
+  95 0008 9046     		mov	r8, r2
+  96 000a 1F46     		mov	r7, r3
+  97 000c 0446     		mov	r4, r0
+  98              		.loc 1 67 5 is_stmt 1 discriminator 2 view .LVU19
+  99              		.loc 1 67 27 discriminator 2 view .LVU20
+  68:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(dsc_out);
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 4
+
+
+ 100              		.loc 1 68 5 view .LVU21
+ 101              		.loc 1 68 5 view .LVU22
+ 102 000e 19B1     		cbz	r1, .L10
+ 103              		.loc 1 68 5 discriminator 2 view .LVU23
+ 104              		.loc 1 68 28 discriminator 2 view .LVU24
+  69:lvgl/src/font/lv_font.c ****     dsc_out->resolved_font = NULL;
+ 105              		.loc 1 69 5 view .LVU25
+ 106              		.loc 1 69 28 is_stmt 0 view .LVU26
+ 107 0010 0023     		movs	r3, #0
+ 108              	.LVL4:
+ 109              		.loc 1 69 28 view .LVU27
+ 110 0012 0B60     		str	r3, [r1]
+  70:lvgl/src/font/lv_font.c ****     const lv_font_t * f = font_p;
+ 111              		.loc 1 70 5 is_stmt 1 view .LVU28
+ 112              	.LVL5:
+  71:lvgl/src/font/lv_font.c ****     bool found = false;
+ 113              		.loc 1 71 5 view .LVU29
+  72:lvgl/src/font/lv_font.c ****     while(f) {
+ 114              		.loc 1 72 5 view .LVU30
+ 115              		.loc 1 72 10 is_stmt 0 view .LVU31
+ 116 0014 02E0     		b	.L11
+ 117              	.LVL6:
+ 118              	.L8:
+ 119              	.LCFI3:
+ 120              		.cfi_def_cfa_offset 0
+ 121              		.cfi_restore 4
+ 122              		.cfi_restore 5
+ 123              		.cfi_restore 6
+ 124              		.cfi_restore 7
+ 125              		.cfi_restore 8
+ 126              		.cfi_restore 14
+  67:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(dsc_out);
+ 127              		.loc 1 67 5 is_stmt 1 discriminator 1 view .LVU32
+  67:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(dsc_out);
+ 128              		.loc 1 67 5 discriminator 1 view .LVU33
+  67:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(dsc_out);
+ 129              		.loc 1 67 5 discriminator 1 view .LVU34
+  67:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(dsc_out);
+ 130              		.loc 1 67 5 discriminator 1 view .LVU35
+  67:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(dsc_out);
+ 131              		.loc 1 67 5 discriminator 1 view .LVU36
+ 132 0016 FEE7     		b	.L8
+ 133              	.L10:
+ 134              	.LCFI4:
+ 135              		.cfi_def_cfa_offset 24
+ 136              		.cfi_offset 4, -24
+ 137              		.cfi_offset 5, -20
+ 138              		.cfi_offset 6, -16
+ 139              		.cfi_offset 7, -12
+ 140              		.cfi_offset 8, -8
+ 141              		.cfi_offset 14, -4
+  68:lvgl/src/font/lv_font.c ****     dsc_out->resolved_font = NULL;
+ 142              		.loc 1 68 5 discriminator 1 view .LVU37
+  68:lvgl/src/font/lv_font.c ****     dsc_out->resolved_font = NULL;
+ 143              		.loc 1 68 5 discriminator 1 view .LVU38
+  68:lvgl/src/font/lv_font.c ****     dsc_out->resolved_font = NULL;
+ 144              		.loc 1 68 5 discriminator 1 view .LVU39
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 5
+
+
+  68:lvgl/src/font/lv_font.c ****     dsc_out->resolved_font = NULL;
+ 145              		.loc 1 68 5 discriminator 1 view .LVU40
+  68:lvgl/src/font/lv_font.c ****     dsc_out->resolved_font = NULL;
+ 146              		.loc 1 68 5 discriminator 1 view .LVU41
+ 147 0018 FEE7     		b	.L10
+ 148              	.LVL7:
+ 149              	.L12:
+  73:lvgl/src/font/lv_font.c ****         found = f->get_glyph_dsc(f, dsc_out, letter, letter_next);
+  74:lvgl/src/font/lv_font.c ****         if(found && !dsc_out->is_placeholder) {
+  75:lvgl/src/font/lv_font.c ****             dsc_out->resolved_font = f;
+  76:lvgl/src/font/lv_font.c ****             break;
+  77:lvgl/src/font/lv_font.c ****         }
+  78:lvgl/src/font/lv_font.c ****         f = f->fallback;
+ 150              		.loc 1 78 9 view .LVU42
+ 151              		.loc 1 78 11 is_stmt 0 view .LVU43
+ 152 001a 6469     		ldr	r4, [r4, #20]
+ 153              	.LVL8:
+ 154              	.L11:
+  72:lvgl/src/font/lv_font.c ****         found = f->get_glyph_dsc(f, dsc_out, letter, letter_next);
+ 155              		.loc 1 72 11 is_stmt 1 view .LVU44
+ 156 001c 6CB1     		cbz	r4, .L13
+  73:lvgl/src/font/lv_font.c ****         found = f->get_glyph_dsc(f, dsc_out, letter, letter_next);
+ 157              		.loc 1 73 9 view .LVU45
+  73:lvgl/src/font/lv_font.c ****         found = f->get_glyph_dsc(f, dsc_out, letter, letter_next);
+ 158              		.loc 1 73 17 is_stmt 0 view .LVU46
+ 159 001e 3B46     		mov	r3, r7
+ 160              	.LVL9:
+  73:lvgl/src/font/lv_font.c ****         found = f->get_glyph_dsc(f, dsc_out, letter, letter_next);
+ 161              		.loc 1 73 17 view .LVU47
+ 162 0020 4246     		mov	r2, r8
+ 163 0022 2946     		mov	r1, r5
+ 164 0024 2046     		mov	r0, r4
+ 165 0026 2668     		ldr	r6, [r4]
+ 166 0028 B047     		blx	r6
+ 167              	.LVL10:
+  74:lvgl/src/font/lv_font.c ****             dsc_out->resolved_font = f;
+ 168              		.loc 1 74 9 is_stmt 1 view .LVU48
+  74:lvgl/src/font/lv_font.c ****             dsc_out->resolved_font = f;
+ 169              		.loc 1 74 11 is_stmt 0 view .LVU49
+ 170 002a 0346     		mov	r3, r0
+ 171 002c 0028     		cmp	r0, #0
+ 172 002e F4D0     		beq	.L12
+  74:lvgl/src/font/lv_font.c ****             dsc_out->resolved_font = f;
+ 173              		.loc 1 74 21 discriminator 1 view .LVU50
+ 174 0030 AA7B     		ldrb	r2, [r5, #14]	@ zero_extendqisi2
+  74:lvgl/src/font/lv_font.c ****             dsc_out->resolved_font = f;
+ 175              		.loc 1 74 18 discriminator 1 view .LVU51
+ 176 0032 12F0100F 		tst	r2, #16
+ 177 0036 F0D1     		bne	.L12
+  75:lvgl/src/font/lv_font.c ****             break;
+ 178              		.loc 1 75 13 is_stmt 1 view .LVU52
+  75:lvgl/src/font/lv_font.c ****             break;
+ 179              		.loc 1 75 36 is_stmt 0 view .LVU53
+ 180 0038 2C60     		str	r4, [r5]
+  76:lvgl/src/font/lv_font.c ****         }
+ 181              		.loc 1 76 13 is_stmt 1 view .LVU54
+ 182              	.LVL11:
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 6
+
+
+ 183              	.L13:
+  79:lvgl/src/font/lv_font.c ****     }
+  80:lvgl/src/font/lv_font.c ****     return found;
+ 184              		.loc 1 80 5 view .LVU55
+  81:lvgl/src/font/lv_font.c **** }
+ 185              		.loc 1 81 1 is_stmt 0 view .LVU56
+ 186 003a 1846     		mov	r0, r3
+ 187 003c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 188              		.loc 1 81 1 view .LVU57
+ 189              		.cfi_endproc
+ 190              	.LFE8:
+ 192              		.section	.text.lv_font_get_glyph_width,"ax",%progbits
+ 193              		.align	1
+ 194              		.global	lv_font_get_glyph_width
+ 195              		.syntax unified
+ 196              		.thumb
+ 197              		.thumb_func
+ 199              	lv_font_get_glyph_width:
+ 200              	.LVL12:
+ 201              	.LFB9:
+  82:lvgl/src/font/lv_font.c **** 
+  83:lvgl/src/font/lv_font.c **** /**
+  84:lvgl/src/font/lv_font.c ****  * Get the width of a glyph with kerning
+  85:lvgl/src/font/lv_font.c ****  * @param font pointer to a font
+  86:lvgl/src/font/lv_font.c ****  * @param letter an UNICODE letter
+  87:lvgl/src/font/lv_font.c ****  * @param letter_next the next letter after `letter`. Used for kerning
+  88:lvgl/src/font/lv_font.c ****  * @return the width of the glyph
+  89:lvgl/src/font/lv_font.c ****  */
+  90:lvgl/src/font/lv_font.c **** uint16_t lv_font_get_glyph_width(const lv_font_t * font, uint32_t letter, uint32_t letter_next)
+  91:lvgl/src/font/lv_font.c **** {
+ 202              		.loc 1 91 1 is_stmt 1 view -0
+ 203              		.cfi_startproc
+ 204              		@ args = 0, pretend = 0, frame = 16
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+  92:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(font);
+ 206              		.loc 1 92 5 view .LVU59
+ 207              		.loc 1 92 5 view .LVU60
+ 208 0000 60B1     		cbz	r0, .L19
+  91:lvgl/src/font/lv_font.c ****     LV_ASSERT_NULL(font);
+ 209              		.loc 1 91 1 is_stmt 0 view .LVU61
+ 210 0002 00B5     		push	{lr}
+ 211              	.LCFI5:
+ 212              		.cfi_def_cfa_offset 4
+ 213              		.cfi_offset 14, -4
+ 214 0004 85B0     		sub	sp, sp, #20
+ 215              	.LCFI6:
+ 216              		.cfi_def_cfa_offset 24
+ 217 0006 1346     		mov	r3, r2
+ 218              		.loc 1 92 5 is_stmt 1 discriminator 2 view .LVU62
+ 219              		.loc 1 92 25 discriminator 2 view .LVU63
+  93:lvgl/src/font/lv_font.c ****     lv_font_glyph_dsc_t g;
+ 220              		.loc 1 93 5 view .LVU64
+  94:lvgl/src/font/lv_font.c ****     bool ret;
+ 221              		.loc 1 94 5 view .LVU65
+  95:lvgl/src/font/lv_font.c ****     ret = lv_font_get_glyph_dsc(font, &g, letter, letter_next);
+ 222              		.loc 1 95 5 view .LVU66
+ 223              		.loc 1 95 11 is_stmt 0 view .LVU67
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 7
+
+
+ 224 0008 0A46     		mov	r2, r1
+ 225              	.LVL13:
+ 226              		.loc 1 95 11 view .LVU68
+ 227 000a 6946     		mov	r1, sp
+ 228              	.LVL14:
+ 229              		.loc 1 95 11 view .LVU69
+ 230 000c FFF7FEFF 		bl	lv_font_get_glyph_dsc
+ 231              	.LVL15:
+  96:lvgl/src/font/lv_font.c ****     if(ret) return g.adv_w;
+ 232              		.loc 1 96 5 is_stmt 1 view .LVU70
+ 233              		.loc 1 96 7 is_stmt 0 view .LVU71
+ 234 0010 28B1     		cbz	r0, .L21
+ 235              		.loc 1 96 13 is_stmt 1 discriminator 1 view .LVU72
+ 236              		.loc 1 96 21 is_stmt 0 discriminator 1 view .LVU73
+ 237 0012 BDF80400 		ldrh	r0, [sp, #4]
+ 238              	.LVL16:
+ 239              	.L20:
+  97:lvgl/src/font/lv_font.c ****     else return 0;
+  98:lvgl/src/font/lv_font.c **** }
+ 240              		.loc 1 98 1 view .LVU74
+ 241 0016 05B0     		add	sp, sp, #20
+ 242              	.LCFI7:
+ 243              		.cfi_def_cfa_offset 4
+ 244              		@ sp needed
+ 245 0018 5DF804FB 		ldr	pc, [sp], #4
+ 246              	.LVL17:
+ 247              	.L19:
+ 248              	.LCFI8:
+ 249              		.cfi_def_cfa_offset 0
+ 250              		.cfi_restore 14
+  92:lvgl/src/font/lv_font.c ****     lv_font_glyph_dsc_t g;
+ 251              		.loc 1 92 5 is_stmt 1 discriminator 1 view .LVU75
+  92:lvgl/src/font/lv_font.c ****     lv_font_glyph_dsc_t g;
+ 252              		.loc 1 92 5 discriminator 1 view .LVU76
+  92:lvgl/src/font/lv_font.c ****     lv_font_glyph_dsc_t g;
+ 253              		.loc 1 92 5 discriminator 1 view .LVU77
+  92:lvgl/src/font/lv_font.c ****     lv_font_glyph_dsc_t g;
+ 254              		.loc 1 92 5 discriminator 1 view .LVU78
+  92:lvgl/src/font/lv_font.c ****     lv_font_glyph_dsc_t g;
+ 255              		.loc 1 92 5 discriminator 1 view .LVU79
+ 256 001c FEE7     		b	.L19
+ 257              	.LVL18:
+ 258              	.L21:
+ 259              	.LCFI9:
+ 260              		.cfi_def_cfa_offset 24
+ 261              		.cfi_offset 14, -4
+  97:lvgl/src/font/lv_font.c ****     else return 0;
+ 262              		.loc 1 97 17 is_stmt 0 view .LVU80
+ 263 001e 0020     		movs	r0, #0
+ 264              	.LVL19:
+  97:lvgl/src/font/lv_font.c ****     else return 0;
+ 265              		.loc 1 97 17 view .LVU81
+ 266 0020 F9E7     		b	.L20
+ 267              		.cfi_endproc
+ 268              	.LFE9:
+ 270              		.text
+ 271              	.Letext0:
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 8
+
+
+ 272              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 273              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 274              		.file 4 "lvgl/src/font/../misc/lv_area.h"
+ 275              		.file 5 "lvgl/src/font/lv_font.h"
+ARM GAS  C:\usertemp\ccab11Hh.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_font.c
+C:\usertemp\ccab11Hh.s:20     .text.lv_font_get_glyph_bitmap:00000000 $t
+C:\usertemp\ccab11Hh.s:26     .text.lv_font_get_glyph_bitmap:00000000 lv_font_get_glyph_bitmap
+C:\usertemp\ccab11Hh.s:68     .text.lv_font_get_glyph_dsc:00000000 $t
+C:\usertemp\ccab11Hh.s:74     .text.lv_font_get_glyph_dsc:00000000 lv_font_get_glyph_dsc
+C:\usertemp\ccab11Hh.s:193    .text.lv_font_get_glyph_width:00000000 $t
+C:\usertemp\ccab11Hh.s:199    .text.lv_font_get_glyph_width:00000000 lv_font_get_glyph_width
+
+NO UNDEFINED SYMBOLS

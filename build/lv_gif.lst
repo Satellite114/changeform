@@ -1,0 +1,847 @@
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_gif.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/libs/gif/lv_gif.c"
+  19              		.section	.text.lv_gif_destructor,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	lv_gif_destructor:
+  26              	.LVL0:
+  27              	.LFB200:
+   1:lvgl/src/extra/libs/gif/lv_gif.c **** /**
+   2:lvgl/src/extra/libs/gif/lv_gif.c ****  * @file lv_gifenc.c
+   3:lvgl/src/extra/libs/gif/lv_gif.c ****  *
+   4:lvgl/src/extra/libs/gif/lv_gif.c ****  */
+   5:lvgl/src/extra/libs/gif/lv_gif.c **** 
+   6:lvgl/src/extra/libs/gif/lv_gif.c **** /*********************
+   7:lvgl/src/extra/libs/gif/lv_gif.c ****  *      INCLUDES
+   8:lvgl/src/extra/libs/gif/lv_gif.c ****  *********************/
+   9:lvgl/src/extra/libs/gif/lv_gif.c **** #include "lv_gif.h"
+  10:lvgl/src/extra/libs/gif/lv_gif.c **** #if LV_USE_GIF
+  11:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  12:lvgl/src/extra/libs/gif/lv_gif.c **** #include "gifdec.h"
+  13:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  14:lvgl/src/extra/libs/gif/lv_gif.c **** /*********************
+  15:lvgl/src/extra/libs/gif/lv_gif.c ****  *      DEFINES
+  16:lvgl/src/extra/libs/gif/lv_gif.c ****  *********************/
+  17:lvgl/src/extra/libs/gif/lv_gif.c **** #define MY_CLASS    &lv_gif_class
+  18:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  19:lvgl/src/extra/libs/gif/lv_gif.c **** /**********************
+  20:lvgl/src/extra/libs/gif/lv_gif.c ****  *      TYPEDEFS
+  21:lvgl/src/extra/libs/gif/lv_gif.c ****  **********************/
+  22:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  23:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  24:lvgl/src/extra/libs/gif/lv_gif.c **** /**********************
+  25:lvgl/src/extra/libs/gif/lv_gif.c ****  *  STATIC PROTOTYPES
+  26:lvgl/src/extra/libs/gif/lv_gif.c ****  **********************/
+  27:lvgl/src/extra/libs/gif/lv_gif.c **** static void lv_gif_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  28:lvgl/src/extra/libs/gif/lv_gif.c **** static void lv_gif_destructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  29:lvgl/src/extra/libs/gif/lv_gif.c **** static void next_frame_task_cb(lv_timer_t * t);
+  30:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  31:lvgl/src/extra/libs/gif/lv_gif.c **** /**********************
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 2
+
+
+  32:lvgl/src/extra/libs/gif/lv_gif.c ****  *  STATIC VARIABLES
+  33:lvgl/src/extra/libs/gif/lv_gif.c ****  **********************/
+  34:lvgl/src/extra/libs/gif/lv_gif.c **** const lv_obj_class_t lv_gif_class = {
+  35:lvgl/src/extra/libs/gif/lv_gif.c ****     .constructor_cb = lv_gif_constructor,
+  36:lvgl/src/extra/libs/gif/lv_gif.c ****     .destructor_cb = lv_gif_destructor,
+  37:lvgl/src/extra/libs/gif/lv_gif.c ****     .instance_size = sizeof(lv_gif_t),
+  38:lvgl/src/extra/libs/gif/lv_gif.c ****     .base_class = &lv_img_class
+  39:lvgl/src/extra/libs/gif/lv_gif.c **** };
+  40:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  41:lvgl/src/extra/libs/gif/lv_gif.c **** /**********************
+  42:lvgl/src/extra/libs/gif/lv_gif.c ****  *      MACROS
+  43:lvgl/src/extra/libs/gif/lv_gif.c ****  **********************/
+  44:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  45:lvgl/src/extra/libs/gif/lv_gif.c **** /**********************
+  46:lvgl/src/extra/libs/gif/lv_gif.c ****  *   GLOBAL FUNCTIONS
+  47:lvgl/src/extra/libs/gif/lv_gif.c ****  **********************/
+  48:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  49:lvgl/src/extra/libs/gif/lv_gif.c **** lv_obj_t * lv_gif_create(lv_obj_t * parent)
+  50:lvgl/src/extra/libs/gif/lv_gif.c **** {
+  51:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  52:lvgl/src/extra/libs/gif/lv_gif.c ****     LV_LOG_INFO("begin");
+  53:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS, parent);
+  54:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_class_init_obj(obj);
+  55:lvgl/src/extra/libs/gif/lv_gif.c ****     return obj;
+  56:lvgl/src/extra/libs/gif/lv_gif.c **** }
+  57:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  58:lvgl/src/extra/libs/gif/lv_gif.c **** void lv_gif_set_src(lv_obj_t * obj, const void * src)
+  59:lvgl/src/extra/libs/gif/lv_gif.c **** {
+  60:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+  61:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  62:lvgl/src/extra/libs/gif/lv_gif.c ****     /*Close previous gif if any*/
+  63:lvgl/src/extra/libs/gif/lv_gif.c ****     if(gifobj->gif) {
+  64:lvgl/src/extra/libs/gif/lv_gif.c ****         lv_img_cache_invalidate_src(&gifobj->imgdsc);
+  65:lvgl/src/extra/libs/gif/lv_gif.c ****         gd_close_gif(gifobj->gif);
+  66:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = NULL;
+  67:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->imgdsc.data = NULL;
+  68:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+  69:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  70:lvgl/src/extra/libs/gif/lv_gif.c ****     if(lv_img_src_get_type(src) == LV_IMG_SRC_VARIABLE) {
+  71:lvgl/src/extra/libs/gif/lv_gif.c ****         const lv_img_dsc_t * img_dsc = src;
+  72:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = gd_open_gif_data(img_dsc->data);
+  73:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+  74:lvgl/src/extra/libs/gif/lv_gif.c ****     else if(lv_img_src_get_type(src) == LV_IMG_SRC_FILE) {
+  75:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = gd_open_gif_file(src);
+  76:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+  77:lvgl/src/extra/libs/gif/lv_gif.c ****     if(gifobj->gif == NULL) {
+  78:lvgl/src/extra/libs/gif/lv_gif.c ****         LV_LOG_WARN("Could't load the source");
+  79:lvgl/src/extra/libs/gif/lv_gif.c ****         return;
+  80:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+  81:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  82:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.data = gifobj->gif->canvas;
+  83:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.always_zero = 0;
+  84:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA;
+  85:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.h = gifobj->gif->height;
+  86:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.w = gifobj->gif->width;
+  87:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->last_call = lv_tick_get();
+  88:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 3
+
+
+  89:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_img_set_src(obj, &gifobj->imgdsc);
+  90:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  91:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_resume(gifobj->timer);
+  92:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_reset(gifobj->timer);
+  93:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  94:lvgl/src/extra/libs/gif/lv_gif.c ****     next_frame_task_cb(gifobj->timer);
+  95:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  96:lvgl/src/extra/libs/gif/lv_gif.c **** }
+  97:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  98:lvgl/src/extra/libs/gif/lv_gif.c **** void lv_gif_restart(lv_obj_t * obj)
+  99:lvgl/src/extra/libs/gif/lv_gif.c **** {
+ 100:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 101:lvgl/src/extra/libs/gif/lv_gif.c ****     gd_rewind(gifobj->gif);
+ 102:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 103:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 104:lvgl/src/extra/libs/gif/lv_gif.c **** /**********************
+ 105:lvgl/src/extra/libs/gif/lv_gif.c ****  *   STATIC FUNCTIONS
+ 106:lvgl/src/extra/libs/gif/lv_gif.c ****  **********************/
+ 107:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 108:lvgl/src/extra/libs/gif/lv_gif.c **** static void lv_gif_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ 109:lvgl/src/extra/libs/gif/lv_gif.c **** {
+ 110:lvgl/src/extra/libs/gif/lv_gif.c ****     LV_UNUSED(class_p);
+ 111:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 112:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 113:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 114:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->timer = lv_timer_create(next_frame_task_cb, 10, obj);
+ 115:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_pause(gifobj->timer);
+ 116:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 117:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 118:lvgl/src/extra/libs/gif/lv_gif.c **** static void lv_gif_destructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ 119:lvgl/src/extra/libs/gif/lv_gif.c **** {
+  28              		.loc 1 119 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 119 1 is_stmt 0 view .LVU1
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 0C46     		mov	r4, r1
+ 120:lvgl/src/extra/libs/gif/lv_gif.c ****     LV_UNUSED(class_p);
+  39              		.loc 1 120 5 is_stmt 1 view .LVU2
+ 121:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+  40              		.loc 1 121 5 view .LVU3
+  41              	.LVL1:
+ 122:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_img_cache_invalidate_src(&gifobj->imgdsc);
+  42              		.loc 1 122 5 view .LVU4
+  43 0004 01F14400 		add	r0, r1, #68
+  44              	.LVL2:
+  45              		.loc 1 122 5 is_stmt 0 view .LVU5
+  46 0008 FFF7FEFF 		bl	lv_img_cache_invalidate_src
+  47              	.LVL3:
+ 123:lvgl/src/extra/libs/gif/lv_gif.c ****     gd_close_gif(gifobj->gif);
+  48              		.loc 1 123 5 is_stmt 1 view .LVU6
+  49 000c E06B     		ldr	r0, [r4, #60]
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 4
+
+
+  50 000e FFF7FEFF 		bl	gd_close_gif
+  51              	.LVL4:
+ 124:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_del(gifobj->timer);
+  52              		.loc 1 124 5 view .LVU7
+  53 0012 206C     		ldr	r0, [r4, #64]
+  54 0014 FFF7FEFF 		bl	lv_timer_del
+  55              	.LVL5:
+ 125:lvgl/src/extra/libs/gif/lv_gif.c **** }
+  56              		.loc 1 125 1 is_stmt 0 view .LVU8
+  57 0018 10BD     		pop	{r4, pc}
+  58              		.loc 1 125 1 view .LVU9
+  59              		.cfi_endproc
+  60              	.LFE200:
+  62              		.section	.text.lv_gif_constructor,"ax",%progbits
+  63              		.align	1
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  68              	lv_gif_constructor:
+  69              	.LVL6:
+  70              	.LFB199:
+ 109:lvgl/src/extra/libs/gif/lv_gif.c ****     LV_UNUSED(class_p);
+  71              		.loc 1 109 1 is_stmt 1 view -0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109:lvgl/src/extra/libs/gif/lv_gif.c ****     LV_UNUSED(class_p);
+  75              		.loc 1 109 1 is_stmt 0 view .LVU11
+  76 0000 10B5     		push	{r4, lr}
+  77              	.LCFI1:
+  78              		.cfi_def_cfa_offset 8
+  79              		.cfi_offset 4, -8
+  80              		.cfi_offset 14, -4
+  81 0002 0C46     		mov	r4, r1
+ 110:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  82              		.loc 1 110 5 is_stmt 1 view .LVU12
+ 112:lvgl/src/extra/libs/gif/lv_gif.c **** 
+  83              		.loc 1 112 5 view .LVU13
+  84              	.LVL7:
+ 114:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_pause(gifobj->timer);
+  85              		.loc 1 114 5 view .LVU14
+ 114:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_pause(gifobj->timer);
+  86              		.loc 1 114 21 is_stmt 0 view .LVU15
+  87 0004 0A46     		mov	r2, r1
+  88 0006 0A21     		movs	r1, #10
+  89              	.LVL8:
+ 114:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_pause(gifobj->timer);
+  90              		.loc 1 114 21 view .LVU16
+  91 0008 0348     		ldr	r0, .L5
+  92              	.LVL9:
+ 114:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_pause(gifobj->timer);
+  93              		.loc 1 114 21 view .LVU17
+  94 000a FFF7FEFF 		bl	lv_timer_create
+  95              	.LVL10:
+ 114:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_pause(gifobj->timer);
+  96              		.loc 1 114 19 discriminator 1 view .LVU18
+  97 000e 2064     		str	r0, [r4, #64]
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 5
+
+
+ 115:lvgl/src/extra/libs/gif/lv_gif.c **** }
+  98              		.loc 1 115 5 is_stmt 1 view .LVU19
+  99 0010 FFF7FEFF 		bl	lv_timer_pause
+ 100              	.LVL11:
+ 116:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 101              		.loc 1 116 1 is_stmt 0 view .LVU20
+ 102 0014 10BD     		pop	{r4, pc}
+ 103              	.LVL12:
+ 104              	.L6:
+ 116:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 105              		.loc 1 116 1 view .LVU21
+ 106 0016 00BF     		.align	2
+ 107              	.L5:
+ 108 0018 00000000 		.word	next_frame_task_cb
+ 109              		.cfi_endproc
+ 110              	.LFE199:
+ 112              		.section	.text.next_frame_task_cb,"ax",%progbits
+ 113              		.align	1
+ 114              		.syntax unified
+ 115              		.thumb
+ 116              		.thumb_func
+ 118              	next_frame_task_cb:
+ 119              	.LVL13:
+ 120              	.LFB201:
+ 126:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 127:lvgl/src/extra/libs/gif/lv_gif.c **** static void next_frame_task_cb(lv_timer_t * t)
+ 128:lvgl/src/extra/libs/gif/lv_gif.c **** {
+ 121              		.loc 1 128 1 is_stmt 1 view -0
+ 122              		.cfi_startproc
+ 123              		@ args = 0, pretend = 0, frame = 0
+ 124              		@ frame_needed = 0, uses_anonymous_args = 0
+ 125              		.loc 1 128 1 is_stmt 0 view .LVU23
+ 126 0000 10B5     		push	{r4, lr}
+ 127              	.LCFI2:
+ 128              		.cfi_def_cfa_offset 8
+ 129              		.cfi_offset 4, -8
+ 130              		.cfi_offset 14, -4
+ 129:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_t * obj = t->user_data;
+ 131              		.loc 1 129 5 is_stmt 1 view .LVU24
+ 132              		.loc 1 129 16 is_stmt 0 view .LVU25
+ 133 0002 C468     		ldr	r4, [r0, #12]
+ 134              	.LVL14:
+ 130:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 135              		.loc 1 130 5 is_stmt 1 view .LVU26
+ 131:lvgl/src/extra/libs/gif/lv_gif.c ****     uint32_t elaps = lv_tick_elaps(gifobj->last_call);
+ 136              		.loc 1 131 5 view .LVU27
+ 137              		.loc 1 131 22 is_stmt 0 view .LVU28
+ 138 0004 206D     		ldr	r0, [r4, #80]
+ 139              	.LVL15:
+ 140              		.loc 1 131 22 view .LVU29
+ 141 0006 FFF7FEFF 		bl	lv_tick_elaps
+ 142              	.LVL16:
+ 132:lvgl/src/extra/libs/gif/lv_gif.c ****     if(elaps < gifobj->gif->gce.delay * 10) return;
+ 143              		.loc 1 132 5 is_stmt 1 view .LVU30
+ 144              		.loc 1 132 22 is_stmt 0 view .LVU31
+ 145 000a E36B     		ldr	r3, [r4, #60]
+ 146              		.loc 1 132 32 view .LVU32
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 6
+
+
+ 147 000c 9B8C     		ldrh	r3, [r3, #36]
+ 148              		.loc 1 132 39 view .LVU33
+ 149 000e 03EB8303 		add	r3, r3, r3, lsl #2
+ 150              		.loc 1 132 7 view .LVU34
+ 151 0012 B0EB430F 		cmp	r0, r3, lsl #1
+ 152 0016 00D2     		bcs	.L13
+ 153              	.LVL17:
+ 154              	.L7:
+ 133:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 134:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->last_call = lv_tick_get();
+ 135:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 136:lvgl/src/extra/libs/gif/lv_gif.c ****     int has_next = gd_get_frame(gifobj->gif);
+ 137:lvgl/src/extra/libs/gif/lv_gif.c ****     if(has_next == 0) {
+ 138:lvgl/src/extra/libs/gif/lv_gif.c ****         /*It was the last repeat*/
+ 139:lvgl/src/extra/libs/gif/lv_gif.c ****         if(gifobj->gif->loop_count == 1) {
+ 140:lvgl/src/extra/libs/gif/lv_gif.c ****             lv_res_t res = lv_event_send(obj, LV_EVENT_READY, NULL);
+ 141:lvgl/src/extra/libs/gif/lv_gif.c ****             if(res != LV_FS_RES_OK) return;
+ 142:lvgl/src/extra/libs/gif/lv_gif.c ****         }
+ 143:lvgl/src/extra/libs/gif/lv_gif.c ****         else {
+ 144:lvgl/src/extra/libs/gif/lv_gif.c ****             if(gifobj->gif->loop_count > 1)  gifobj->gif->loop_count--;
+ 145:lvgl/src/extra/libs/gif/lv_gif.c ****             gd_rewind(gifobj->gif);
+ 146:lvgl/src/extra/libs/gif/lv_gif.c ****         }
+ 147:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 148:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 149:lvgl/src/extra/libs/gif/lv_gif.c ****     gd_render_frame(gifobj->gif, (uint8_t *)gifobj->imgdsc.data);
+ 150:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 151:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_img_cache_invalidate_src(lv_img_get_src(obj));
+ 152:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_invalidate(obj);
+ 153:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 155              		.loc 1 153 1 view .LVU35
+ 156 0018 10BD     		pop	{r4, pc}
+ 157              	.LVL18:
+ 158              	.L13:
+ 134:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 159              		.loc 1 134 5 is_stmt 1 view .LVU36
+ 134:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 160              		.loc 1 134 25 is_stmt 0 view .LVU37
+ 161 001a FFF7FEFF 		bl	lv_tick_get
+ 162              	.LVL19:
+ 134:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 163              		.loc 1 134 23 discriminator 1 view .LVU38
+ 164 001e 2065     		str	r0, [r4, #80]
+ 136:lvgl/src/extra/libs/gif/lv_gif.c ****     if(has_next == 0) {
+ 165              		.loc 1 136 5 is_stmt 1 view .LVU39
+ 136:lvgl/src/extra/libs/gif/lv_gif.c ****     if(has_next == 0) {
+ 166              		.loc 1 136 20 is_stmt 0 view .LVU40
+ 167 0020 E06B     		ldr	r0, [r4, #60]
+ 168 0022 FFF7FEFF 		bl	gd_get_frame
+ 169              	.LVL20:
+ 137:lvgl/src/extra/libs/gif/lv_gif.c ****         /*It was the last repeat*/
+ 170              		.loc 1 137 5 is_stmt 1 view .LVU41
+ 137:lvgl/src/extra/libs/gif/lv_gif.c ****         /*It was the last repeat*/
+ 171              		.loc 1 137 7 is_stmt 0 view .LVU42
+ 172 0026 50B9     		cbnz	r0, .L9
+ 139:lvgl/src/extra/libs/gif/lv_gif.c ****             lv_res_t res = lv_event_send(obj, LV_EVENT_READY, NULL);
+ 173              		.loc 1 139 9 is_stmt 1 view .LVU43
+ 139:lvgl/src/extra/libs/gif/lv_gif.c ****             lv_res_t res = lv_event_send(obj, LV_EVENT_READY, NULL);
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 7
+
+
+ 174              		.loc 1 139 18 is_stmt 0 view .LVU44
+ 175 0028 E26B     		ldr	r2, [r4, #60]
+ 139:lvgl/src/extra/libs/gif/lv_gif.c ****             lv_res_t res = lv_event_send(obj, LV_EVENT_READY, NULL);
+ 176              		.loc 1 139 23 view .LVU45
+ 177 002a 538C     		ldrh	r3, [r2, #34]
+ 139:lvgl/src/extra/libs/gif/lv_gif.c ****             lv_res_t res = lv_event_send(obj, LV_EVENT_READY, NULL);
+ 178              		.loc 1 139 11 view .LVU46
+ 179 002c 012B     		cmp	r3, #1
+ 180 002e 13D0     		beq	.L14
+ 144:lvgl/src/extra/libs/gif/lv_gif.c ****             gd_rewind(gifobj->gif);
+ 181              		.loc 1 144 13 is_stmt 1 view .LVU47
+ 144:lvgl/src/extra/libs/gif/lv_gif.c ****             gd_rewind(gifobj->gif);
+ 182              		.loc 1 144 15 is_stmt 0 view .LVU48
+ 183 0030 012B     		cmp	r3, #1
+ 184 0032 01D9     		bls	.L11
+ 144:lvgl/src/extra/libs/gif/lv_gif.c ****             gd_rewind(gifobj->gif);
+ 185              		.loc 1 144 46 is_stmt 1 discriminator 1 view .LVU49
+ 144:lvgl/src/extra/libs/gif/lv_gif.c ****             gd_rewind(gifobj->gif);
+ 186              		.loc 1 144 69 is_stmt 0 discriminator 1 view .LVU50
+ 187 0034 013B     		subs	r3, r3, #1
+ 188 0036 5384     		strh	r3, [r2, #34]	@ movhi
+ 189              	.L11:
+ 145:lvgl/src/extra/libs/gif/lv_gif.c ****         }
+ 190              		.loc 1 145 13 is_stmt 1 view .LVU51
+ 191 0038 E06B     		ldr	r0, [r4, #60]
+ 192              	.LVL21:
+ 145:lvgl/src/extra/libs/gif/lv_gif.c ****         }
+ 193              		.loc 1 145 13 is_stmt 0 view .LVU52
+ 194 003a FFF7FEFF 		bl	gd_rewind
+ 195              	.LVL22:
+ 196              	.L9:
+ 149:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 197              		.loc 1 149 5 is_stmt 1 view .LVU53
+ 198 003e E16C     		ldr	r1, [r4, #76]
+ 199 0040 E06B     		ldr	r0, [r4, #60]
+ 200 0042 FFF7FEFF 		bl	gd_render_frame
+ 201              	.LVL23:
+ 151:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_invalidate(obj);
+ 202              		.loc 1 151 5 view .LVU54
+ 203 0046 2046     		mov	r0, r4
+ 204 0048 FFF7FEFF 		bl	lv_img_get_src
+ 205              	.LVL24:
+ 151:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_invalidate(obj);
+ 206              		.loc 1 151 5 is_stmt 0 discriminator 1 view .LVU55
+ 207 004c FFF7FEFF 		bl	lv_img_cache_invalidate_src
+ 208              	.LVL25:
+ 152:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 209              		.loc 1 152 5 is_stmt 1 view .LVU56
+ 210 0050 2046     		mov	r0, r4
+ 211 0052 FFF7FEFF 		bl	lv_obj_invalidate
+ 212              	.LVL26:
+ 213 0056 DFE7     		b	.L7
+ 214              	.LVL27:
+ 215              	.L14:
+ 216              	.LBB2:
+ 140:lvgl/src/extra/libs/gif/lv_gif.c ****             if(res != LV_FS_RES_OK) return;
+ 217              		.loc 1 140 13 view .LVU57
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 8
+
+
+ 140:lvgl/src/extra/libs/gif/lv_gif.c ****             if(res != LV_FS_RES_OK) return;
+ 218              		.loc 1 140 28 is_stmt 0 view .LVU58
+ 219 0058 0022     		movs	r2, #0
+ 220 005a 1F21     		movs	r1, #31
+ 221 005c 2046     		mov	r0, r4
+ 222              	.LVL28:
+ 140:lvgl/src/extra/libs/gif/lv_gif.c ****             if(res != LV_FS_RES_OK) return;
+ 223              		.loc 1 140 28 view .LVU59
+ 224 005e FFF7FEFF 		bl	lv_event_send
+ 225              	.LVL29:
+ 141:lvgl/src/extra/libs/gif/lv_gif.c ****         }
+ 226              		.loc 1 141 13 is_stmt 1 view .LVU60
+ 141:lvgl/src/extra/libs/gif/lv_gif.c ****         }
+ 227              		.loc 1 141 15 is_stmt 0 view .LVU61
+ 228 0062 0028     		cmp	r0, #0
+ 229 0064 EBD0     		beq	.L9
+ 230 0066 D7E7     		b	.L7
+ 231              	.LBE2:
+ 232              		.cfi_endproc
+ 233              	.LFE201:
+ 235              		.section	.text.lv_gif_create,"ax",%progbits
+ 236              		.align	1
+ 237              		.global	lv_gif_create
+ 238              		.syntax unified
+ 239              		.thumb
+ 240              		.thumb_func
+ 242              	lv_gif_create:
+ 243              	.LVL30:
+ 244              	.LFB196:
+  50:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 245              		.loc 1 50 1 is_stmt 1 view -0
+ 246              		.cfi_startproc
+ 247              		@ args = 0, pretend = 0, frame = 0
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+  50:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 249              		.loc 1 50 1 is_stmt 0 view .LVU63
+ 250 0000 10B5     		push	{r4, lr}
+ 251              	.LCFI3:
+ 252              		.cfi_def_cfa_offset 8
+ 253              		.cfi_offset 4, -8
+ 254              		.cfi_offset 14, -4
+ 255 0002 0146     		mov	r1, r0
+  52:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS, parent);
+ 256              		.loc 1 52 5 is_stmt 1 view .LVU64
+  52:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS, parent);
+ 257              		.loc 1 52 5 view .LVU65
+  52:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS, parent);
+ 258              		.loc 1 52 5 view .LVU66
+  53:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_class_init_obj(obj);
+ 259              		.loc 1 53 5 view .LVU67
+  53:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_class_init_obj(obj);
+ 260              		.loc 1 53 22 is_stmt 0 view .LVU68
+ 261 0004 0348     		ldr	r0, .L17
+ 262              	.LVL31:
+  53:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_class_init_obj(obj);
+ 263              		.loc 1 53 22 view .LVU69
+ 264 0006 FFF7FEFF 		bl	lv_obj_class_create_obj
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 9
+
+
+ 265              	.LVL32:
+  53:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_obj_class_init_obj(obj);
+ 266              		.loc 1 53 22 view .LVU70
+ 267 000a 0446     		mov	r4, r0
+ 268              	.LVL33:
+  54:lvgl/src/extra/libs/gif/lv_gif.c ****     return obj;
+ 269              		.loc 1 54 5 is_stmt 1 view .LVU71
+ 270 000c FFF7FEFF 		bl	lv_obj_class_init_obj
+ 271              	.LVL34:
+  55:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 272              		.loc 1 55 5 view .LVU72
+  56:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 273              		.loc 1 56 1 is_stmt 0 view .LVU73
+ 274 0010 2046     		mov	r0, r4
+ 275 0012 10BD     		pop	{r4, pc}
+ 276              	.LVL35:
+ 277              	.L18:
+  56:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 278              		.loc 1 56 1 view .LVU74
+ 279              		.align	2
+ 280              	.L17:
+ 281 0014 00000000 		.word	lv_gif_class
+ 282              		.cfi_endproc
+ 283              	.LFE196:
+ 285              		.section	.text.lv_gif_set_src,"ax",%progbits
+ 286              		.align	1
+ 287              		.global	lv_gif_set_src
+ 288              		.syntax unified
+ 289              		.thumb
+ 290              		.thumb_func
+ 292              	lv_gif_set_src:
+ 293              	.LVL36:
+ 294              	.LFB197:
+  59:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 295              		.loc 1 59 1 is_stmt 1 view -0
+ 296              		.cfi_startproc
+ 297              		@ args = 0, pretend = 0, frame = 0
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+  59:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 299              		.loc 1 59 1 is_stmt 0 view .LVU76
+ 300 0000 38B5     		push	{r3, r4, r5, lr}
+ 301              	.LCFI4:
+ 302              		.cfi_def_cfa_offset 16
+ 303              		.cfi_offset 3, -16
+ 304              		.cfi_offset 4, -12
+ 305              		.cfi_offset 5, -8
+ 306              		.cfi_offset 14, -4
+ 307 0002 0446     		mov	r4, r0
+ 308 0004 0D46     		mov	r5, r1
+  60:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 309              		.loc 1 60 5 is_stmt 1 view .LVU77
+ 310              	.LVL37:
+  63:lvgl/src/extra/libs/gif/lv_gif.c ****         lv_img_cache_invalidate_src(&gifobj->imgdsc);
+ 311              		.loc 1 63 5 view .LVU78
+  63:lvgl/src/extra/libs/gif/lv_gif.c ****         lv_img_cache_invalidate_src(&gifobj->imgdsc);
+ 312              		.loc 1 63 14 is_stmt 0 view .LVU79
+ 313 0006 C36B     		ldr	r3, [r0, #60]
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 10
+
+
+  63:lvgl/src/extra/libs/gif/lv_gif.c ****         lv_img_cache_invalidate_src(&gifobj->imgdsc);
+ 314              		.loc 1 63 7 view .LVU80
+ 315 0008 43B1     		cbz	r3, .L20
+  64:lvgl/src/extra/libs/gif/lv_gif.c ****         gd_close_gif(gifobj->gif);
+ 316              		.loc 1 64 9 is_stmt 1 view .LVU81
+ 317 000a 4430     		adds	r0, r0, #68
+ 318              	.LVL38:
+  64:lvgl/src/extra/libs/gif/lv_gif.c ****         gd_close_gif(gifobj->gif);
+ 319              		.loc 1 64 9 is_stmt 0 view .LVU82
+ 320 000c FFF7FEFF 		bl	lv_img_cache_invalidate_src
+ 321              	.LVL39:
+  65:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = NULL;
+ 322              		.loc 1 65 9 is_stmt 1 view .LVU83
+ 323 0010 E06B     		ldr	r0, [r4, #60]
+ 324 0012 FFF7FEFF 		bl	gd_close_gif
+ 325              	.LVL40:
+  66:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->imgdsc.data = NULL;
+ 326              		.loc 1 66 9 view .LVU84
+  66:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->imgdsc.data = NULL;
+ 327              		.loc 1 66 21 is_stmt 0 view .LVU85
+ 328 0016 0023     		movs	r3, #0
+ 329 0018 E363     		str	r3, [r4, #60]
+  67:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 330              		.loc 1 67 9 is_stmt 1 view .LVU86
+  67:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 331              		.loc 1 67 29 is_stmt 0 view .LVU87
+ 332 001a E364     		str	r3, [r4, #76]
+ 333              	.L20:
+  70:lvgl/src/extra/libs/gif/lv_gif.c ****         const lv_img_dsc_t * img_dsc = src;
+ 334              		.loc 1 70 5 is_stmt 1 view .LVU88
+  70:lvgl/src/extra/libs/gif/lv_gif.c ****         const lv_img_dsc_t * img_dsc = src;
+ 335              		.loc 1 70 8 is_stmt 0 view .LVU89
+ 336 001c 2846     		mov	r0, r5
+ 337 001e FFF7FEFF 		bl	lv_img_src_get_type
+ 338              	.LVL41:
+  70:lvgl/src/extra/libs/gif/lv_gif.c ****         const lv_img_dsc_t * img_dsc = src;
+ 339              		.loc 1 70 7 discriminator 1 view .LVU90
+ 340 0022 90BB     		cbnz	r0, .L21
+ 341              	.LBB3:
+  71:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = gd_open_gif_data(img_dsc->data);
+ 342              		.loc 1 71 9 is_stmt 1 view .LVU91
+ 343              	.LVL42:
+  72:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 344              		.loc 1 72 9 view .LVU92
+  72:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 345              		.loc 1 72 23 is_stmt 0 view .LVU93
+ 346 0024 A868     		ldr	r0, [r5, #8]
+ 347 0026 FFF7FEFF 		bl	gd_open_gif_data
+ 348              	.LVL43:
+  72:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 349              		.loc 1 72 21 discriminator 1 view .LVU94
+ 350 002a E063     		str	r0, [r4, #60]
+ 351              	.LVL44:
+ 352              	.L22:
+  72:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 353              		.loc 1 72 21 discriminator 1 view .LVU95
+ 354              	.LBE3:
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 11
+
+
+  77:lvgl/src/extra/libs/gif/lv_gif.c ****         LV_LOG_WARN("Could't load the source");
+ 355              		.loc 1 77 5 is_stmt 1 view .LVU96
+  77:lvgl/src/extra/libs/gif/lv_gif.c ****         LV_LOG_WARN("Could't load the source");
+ 356              		.loc 1 77 14 is_stmt 0 view .LVU97
+ 357 002c E36B     		ldr	r3, [r4, #60]
+  77:lvgl/src/extra/libs/gif/lv_gif.c ****         LV_LOG_WARN("Could't load the source");
+ 358              		.loc 1 77 7 view .LVU98
+ 359 002e 5BB3     		cbz	r3, .L19
+  82:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.always_zero = 0;
+ 360              		.loc 1 82 5 is_stmt 1 view .LVU99
+  82:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.always_zero = 0;
+ 361              		.loc 1 82 38 is_stmt 0 view .LVU100
+ 362 0030 D3F85426 		ldr	r2, [r3, #1620]
+  82:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.always_zero = 0;
+ 363              		.loc 1 82 25 view .LVU101
+ 364 0034 E264     		str	r2, [r4, #76]
+  83:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA;
+ 365              		.loc 1 83 5 is_stmt 1 view .LVU102
+  83:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA;
+ 366              		.loc 1 83 39 is_stmt 0 view .LVU103
+ 367 0036 94F84420 		ldrb	r2, [r4, #68]	@ zero_extendqisi2
+ 368 003a 22F0E002 		bic	r2, r2, #224
+ 369 003e 84F84420 		strb	r2, [r4, #68]
+  84:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.h = gifobj->gif->height;
+ 370              		.loc 1 84 5 is_stmt 1 view .LVU104
+  84:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.h = gifobj->gif->height;
+ 371              		.loc 1 84 30 is_stmt 0 view .LVU105
+ 372 0042 D2B2     		uxtb	r2, r2
+ 373 0044 0521     		movs	r1, #5
+ 374 0046 61F30402 		bfi	r2, r1, #0, #5
+ 375 004a 84F84420 		strb	r2, [r4, #68]
+  85:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.w = gifobj->gif->width;
+ 376              		.loc 1 85 5 is_stmt 1 view .LVU106
+  85:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.w = gifobj->gif->width;
+ 377              		.loc 1 85 42 is_stmt 0 view .LVU107
+ 378 004e D98B     		ldrh	r1, [r3, #30]
+  85:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->imgdsc.header.w = gifobj->gif->width;
+ 379              		.loc 1 85 29 view .LVU108
+ 380 0050 B4F84620 		ldrh	r2, [r4, #70]
+ 381 0054 61F34F12 		bfi	r2, r1, #5, #11
+ 382 0058 A4F84620 		strh	r2, [r4, #70]	@ movhi
+  86:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->last_call = lv_tick_get();
+ 383              		.loc 1 86 5 is_stmt 1 view .LVU109
+  86:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->last_call = lv_tick_get();
+ 384              		.loc 1 86 42 is_stmt 0 view .LVU110
+ 385 005c 9A8B     		ldrh	r2, [r3, #28]
+  86:lvgl/src/extra/libs/gif/lv_gif.c ****     gifobj->last_call = lv_tick_get();
+ 386              		.loc 1 86 29 view .LVU111
+ 387 005e 636C     		ldr	r3, [r4, #68]
+ 388 0060 62F39423 		bfi	r3, r2, #10, #11
+ 389 0064 6364     		str	r3, [r4, #68]
+  87:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 390              		.loc 1 87 5 is_stmt 1 view .LVU112
+  87:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 391              		.loc 1 87 25 is_stmt 0 view .LVU113
+ 392 0066 FFF7FEFF 		bl	lv_tick_get
+ 393              	.LVL45:
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 12
+
+
+  87:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 394              		.loc 1 87 23 discriminator 1 view .LVU114
+ 395 006a 2065     		str	r0, [r4, #80]
+  89:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 396              		.loc 1 89 5 is_stmt 1 view .LVU115
+ 397 006c 04F14401 		add	r1, r4, #68
+ 398 0070 2046     		mov	r0, r4
+ 399 0072 FFF7FEFF 		bl	lv_img_set_src
+ 400              	.LVL46:
+  91:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_timer_reset(gifobj->timer);
+ 401              		.loc 1 91 5 view .LVU116
+ 402 0076 206C     		ldr	r0, [r4, #64]
+ 403 0078 FFF7FEFF 		bl	lv_timer_resume
+ 404              	.LVL47:
+  92:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 405              		.loc 1 92 5 view .LVU117
+ 406 007c 206C     		ldr	r0, [r4, #64]
+ 407 007e FFF7FEFF 		bl	lv_timer_reset
+ 408              	.LVL48:
+  94:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 409              		.loc 1 94 5 view .LVU118
+ 410 0082 206C     		ldr	r0, [r4, #64]
+ 411 0084 FFF7FEFF 		bl	next_frame_task_cb
+ 412              	.LVL49:
+ 413              	.L19:
+  96:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 414              		.loc 1 96 1 is_stmt 0 view .LVU119
+ 415 0088 38BD     		pop	{r3, r4, r5, pc}
+ 416              	.LVL50:
+ 417              	.L21:
+  74:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = gd_open_gif_file(src);
+ 418              		.loc 1 74 10 is_stmt 1 view .LVU120
+  74:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = gd_open_gif_file(src);
+ 419              		.loc 1 74 13 is_stmt 0 view .LVU121
+ 420 008a 2846     		mov	r0, r5
+ 421 008c FFF7FEFF 		bl	lv_img_src_get_type
+ 422              	.LVL51:
+  74:lvgl/src/extra/libs/gif/lv_gif.c ****         gifobj->gif = gd_open_gif_file(src);
+ 423              		.loc 1 74 12 discriminator 1 view .LVU122
+ 424 0090 0128     		cmp	r0, #1
+ 425 0092 CBD1     		bne	.L22
+  75:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 426              		.loc 1 75 9 is_stmt 1 view .LVU123
+  75:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 427              		.loc 1 75 23 is_stmt 0 view .LVU124
+ 428 0094 2846     		mov	r0, r5
+ 429 0096 FFF7FEFF 		bl	gd_open_gif_file
+ 430              	.LVL52:
+  75:lvgl/src/extra/libs/gif/lv_gif.c ****     }
+ 431              		.loc 1 75 21 discriminator 1 view .LVU125
+ 432 009a E063     		str	r0, [r4, #60]
+ 433 009c C6E7     		b	.L22
+ 434              		.cfi_endproc
+ 435              	.LFE197:
+ 437              		.section	.text.lv_gif_restart,"ax",%progbits
+ 438              		.align	1
+ 439              		.global	lv_gif_restart
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 13
+
+
+ 440              		.syntax unified
+ 441              		.thumb
+ 442              		.thumb_func
+ 444              	lv_gif_restart:
+ 445              	.LVL53:
+ 446              	.LFB198:
+  99:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 447              		.loc 1 99 1 is_stmt 1 view -0
+ 448              		.cfi_startproc
+ 449              		@ args = 0, pretend = 0, frame = 0
+ 450              		@ frame_needed = 0, uses_anonymous_args = 0
+  99:lvgl/src/extra/libs/gif/lv_gif.c ****     lv_gif_t * gifobj = (lv_gif_t *) obj;
+ 451              		.loc 1 99 1 is_stmt 0 view .LVU127
+ 452 0000 08B5     		push	{r3, lr}
+ 453              	.LCFI5:
+ 454              		.cfi_def_cfa_offset 8
+ 455              		.cfi_offset 3, -8
+ 456              		.cfi_offset 14, -4
+ 100:lvgl/src/extra/libs/gif/lv_gif.c ****     gd_rewind(gifobj->gif);
+ 457              		.loc 1 100 5 is_stmt 1 view .LVU128
+ 458              	.LVL54:
+ 101:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 459              		.loc 1 101 5 view .LVU129
+ 460 0002 C06B     		ldr	r0, [r0, #60]
+ 461              	.LVL55:
+ 101:lvgl/src/extra/libs/gif/lv_gif.c **** }
+ 462              		.loc 1 101 5 is_stmt 0 view .LVU130
+ 463 0004 FFF7FEFF 		bl	gd_rewind
+ 464              	.LVL56:
+ 102:lvgl/src/extra/libs/gif/lv_gif.c **** 
+ 465              		.loc 1 102 1 view .LVU131
+ 466 0008 08BD     		pop	{r3, pc}
+ 467              		.cfi_endproc
+ 468              	.LFE198:
+ 470              		.global	lv_gif_class
+ 471              		.section	.rodata.lv_gif_class,"a"
+ 472              		.align	2
+ 475              	lv_gif_class:
+ 476 0000 00000000 		.word	lv_img_class
+ 477 0004 00000000 		.word	lv_gif_constructor
+ 478 0008 00000000 		.word	lv_gif_destructor
+ 479 000c 00000000 		.space	12
+ 479      00000000 
+ 479      00000000 
+ 480 0018 40       		.byte	64
+ 481 0019 05       		.byte	5
+ 482 001a 00       		.byte	0
+ 483 001b 00       		.space	1
+ 484              		.text
+ 485              	.Letext0:
+ 486              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 487              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 488              		.file 4 "lvgl/src/extra/libs/gif/../../../../src/misc/lv_types.h"
+ 489              		.file 5 "lvgl/src/extra/libs/gif/../../../../src/misc/lv_timer.h"
+ 490              		.file 6 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_area.h"
+ 491              		.file 7 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_color.h"
+ 492              		.file 8 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_style.h"
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 14
+
+
+ 493              		.file 9 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_img_buf.h"
+ 494              		.file 10 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_fs.h"
+ 495              		.file 11 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_img_decoder.h"
+ 496              		.file 12 "lvgl/src/extra/libs/gif/../../../../src/core/lv_obj.h"
+ 497              		.file 13 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_ll.h"
+ 498              		.file 14 "lvgl/src/extra/libs/gif/../../../../src/core/lv_group.h"
+ 499              		.file 15 "lvgl/src/extra/libs/gif/../../../../src/core/lv_obj_scroll.h"
+ 500              		.file 16 "lvgl/src/extra/libs/gif/../../../../src/core/lv_obj_style.h"
+ 501              		.file 17 "lvgl/src/extra/libs/gif/../../../../src/core/lv_obj_class.h"
+ 502              		.file 18 "lvgl/src/extra/libs/gif/../../../../src/core/lv_event.h"
+ 503              		.file 19 "lvgl/src/extra/libs/gif/../../../../src/widgets/lv_img.h"
+ 504              		.file 20 "lvgl/src/extra/libs/gif/../../../../src/widgets/lv_bar.h"
+ 505              		.file 21 "lvgl/src/extra/libs/gif/../../../../src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 506              		.file 22 "lvgl/src/extra/libs/gif/gifdec.h"
+ 507              		.file 23 "lvgl/src/extra/libs/gif/lv_gif.h"
+ 508              		.file 24 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_img.h"
+ 509              		.file 25 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_pos.h"
+ 510              		.file 26 "lvgl/src/extra/libs/gif/../../../../src/hal/lv_hal_tick.h"
+ 511              		.file 27 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_img_cache.h"
+ARM GAS  C:\usertemp\ccz00MkZ.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_gif.c
+C:\usertemp\ccz00MkZ.s:20     .text.lv_gif_destructor:00000000 $t
+C:\usertemp\ccz00MkZ.s:25     .text.lv_gif_destructor:00000000 lv_gif_destructor
+C:\usertemp\ccz00MkZ.s:63     .text.lv_gif_constructor:00000000 $t
+C:\usertemp\ccz00MkZ.s:68     .text.lv_gif_constructor:00000000 lv_gif_constructor
+C:\usertemp\ccz00MkZ.s:108    .text.lv_gif_constructor:00000018 $d
+C:\usertemp\ccz00MkZ.s:118    .text.next_frame_task_cb:00000000 next_frame_task_cb
+C:\usertemp\ccz00MkZ.s:113    .text.next_frame_task_cb:00000000 $t
+C:\usertemp\ccz00MkZ.s:236    .text.lv_gif_create:00000000 $t
+C:\usertemp\ccz00MkZ.s:242    .text.lv_gif_create:00000000 lv_gif_create
+C:\usertemp\ccz00MkZ.s:281    .text.lv_gif_create:00000014 $d
+C:\usertemp\ccz00MkZ.s:475    .rodata.lv_gif_class:00000000 lv_gif_class
+C:\usertemp\ccz00MkZ.s:286    .text.lv_gif_set_src:00000000 $t
+C:\usertemp\ccz00MkZ.s:292    .text.lv_gif_set_src:00000000 lv_gif_set_src
+C:\usertemp\ccz00MkZ.s:438    .text.lv_gif_restart:00000000 $t
+C:\usertemp\ccz00MkZ.s:444    .text.lv_gif_restart:00000000 lv_gif_restart
+C:\usertemp\ccz00MkZ.s:472    .rodata.lv_gif_class:00000000 $d
+
+UNDEFINED SYMBOLS
+lv_img_cache_invalidate_src
+gd_close_gif
+lv_timer_del
+lv_timer_create
+lv_timer_pause
+lv_tick_elaps
+lv_tick_get
+gd_get_frame
+gd_rewind
+gd_render_frame
+lv_img_get_src
+lv_obj_invalidate
+lv_event_send
+lv_obj_class_create_obj
+lv_obj_class_init_obj
+lv_img_src_get_type
+gd_open_gif_data
+lv_img_set_src
+lv_timer_resume
+lv_timer_reset
+gd_open_gif_file
+lv_img_class

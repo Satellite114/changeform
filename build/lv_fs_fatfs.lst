@@ -1,0 +1,1175 @@
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_fs_fatfs.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c"
+  19              		.section	.text.fs_tell,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	fs_tell:
+  26              	.LVL0:
+  27              	.LFB541:
+   1:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+   2:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @file lv_fs_fatfs.c
+   3:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *
+   4:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+   5:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+   6:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /*********************
+   7:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *      INCLUDES
+   8:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *********************/
+   9:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** #include "lvgl.h"
+  10:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** #include "lv_conf.h"
+  11:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  12:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** #if LV_USE_FS_FATFS
+  13:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** #include "ff.h"
+  14:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  15:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /*********************
+  16:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *      DEFINES
+  17:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *********************/
+  18:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  19:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** #if LV_FS_FATFS_LETTER == '\0'
+  20:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     #error "LV_FS_FATFS_LETTER must be an upper case ASCII letter"
+  21:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** #endif
+  22:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  23:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**********************
+  24:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *      TYPEDEFS
+  25:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  **********************/
+  26:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  27:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**********************
+  28:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *  STATIC PROTOTYPES
+  29:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  **********************/
+  30:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static void fs_init(void);
+  31:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 2
+
+
+  32:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static void * fs_open(lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode);
+  33:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_close(lv_fs_drv_t * drv, void * file_p);
+  34:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_read(lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * b
+  35:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_write(lv_fs_drv_t * drv, void * file_p, const void * buf, uint32_t btw, uint3
+  36:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_seek(lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence);
+  37:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_tell(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p);
+  38:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static void * fs_dir_open(lv_fs_drv_t * drv, const char * path);
+  39:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_dir_read(lv_fs_drv_t * drv, void * dir_p, char * fn);
+  40:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_dir_close(lv_fs_drv_t * drv, void * dir_p);
+  41:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  42:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**********************
+  43:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *  STATIC VARIABLES
+  44:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  **********************/
+  45:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  46:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**********************
+  47:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *      MACROS
+  48:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  **********************/
+  49:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  50:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**********************
+  51:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *   GLOBAL FUNCTIONS
+  52:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  **********************/
+  53:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  54:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** void lv_fs_fatfs_init(void)
+  55:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+  56:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     /*----------------------------------------------------
+  57:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****      * Initialize your storage device and File System
+  58:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****      * -------------------------------------------------*/
+  59:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_init();
+  60:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  61:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     /*---------------------------------------------------
+  62:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****      * Register the file system interface in LVGL
+  63:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****      *--------------------------------------------------*/
+  64:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  65:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     /*Add a simple drive to open images*/
+  66:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     static lv_fs_drv_t fs_drv; /*A driver descriptor*/
+  67:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_fs_drv_init(&fs_drv);
+  68:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  69:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     /*Set up fields...*/
+  70:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.letter = LV_FS_FATFS_LETTER;
+  71:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.cache_size = LV_FS_FATFS_CACHE_SIZE;
+  72:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  73:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.open_cb = fs_open;
+  74:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.close_cb = fs_close;
+  75:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.read_cb = fs_read;
+  76:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.write_cb = fs_write;
+  77:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.seek_cb = fs_seek;
+  78:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.tell_cb = fs_tell;
+  79:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  80:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_close_cb = fs_dir_close;
+  81:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_open_cb = fs_dir_open;
+  82:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_read_cb = fs_dir_read;
+  83:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  84:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_fs_drv_register(&fs_drv);
+  85:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+  86:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  87:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**********************
+  88:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *   STATIC FUNCTIONS
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 3
+
+
+  89:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  **********************/
+  90:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  91:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /*Initialize your Storage device and File system.*/
+  92:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static void fs_init(void)
+  93:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+  94:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     /*Initialize the SD card and FatFS itself.
+  95:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****      *Better to do it in your code to keep this library untouched for easy updating*/
+  96:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+  97:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+  98:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+  99:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Open a file
+ 100:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 101:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param path path to the file beginning with the driver letter (e.g. S:/folder/file.txt)
+ 102:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param mode read: FS_MODE_RD, write: FS_MODE_WR, both: FS_MODE_RD | FS_MODE_WR
+ 103:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return pointer to FIL struct or NULL in case of fail
+ 104:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 105:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static void * fs_open(lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode)
+ 106:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 107:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 108:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     uint8_t flags = 0;
+ 109:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 110:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(mode == LV_FS_MODE_WR) flags = FA_WRITE | FA_OPEN_ALWAYS;
+ 111:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == LV_FS_MODE_RD) flags = FA_READ;
+ 112:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) flags = FA_READ | FA_WRITE | FA_OPEN_ALWAYS;
+ 113:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 114:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FIL * f = lv_mem_alloc(sizeof(FIL));
+ 115:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(f == NULL) return NULL;
+ 116:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 117:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res = f_open(f, path, flags);
+ 118:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) {
+ 119:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         return f;
+ 120:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 121:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else {
+ 122:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         lv_mem_free(f);
+ 123:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         return NULL;
+ 124:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 125:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 126:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 127:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 128:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Close an opened file
+ 129:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 130:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param file_p pointer to a FIL variable. (opened with fs_open)
+ 131:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK: no error, the file is read
+ 132:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *         any error from lv_fs_res_t enum
+ 133:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 134:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_close(lv_fs_drv_t * drv, void * file_p)
+ 135:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 136:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 137:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     f_close(file_p);
+ 138:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_mem_free(file_p);
+ 139:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return LV_FS_RES_OK;
+ 140:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 141:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 142:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 143:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Read data from an opened file
+ 144:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 145:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param file_p pointer to a FIL variable.
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 4
+
+
+ 146:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param buf pointer to a memory block where to store the read data
+ 147:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param btr number of Bytes To Read
+ 148:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param br the real number of read bytes (Byte Read)
+ 149:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK: no error, the file is read
+ 150:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *         any error from lv_fs_res_t enum
+ 151:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 152:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_read(lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * b
+ 153:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 154:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 155:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res = f_read(file_p, buf, btr, (UINT *)br);
+ 156:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 157:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else return LV_FS_RES_UNKNOWN;
+ 158:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 159:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 160:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 161:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Write into a file
+ 162:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 163:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param file_p pointer to a FIL variable
+ 164:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param buf pointer to a buffer with the bytes to write
+ 165:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param btr Bytes To Write
+ 166:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param br the number of real written bytes (Bytes Written). NULL if unused.
+ 167:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK or any error from lv_fs_res_t enum
+ 168:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 169:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_write(lv_fs_drv_t * drv, void * file_p, const void * buf, uint32_t btw, uint3
+ 170:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 171:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 172:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res = f_write(file_p, buf, btw, (UINT *)bw);
+ 173:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 174:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else return LV_FS_RES_UNKNOWN;
+ 175:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 176:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 177:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 178:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Set the read write pointer. Also expand the file size if necessary.
+ 179:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 180:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param file_p pointer to a FIL variable. (opened with fs_open )
+ 181:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param pos the new position of read write pointer
+ 182:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param whence only LV_SEEK_SET is supported
+ 183:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK: no error, the file is read
+ 184:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *         any error from lv_fs_res_t enum
+ 185:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 186:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_seek(lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence)
+ 187:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 188:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 189:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     switch(whence) {
+ 190:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         case LV_FS_SEEK_SET:
+ 191:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             f_lseek(file_p, pos);
+ 192:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 193:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         case LV_FS_SEEK_CUR:
+ 194:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             f_lseek(file_p, f_tell((FIL *)file_p) + pos);
+ 195:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 196:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         case LV_FS_SEEK_END:
+ 197:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             f_lseek(file_p, f_size((FIL *)file_p) + pos);
+ 198:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 199:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         default:
+ 200:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 201:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 202:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return LV_FS_RES_OK;
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 5
+
+
+ 203:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 204:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 205:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 206:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Give the position of the read write pointer
+ 207:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 208:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param file_p pointer to a FIL variable.
+ 209:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param pos_p pointer to to store the result
+ 210:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK: no error, the file is read
+ 211:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  *         any error from lv_fs_res_t enum
+ 212:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 213:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_tell(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p)
+ 214:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+  28              		.loc 1 214 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ 215:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+  33              		.loc 1 215 5 view .LVU1
+ 216:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     *pos_p = f_tell((FIL *)file_p);
+  34              		.loc 1 216 5 view .LVU2
+  35              		.loc 1 216 14 is_stmt 0 view .LVU3
+  36 0000 8B69     		ldr	r3, [r1, #24]
+  37              		.loc 1 216 12 view .LVU4
+  38 0002 1360     		str	r3, [r2]
+ 217:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return LV_FS_RES_OK;
+  39              		.loc 1 217 5 is_stmt 1 view .LVU5
+ 218:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+  40              		.loc 1 218 1 is_stmt 0 view .LVU6
+  41 0004 0020     		movs	r0, #0
+  42              	.LVL1:
+  43              		.loc 1 218 1 view .LVU7
+  44 0006 7047     		bx	lr
+  45              		.cfi_endproc
+  46              	.LFE541:
+  48              		.section	.rodata.fs_dir_read.str1.4,"aMS",%progbits,1
+  49              		.align	2
+  50              	.LC0:
+  51 0000 2F2E00   		.ascii	"/.\000"
+  52 0003 00       		.align	2
+  53              	.LC1:
+  54 0004 2F2E2E00 		.ascii	"/..\000"
+  55              		.section	.text.fs_dir_read,"ax",%progbits
+  56              		.align	1
+  57              		.syntax unified
+  58              		.thumb
+  59              		.thumb_func
+  61              	fs_dir_read:
+  62              	.LVL2:
+  63              	.LFB543:
+ 219:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 220:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 221:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Initialize a 'DIR' variable for directory reading
+ 222:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 223:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param path path to a directory
+ 224:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return pointer to an initialized 'DIR' variable
+ 225:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 6
+
+
+ 226:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static void * fs_dir_open(lv_fs_drv_t * drv, const char * path)
+ 227:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 228:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 229:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     DIR * d = lv_mem_alloc(sizeof(DIR));
+ 230:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(d == NULL) return NULL;
+ 231:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 232:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res = f_opendir(d, path);
+ 233:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res != FR_OK) {
+ 234:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         lv_mem_free(d);
+ 235:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         d = NULL;
+ 236:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 237:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return d;
+ 238:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 239:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 240:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 241:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Read the next filename from a directory.
+ 242:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * The name of the directories will begin with '/'
+ 243:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 244:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param dir_p pointer to an initialized 'DIR' variable
+ 245:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param fn pointer to a buffer to store the filename
+ 246:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK or any error from lv_fs_res_t enum
+ 247:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 248:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_dir_read(lv_fs_drv_t * drv, void * dir_p, char * fn)
+ 249:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+  64              		.loc 1 249 1 is_stmt 1 view -0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 24
+  67              		@ frame_needed = 0, uses_anonymous_args = 0
+  68              		.loc 1 249 1 is_stmt 0 view .LVU9
+  69 0000 70B5     		push	{r4, r5, r6, lr}
+  70              	.LCFI0:
+  71              		.cfi_def_cfa_offset 16
+  72              		.cfi_offset 4, -16
+  73              		.cfi_offset 5, -12
+  74              		.cfi_offset 6, -8
+  75              		.cfi_offset 14, -4
+  76 0002 86B0     		sub	sp, sp, #24
+  77              	.LCFI1:
+  78              		.cfi_def_cfa_offset 40
+  79 0004 0D46     		mov	r5, r1
+  80 0006 1446     		mov	r4, r2
+ 250:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+  81              		.loc 1 250 5 is_stmt 1 view .LVU10
+ 251:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res;
+  82              		.loc 1 251 5 view .LVU11
+ 252:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FILINFO fno;
+  83              		.loc 1 252 5 view .LVU12
+ 253:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fn[0] = '\0';
+  84              		.loc 1 253 5 view .LVU13
+  85              		.loc 1 253 11 is_stmt 0 view .LVU14
+  86 0008 0023     		movs	r3, #0
+  87 000a 1370     		strb	r3, [r2]
+  88              	.LVL3:
+  89              	.L6:
+ 254:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 255:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     do {
+  90              		.loc 1 255 5 is_stmt 1 view .LVU15
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 7
+
+
+ 256:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         res = f_readdir(dir_p, &fno);
+  91              		.loc 1 256 9 view .LVU16
+  92              		.loc 1 256 15 is_stmt 0 view .LVU17
+  93 000c 6946     		mov	r1, sp
+  94 000e 2846     		mov	r0, r5
+  95 0010 FFF7FEFF 		bl	f_readdir
+  96              	.LVL4:
+ 257:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         if(res != FR_OK) return LV_FS_RES_UNKNOWN;
+  97              		.loc 1 257 9 is_stmt 1 view .LVU18
+  98              		.loc 1 257 11 is_stmt 0 view .LVU19
+  99 0014 0646     		mov	r6, r0
+ 100 0016 F8B9     		cbnz	r0, .L7
+ 258:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 259:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         if(fno.fattrib & AM_DIR) {
+ 101              		.loc 1 259 9 is_stmt 1 view .LVU20
+ 102              		.loc 1 259 15 is_stmt 0 view .LVU21
+ 103 0018 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 104              		.loc 1 259 11 view .LVU22
+ 105 001c 13F0100F 		tst	r3, #16
+ 106 0020 14D0     		beq	.L4
+ 260:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             fn[0] = '/';
+ 107              		.loc 1 260 13 is_stmt 1 view .LVU23
+ 108              		.loc 1 260 19 is_stmt 0 view .LVU24
+ 109 0022 2046     		mov	r0, r4
+ 110              	.LVL5:
+ 111              		.loc 1 260 19 view .LVU25
+ 112 0024 2F23     		movs	r3, #47
+ 113 0026 00F8013B 		strb	r3, [r0], #1
+ 261:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             strcpy(&fn[1], fno.fname);
+ 114              		.loc 1 261 13 is_stmt 1 view .LVU26
+ 115 002a 0DF10901 		add	r1, sp, #9
+ 116 002e FFF7FEFF 		bl	strcpy
+ 117              	.LVL6:
+ 118              	.L5:
+ 262:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         }
+ 263:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         else strcpy(fn, fno.fname);
+ 264:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 265:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     } while(strcmp(fn, "/.") == 0 || strcmp(fn, "/..") == 0);
+ 119              		.loc 1 265 35 view .LVU27
+ 120              		.loc 1 265 13 is_stmt 0 view .LVU28
+ 121 0032 0B49     		ldr	r1, .L9
+ 122 0034 2046     		mov	r0, r4
+ 123 0036 FFF7FEFF 		bl	strcmp
+ 124              	.LVL7:
+ 125              		.loc 1 265 35 discriminator 1 view .LVU29
+ 126 003a 0028     		cmp	r0, #0
+ 127 003c E6D0     		beq	.L6
+ 128              		.loc 1 265 38 discriminator 1 view .LVU30
+ 129 003e 0949     		ldr	r1, .L9+4
+ 130 0040 2046     		mov	r0, r4
+ 131 0042 FFF7FEFF 		bl	strcmp
+ 132              	.LVL8:
+ 133              		.loc 1 265 35 discriminator 1 view .LVU31
+ 134 0046 0028     		cmp	r0, #0
+ 135 0048 E0D0     		beq	.L6
+ 136 004a 06E0     		b	.L3
+ 137              	.LVL9:
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 8
+
+
+ 138              	.L4:
+ 263:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 139              		.loc 1 263 14 is_stmt 1 view .LVU32
+ 140 004c 0DF10901 		add	r1, sp, #9
+ 141 0050 2046     		mov	r0, r4
+ 142              	.LVL10:
+ 263:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 143              		.loc 1 263 14 is_stmt 0 view .LVU33
+ 144 0052 FFF7FEFF 		bl	strcpy
+ 145              	.LVL11:
+ 146 0056 ECE7     		b	.L5
+ 147              	.LVL12:
+ 148              	.L7:
+ 257:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 149              		.loc 1 257 33 discriminator 1 view .LVU34
+ 150 0058 0C26     		movs	r6, #12
+ 151              	.LVL13:
+ 152              	.L3:
+ 266:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 267:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return LV_FS_RES_OK;
+ 268:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 153              		.loc 1 268 1 view .LVU35
+ 154 005a 3046     		mov	r0, r6
+ 155 005c 06B0     		add	sp, sp, #24
+ 156              	.LCFI2:
+ 157              		.cfi_def_cfa_offset 16
+ 158              		@ sp needed
+ 159 005e 70BD     		pop	{r4, r5, r6, pc}
+ 160              	.LVL14:
+ 161              	.L10:
+ 162              		.loc 1 268 1 view .LVU36
+ 163              		.align	2
+ 164              	.L9:
+ 165 0060 00000000 		.word	.LC0
+ 166 0064 04000000 		.word	.LC1
+ 167              		.cfi_endproc
+ 168              	.LFE543:
+ 170              		.section	.text.fs_dir_open,"ax",%progbits
+ 171              		.align	1
+ 172              		.syntax unified
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	fs_dir_open:
+ 177              	.LVL15:
+ 178              	.LFB542:
+ 227:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 179              		.loc 1 227 1 is_stmt 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 227:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 183              		.loc 1 227 1 is_stmt 0 view .LVU38
+ 184 0000 38B5     		push	{r3, r4, r5, lr}
+ 185              	.LCFI3:
+ 186              		.cfi_def_cfa_offset 16
+ 187              		.cfi_offset 3, -16
+ 188              		.cfi_offset 4, -12
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 9
+
+
+ 189              		.cfi_offset 5, -8
+ 190              		.cfi_offset 14, -4
+ 191 0002 0C46     		mov	r4, r1
+ 228:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     DIR * d = lv_mem_alloc(sizeof(DIR));
+ 192              		.loc 1 228 5 is_stmt 1 view .LVU39
+ 229:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(d == NULL) return NULL;
+ 193              		.loc 1 229 5 view .LVU40
+ 229:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(d == NULL) return NULL;
+ 194              		.loc 1 229 15 is_stmt 0 view .LVU41
+ 195 0004 3020     		movs	r0, #48
+ 196              	.LVL16:
+ 229:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(d == NULL) return NULL;
+ 197              		.loc 1 229 15 view .LVU42
+ 198 0006 FFF7FEFF 		bl	lv_mem_alloc
+ 199              	.LVL17:
+ 230:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 200              		.loc 1 230 5 is_stmt 1 view .LVU43
+ 230:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 201              		.loc 1 230 7 is_stmt 0 view .LVU44
+ 202 000a 0546     		mov	r5, r0
+ 203 000c 18B1     		cbz	r0, .L11
+ 232:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res != FR_OK) {
+ 204              		.loc 1 232 5 is_stmt 1 view .LVU45
+ 232:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res != FR_OK) {
+ 205              		.loc 1 232 19 is_stmt 0 view .LVU46
+ 206 000e 2146     		mov	r1, r4
+ 207 0010 FFF7FEFF 		bl	f_opendir
+ 208              	.LVL18:
+ 233:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         lv_mem_free(d);
+ 209              		.loc 1 233 5 is_stmt 1 view .LVU47
+ 233:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         lv_mem_free(d);
+ 210              		.loc 1 233 7 is_stmt 0 view .LVU48
+ 211 0014 08B9     		cbnz	r0, .L14
+ 212              	.LVL19:
+ 213              	.L11:
+ 238:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 214              		.loc 1 238 1 view .LVU49
+ 215 0016 2846     		mov	r0, r5
+ 216 0018 38BD     		pop	{r3, r4, r5, pc}
+ 217              	.LVL20:
+ 218              	.L14:
+ 234:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         d = NULL;
+ 219              		.loc 1 234 9 is_stmt 1 view .LVU50
+ 220 001a 2846     		mov	r0, r5
+ 221              	.LVL21:
+ 234:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         d = NULL;
+ 222              		.loc 1 234 9 is_stmt 0 view .LVU51
+ 223 001c FFF7FEFF 		bl	lv_mem_free
+ 224              	.LVL22:
+ 235:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 225              		.loc 1 235 9 is_stmt 1 view .LVU52
+ 235:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 226              		.loc 1 235 11 is_stmt 0 view .LVU53
+ 227 0020 0025     		movs	r5, #0
+ 228              	.LVL23:
+ 235:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 229              		.loc 1 235 11 view .LVU54
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 10
+
+
+ 230 0022 F8E7     		b	.L11
+ 231              		.cfi_endproc
+ 232              	.LFE542:
+ 234              		.section	.text.fs_dir_close,"ax",%progbits
+ 235              		.align	1
+ 236              		.syntax unified
+ 237              		.thumb
+ 238              		.thumb_func
+ 240              	fs_dir_close:
+ 241              	.LVL24:
+ 242              	.LFB544:
+ 269:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 270:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** /**
+ 271:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * Close the directory reading
+ 272:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param drv pointer to a driver where this function belongs
+ 273:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @param dir_p pointer to an initialized 'DIR' variable
+ 274:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  * @return LV_FS_RES_OK or any error from lv_fs_res_t enum
+ 275:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****  */
+ 276:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** static lv_fs_res_t fs_dir_close(lv_fs_drv_t * drv, void * dir_p)
+ 277:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** {
+ 243              		.loc 1 277 1 is_stmt 1 view -0
+ 244              		.cfi_startproc
+ 245              		@ args = 0, pretend = 0, frame = 0
+ 246              		@ frame_needed = 0, uses_anonymous_args = 0
+ 247              		.loc 1 277 1 is_stmt 0 view .LVU56
+ 248 0000 10B5     		push	{r4, lr}
+ 249              	.LCFI4:
+ 250              		.cfi_def_cfa_offset 8
+ 251              		.cfi_offset 4, -8
+ 252              		.cfi_offset 14, -4
+ 253 0002 0C46     		mov	r4, r1
+ 278:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 254              		.loc 1 278 5 is_stmt 1 view .LVU57
+ 279:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     f_closedir(dir_p);
+ 255              		.loc 1 279 5 view .LVU58
+ 256 0004 0846     		mov	r0, r1
+ 257              	.LVL25:
+ 258              		.loc 1 279 5 is_stmt 0 view .LVU59
+ 259 0006 FFF7FEFF 		bl	f_closedir
+ 260              	.LVL26:
+ 280:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_mem_free(dir_p);
+ 261              		.loc 1 280 5 is_stmt 1 view .LVU60
+ 262 000a 2046     		mov	r0, r4
+ 263 000c FFF7FEFF 		bl	lv_mem_free
+ 264              	.LVL27:
+ 281:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return LV_FS_RES_OK;
+ 265              		.loc 1 281 5 view .LVU61
+ 282:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 266              		.loc 1 282 1 is_stmt 0 view .LVU62
+ 267 0010 0020     		movs	r0, #0
+ 268 0012 10BD     		pop	{r4, pc}
+ 269              		.loc 1 282 1 view .LVU63
+ 270              		.cfi_endproc
+ 271              	.LFE544:
+ 273              		.section	.text.fs_seek,"ax",%progbits
+ 274              		.align	1
+ 275              		.syntax unified
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 11
+
+
+ 276              		.thumb
+ 277              		.thumb_func
+ 279              	fs_seek:
+ 280              	.LVL28:
+ 281              	.LFB540:
+ 187:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 282              		.loc 1 187 1 is_stmt 1 view -0
+ 283              		.cfi_startproc
+ 284              		@ args = 0, pretend = 0, frame = 0
+ 285              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 286              		.loc 1 187 1 is_stmt 0 view .LVU65
+ 287 0000 08B5     		push	{r3, lr}
+ 288              	.LCFI5:
+ 289              		.cfi_def_cfa_offset 8
+ 290              		.cfi_offset 3, -8
+ 291              		.cfi_offset 14, -4
+ 292 0002 0846     		mov	r0, r1
+ 293              	.LVL29:
+ 188:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     switch(whence) {
+ 294              		.loc 1 188 5 is_stmt 1 view .LVU66
+ 189:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         case LV_FS_SEEK_SET:
+ 295              		.loc 1 189 5 view .LVU67
+ 296 0004 012B     		cmp	r3, #1
+ 297 0006 07D0     		beq	.L18
+ 298 0008 022B     		cmp	r3, #2
+ 299 000a 0AD0     		beq	.L19
+ 300 000c 13B9     		cbnz	r3, .L20
+ 191:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 301              		.loc 1 191 13 view .LVU68
+ 302 000e 1146     		mov	r1, r2
+ 303              	.LVL30:
+ 191:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 304              		.loc 1 191 13 is_stmt 0 view .LVU69
+ 305 0010 FFF7FEFF 		bl	f_lseek
+ 306              	.LVL31:
+ 192:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         case LV_FS_SEEK_CUR:
+ 307              		.loc 1 192 13 is_stmt 1 view .LVU70
+ 308              	.L20:
+ 202:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 309              		.loc 1 202 5 view .LVU71
+ 203:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 310              		.loc 1 203 1 is_stmt 0 view .LVU72
+ 311 0014 0020     		movs	r0, #0
+ 312 0016 08BD     		pop	{r3, pc}
+ 313              	.LVL32:
+ 314              	.L18:
+ 194:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 315              		.loc 1 194 13 is_stmt 1 view .LVU73
+ 194:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 316              		.loc 1 194 29 is_stmt 0 view .LVU74
+ 317 0018 8969     		ldr	r1, [r1, #24]
+ 194:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 318              		.loc 1 194 13 view .LVU75
+ 319 001a 1144     		add	r1, r1, r2
+ 320 001c FFF7FEFF 		bl	f_lseek
+ 321              	.LVL33:
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 12
+
+
+ 195:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         case LV_FS_SEEK_END:
+ 322              		.loc 1 195 13 is_stmt 1 view .LVU76
+ 323 0020 F8E7     		b	.L20
+ 324              	.LVL34:
+ 325              	.L19:
+ 197:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 326              		.loc 1 197 13 view .LVU77
+ 197:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 327              		.loc 1 197 29 is_stmt 0 view .LVU78
+ 328 0022 C968     		ldr	r1, [r1, #12]
+ 197:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****             break;
+ 329              		.loc 1 197 13 view .LVU79
+ 330 0024 1144     		add	r1, r1, r2
+ 331 0026 FFF7FEFF 		bl	f_lseek
+ 332              	.LVL35:
+ 198:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         default:
+ 333              		.loc 1 198 13 is_stmt 1 view .LVU80
+ 334 002a F3E7     		b	.L20
+ 335              		.cfi_endproc
+ 336              	.LFE540:
+ 338              		.section	.text.fs_write,"ax",%progbits
+ 339              		.align	1
+ 340              		.syntax unified
+ 341              		.thumb
+ 342              		.thumb_func
+ 344              	fs_write:
+ 345              	.LVL36:
+ 346              	.LFB539:
+ 170:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 347              		.loc 1 170 1 view -0
+ 348              		.cfi_startproc
+ 349              		@ args = 4, pretend = 0, frame = 0
+ 350              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 351              		.loc 1 170 1 is_stmt 0 view .LVU82
+ 352 0000 08B5     		push	{r3, lr}
+ 353              	.LCFI6:
+ 354              		.cfi_def_cfa_offset 8
+ 355              		.cfi_offset 3, -8
+ 356              		.cfi_offset 14, -4
+ 357 0002 0846     		mov	r0, r1
+ 358              	.LVL37:
+ 170:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 359              		.loc 1 170 1 view .LVU83
+ 360 0004 1146     		mov	r1, r2
+ 361              	.LVL38:
+ 170:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 362              		.loc 1 170 1 view .LVU84
+ 363 0006 1A46     		mov	r2, r3
+ 364              	.LVL39:
+ 171:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res = f_write(file_p, buf, btw, (UINT *)bw);
+ 365              		.loc 1 171 5 is_stmt 1 view .LVU85
+ 172:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 366              		.loc 1 172 5 view .LVU86
+ 172:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 367              		.loc 1 172 19 is_stmt 0 view .LVU87
+ 368 0008 029B     		ldr	r3, [sp, #8]
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 13
+
+
+ 369              	.LVL40:
+ 172:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 370              		.loc 1 172 19 view .LVU88
+ 371 000a FFF7FEFF 		bl	f_write
+ 372              	.LVL41:
+ 173:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else return LV_FS_RES_UNKNOWN;
+ 373              		.loc 1 173 5 is_stmt 1 view .LVU89
+ 173:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else return LV_FS_RES_UNKNOWN;
+ 374              		.loc 1 173 7 is_stmt 0 view .LVU90
+ 375 000e 00B9     		cbnz	r0, .L26
+ 376              	.L23:
+ 175:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 377              		.loc 1 175 1 view .LVU91
+ 378 0010 08BD     		pop	{r3, pc}
+ 379              	.LVL42:
+ 380              	.L26:
+ 174:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 381              		.loc 1 174 17 view .LVU92
+ 382 0012 0C20     		movs	r0, #12
+ 383 0014 FCE7     		b	.L23
+ 384              		.cfi_endproc
+ 385              	.LFE539:
+ 387              		.section	.text.fs_read,"ax",%progbits
+ 388              		.align	1
+ 389              		.syntax unified
+ 390              		.thumb
+ 391              		.thumb_func
+ 393              	fs_read:
+ 394              	.LVL43:
+ 395              	.LFB538:
+ 153:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 396              		.loc 1 153 1 is_stmt 1 view -0
+ 397              		.cfi_startproc
+ 398              		@ args = 4, pretend = 0, frame = 0
+ 399              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 400              		.loc 1 153 1 is_stmt 0 view .LVU94
+ 401 0000 08B5     		push	{r3, lr}
+ 402              	.LCFI7:
+ 403              		.cfi_def_cfa_offset 8
+ 404              		.cfi_offset 3, -8
+ 405              		.cfi_offset 14, -4
+ 406 0002 0846     		mov	r0, r1
+ 407              	.LVL44:
+ 153:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 408              		.loc 1 153 1 view .LVU95
+ 409 0004 1146     		mov	r1, r2
+ 410              	.LVL45:
+ 153:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 411              		.loc 1 153 1 view .LVU96
+ 412 0006 1A46     		mov	r2, r3
+ 413              	.LVL46:
+ 154:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     FRESULT res = f_read(file_p, buf, btr, (UINT *)br);
+ 414              		.loc 1 154 5 is_stmt 1 view .LVU97
+ 155:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 415              		.loc 1 155 5 view .LVU98
+ 155:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 14
+
+
+ 416              		.loc 1 155 19 is_stmt 0 view .LVU99
+ 417 0008 029B     		ldr	r3, [sp, #8]
+ 418              	.LVL47:
+ 155:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) return LV_FS_RES_OK;
+ 419              		.loc 1 155 19 view .LVU100
+ 420 000a FFF7FEFF 		bl	f_read
+ 421              	.LVL48:
+ 156:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else return LV_FS_RES_UNKNOWN;
+ 422              		.loc 1 156 5 is_stmt 1 view .LVU101
+ 156:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else return LV_FS_RES_UNKNOWN;
+ 423              		.loc 1 156 7 is_stmt 0 view .LVU102
+ 424 000e 00B9     		cbnz	r0, .L31
+ 425              	.L28:
+ 158:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 426              		.loc 1 158 1 view .LVU103
+ 427 0010 08BD     		pop	{r3, pc}
+ 428              	.LVL49:
+ 429              	.L31:
+ 157:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 430              		.loc 1 157 17 view .LVU104
+ 431 0012 0C20     		movs	r0, #12
+ 432 0014 FCE7     		b	.L28
+ 433              		.cfi_endproc
+ 434              	.LFE538:
+ 436              		.section	.text.fs_close,"ax",%progbits
+ 437              		.align	1
+ 438              		.syntax unified
+ 439              		.thumb
+ 440              		.thumb_func
+ 442              	fs_close:
+ 443              	.LVL50:
+ 444              	.LFB537:
+ 135:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 445              		.loc 1 135 1 is_stmt 1 view -0
+ 446              		.cfi_startproc
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 0, uses_anonymous_args = 0
+ 135:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 449              		.loc 1 135 1 is_stmt 0 view .LVU106
+ 450 0000 10B5     		push	{r4, lr}
+ 451              	.LCFI8:
+ 452              		.cfi_def_cfa_offset 8
+ 453              		.cfi_offset 4, -8
+ 454              		.cfi_offset 14, -4
+ 455 0002 0C46     		mov	r4, r1
+ 136:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     f_close(file_p);
+ 456              		.loc 1 136 5 is_stmt 1 view .LVU107
+ 137:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_mem_free(file_p);
+ 457              		.loc 1 137 5 view .LVU108
+ 458 0004 0846     		mov	r0, r1
+ 459              	.LVL51:
+ 137:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_mem_free(file_p);
+ 460              		.loc 1 137 5 is_stmt 0 view .LVU109
+ 461 0006 FFF7FEFF 		bl	f_close
+ 462              	.LVL52:
+ 138:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     return LV_FS_RES_OK;
+ 463              		.loc 1 138 5 is_stmt 1 view .LVU110
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 15
+
+
+ 464 000a 2046     		mov	r0, r4
+ 465 000c FFF7FEFF 		bl	lv_mem_free
+ 466              	.LVL53:
+ 139:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 467              		.loc 1 139 5 view .LVU111
+ 140:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 468              		.loc 1 140 1 is_stmt 0 view .LVU112
+ 469 0010 0020     		movs	r0, #0
+ 470 0012 10BD     		pop	{r4, pc}
+ 140:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 471              		.loc 1 140 1 view .LVU113
+ 472              		.cfi_endproc
+ 473              	.LFE537:
+ 475              		.section	.text.fs_open,"ax",%progbits
+ 476              		.align	1
+ 477              		.syntax unified
+ 478              		.thumb
+ 479              		.thumb_func
+ 481              	fs_open:
+ 482              	.LVL54:
+ 483              	.LFB536:
+ 106:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 484              		.loc 1 106 1 is_stmt 1 view -0
+ 485              		.cfi_startproc
+ 486              		@ args = 0, pretend = 0, frame = 0
+ 487              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     LV_UNUSED(drv);
+ 488              		.loc 1 106 1 is_stmt 0 view .LVU115
+ 489 0000 70B5     		push	{r4, r5, r6, lr}
+ 490              	.LCFI9:
+ 491              		.cfi_def_cfa_offset 16
+ 492              		.cfi_offset 4, -16
+ 493              		.cfi_offset 5, -12
+ 494              		.cfi_offset 6, -8
+ 495              		.cfi_offset 14, -4
+ 496 0002 0C46     		mov	r4, r1
+ 107:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     uint8_t flags = 0;
+ 497              		.loc 1 107 5 is_stmt 1 view .LVU116
+ 108:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 498              		.loc 1 108 5 view .LVU117
+ 499              	.LVL55:
+ 110:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == LV_FS_MODE_RD) flags = FA_READ;
+ 500              		.loc 1 110 5 view .LVU118
+ 110:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == LV_FS_MODE_RD) flags = FA_READ;
+ 501              		.loc 1 110 7 is_stmt 0 view .LVU119
+ 502 0004 012A     		cmp	r2, #1
+ 503 0006 05D0     		beq	.L37
+ 111:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) flags = FA_READ | FA_WRITE | FA_OPEN_ALWAYS;
+ 504              		.loc 1 111 10 is_stmt 1 view .LVU120
+ 111:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) flags = FA_READ | FA_WRITE | FA_OPEN_ALWAYS;
+ 505              		.loc 1 111 12 is_stmt 0 view .LVU121
+ 506 0008 022A     		cmp	r2, #2
+ 507 000a 11D0     		beq	.L38
+ 112:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 508              		.loc 1 112 10 is_stmt 1 view .LVU122
+ 112:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 509              		.loc 1 112 12 is_stmt 0 view .LVU123
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 16
+
+
+ 510 000c 032A     		cmp	r2, #3
+ 511 000e 11D0     		beq	.L39
+ 108:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 512              		.loc 1 108 13 view .LVU124
+ 513 0010 0026     		movs	r6, #0
+ 514 0012 00E0     		b	.L35
+ 515              	.L37:
+ 110:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == LV_FS_MODE_RD) flags = FA_READ;
+ 516              		.loc 1 110 37 discriminator 1 view .LVU125
+ 517 0014 1226     		movs	r6, #18
+ 518              	.L35:
+ 519              	.LVL56:
+ 114:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(f == NULL) return NULL;
+ 520              		.loc 1 114 5 is_stmt 1 view .LVU126
+ 114:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(f == NULL) return NULL;
+ 521              		.loc 1 114 15 is_stmt 0 view .LVU127
+ 522 0016 4FF40C70 		mov	r0, #560
+ 523              	.LVL57:
+ 114:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(f == NULL) return NULL;
+ 524              		.loc 1 114 15 view .LVU128
+ 525 001a FFF7FEFF 		bl	lv_mem_alloc
+ 526              	.LVL58:
+ 115:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 527              		.loc 1 115 5 is_stmt 1 view .LVU129
+ 115:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 528              		.loc 1 115 7 is_stmt 0 view .LVU130
+ 529 001e 0546     		mov	r5, r0
+ 530 0020 20B1     		cbz	r0, .L34
+ 117:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) {
+ 531              		.loc 1 117 5 is_stmt 1 view .LVU131
+ 117:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     if(res == FR_OK) {
+ 532              		.loc 1 117 19 is_stmt 0 view .LVU132
+ 533 0022 3246     		mov	r2, r6
+ 534 0024 2146     		mov	r1, r4
+ 535 0026 FFF7FEFF 		bl	f_open
+ 536              	.LVL59:
+ 118:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         return f;
+ 537              		.loc 1 118 5 is_stmt 1 view .LVU133
+ 118:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         return f;
+ 538              		.loc 1 118 7 is_stmt 0 view .LVU134
+ 539 002a 28B9     		cbnz	r0, .L41
+ 540              	.LVL60:
+ 541              	.L34:
+ 125:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 542              		.loc 1 125 1 view .LVU135
+ 543 002c 2846     		mov	r0, r5
+ 544 002e 70BD     		pop	{r4, r5, r6, pc}
+ 545              	.LVL61:
+ 546              	.L38:
+ 111:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) flags = FA_READ | FA_WRITE | FA_OPEN_ALWAYS;
+ 547              		.loc 1 111 42 discriminator 1 view .LVU136
+ 548 0030 0126     		movs	r6, #1
+ 549 0032 F0E7     		b	.L35
+ 550              	.L39:
+ 112:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 551              		.loc 1 112 60 discriminator 1 view .LVU137
+ 552 0034 1326     		movs	r6, #19
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 17
+
+
+ 553 0036 EEE7     		b	.L35
+ 554              	.LVL62:
+ 555              	.L41:
+ 122:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         return NULL;
+ 556              		.loc 1 122 9 is_stmt 1 view .LVU138
+ 557 0038 2846     		mov	r0, r5
+ 558              	.LVL63:
+ 122:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****         return NULL;
+ 559              		.loc 1 122 9 is_stmt 0 view .LVU139
+ 560 003a FFF7FEFF 		bl	lv_mem_free
+ 561              	.LVL64:
+ 123:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 562              		.loc 1 123 9 is_stmt 1 view .LVU140
+ 123:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 563              		.loc 1 123 16 is_stmt 0 view .LVU141
+ 564 003e 0025     		movs	r5, #0
+ 565              	.LVL65:
+ 123:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     }
+ 566              		.loc 1 123 16 view .LVU142
+ 567 0040 F4E7     		b	.L34
+ 568              		.cfi_endproc
+ 569              	.LFE536:
+ 571              		.section	.text.lv_fs_fatfs_init,"ax",%progbits
+ 572              		.align	1
+ 573              		.global	lv_fs_fatfs_init
+ 574              		.syntax unified
+ 575              		.thumb
+ 576              		.thumb_func
+ 578              	lv_fs_fatfs_init:
+ 579              	.LFB534:
+  55:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     /*----------------------------------------------------
+ 580              		.loc 1 55 1 is_stmt 1 view -0
+ 581              		.cfi_startproc
+ 582              		@ args = 0, pretend = 0, frame = 0
+ 583              		@ frame_needed = 0, uses_anonymous_args = 0
+ 584 0000 10B5     		push	{r4, lr}
+ 585              	.LCFI10:
+ 586              		.cfi_def_cfa_offset 8
+ 587              		.cfi_offset 4, -8
+ 588              		.cfi_offset 14, -4
+  59:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 589              		.loc 1 59 5 view .LVU144
+  66:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     lv_fs_drv_init(&fs_drv);
+ 590              		.loc 1 66 5 view .LVU145
+  67:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 591              		.loc 1 67 5 view .LVU146
+ 592 0002 0F4C     		ldr	r4, .L44
+ 593 0004 2046     		mov	r0, r4
+ 594 0006 FFF7FEFF 		bl	lv_fs_drv_init
+ 595              	.LVL66:
+  70:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.cache_size = LV_FS_FATFS_CACHE_SIZE;
+ 596              		.loc 1 70 5 view .LVU147
+  70:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.cache_size = LV_FS_FATFS_CACHE_SIZE;
+ 597              		.loc 1 70 19 is_stmt 0 view .LVU148
+ 598 000a 3023     		movs	r3, #48
+ 599 000c 2370     		strb	r3, [r4]
+  71:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 18
+
+
+ 600              		.loc 1 71 5 is_stmt 1 view .LVU149
+  71:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 601              		.loc 1 71 23 is_stmt 0 view .LVU150
+ 602 000e 4FF48063 		mov	r3, #1024
+ 603 0012 6380     		strh	r3, [r4, #2]	@ movhi
+  73:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.close_cb = fs_close;
+ 604              		.loc 1 73 5 is_stmt 1 view .LVU151
+  73:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.close_cb = fs_close;
+ 605              		.loc 1 73 20 is_stmt 0 view .LVU152
+ 606 0014 0B4B     		ldr	r3, .L44+4
+ 607 0016 A360     		str	r3, [r4, #8]
+  74:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.read_cb = fs_read;
+ 608              		.loc 1 74 5 is_stmt 1 view .LVU153
+  74:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.read_cb = fs_read;
+ 609              		.loc 1 74 21 is_stmt 0 view .LVU154
+ 610 0018 0B4B     		ldr	r3, .L44+8
+ 611 001a E360     		str	r3, [r4, #12]
+  75:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.write_cb = fs_write;
+ 612              		.loc 1 75 5 is_stmt 1 view .LVU155
+  75:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.write_cb = fs_write;
+ 613              		.loc 1 75 20 is_stmt 0 view .LVU156
+ 614 001c 0B4B     		ldr	r3, .L44+12
+ 615 001e 2361     		str	r3, [r4, #16]
+  76:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.seek_cb = fs_seek;
+ 616              		.loc 1 76 5 is_stmt 1 view .LVU157
+  76:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.seek_cb = fs_seek;
+ 617              		.loc 1 76 21 is_stmt 0 view .LVU158
+ 618 0020 0B4B     		ldr	r3, .L44+16
+ 619 0022 6361     		str	r3, [r4, #20]
+  77:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.tell_cb = fs_tell;
+ 620              		.loc 1 77 5 is_stmt 1 view .LVU159
+  77:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.tell_cb = fs_tell;
+ 621              		.loc 1 77 20 is_stmt 0 view .LVU160
+ 622 0024 0B4B     		ldr	r3, .L44+20
+ 623 0026 A361     		str	r3, [r4, #24]
+  78:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 624              		.loc 1 78 5 is_stmt 1 view .LVU161
+  78:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 625              		.loc 1 78 20 is_stmt 0 view .LVU162
+ 626 0028 0B4B     		ldr	r3, .L44+24
+ 627 002a E361     		str	r3, [r4, #28]
+  80:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_open_cb = fs_dir_open;
+ 628              		.loc 1 80 5 is_stmt 1 view .LVU163
+  80:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_open_cb = fs_dir_open;
+ 629              		.loc 1 80 25 is_stmt 0 view .LVU164
+ 630 002c 0B4B     		ldr	r3, .L44+28
+ 631 002e A362     		str	r3, [r4, #40]
+  81:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_read_cb = fs_dir_read;
+ 632              		.loc 1 81 5 is_stmt 1 view .LVU165
+  81:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c ****     fs_drv.dir_read_cb = fs_dir_read;
+ 633              		.loc 1 81 24 is_stmt 0 view .LVU166
+ 634 0030 0B4B     		ldr	r3, .L44+32
+ 635 0032 2362     		str	r3, [r4, #32]
+  82:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 636              		.loc 1 82 5 is_stmt 1 view .LVU167
+  82:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 637              		.loc 1 82 24 is_stmt 0 view .LVU168
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 19
+
+
+ 638 0034 0B4B     		ldr	r3, .L44+36
+ 639 0036 6362     		str	r3, [r4, #36]
+  84:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** }
+ 640              		.loc 1 84 5 is_stmt 1 view .LVU169
+ 641 0038 2046     		mov	r0, r4
+ 642 003a FFF7FEFF 		bl	lv_fs_drv_register
+ 643              	.LVL67:
+  85:lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c **** 
+ 644              		.loc 1 85 1 is_stmt 0 view .LVU170
+ 645 003e 10BD     		pop	{r4, pc}
+ 646              	.L45:
+ 647              		.align	2
+ 648              	.L44:
+ 649 0040 00000000 		.word	fs_drv.0
+ 650 0044 00000000 		.word	fs_open
+ 651 0048 00000000 		.word	fs_close
+ 652 004c 00000000 		.word	fs_read
+ 653 0050 00000000 		.word	fs_write
+ 654 0054 00000000 		.word	fs_seek
+ 655 0058 00000000 		.word	fs_tell
+ 656 005c 00000000 		.word	fs_dir_close
+ 657 0060 00000000 		.word	fs_dir_open
+ 658 0064 00000000 		.word	fs_dir_read
+ 659              		.cfi_endproc
+ 660              	.LFE534:
+ 662              		.section	.bss.fs_drv.0,"aw",%nobits
+ 663              		.align	2
+ 666              	fs_drv.0:
+ 667 0000 00000000 		.space	48
+ 667      00000000 
+ 667      00000000 
+ 667      00000000 
+ 667      00000000 
+ 668              		.text
+ 669              	.Letext0:
+ 670              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 671              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 672              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 673              		.file 5 "lvgl/src/hal/../draw/../misc/lv_fs.h"
+ 674              		.file 6 "Middlewares/Third_Party/FatFs/src/integer.h"
+ 675              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 676              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 677              		.file 9 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 678              		.file 10 "Middlewares/Third_Party/FatFs/src/ff.h"
+ 679              		.file 11 "lvgl/src/hal/../draw/../misc/lv_mem.h"
+ 680              		.file 12 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ARM GAS  C:\usertemp\ccToKkpj.s 			page 20
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_fs_fatfs.c
+C:\usertemp\ccToKkpj.s:20     .text.fs_tell:00000000 $t
+C:\usertemp\ccToKkpj.s:25     .text.fs_tell:00000000 fs_tell
+C:\usertemp\ccToKkpj.s:49     .rodata.fs_dir_read.str1.4:00000000 $d
+C:\usertemp\ccToKkpj.s:56     .text.fs_dir_read:00000000 $t
+C:\usertemp\ccToKkpj.s:61     .text.fs_dir_read:00000000 fs_dir_read
+C:\usertemp\ccToKkpj.s:165    .text.fs_dir_read:00000060 $d
+C:\usertemp\ccToKkpj.s:171    .text.fs_dir_open:00000000 $t
+C:\usertemp\ccToKkpj.s:176    .text.fs_dir_open:00000000 fs_dir_open
+C:\usertemp\ccToKkpj.s:235    .text.fs_dir_close:00000000 $t
+C:\usertemp\ccToKkpj.s:240    .text.fs_dir_close:00000000 fs_dir_close
+C:\usertemp\ccToKkpj.s:274    .text.fs_seek:00000000 $t
+C:\usertemp\ccToKkpj.s:279    .text.fs_seek:00000000 fs_seek
+C:\usertemp\ccToKkpj.s:339    .text.fs_write:00000000 $t
+C:\usertemp\ccToKkpj.s:344    .text.fs_write:00000000 fs_write
+C:\usertemp\ccToKkpj.s:388    .text.fs_read:00000000 $t
+C:\usertemp\ccToKkpj.s:393    .text.fs_read:00000000 fs_read
+C:\usertemp\ccToKkpj.s:437    .text.fs_close:00000000 $t
+C:\usertemp\ccToKkpj.s:442    .text.fs_close:00000000 fs_close
+C:\usertemp\ccToKkpj.s:476    .text.fs_open:00000000 $t
+C:\usertemp\ccToKkpj.s:481    .text.fs_open:00000000 fs_open
+C:\usertemp\ccToKkpj.s:572    .text.lv_fs_fatfs_init:00000000 $t
+C:\usertemp\ccToKkpj.s:578    .text.lv_fs_fatfs_init:00000000 lv_fs_fatfs_init
+C:\usertemp\ccToKkpj.s:649    .text.lv_fs_fatfs_init:00000040 $d
+C:\usertemp\ccToKkpj.s:666    .bss.fs_drv.0:00000000 fs_drv.0
+C:\usertemp\ccToKkpj.s:663    .bss.fs_drv.0:00000000 $d
+
+UNDEFINED SYMBOLS
+f_readdir
+strcpy
+strcmp
+lv_mem_alloc
+f_opendir
+lv_mem_free
+f_closedir
+f_lseek
+f_write
+f_read
+f_close
+f_open
+lv_fs_drv_init
+lv_fs_drv_register

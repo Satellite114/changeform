@@ -1,0 +1,964 @@
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_animimg.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/widgets/animimg/lv_animimg.c"
+  19              		.section	.text.lv_animimg_constructor,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	lv_animimg_constructor:
+  26              	.LVL0:
+  27              	.LFB201:
+   1:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**
+   2:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  * @file lv_animimg.c
+   3:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *
+   4:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  */
+   5:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+   6:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /*********************
+   7:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *      INCLUDES
+   8:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *********************/
+   9:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "lv_animimg.h"
+  10:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #if LV_USE_ANIMIMG != 0
+  11:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  12:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /*Testing of dependencies*/
+  13:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #if LV_USE_IMG == 0
+  14:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     #error "lv_animimg: lv_img is required. Enable it in lv_conf.h (LV_USE_IMG  1) "
+  15:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #endif
+  16:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  17:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../misc/lv_assert.h"
+  18:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../draw/lv_img_decoder.h"
+  19:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../misc/lv_fs.h"
+  20:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../misc/lv_txt.h"
+  21:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../misc/lv_math.h"
+  22:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../misc/lv_log.h"
+  23:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #include "../../../misc/lv_anim.h"
+  24:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  25:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /*********************
+  26:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *      DEFINES
+  27:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *********************/
+  28:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #define LV_OBJX_NAME "lv_animimg"
+  29:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  30:lvgl/src/extra/widgets/animimg/lv_animimg.c **** #define MY_CLASS &lv_animimg_class
+  31:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 2
+
+
+  32:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**********************
+  33:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *      TYPEDEFS
+  34:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  **********************/
+  35:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  36:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**********************
+  37:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *  STATIC PROTOTYPES
+  38:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  **********************/
+  39:lvgl/src/extra/widgets/animimg/lv_animimg.c **** static void index_change(lv_obj_t * obj, int32_t index);
+  40:lvgl/src/extra/widgets/animimg/lv_animimg.c **** static void lv_animimg_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  41:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  42:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**********************
+  43:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *  STATIC VARIABLES
+  44:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  **********************/
+  45:lvgl/src/extra/widgets/animimg/lv_animimg.c **** const lv_obj_class_t lv_animimg_class = {
+  46:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     .constructor_cb = lv_animimg_constructor,
+  47:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     .instance_size = sizeof(lv_animimg_t),
+  48:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     .base_class = &lv_img_class
+  49:lvgl/src/extra/widgets/animimg/lv_animimg.c **** };
+  50:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  51:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**********************
+  52:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *      MACROS
+  53:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  **********************/
+  54:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  55:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**********************
+  56:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *   GLOBAL FUNCTIONS
+  57:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  **********************/
+  58:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  59:lvgl/src/extra/widgets/animimg/lv_animimg.c **** lv_obj_t * lv_animimg_create(lv_obj_t * parent)
+  60:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+  61:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_LOG_INFO("begin");
+  62:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_animimg_class, parent);
+  63:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_class_init_obj(obj);
+  64:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     return obj;
+  65:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+  66:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  67:lvgl/src/extra/widgets/animimg/lv_animimg.c **** void lv_animimg_set_src(lv_obj_t * obj, const void * dsc[], uint8_t num)
+  68:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+  69:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+  70:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+  71:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->dsc = dsc;
+  72:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->pic_count = num;
+  73:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_values(&animimg->anim, 0, num);
+  74:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+  75:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  76:lvgl/src/extra/widgets/animimg/lv_animimg.c **** void lv_animimg_start(lv_obj_t * obj)
+  77:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+  78:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+  79:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+  80:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_start(&animimg->anim);
+  81:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+  82:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  83:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /*=====================
+  84:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  * Setter functions
+  85:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *====================*/
+  86:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  87:lvgl/src/extra/widgets/animimg/lv_animimg.c **** void lv_animimg_set_duration(lv_obj_t * obj, uint32_t duration)
+  88:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 3
+
+
+  89:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+  90:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+  91:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_time(&animimg->anim, duration);
+  92:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_playback_delay(&animimg->anim, duration);
+  93:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+  94:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+  95:lvgl/src/extra/widgets/animimg/lv_animimg.c **** void lv_animimg_set_repeat_count(lv_obj_t * obj, uint16_t count)
+  96:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+  97:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+  98:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+  99:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_repeat_count(&animimg->anim, count);
+ 100:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 101:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 102:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /*=====================
+ 103:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  * Getter functions
+ 104:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *====================*/
+ 105:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 106:lvgl/src/extra/widgets/animimg/lv_animimg.c **** /**********************
+ 107:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  *   STATIC FUNCTIONS
+ 108:lvgl/src/extra/widgets/animimg/lv_animimg.c ****  **********************/
+ 109:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 110:lvgl/src/extra/widgets/animimg/lv_animimg.c **** static void lv_animimg_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ 111:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+  28              		.loc 1 111 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 111 1 is_stmt 0 view .LVU1
+  33 0000 38B5     		push	{r3, r4, r5, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36              		.cfi_offset 3, -16
+  37              		.cfi_offset 4, -12
+  38              		.cfi_offset 5, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0C46     		mov	r4, r1
+ 112:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_TRACE_OBJ_CREATE("begin");
+  41              		.loc 1 112 5 is_stmt 1 view .LVU2
+  42              		.loc 1 112 5 view .LVU3
+  43              		.loc 1 112 5 view .LVU4
+ 113:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 114:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_UNUSED(class_p);
+  44              		.loc 1 114 5 view .LVU5
+ 115:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+  45              		.loc 1 115 5 view .LVU6
+  46              	.LVL1:
+ 116:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 117:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->dsc = NULL;
+  47              		.loc 1 117 5 view .LVU7
+  48              		.loc 1 117 18 is_stmt 0 view .LVU8
+  49 0004 0025     		movs	r5, #0
+  50 0006 CD67     		str	r5, [r1, #124]
+ 118:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->pic_count = -1;
+  51              		.loc 1 118 5 is_stmt 1 view .LVU9
+  52              		.loc 1 118 24 is_stmt 0 view .LVU10
+  53 0008 FF23     		movs	r3, #255
+  54 000a 81F88030 		strb	r3, [r1, #128]
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 4
+
+
+ 119:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     //initial animation
+ 120:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_init(&animimg->anim);
+  55              		.loc 1 120 5 is_stmt 1 view .LVU11
+  56 000e 01F13C00 		add	r0, r1, #60
+  57              	.LVL2:
+  58              		.loc 1 120 5 is_stmt 0 view .LVU12
+  59 0012 FFF7FEFF 		bl	lv_anim_init
+  60              	.LVL3:
+ 121:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_var(&animimg->anim, obj);
+  61              		.loc 1 121 5 is_stmt 1 view .LVU13
+  62              	.LBB20:
+  63              	.LBI20:
+  64              		.file 2 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_anim.h"
+   1:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+   2:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @file lv_anim.h
+   3:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *
+   4:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+   5:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+   6:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #ifndef LV_ANIM_H
+   7:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #define LV_ANIM_H
+   8:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+   9:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #ifdef __cplusplus
+  10:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** extern "C" {
+  11:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #endif
+  12:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  13:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /*********************
+  14:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *      INCLUDES
+  15:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *********************/
+  16:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #include "../lv_conf_internal.h"
+  17:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  18:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #include <stdint.h>
+  19:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #include <stdbool.h>
+  20:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #include <stddef.h>
+  21:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  22:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /*********************
+  23:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *      DEFINES
+  24:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *********************/
+  25:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  26:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #define LV_ANIM_REPEAT_INFINITE      0xFFFF
+  27:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #define LV_ANIM_PLAYTIME_INFINITE    0xFFFFFFFF
+  28:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  29:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** LV_EXPORT_CONST_INT(LV_ANIM_REPEAT_INFINITE);
+  30:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** LV_EXPORT_CONST_INT(LV_ANIM_PLAYTIME_INFINITE);
+  31:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  32:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**********************
+  33:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *      TYPEDEFS
+  34:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  **********************/
+  35:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  36:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Can be used to indicate if animations are enabled or disabled in a case*/
+  37:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef enum {
+  38:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     LV_ANIM_OFF,
+  39:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     LV_ANIM_ON,
+  40:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** } lv_anim_enable_t;
+  41:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  42:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** struct _lv_anim_t;
+  43:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  44:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Get the current value during an animation*/
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 5
+
+
+  45:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef int32_t (*lv_anim_path_cb_t)(const struct _lv_anim_t *);
+  46:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  47:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Generic prototype of "animator" functions.
+  48:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * First parameter is the variable to animate.
+  49:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Second parameter is the value to set.
+  50:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Compatible with `lv_xxx_set_yyy(obj, value)` functions
+  51:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * The `x` in `_xcb_t` means it's not a fully generic prototype because
+  52:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * it doesn't receive `lv_anim_t *` as its first argument*/
+  53:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef void (*lv_anim_exec_xcb_t)(void *, int32_t);
+  54:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  55:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Same as `lv_anim_exec_xcb_t` but receives `lv_anim_t *` as the first parameter.
+  56:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * It's more consistent but less convenient. Might be used by binding generator functions.*/
+  57:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef void (*lv_anim_custom_exec_cb_t)(struct _lv_anim_t *, int32_t);
+  58:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  59:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Callback to call when the animation is ready*/
+  60:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef void (*lv_anim_ready_cb_t)(struct _lv_anim_t *);
+  61:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  62:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Callback to call when the animation really stars (considering `delay`)*/
+  63:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef void (*lv_anim_start_cb_t)(struct _lv_anim_t *);
+  64:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  65:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Callback used when the animation values are relative to get the current value*/
+  66:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef int32_t (*lv_anim_get_value_cb_t)(struct _lv_anim_t *);
+  67:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  68:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /** Describes an animation*/
+  69:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** typedef struct _lv_anim_t {
+  70:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     void * var;                          /**<Variable to animate*/
+  71:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     lv_anim_exec_xcb_t exec_cb;          /**< Function to execute to animate*/
+  72:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     lv_anim_start_cb_t start_cb;         /**< Call it when the animation is starts (considering `de
+  73:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     lv_anim_ready_cb_t ready_cb;         /**< Call it when the animation is ready*/
+  74:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     lv_anim_get_value_cb_t get_value_cb; /**< Get the current value in relative mode*/
+  75:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #if LV_USE_USER_DATA
+  76:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     void * user_data; /**< Custom user data*/
+  77:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** #endif
+  78:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     lv_anim_path_cb_t path_cb;         /**< Describe the path (curve) of animations*/
+  79:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     int32_t start_value;               /**< Start value*/
+  80:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     int32_t current_value;             /**< Current value*/
+  81:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     int32_t end_value;                 /**< End value*/
+  82:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     int32_t time;                /**< Animation time in ms*/
+  83:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     int32_t act_time;            /**< Current time in animation. Set to negative to make delay.*/
+  84:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint32_t playback_delay;     /**< Wait before play back*/
+  85:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint32_t playback_time;      /**< Duration of playback animation*/
+  86:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint32_t repeat_delay;       /**< Wait before repeat*/
+  87:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint16_t repeat_cnt;         /**< Repeat count for the animation*/
+  88:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint8_t early_apply  : 1;    /**< 1: Apply start value immediately even is there is `delay`*/
+  89:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  90:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     /*Animation system use these - user shouldn't set*/
+  91:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint8_t playback_now : 1; /**< Play back is in progress*/
+  92:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint8_t run_round : 1;    /**< Indicates the animation has run in this round*/
+  93:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     uint8_t start_cb_called : 1;    /**< Indicates that the `start_cb` was already called*/
+  94:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** } lv_anim_t;
+  95:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+  96:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**********************
+  97:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * GLOBAL PROTOTYPES
+  98:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  **********************/
+  99:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 100:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 101:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Init. the animation module
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 6
+
+
+ 102:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 103:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** void _lv_anim_core_init(void);
+ 104:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 105:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 106:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Initialize an animation variable.
+ 107:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * E.g.:
+ 108:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * lv_anim_t a;
+ 109:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * lv_anim_init(&a);
+ 110:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * lv_anim_set_...(&a);
+ 111:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * lv_anim_start(&a);
+ 112:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a     pointer to an `lv_anim_t` variable to initialize
+ 113:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 114:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** void lv_anim_init(lv_anim_t * a);
+ 115:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 116:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 117:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set a variable to animate
+ 118:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a     pointer to an initialized `lv_anim_t` variable
+ 119:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param var   pointer to a variable to animate
+ 120:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 121:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_var(lv_anim_t * a, void * var)
+  65              		.loc 2 121 20 view .LVU14
+  66              	.LBB21:
+ 122:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 123:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->var = var;
+  67              		.loc 2 123 5 view .LVU15
+  68              		.loc 2 123 12 is_stmt 0 view .LVU16
+  69 0016 E463     		str	r4, [r4, #60]
+  70              	.LVL4:
+  71              		.loc 2 123 12 view .LVU17
+  72              	.LBE21:
+  73              	.LBE20:
+ 122:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_time(&animimg->anim, 30);
+  74              		.loc 1 122 5 is_stmt 1 view .LVU18
+  75              	.LBB22:
+  76              	.LBI22:
+ 124:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 125:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 126:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 127:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set a function to animate `var`
+ 128:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 129:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param exec_cb   a function to execute during animation
+ 130:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *                  LVGL's built-in functions can be used.
+ 131:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  *                  E.g. lv_obj_set_x
+ 132:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 133:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_exec_cb(lv_anim_t * a, lv_anim_exec_xcb_t exec_cb)
+ 134:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 135:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->exec_cb = exec_cb;
+ 136:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 137:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 138:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 139:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set the duration of an animation
+ 140:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 141:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param duration  duration of the animation in milliseconds
+ 142:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 143:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_time(lv_anim_t * a, uint32_t duration)
+  77              		.loc 2 143 20 view .LVU19
+  78              	.LBB23:
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 7
+
+
+ 144:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 145:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->time = duration;
+  79              		.loc 2 145 5 view .LVU20
+  80              		.loc 2 145 13 is_stmt 0 view .LVU21
+  81 0018 1E23     		movs	r3, #30
+  82 001a 6366     		str	r3, [r4, #100]
+  83              	.LVL5:
+  84              		.loc 2 145 13 view .LVU22
+  85              	.LBE23:
+  86              	.LBE22:
+ 123:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_exec_cb(&animimg->anim, (lv_anim_exec_xcb_t)index_change);
+  87              		.loc 1 123 5 is_stmt 1 view .LVU23
+  88              	.LBB24:
+  89              	.LBI24:
+ 133:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+  90              		.loc 2 133 20 view .LVU24
+  91              	.LBB25:
+ 135:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+  92              		.loc 2 135 5 view .LVU25
+ 135:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+  93              		.loc 2 135 16 is_stmt 0 view .LVU26
+  94 001c 054B     		ldr	r3, .L3
+  95 001e 2364     		str	r3, [r4, #64]
+  96              	.LVL6:
+ 135:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+  97              		.loc 2 135 16 view .LVU27
+  98              	.LBE25:
+  99              	.LBE24:
+ 124:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_values(&animimg->anim, 0, 1);
+ 100              		.loc 1 124 5 is_stmt 1 view .LVU28
+ 101              	.LBB26:
+ 102              	.LBI26:
+ 146:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 147:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 148:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 149:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set a delay before starting the animation
+ 150:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 151:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param delay     delay before the animation in milliseconds
+ 152:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 153:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_delay(lv_anim_t * a, uint32_t delay)
+ 154:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 155:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->act_time = -(int32_t)(delay);
+ 156:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 157:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 158:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 159:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set the start and end values of an animation
+ 160:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 161:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param start     the start value
+ 162:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param end       the end value
+ 163:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 164:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_values(lv_anim_t * a, int32_t start, int32_t end)
+ 103              		.loc 2 164 20 view .LVU29
+ 104              	.LBB27:
+ 165:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 166:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->start_value = start;
+ 105              		.loc 2 166 5 view .LVU30
+ 106              		.loc 2 166 20 is_stmt 0 view .LVU31
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 8
+
+
+ 107 0020 A565     		str	r5, [r4, #88]
+ 167:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->current_value = start;
+ 108              		.loc 2 167 5 is_stmt 1 view .LVU32
+ 109              		.loc 2 167 22 is_stmt 0 view .LVU33
+ 110 0022 E565     		str	r5, [r4, #92]
+ 168:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->end_value = end;
+ 111              		.loc 2 168 5 is_stmt 1 view .LVU34
+ 112              		.loc 2 168 18 is_stmt 0 view .LVU35
+ 113 0024 0123     		movs	r3, #1
+ 114 0026 2366     		str	r3, [r4, #96]
+ 115              	.LVL7:
+ 116              		.loc 2 168 18 view .LVU36
+ 117              	.LBE27:
+ 118              	.LBE26:
+ 125:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_repeat_count(&animimg->anim, LV_ANIM_REPEAT_INFINITE);
+ 119              		.loc 1 125 5 is_stmt 1 view .LVU37
+ 120              	.LBB28:
+ 121              	.LBI28:
+ 169:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 170:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 171:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 172:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Similar to `lv_anim_set_exec_cb` but `lv_anim_custom_exec_cb_t` receives
+ 173:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * `lv_anim_t * ` as its first parameter instead of `void *`.
+ 174:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * This function might be used when LVGL is bound to other languages because
+ 175:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * it's more consistent to have `lv_anim_t *` as first parameter.
+ 176:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * The variable to animate can be stored in the animation's `user_data`
+ 177:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 178:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param exec_cb   a function to execute.
+ 179:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 180:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_custom_exec_cb(lv_anim_t * a, lv_anim_custom_exec_cb_t exec_cb)
+ 181:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 182:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->var     = a;
+ 183:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->exec_cb = (lv_anim_exec_xcb_t)exec_cb;
+ 184:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 185:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 186:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 187:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set the path (curve) of the animation.
+ 188:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 189:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param path_cb a function to set the current value of the animation.
+ 190:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 191:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_path_cb(lv_anim_t * a, lv_anim_path_cb_t path_cb)
+ 192:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 193:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->path_cb = path_cb;
+ 194:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 195:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 196:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 197:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set a function call when the animation really starts (considering `delay`)
+ 198:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 199:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param start_cb  a function call when the animation starts
+ 200:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 201:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_start_cb(lv_anim_t * a, lv_anim_start_cb_t start_cb)
+ 202:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 203:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->start_cb = start_cb;
+ 204:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 205:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 206:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 207:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set a function to use the current value of the variable and make start and end value
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 9
+
+
+ 208:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * relative to the returned current value.
+ 209:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a             pointer to an initialized `lv_anim_t` variable
+ 210:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param get_value_cb  a function call when the animation starts
+ 211:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 212:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_get_value_cb(lv_anim_t * a, lv_anim_get_value_cb_t get_value_cb)
+ 213:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 214:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->get_value_cb = get_value_cb;
+ 215:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 216:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 217:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 218:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Set a function call when the animation is ready
+ 219:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 220:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param ready_cb  a function call when the animation is ready
+ 221:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 222:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_ready_cb(lv_anim_t * a, lv_anim_ready_cb_t ready_cb)
+ 223:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 224:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->ready_cb = ready_cb;
+ 225:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 226:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 227:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 228:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Make the animation to play back to when the forward direction is ready
+ 229:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 230:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param time      the duration of the playback animation in milliseconds. 0: disable playback
+ 231:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 232:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_playback_time(lv_anim_t * a, uint32_t time)
+ 233:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 234:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->playback_time = time;
+ 235:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 236:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 237:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 238:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Make the animation to play back to when the forward direction is ready
+ 239:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 240:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param delay     delay in milliseconds before starting the playback animation.
+ 241:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 242:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_playback_delay(lv_anim_t * a, uint32_t delay)
+ 243:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 244:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->playback_delay = delay;
+ 245:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 246:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** 
+ 247:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** /**
+ 248:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * Make the animation repeat itself.
+ 249:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param a         pointer to an initialized `lv_anim_t` variable
+ 250:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  * @param cnt       repeat count or `LV_ANIM_REPEAT_INFINITE` for infinite repetition. 0: to disabl
+ 251:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****  */
+ 252:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** static inline void lv_anim_set_repeat_count(lv_anim_t * a, uint16_t cnt)
+ 122              		.loc 2 252 20 view .LVU38
+ 123              	.LBB29:
+ 253:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 254:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->repeat_cnt = cnt;
+ 124              		.loc 2 254 5 view .LVU39
+ 125              		.loc 2 254 19 is_stmt 0 view .LVU40
+ 126 0028 4FF6FF73 		movw	r3, #65535
+ 127 002c A4F87830 		strh	r3, [r4, #120]	@ movhi
+ 128              	.LVL8:
+ 129              		.loc 2 254 19 view .LVU41
+ 130              	.LBE29:
+ 131              	.LBE28:
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 10
+
+
+ 126:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 132              		.loc 1 126 1 view .LVU42
+ 133 0030 38BD     		pop	{r3, r4, r5, pc}
+ 134              	.LVL9:
+ 135              	.L4:
+ 136              		.loc 1 126 1 view .LVU43
+ 137 0032 00BF     		.align	2
+ 138              	.L3:
+ 139 0034 00000000 		.word	index_change
+ 140              		.cfi_endproc
+ 141              	.LFE201:
+ 143              		.section	.text.index_change,"ax",%progbits
+ 144              		.align	1
+ 145              		.syntax unified
+ 146              		.thumb
+ 147              		.thumb_func
+ 149              	index_change:
+ 150              	.LVL10:
+ 151              	.LFB202:
+ 127:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 128:lvgl/src/extra/widgets/animimg/lv_animimg.c **** static void index_change(lv_obj_t * obj, int32_t index)
+ 129:lvgl/src/extra/widgets/animimg/lv_animimg.c **** {
+ 152              		.loc 1 129 1 is_stmt 1 view -0
+ 153              		.cfi_startproc
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156              		.loc 1 129 1 is_stmt 0 view .LVU45
+ 157 0000 08B5     		push	{r3, lr}
+ 158              	.LCFI1:
+ 159              		.cfi_def_cfa_offset 8
+ 160              		.cfi_offset 3, -8
+ 161              		.cfi_offset 14, -4
+ 130:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_coord_t idx;
+ 162              		.loc 1 130 5 is_stmt 1 view .LVU46
+ 131:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 163              		.loc 1 131 5 view .LVU47
+ 164              	.LVL11:
+ 132:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 133:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     idx = index % animimg->pic_count;
+ 165              		.loc 1 133 5 view .LVU48
+ 166              		.loc 1 133 26 is_stmt 0 view .LVU49
+ 167 0002 90F98020 		ldrsb	r2, [r0, #128]
+ 168              		.loc 1 133 17 view .LVU50
+ 169 0006 91FBF2FC 		sdiv	ip, r1, r2
+ 170 000a 02FB1C11 		mls	r1, r2, ip, r1
+ 171              	.LVL12:
+ 172              		.loc 1 133 9 view .LVU51
+ 173 000e 09B2     		sxth	r1, r1
+ 174              	.LVL13:
+ 134:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 135:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_img_set_src(obj, animimg->dsc[idx]);
+ 175              		.loc 1 135 5 is_stmt 1 view .LVU52
+ 176              		.loc 1 135 32 is_stmt 0 view .LVU53
+ 177 0010 C36F     		ldr	r3, [r0, #124]
+ 178              		.loc 1 135 5 view .LVU54
+ 179 0012 53F82110 		ldr	r1, [r3, r1, lsl #2]
+ 180              	.LVL14:
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 11
+
+
+ 181              		.loc 1 135 5 view .LVU55
+ 182 0016 FFF7FEFF 		bl	lv_img_set_src
+ 183              	.LVL15:
+ 136:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 184              		.loc 1 136 1 view .LVU56
+ 185 001a 08BD     		pop	{r3, pc}
+ 186              		.cfi_endproc
+ 187              	.LFE202:
+ 189              		.section	.text.lv_animimg_create,"ax",%progbits
+ 190              		.align	1
+ 191              		.global	lv_animimg_create
+ 192              		.syntax unified
+ 193              		.thumb
+ 194              		.thumb_func
+ 196              	lv_animimg_create:
+ 197              	.LVL16:
+ 198              	.LFB196:
+  60:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_LOG_INFO("begin");
+ 199              		.loc 1 60 1 is_stmt 1 view -0
+ 200              		.cfi_startproc
+ 201              		@ args = 0, pretend = 0, frame = 0
+ 202              		@ frame_needed = 0, uses_anonymous_args = 0
+  60:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_LOG_INFO("begin");
+ 203              		.loc 1 60 1 is_stmt 0 view .LVU58
+ 204 0000 10B5     		push	{r4, lr}
+ 205              	.LCFI2:
+ 206              		.cfi_def_cfa_offset 8
+ 207              		.cfi_offset 4, -8
+ 208              		.cfi_offset 14, -4
+ 209 0002 0146     		mov	r1, r0
+  61:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_animimg_class, parent);
+ 210              		.loc 1 61 5 is_stmt 1 view .LVU59
+  61:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_animimg_class, parent);
+ 211              		.loc 1 61 5 view .LVU60
+  61:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_animimg_class, parent);
+ 212              		.loc 1 61 5 view .LVU61
+  62:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_class_init_obj(obj);
+ 213              		.loc 1 62 5 view .LVU62
+  62:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_class_init_obj(obj);
+ 214              		.loc 1 62 22 is_stmt 0 view .LVU63
+ 215 0004 0348     		ldr	r0, .L9
+ 216              	.LVL17:
+  62:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_class_init_obj(obj);
+ 217              		.loc 1 62 22 view .LVU64
+ 218 0006 FFF7FEFF 		bl	lv_obj_class_create_obj
+ 219              	.LVL18:
+  62:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_obj_class_init_obj(obj);
+ 220              		.loc 1 62 22 view .LVU65
+ 221 000a 0446     		mov	r4, r0
+ 222              	.LVL19:
+  63:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     return obj;
+ 223              		.loc 1 63 5 is_stmt 1 view .LVU66
+ 224 000c FFF7FEFF 		bl	lv_obj_class_init_obj
+ 225              	.LVL20:
+  64:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 226              		.loc 1 64 5 view .LVU67
+  65:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 12
+
+
+ 227              		.loc 1 65 1 is_stmt 0 view .LVU68
+ 228 0010 2046     		mov	r0, r4
+ 229 0012 10BD     		pop	{r4, pc}
+ 230              	.LVL21:
+ 231              	.L10:
+  65:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 232              		.loc 1 65 1 view .LVU69
+ 233              		.align	2
+ 234              	.L9:
+ 235 0014 00000000 		.word	lv_animimg_class
+ 236              		.cfi_endproc
+ 237              	.LFE196:
+ 239              		.section	.text.lv_animimg_set_src,"ax",%progbits
+ 240              		.align	1
+ 241              		.global	lv_animimg_set_src
+ 242              		.syntax unified
+ 243              		.thumb
+ 244              		.thumb_func
+ 246              	lv_animimg_set_src:
+ 247              	.LVL22:
+ 248              	.LFB197:
+  68:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+ 249              		.loc 1 68 1 is_stmt 1 view -0
+ 250              		.cfi_startproc
+ 251              		@ args = 0, pretend = 0, frame = 0
+ 252              		@ frame_needed = 0, uses_anonymous_args = 0
+ 253              		@ link register save eliminated.
+  69:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 254              		.loc 1 69 5 view .LVU71
+  69:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 255              		.loc 1 69 5 view .LVU72
+  69:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 256              		.loc 1 69 5 view .LVU73
+  70:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->dsc = dsc;
+ 257              		.loc 1 70 5 view .LVU74
+  71:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->pic_count = num;
+ 258              		.loc 1 71 5 view .LVU75
+  71:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     animimg->pic_count = num;
+ 259              		.loc 1 71 18 is_stmt 0 view .LVU76
+ 260 0000 C167     		str	r1, [r0, #124]
+  72:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_values(&animimg->anim, 0, num);
+ 261              		.loc 1 72 5 is_stmt 1 view .LVU77
+  72:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_values(&animimg->anim, 0, num);
+ 262              		.loc 1 72 24 is_stmt 0 view .LVU78
+ 263 0002 80F88020 		strb	r2, [r0, #128]
+  73:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 264              		.loc 1 73 5 is_stmt 1 view .LVU79
+ 265              	.LVL23:
+ 266              	.LBB30:
+ 267              	.LBI30:
+ 164:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 268              		.loc 2 164 20 view .LVU80
+ 269              	.LBB31:
+ 166:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->current_value = start;
+ 270              		.loc 2 166 5 view .LVU81
+ 166:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->current_value = start;
+ 271              		.loc 2 166 20 is_stmt 0 view .LVU82
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 13
+
+
+ 272 0006 0023     		movs	r3, #0
+ 273 0008 8365     		str	r3, [r0, #88]
+ 167:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->end_value = end;
+ 274              		.loc 2 167 5 is_stmt 1 view .LVU83
+ 167:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h ****     a->end_value = end;
+ 275              		.loc 2 167 22 is_stmt 0 view .LVU84
+ 276 000a C365     		str	r3, [r0, #92]
+ 168:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 277              		.loc 2 168 5 is_stmt 1 view .LVU85
+ 168:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 278              		.loc 2 168 18 is_stmt 0 view .LVU86
+ 279 000c 0266     		str	r2, [r0, #96]
+ 280              	.LVL24:
+ 168:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 281              		.loc 2 168 18 view .LVU87
+ 282              	.LBE31:
+ 283              	.LBE30:
+  74:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 284              		.loc 1 74 1 view .LVU88
+ 285 000e 7047     		bx	lr
+ 286              		.cfi_endproc
+ 287              	.LFE197:
+ 289              		.section	.text.lv_animimg_start,"ax",%progbits
+ 290              		.align	1
+ 291              		.global	lv_animimg_start
+ 292              		.syntax unified
+ 293              		.thumb
+ 294              		.thumb_func
+ 296              	lv_animimg_start:
+ 297              	.LVL25:
+ 298              	.LFB198:
+  77:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+ 299              		.loc 1 77 1 is_stmt 1 view -0
+ 300              		.cfi_startproc
+ 301              		@ args = 0, pretend = 0, frame = 0
+ 302              		@ frame_needed = 0, uses_anonymous_args = 0
+  77:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+ 303              		.loc 1 77 1 is_stmt 0 view .LVU90
+ 304 0000 08B5     		push	{r3, lr}
+ 305              	.LCFI3:
+ 306              		.cfi_def_cfa_offset 8
+ 307              		.cfi_offset 3, -8
+ 308              		.cfi_offset 14, -4
+  78:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 309              		.loc 1 78 5 is_stmt 1 view .LVU91
+  78:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 310              		.loc 1 78 5 view .LVU92
+  78:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 311              		.loc 1 78 5 view .LVU93
+  79:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_start(&animimg->anim);
+ 312              		.loc 1 79 5 view .LVU94
+ 313              	.LVL26:
+  80:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 314              		.loc 1 80 5 view .LVU95
+ 315 0002 3C30     		adds	r0, r0, #60
+ 316              	.LVL27:
+  80:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 14
+
+
+ 317              		.loc 1 80 5 is_stmt 0 view .LVU96
+ 318 0004 FFF7FEFF 		bl	lv_anim_start
+ 319              	.LVL28:
+  81:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 320              		.loc 1 81 1 view .LVU97
+ 321 0008 08BD     		pop	{r3, pc}
+ 322              		.cfi_endproc
+ 323              	.LFE198:
+ 325              		.section	.text.lv_animimg_set_duration,"ax",%progbits
+ 326              		.align	1
+ 327              		.global	lv_animimg_set_duration
+ 328              		.syntax unified
+ 329              		.thumb
+ 330              		.thumb_func
+ 332              	lv_animimg_set_duration:
+ 333              	.LVL29:
+ 334              	.LFB199:
+  88:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+ 335              		.loc 1 88 1 is_stmt 1 view -0
+ 336              		.cfi_startproc
+ 337              		@ args = 0, pretend = 0, frame = 0
+ 338              		@ frame_needed = 0, uses_anonymous_args = 0
+ 339              		@ link register save eliminated.
+  89:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 340              		.loc 1 89 5 view .LVU99
+  89:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 341              		.loc 1 89 5 view .LVU100
+  89:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 342              		.loc 1 89 5 view .LVU101
+  90:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_time(&animimg->anim, duration);
+ 343              		.loc 1 90 5 view .LVU102
+  91:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_playback_delay(&animimg->anim, duration);
+ 344              		.loc 1 91 5 view .LVU103
+ 345              	.LBB32:
+ 346              	.LBI32:
+ 143:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 347              		.loc 2 143 20 view .LVU104
+ 348              	.LBB33:
+ 145:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 349              		.loc 2 145 5 view .LVU105
+ 145:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 350              		.loc 2 145 13 is_stmt 0 view .LVU106
+ 351 0000 4166     		str	r1, [r0, #100]
+ 352              	.LVL30:
+ 145:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 353              		.loc 2 145 13 view .LVU107
+ 354              	.LBE33:
+ 355              	.LBE32:
+  92:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 356              		.loc 1 92 5 is_stmt 1 view .LVU108
+ 357              	.LBB34:
+ 358              	.LBI34:
+ 242:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 359              		.loc 2 242 20 view .LVU109
+ 360              	.LBB35:
+ 244:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 361              		.loc 2 244 5 view .LVU110
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 15
+
+
+ 244:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 362              		.loc 2 244 23 is_stmt 0 view .LVU111
+ 363 0002 C166     		str	r1, [r0, #108]
+ 364              	.LVL31:
+ 244:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** }
+ 365              		.loc 2 244 23 view .LVU112
+ 366              	.LBE35:
+ 367              	.LBE34:
+  93:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 368              		.loc 1 93 1 view .LVU113
+ 369 0004 7047     		bx	lr
+ 370              		.cfi_endproc
+ 371              	.LFE199:
+ 373              		.section	.text.lv_animimg_set_repeat_count,"ax",%progbits
+ 374              		.align	1
+ 375              		.global	lv_animimg_set_repeat_count
+ 376              		.syntax unified
+ 377              		.thumb
+ 378              		.thumb_func
+ 380              	lv_animimg_set_repeat_count:
+ 381              	.LVL32:
+ 382              	.LFB200:
+  96:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     LV_ASSERT_OBJ(obj, MY_CLASS);
+ 383              		.loc 1 96 1 is_stmt 1 view -0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 0
+ 386              		@ frame_needed = 0, uses_anonymous_args = 0
+ 387              		@ link register save eliminated.
+  97:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 388              		.loc 1 97 5 view .LVU115
+  97:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 389              		.loc 1 97 5 view .LVU116
+  97:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_animimg_t * animimg = (lv_animimg_t *)obj;
+ 390              		.loc 1 97 5 view .LVU117
+  98:lvgl/src/extra/widgets/animimg/lv_animimg.c ****     lv_anim_set_repeat_count(&animimg->anim, count);
+ 391              		.loc 1 98 5 view .LVU118
+  99:lvgl/src/extra/widgets/animimg/lv_animimg.c **** }
+ 392              		.loc 1 99 5 view .LVU119
+ 393              	.LBB36:
+ 394              	.LBI36:
+ 252:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_anim.h **** {
+ 395              		.loc 2 252 20 view .LVU120
+ 396              	.LBB37:
+ 397              		.loc 2 254 5 view .LVU121
+ 398              		.loc 2 254 19 is_stmt 0 view .LVU122
+ 399 0000 A0F87810 		strh	r1, [r0, #120]	@ movhi
+ 400              	.LVL33:
+ 401              		.loc 2 254 19 view .LVU123
+ 402              	.LBE37:
+ 403              	.LBE36:
+ 100:lvgl/src/extra/widgets/animimg/lv_animimg.c **** 
+ 404              		.loc 1 100 1 view .LVU124
+ 405 0004 7047     		bx	lr
+ 406              		.cfi_endproc
+ 407              	.LFE200:
+ 409              		.global	lv_animimg_class
+ 410              		.section	.rodata.lv_animimg_class,"a"
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 16
+
+
+ 411              		.align	2
+ 414              	lv_animimg_class:
+ 415 0000 00000000 		.word	lv_img_class
+ 416 0004 00000000 		.word	lv_animimg_constructor
+ 417 0008 00000000 		.space	16
+ 417      00000000 
+ 417      00000000 
+ 417      00000000 
+ 418 0018 40       		.byte	64
+ 419 0019 08       		.byte	8
+ 420 001a 00       		.byte	0
+ 421 001b 00       		.space	1
+ 422              		.text
+ 423              	.Letext0:
+ 424              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 425              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 426              		.file 5 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_area.h"
+ 427              		.file 6 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_color.h"
+ 428              		.file 7 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_style.h"
+ 429              		.file 8 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj.h"
+ 430              		.file 9 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_ll.h"
+ 431              		.file 10 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_group.h"
+ 432              		.file 11 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_scroll.h"
+ 433              		.file 12 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_style.h"
+ 434              		.file 13 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_class.h"
+ 435              		.file 14 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_event.h"
+ 436              		.file 15 "D:/update_2024EL/changeform/743zit6/lvgl/src/widgets/lv_img.h"
+ 437              		.file 16 "D:/update_2024EL/changeform/743zit6/lvgl/src/widgets/lv_bar.h"
+ 438              		.file 17 "D:/update_2024EL/changeform/743zit6/lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 439              		.file 18 "lvgl/src/extra/widgets/animimg/lv_animimg.h"
+ARM GAS  C:\usertemp\ccnvQs75.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_animimg.c
+C:\usertemp\ccnvQs75.s:20     .text.lv_animimg_constructor:00000000 $t
+C:\usertemp\ccnvQs75.s:25     .text.lv_animimg_constructor:00000000 lv_animimg_constructor
+C:\usertemp\ccnvQs75.s:139    .text.lv_animimg_constructor:00000034 $d
+C:\usertemp\ccnvQs75.s:149    .text.index_change:00000000 index_change
+C:\usertemp\ccnvQs75.s:144    .text.index_change:00000000 $t
+C:\usertemp\ccnvQs75.s:190    .text.lv_animimg_create:00000000 $t
+C:\usertemp\ccnvQs75.s:196    .text.lv_animimg_create:00000000 lv_animimg_create
+C:\usertemp\ccnvQs75.s:235    .text.lv_animimg_create:00000014 $d
+C:\usertemp\ccnvQs75.s:414    .rodata.lv_animimg_class:00000000 lv_animimg_class
+C:\usertemp\ccnvQs75.s:240    .text.lv_animimg_set_src:00000000 $t
+C:\usertemp\ccnvQs75.s:246    .text.lv_animimg_set_src:00000000 lv_animimg_set_src
+C:\usertemp\ccnvQs75.s:290    .text.lv_animimg_start:00000000 $t
+C:\usertemp\ccnvQs75.s:296    .text.lv_animimg_start:00000000 lv_animimg_start
+C:\usertemp\ccnvQs75.s:326    .text.lv_animimg_set_duration:00000000 $t
+C:\usertemp\ccnvQs75.s:332    .text.lv_animimg_set_duration:00000000 lv_animimg_set_duration
+C:\usertemp\ccnvQs75.s:374    .text.lv_animimg_set_repeat_count:00000000 $t
+C:\usertemp\ccnvQs75.s:380    .text.lv_animimg_set_repeat_count:00000000 lv_animimg_set_repeat_count
+C:\usertemp\ccnvQs75.s:411    .rodata.lv_animimg_class:00000000 $d
+
+UNDEFINED SYMBOLS
+lv_anim_init
+lv_img_set_src
+lv_obj_class_create_obj
+lv_obj_class_init_obj
+lv_anim_start
+lv_img_class

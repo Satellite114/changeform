@@ -1,0 +1,529 @@
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"widgets_init.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "generated/widgets_init.c"
+  19              		.section	.text.lv_obj_move_foreground,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	lv_obj_move_foreground:
+  26              	.LVL0:
+  27              	.LFB173:
+  28              		.file 2 "lvgl/src/lv_api_map.h"
+   1:lvgl/src/lv_api_map.h **** /**
+   2:lvgl/src/lv_api_map.h ****  * @file lv_api_map.h
+   3:lvgl/src/lv_api_map.h ****  *
+   4:lvgl/src/lv_api_map.h ****  */
+   5:lvgl/src/lv_api_map.h **** 
+   6:lvgl/src/lv_api_map.h **** #ifndef LV_API_MAP_H
+   7:lvgl/src/lv_api_map.h **** #define LV_API_MAP_H
+   8:lvgl/src/lv_api_map.h **** 
+   9:lvgl/src/lv_api_map.h **** #ifdef __cplusplus
+  10:lvgl/src/lv_api_map.h **** extern "C" {
+  11:lvgl/src/lv_api_map.h **** #endif
+  12:lvgl/src/lv_api_map.h **** 
+  13:lvgl/src/lv_api_map.h **** /*********************
+  14:lvgl/src/lv_api_map.h ****  *      INCLUDES
+  15:lvgl/src/lv_api_map.h ****  *********************/
+  16:lvgl/src/lv_api_map.h **** #include "../lvgl.h"
+  17:lvgl/src/lv_api_map.h **** 
+  18:lvgl/src/lv_api_map.h **** /*********************
+  19:lvgl/src/lv_api_map.h ****  *      DEFINES
+  20:lvgl/src/lv_api_map.h ****  *********************/
+  21:lvgl/src/lv_api_map.h **** 
+  22:lvgl/src/lv_api_map.h **** #define LV_NO_TASK_READY        LV_NO_TIMER_READY
+  23:lvgl/src/lv_api_map.h **** #define LV_INDEV_STATE_REL      LV_INDEV_STATE_RELEASED
+  24:lvgl/src/lv_api_map.h **** #define LV_INDEV_STATE_PR       LV_INDEV_STATE_PRESSED
+  25:lvgl/src/lv_api_map.h **** #define LV_OBJ_FLAG_SNAPABLE    LV_OBJ_FLAG_SNAPPABLE   /*Fixed typo*/
+  26:lvgl/src/lv_api_map.h **** 
+  27:lvgl/src/lv_api_map.h **** /**********************
+  28:lvgl/src/lv_api_map.h ****  *      TYPEDEFS
+  29:lvgl/src/lv_api_map.h ****  **********************/
+  30:lvgl/src/lv_api_map.h **** 
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 2
+
+
+  31:lvgl/src/lv_api_map.h **** /**********************
+  32:lvgl/src/lv_api_map.h ****  * GLOBAL PROTOTYPES
+  33:lvgl/src/lv_api_map.h ****  **********************/
+  34:lvgl/src/lv_api_map.h **** 
+  35:lvgl/src/lv_api_map.h **** static inline LV_ATTRIBUTE_TIMER_HANDLER uint32_t lv_task_handler(void)
+  36:lvgl/src/lv_api_map.h **** {
+  37:lvgl/src/lv_api_map.h ****     return lv_timer_handler();
+  38:lvgl/src/lv_api_map.h **** }
+  39:lvgl/src/lv_api_map.h **** 
+  40:lvgl/src/lv_api_map.h **** /**********************
+  41:lvgl/src/lv_api_map.h ****  *      MACROS
+  42:lvgl/src/lv_api_map.h ****  **********************/
+  43:lvgl/src/lv_api_map.h **** 
+  44:lvgl/src/lv_api_map.h **** 
+  45:lvgl/src/lv_api_map.h **** /**********************
+  46:lvgl/src/lv_api_map.h ****  * INLINE FUNCTIONS
+  47:lvgl/src/lv_api_map.h ****  **********************/
+  48:lvgl/src/lv_api_map.h **** 
+  49:lvgl/src/lv_api_map.h **** /**
+  50:lvgl/src/lv_api_map.h ****  * Move the object to the foreground.
+  51:lvgl/src/lv_api_map.h ****  * It will look like if it was created as the last child of its parent.
+  52:lvgl/src/lv_api_map.h ****  * It also means it can cover any of the siblings.
+  53:lvgl/src/lv_api_map.h ****  * @param obj       pointer to an object
+  54:lvgl/src/lv_api_map.h ****  */
+  55:lvgl/src/lv_api_map.h **** static inline void lv_obj_move_foreground(lv_obj_t * obj)
+  56:lvgl/src/lv_api_map.h **** {
+  29              		.loc 2 56 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 2 56 1 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+  57:lvgl/src/lv_api_map.h ****     lv_obj_t * parent = lv_obj_get_parent(obj);
+  40              		.loc 2 57 5 is_stmt 1 view .LVU2
+  41              		.loc 2 57 25 is_stmt 0 view .LVU3
+  42 0004 FFF7FEFF 		bl	lv_obj_get_parent
+  43              	.LVL1:
+  58:lvgl/src/lv_api_map.h ****     lv_obj_move_to_index(obj, lv_obj_get_child_cnt(parent) - 1);
+  44              		.loc 2 58 5 is_stmt 1 view .LVU4
+  45              		.loc 2 58 31 is_stmt 0 view .LVU5
+  46 0008 FFF7FEFF 		bl	lv_obj_get_child_cnt
+  47              	.LVL2:
+  48              		.loc 2 58 5 discriminator 1 view .LVU6
+  49 000c 411E     		subs	r1, r0, #1
+  50 000e 2046     		mov	r0, r4
+  51 0010 FFF7FEFF 		bl	lv_obj_move_to_index
+  52              	.LVL3:
+  59:lvgl/src/lv_api_map.h **** }
+  53              		.loc 2 59 1 view .LVU7
+  54 0014 10BD     		pop	{r4, pc}
+  55              		.loc 2 59 1 view .LVU8
+  56              		.cfi_endproc
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 3
+
+
+  57              	.LFE173:
+  59              		.section	.text.kb_event_cb,"ax",%progbits
+  60              		.align	1
+  61              		.global	kb_event_cb
+  62              		.syntax unified
+  63              		.thumb
+  64              		.thumb_func
+  66              	kb_event_cb:
+  67              	.LVL4:
+  68              	.LFB196:
+   1:generated/widgets_init.c **** /*
+   2:generated/widgets_init.c **** * Copyright 2025 NXP
+   3:generated/widgets_init.c **** * NXP Confidential and Proprietary. This software is owned or controlled by NXP and may only be use
+   4:generated/widgets_init.c **** * accordance with the applicable license terms. By expressly accepting such terms or by downloading
+   5:generated/widgets_init.c **** * activating and/or otherwise using the software, you are agreeing that you have read, and that you
+   6:generated/widgets_init.c **** * comply with and are bound by, such license terms.  If you do not agree to be bound by the applica
+   7:generated/widgets_init.c **** * terms, then you may not retain, install, activate or otherwise use the software.
+   8:generated/widgets_init.c **** */
+   9:generated/widgets_init.c **** 
+  10:generated/widgets_init.c **** #include "lvgl.h"
+  11:generated/widgets_init.c **** #include "gui_guider.h"
+  12:generated/widgets_init.c **** #include "widgets_init.h"
+  13:generated/widgets_init.c **** #include <stdlib.h>
+  14:generated/widgets_init.c **** 
+  15:generated/widgets_init.c **** 
+  16:generated/widgets_init.c **** __attribute__((unused)) void kb_event_cb (lv_event_t *e) {
+  69              		.loc 1 16 58 is_stmt 1 view -0
+  70              		.cfi_startproc
+  71              		@ args = 0, pretend = 0, frame = 0
+  72              		@ frame_needed = 0, uses_anonymous_args = 0
+  73              		.loc 1 16 58 is_stmt 0 view .LVU10
+  74 0000 38B5     		push	{r3, r4, r5, lr}
+  75              	.LCFI1:
+  76              		.cfi_def_cfa_offset 16
+  77              		.cfi_offset 3, -16
+  78              		.cfi_offset 4, -12
+  79              		.cfi_offset 5, -8
+  80              		.cfi_offset 14, -4
+  81 0002 0546     		mov	r5, r0
+  17:generated/widgets_init.c ****     lv_event_code_t code = lv_event_get_code(e);
+  82              		.loc 1 17 5 is_stmt 1 view .LVU11
+  83              		.loc 1 17 28 is_stmt 0 view .LVU12
+  84 0004 FFF7FEFF 		bl	lv_event_get_code
+  85              	.LVL5:
+  86              		.loc 1 17 28 view .LVU13
+  87 0008 0446     		mov	r4, r0
+  88              	.LVL6:
+  18:generated/widgets_init.c ****     lv_obj_t *kb = lv_event_get_target(e);
+  89              		.loc 1 18 5 is_stmt 1 view .LVU14
+  90              		.loc 1 18 20 is_stmt 0 view .LVU15
+  91 000a 2846     		mov	r0, r5
+  92 000c FFF7FEFF 		bl	lv_event_get_target
+  93              	.LVL7:
+  19:generated/widgets_init.c ****     if(code == LV_EVENT_READY || code == LV_EVENT_CANCEL){
+  94              		.loc 1 19 5 is_stmt 1 view .LVU16
+  95              		.loc 1 19 31 is_stmt 0 view .LVU17
+  96 0010 1F3C     		subs	r4, r4, #31
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 4
+
+
+  97              	.LVL8:
+  98              		.loc 1 19 31 view .LVU18
+  99 0012 E4B2     		uxtb	r4, r4
+ 100              		.loc 1 19 7 view .LVU19
+ 101 0014 012C     		cmp	r4, #1
+ 102 0016 00D9     		bls	.L6
+ 103              	.LVL9:
+ 104              	.L3:
+  20:generated/widgets_init.c ****         lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+  21:generated/widgets_init.c ****     }
+  22:generated/widgets_init.c **** }
+ 105              		.loc 1 22 1 view .LVU20
+ 106 0018 38BD     		pop	{r3, r4, r5, pc}
+ 107              	.LVL10:
+ 108              	.L6:
+  20:generated/widgets_init.c ****         lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+ 109              		.loc 1 20 9 is_stmt 1 view .LVU21
+ 110 001a 0121     		movs	r1, #1
+ 111 001c FFF7FEFF 		bl	lv_obj_add_flag
+ 112              	.LVL11:
+ 113              		.loc 1 22 1 is_stmt 0 view .LVU22
+ 114 0020 FAE7     		b	.L3
+ 115              		.cfi_endproc
+ 116              	.LFE196:
+ 118              		.section	.text.ta_event_cb,"ax",%progbits
+ 119              		.align	1
+ 120              		.global	ta_event_cb
+ 121              		.syntax unified
+ 122              		.thumb
+ 123              		.thumb_func
+ 125              	ta_event_cb:
+ 126              	.LVL12:
+ 127              	.LFB197:
+  23:generated/widgets_init.c **** 
+  24:generated/widgets_init.c **** __attribute__((unused)) void ta_event_cb (lv_event_t *e) {
+ 128              		.loc 1 24 58 is_stmt 1 view -0
+ 129              		.cfi_startproc
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              		.loc 1 24 58 is_stmt 0 view .LVU24
+ 133 0000 38B5     		push	{r3, r4, r5, lr}
+ 134              	.LCFI2:
+ 135              		.cfi_def_cfa_offset 16
+ 136              		.cfi_offset 3, -16
+ 137              		.cfi_offset 4, -12
+ 138              		.cfi_offset 5, -8
+ 139              		.cfi_offset 14, -4
+ 140 0002 0546     		mov	r5, r0
+  25:generated/widgets_init.c ****     lv_event_code_t code = lv_event_get_code(e);
+ 141              		.loc 1 25 5 is_stmt 1 view .LVU25
+ 142              		.loc 1 25 28 is_stmt 0 view .LVU26
+ 143 0004 FFF7FEFF 		bl	lv_event_get_code
+ 144              	.LVL13:
+ 145              		.loc 1 25 28 view .LVU27
+ 146 0008 0446     		mov	r4, r0
+ 147              	.LVL14:
+  26:generated/widgets_init.c **** #if LV_USE_KEYBOARD || LV_USE_ZH_KEYBOARD
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 5
+
+
+  27:generated/widgets_init.c ****     lv_obj_t *ta = lv_event_get_target(e);
+  28:generated/widgets_init.c **** #endif
+  29:generated/widgets_init.c ****     lv_obj_t *kb = lv_event_get_user_data(e);
+ 148              		.loc 1 29 5 is_stmt 1 view .LVU28
+ 149              		.loc 1 29 20 is_stmt 0 view .LVU29
+ 150 000a 2846     		mov	r0, r5
+ 151 000c FFF7FEFF 		bl	lv_event_get_user_data
+ 152              	.LVL15:
+ 153 0010 0546     		mov	r5, r0
+ 154              	.LVL16:
+  30:generated/widgets_init.c ****     if (code == LV_EVENT_FOCUSED || code == LV_EVENT_CLICKED)
+ 155              		.loc 1 30 5 is_stmt 1 view .LVU30
+ 156              		.loc 1 30 8 is_stmt 0 view .LVU31
+ 157 0012 072C     		cmp	r4, #7
+ 158 0014 18BF     		it	ne
+ 159 0016 0E2C     		cmpne	r4, #14
+ 160 0018 04D0     		beq	.L11
+ 161              	.LVL17:
+ 162              	.L8:
+  31:generated/widgets_init.c ****     {
+  32:generated/widgets_init.c **** #if LV_USE_ZH_KEYBOARD != 0
+  33:generated/widgets_init.c ****         lv_zh_keyboard_set_textarea(kb, ta);
+  34:generated/widgets_init.c **** #endif
+  35:generated/widgets_init.c **** #if LV_USE_KEYBOARD != 0
+  36:generated/widgets_init.c ****         lv_keyboard_set_textarea(kb, ta);
+  37:generated/widgets_init.c **** #endif
+  38:generated/widgets_init.c ****         lv_obj_move_foreground(kb);
+  39:generated/widgets_init.c ****         lv_obj_clear_flag(kb, LV_OBJ_FLAG_HIDDEN);
+  40:generated/widgets_init.c ****     }
+  41:generated/widgets_init.c ****     if (code == LV_EVENT_CANCEL || code == LV_EVENT_DEFOCUSED)
+ 163              		.loc 1 41 5 is_stmt 1 view .LVU32
+ 164              		.loc 1 41 8 is_stmt 0 view .LVU33
+ 165 001a 0F2C     		cmp	r4, #15
+ 166 001c 18BF     		it	ne
+ 167 001e 202C     		cmpne	r4, #32
+ 168 0020 07D0     		beq	.L12
+ 169              	.L7:
+  42:generated/widgets_init.c ****     {
+  43:generated/widgets_init.c **** 
+  44:generated/widgets_init.c **** #if LV_USE_ZH_KEYBOARD != 0
+  45:generated/widgets_init.c ****         lv_zh_keyboard_set_textarea(kb, ta);
+  46:generated/widgets_init.c **** #endif
+  47:generated/widgets_init.c **** #if LV_USE_KEYBOARD != 0
+  48:generated/widgets_init.c ****         lv_keyboard_set_textarea(kb, ta);
+  49:generated/widgets_init.c **** #endif
+  50:generated/widgets_init.c ****         lv_obj_move_background(kb);
+  51:generated/widgets_init.c ****         lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+  52:generated/widgets_init.c ****     }
+  53:generated/widgets_init.c **** }
+ 170              		.loc 1 53 1 view .LVU34
+ 171 0022 38BD     		pop	{r3, r4, r5, pc}
+ 172              	.LVL18:
+ 173              	.L11:
+  38:generated/widgets_init.c ****         lv_obj_clear_flag(kb, LV_OBJ_FLAG_HIDDEN);
+ 174              		.loc 1 38 9 is_stmt 1 view .LVU35
+ 175 0024 FFF7FEFF 		bl	lv_obj_move_foreground
+ 176              	.LVL19:
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 6
+
+
+  39:generated/widgets_init.c ****     }
+ 177              		.loc 1 39 9 view .LVU36
+ 178 0028 0121     		movs	r1, #1
+ 179 002a 2846     		mov	r0, r5
+ 180 002c FFF7FEFF 		bl	lv_obj_clear_flag
+ 181              	.LVL20:
+ 182 0030 F3E7     		b	.L8
+ 183              	.L12:
+  50:generated/widgets_init.c ****         lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+ 184              		.loc 1 50 9 view .LVU37
+ 185              	.LVL21:
+ 186              	.LBB4:
+ 187              	.LBI4:
+  60:lvgl/src/lv_api_map.h **** 
+  61:lvgl/src/lv_api_map.h **** /**
+  62:lvgl/src/lv_api_map.h ****  * Move the object to the background.
+  63:lvgl/src/lv_api_map.h ****  * It will look like if it was created as the first child of its parent.
+  64:lvgl/src/lv_api_map.h ****  * It also means any of the siblings can cover the object.
+  65:lvgl/src/lv_api_map.h ****  * @param obj       pointer to an object
+  66:lvgl/src/lv_api_map.h ****  */
+  67:lvgl/src/lv_api_map.h **** static inline void lv_obj_move_background(lv_obj_t * obj)
+ 188              		.loc 2 67 20 view .LVU38
+ 189              	.LBB5:
+  68:lvgl/src/lv_api_map.h **** {
+  69:lvgl/src/lv_api_map.h ****     lv_obj_move_to_index(obj, 0);
+ 190              		.loc 2 69 5 view .LVU39
+ 191 0032 0021     		movs	r1, #0
+ 192 0034 2846     		mov	r0, r5
+ 193 0036 FFF7FEFF 		bl	lv_obj_move_to_index
+ 194              	.LVL22:
+ 195              		.loc 2 69 5 is_stmt 0 view .LVU40
+ 196              	.LBE5:
+ 197              	.LBE4:
+  51:generated/widgets_init.c ****     }
+ 198              		.loc 1 51 9 is_stmt 1 view .LVU41
+ 199 003a 0121     		movs	r1, #1
+ 200 003c 2846     		mov	r0, r5
+ 201 003e FFF7FEFF 		bl	lv_obj_add_flag
+ 202              	.LVL23:
+ 203              		.loc 1 53 1 is_stmt 0 view .LVU42
+ 204 0042 EEE7     		b	.L7
+ 205              		.cfi_endproc
+ 206              	.LFE197:
+ 208              		.section	.rodata.wave_model_digital_clock_1_timer.str1.4,"aMS",%progbits,1
+ 209              		.align	2
+ 210              	.LC0:
+ 211 0000 25643A25 		.ascii	"%d:%02d:%02d %s\000"
+ 211      3032643A 
+ 211      25303264 
+ 211      20257300 
+ 212              		.section	.text.wave_model_digital_clock_1_timer,"ax",%progbits
+ 213              		.align	1
+ 214              		.global	wave_model_digital_clock_1_timer
+ 215              		.syntax unified
+ 216              		.thumb
+ 217              		.thumb_func
+ 219              	wave_model_digital_clock_1_timer:
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 7
+
+
+ 220              	.LVL24:
+ 221              	.LFB198:
+  54:generated/widgets_init.c **** 
+  55:generated/widgets_init.c **** #if LV_USE_ANALOGCLOCK != 0
+  56:generated/widgets_init.c **** void clock_count(int *hour, int *min, int *sec)
+  57:generated/widgets_init.c **** {
+  58:generated/widgets_init.c ****     (*sec)++;
+  59:generated/widgets_init.c ****     if(*sec == 60)
+  60:generated/widgets_init.c ****     {
+  61:generated/widgets_init.c ****         *sec = 0;
+  62:generated/widgets_init.c ****         (*min)++;
+  63:generated/widgets_init.c ****     }
+  64:generated/widgets_init.c ****     if(*min == 60)
+  65:generated/widgets_init.c ****     {
+  66:generated/widgets_init.c ****         *min = 0;
+  67:generated/widgets_init.c ****         if(*hour < 12)
+  68:generated/widgets_init.c ****         {
+  69:generated/widgets_init.c ****             (*hour)++;
+  70:generated/widgets_init.c ****         } else {
+  71:generated/widgets_init.c ****             (*hour)++;
+  72:generated/widgets_init.c ****             *hour = *hour %12;
+  73:generated/widgets_init.c ****         }
+  74:generated/widgets_init.c ****     }
+  75:generated/widgets_init.c **** }
+  76:generated/widgets_init.c **** #endif
+  77:generated/widgets_init.c **** 
+  78:generated/widgets_init.c **** 
+  79:generated/widgets_init.c **** extern int wave_model_digital_clock_1_hour_value;
+  80:generated/widgets_init.c **** extern int wave_model_digital_clock_1_min_value;
+  81:generated/widgets_init.c **** extern int wave_model_digital_clock_1_sec_value;
+  82:generated/widgets_init.c **** extern char wave_model_digital_clock_1_meridiem[];
+  83:generated/widgets_init.c **** 
+  84:generated/widgets_init.c **** void wave_model_digital_clock_1_timer(lv_timer_t *timer)
+  85:generated/widgets_init.c **** {
+ 222              		.loc 1 85 1 is_stmt 1 view -0
+ 223              		.cfi_startproc
+ 224              		@ args = 0, pretend = 0, frame = 0
+ 225              		@ frame_needed = 0, uses_anonymous_args = 0
+ 226              		.loc 1 85 1 is_stmt 0 view .LVU44
+ 227 0000 00B5     		push	{lr}
+ 228              	.LCFI3:
+ 229              		.cfi_def_cfa_offset 4
+ 230              		.cfi_offset 14, -4
+ 231 0002 83B0     		sub	sp, sp, #12
+ 232              	.LCFI4:
+ 233              		.cfi_def_cfa_offset 16
+  86:generated/widgets_init.c ****     clock_count_12(&wave_model_digital_clock_1_hour_value, &wave_model_digital_clock_1_min_value, &
+ 234              		.loc 1 86 5 is_stmt 1 view .LVU45
+ 235 0004 0F4B     		ldr	r3, .L17
+ 236 0006 104A     		ldr	r2, .L17+4
+ 237 0008 1049     		ldr	r1, .L17+8
+ 238 000a 1148     		ldr	r0, .L17+12
+ 239              	.LVL25:
+ 240              		.loc 1 86 5 is_stmt 0 view .LVU46
+ 241 000c FFF7FEFF 		bl	clock_count_12
+ 242              	.LVL26:
+  87:generated/widgets_init.c ****     if (lv_obj_is_valid(guider_ui.wave_model_digital_clock_1))
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 8
+
+
+ 243              		.loc 1 87 5 is_stmt 1 view .LVU47
+ 244              		.loc 1 87 9 is_stmt 0 view .LVU48
+ 245 0010 104B     		ldr	r3, .L17+16
+ 246 0012 D3F8A800 		ldr	r0, [r3, #168]
+ 247 0016 FFF7FEFF 		bl	lv_obj_is_valid
+ 248              	.LVL27:
+ 249              		.loc 1 87 8 discriminator 1 view .LVU49
+ 250 001a 10B9     		cbnz	r0, .L16
+ 251              	.L13:
+  88:generated/widgets_init.c ****     {
+  89:generated/widgets_init.c ****         lv_dclock_set_text_fmt(guider_ui.wave_model_digital_clock_1, "%d:%02d:%02d %s", wave_model_
+  90:generated/widgets_init.c ****     }
+  91:generated/widgets_init.c **** }
+ 252              		.loc 1 91 1 view .LVU50
+ 253 001c 03B0     		add	sp, sp, #12
+ 254              	.LCFI5:
+ 255              		.cfi_remember_state
+ 256              		.cfi_def_cfa_offset 4
+ 257              		@ sp needed
+ 258 001e 5DF804FB 		ldr	pc, [sp], #4
+ 259              	.L16:
+ 260              	.LCFI6:
+ 261              		.cfi_restore_state
+  89:generated/widgets_init.c ****     }
+ 262              		.loc 1 89 9 is_stmt 1 view .LVU51
+ 263 0022 084B     		ldr	r3, .L17
+ 264 0024 0193     		str	r3, [sp, #4]
+ 265 0026 084B     		ldr	r3, .L17+4
+ 266 0028 1B68     		ldr	r3, [r3]
+ 267 002a 0093     		str	r3, [sp]
+ 268 002c 074B     		ldr	r3, .L17+8
+ 269 002e 1B68     		ldr	r3, [r3]
+ 270 0030 074A     		ldr	r2, .L17+12
+ 271 0032 1268     		ldr	r2, [r2]
+ 272 0034 0849     		ldr	r1, .L17+20
+ 273 0036 0748     		ldr	r0, .L17+16
+ 274 0038 D0F8A800 		ldr	r0, [r0, #168]
+ 275 003c FFF7FEFF 		bl	lv_dclock_set_text_fmt
+ 276              	.LVL28:
+ 277              		.loc 1 91 1 is_stmt 0 view .LVU52
+ 278 0040 ECE7     		b	.L13
+ 279              	.L18:
+ 280 0042 00BF     		.align	2
+ 281              	.L17:
+ 282 0044 00000000 		.word	wave_model_digital_clock_1_meridiem
+ 283 0048 00000000 		.word	wave_model_digital_clock_1_sec_value
+ 284 004c 00000000 		.word	wave_model_digital_clock_1_min_value
+ 285 0050 00000000 		.word	wave_model_digital_clock_1_hour_value
+ 286 0054 00000000 		.word	guider_ui
+ 287 0058 00000000 		.word	.LC0
+ 288              		.cfi_endproc
+ 289              	.LFE198:
+ 291              		.text
+ 292              	.Letext0:
+ 293              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 294              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 295              		.file 5 "lvgl/src/misc/lv_timer.h"
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 9
+
+
+ 296              		.file 6 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 297              		.file 7 "lvgl/src/hal/../draw/../misc/lv_color.h"
+ 298              		.file 8 "lvgl/src/hal/../draw/../misc/lv_style.h"
+ 299              		.file 9 "lvgl/src/core/lv_obj.h"
+ 300              		.file 10 "lvgl/src/hal/../misc/lv_ll.h"
+ 301              		.file 11 "lvgl/src/core/lv_group.h"
+ 302              		.file 12 "lvgl/src/core/lv_obj_scroll.h"
+ 303              		.file 13 "lvgl/src/core/lv_obj_style.h"
+ 304              		.file 14 "lvgl/src/core/lv_obj_class.h"
+ 305              		.file 15 "lvgl/src/core/lv_event.h"
+ 306              		.file 16 "generated/gui_guider.h"
+ 307              		.file 17 "lvgl/src/extra/widgets/dclock/lv_dclock.h"
+ 308              		.file 18 "lvgl/src/core/lv_obj_tree.h"
+ARM GAS  C:\usertemp\ccHllS6h.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 widgets_init.c
+C:\usertemp\ccHllS6h.s:20     .text.lv_obj_move_foreground:00000000 $t
+C:\usertemp\ccHllS6h.s:25     .text.lv_obj_move_foreground:00000000 lv_obj_move_foreground
+C:\usertemp\ccHllS6h.s:60     .text.kb_event_cb:00000000 $t
+C:\usertemp\ccHllS6h.s:66     .text.kb_event_cb:00000000 kb_event_cb
+C:\usertemp\ccHllS6h.s:119    .text.ta_event_cb:00000000 $t
+C:\usertemp\ccHllS6h.s:125    .text.ta_event_cb:00000000 ta_event_cb
+C:\usertemp\ccHllS6h.s:209    .rodata.wave_model_digital_clock_1_timer.str1.4:00000000 $d
+C:\usertemp\ccHllS6h.s:213    .text.wave_model_digital_clock_1_timer:00000000 $t
+C:\usertemp\ccHllS6h.s:219    .text.wave_model_digital_clock_1_timer:00000000 wave_model_digital_clock_1_timer
+C:\usertemp\ccHllS6h.s:282    .text.wave_model_digital_clock_1_timer:00000044 $d
+
+UNDEFINED SYMBOLS
+lv_obj_get_parent
+lv_obj_get_child_cnt
+lv_obj_move_to_index
+lv_event_get_code
+lv_event_get_target
+lv_obj_add_flag
+lv_event_get_user_data
+lv_obj_clear_flag
+clock_count_12
+lv_obj_is_valid
+lv_dclock_set_text_fmt
+wave_model_digital_clock_1_meridiem
+wave_model_digital_clock_1_sec_value
+wave_model_digital_clock_1_min_value
+wave_model_digital_clock_1_hour_value
+guider_ui

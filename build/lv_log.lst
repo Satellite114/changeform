@@ -1,0 +1,520 @@
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_log.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/misc/lv_log.c"
+  19              		.section	.text.lv_log_register_print_cb,"ax",%progbits
+  20              		.align	1
+  21              		.global	lv_log_register_print_cb
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	lv_log_register_print_cb:
+  27              	.LVL0:
+  28              	.LFB3:
+   1:lvgl/src/misc/lv_log.c **** /**
+   2:lvgl/src/misc/lv_log.c ****  * @file lv_log.c
+   3:lvgl/src/misc/lv_log.c ****  *
+   4:lvgl/src/misc/lv_log.c ****  */
+   5:lvgl/src/misc/lv_log.c **** 
+   6:lvgl/src/misc/lv_log.c **** /*********************
+   7:lvgl/src/misc/lv_log.c ****  *      INCLUDES
+   8:lvgl/src/misc/lv_log.c ****  *********************/
+   9:lvgl/src/misc/lv_log.c **** #include "lv_log.h"
+  10:lvgl/src/misc/lv_log.c **** #if LV_USE_LOG
+  11:lvgl/src/misc/lv_log.c **** 
+  12:lvgl/src/misc/lv_log.c **** #include <stdarg.h>
+  13:lvgl/src/misc/lv_log.c **** #include <string.h>
+  14:lvgl/src/misc/lv_log.c **** #include "lv_printf.h"
+  15:lvgl/src/misc/lv_log.c **** #include "../hal/lv_hal_tick.h"
+  16:lvgl/src/misc/lv_log.c **** 
+  17:lvgl/src/misc/lv_log.c **** #if LV_LOG_PRINTF
+  18:lvgl/src/misc/lv_log.c ****     #include <stdio.h>
+  19:lvgl/src/misc/lv_log.c **** #endif
+  20:lvgl/src/misc/lv_log.c **** 
+  21:lvgl/src/misc/lv_log.c **** /*********************
+  22:lvgl/src/misc/lv_log.c ****  *      DEFINES
+  23:lvgl/src/misc/lv_log.c ****  *********************/
+  24:lvgl/src/misc/lv_log.c **** 
+  25:lvgl/src/misc/lv_log.c **** /**********************
+  26:lvgl/src/misc/lv_log.c ****  *      TYPEDEFS
+  27:lvgl/src/misc/lv_log.c ****  **********************/
+  28:lvgl/src/misc/lv_log.c **** 
+  29:lvgl/src/misc/lv_log.c **** /**********************
+  30:lvgl/src/misc/lv_log.c ****  *  STATIC PROTOTYPES
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 2
+
+
+  31:lvgl/src/misc/lv_log.c ****  **********************/
+  32:lvgl/src/misc/lv_log.c **** 
+  33:lvgl/src/misc/lv_log.c **** /**********************
+  34:lvgl/src/misc/lv_log.c ****  *  STATIC VARIABLES
+  35:lvgl/src/misc/lv_log.c ****  **********************/
+  36:lvgl/src/misc/lv_log.c **** static lv_log_print_g_cb_t custom_print_cb;
+  37:lvgl/src/misc/lv_log.c **** 
+  38:lvgl/src/misc/lv_log.c **** /**********************
+  39:lvgl/src/misc/lv_log.c ****  *      MACROS
+  40:lvgl/src/misc/lv_log.c ****  **********************/
+  41:lvgl/src/misc/lv_log.c **** 
+  42:lvgl/src/misc/lv_log.c **** /**********************
+  43:lvgl/src/misc/lv_log.c ****  *   GLOBAL FUNCTIONS
+  44:lvgl/src/misc/lv_log.c ****  **********************/
+  45:lvgl/src/misc/lv_log.c **** 
+  46:lvgl/src/misc/lv_log.c **** /**
+  47:lvgl/src/misc/lv_log.c ****  * Register custom print/write function to call when a log is added.
+  48:lvgl/src/misc/lv_log.c ****  * It can format its "File path", "Line number" and "Description" as required
+  49:lvgl/src/misc/lv_log.c ****  * and send the formatted log message to a console or serial port.
+  50:lvgl/src/misc/lv_log.c ****  * @param print_cb a function pointer to print a log
+  51:lvgl/src/misc/lv_log.c ****  */
+  52:lvgl/src/misc/lv_log.c **** void lv_log_register_print_cb(lv_log_print_g_cb_t print_cb)
+  53:lvgl/src/misc/lv_log.c **** {
+  29              		.loc 1 53 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  54:lvgl/src/misc/lv_log.c ****     custom_print_cb = print_cb;
+  34              		.loc 1 54 5 view .LVU1
+  35              		.loc 1 54 21 is_stmt 0 view .LVU2
+  36 0000 014B     		ldr	r3, .L2
+  37 0002 1860     		str	r0, [r3]
+  55:lvgl/src/misc/lv_log.c **** }
+  38              		.loc 1 55 1 view .LVU3
+  39 0004 7047     		bx	lr
+  40              	.L3:
+  41 0006 00BF     		.align	2
+  42              	.L2:
+  43 0008 00000000 		.word	custom_print_cb
+  44              		.cfi_endproc
+  45              	.LFE3:
+  47              		.section	.rodata._lv_log_add.str1.4,"aMS",%progbits,1
+  48              		.align	2
+  49              	.LC0:
+  50 0000 5B25735D 		.ascii	"[%s]\011(%ld.%03ld, +%ld)\011 %s: \000"
+  50      0928256C 
+  50      642E2530 
+  50      336C642C 
+  50      202B256C 
+  51 001d 000000   		.align	2
+  52              	.LC1:
+  53 0020 20092869 		.ascii	" \011(in %s line #%d)\012\000"
+  53      6E202573 
+  53      206C696E 
+  53      65202325 
+  53      64290A00 
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 3
+
+
+  54              		.section	.text._lv_log_add,"ax",%progbits
+  55              		.align	1
+  56              		.global	_lv_log_add
+  57              		.syntax unified
+  58              		.thumb
+  59              		.thumb_func
+  61              	_lv_log_add:
+  62              	.LVL1:
+  63              	.LFB4:
+  56:lvgl/src/misc/lv_log.c **** 
+  57:lvgl/src/misc/lv_log.c **** /**
+  58:lvgl/src/misc/lv_log.c ****  * Add a log
+  59:lvgl/src/misc/lv_log.c ****  * @param level the level of log. (From `lv_log_level_t` enum)
+  60:lvgl/src/misc/lv_log.c ****  * @param file name of the file when the log added
+  61:lvgl/src/misc/lv_log.c ****  * @param line line number in the source code where the log added
+  62:lvgl/src/misc/lv_log.c ****  * @param func name of the function when the log added
+  63:lvgl/src/misc/lv_log.c ****  * @param format printf-like format string
+  64:lvgl/src/misc/lv_log.c ****  * @param ... parameters for `format`
+  65:lvgl/src/misc/lv_log.c ****  */
+  66:lvgl/src/misc/lv_log.c **** void _lv_log_add(lv_log_level_t level, const char * file, int line, const char * func, const char *
+  67:lvgl/src/misc/lv_log.c **** {
+  64              		.loc 1 67 1 is_stmt 1 view -0
+  65              		.cfi_startproc
+  66              		@ args = 4, pretend = 0, frame = 8
+  67              		@ frame_needed = 0, uses_anonymous_args = 1
+  68:lvgl/src/misc/lv_log.c ****     if(level >= _LV_LOG_LEVEL_NUM) return; /*Invalid level*/
+  68              		.loc 1 68 5 view .LVU5
+  69              		.loc 1 68 7 is_stmt 0 view .LVU6
+  70 0000 0528     		cmp	r0, #5
+  71 0002 3FDC     		bgt	.L11
+  67:lvgl/src/misc/lv_log.c ****     if(level >= _LV_LOG_LEVEL_NUM) return; /*Invalid level*/
+  72              		.loc 1 67 1 view .LVU7
+  73 0004 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  74              	.LCFI0:
+  75              		.cfi_def_cfa_offset 28
+  76              		.cfi_offset 4, -28
+  77              		.cfi_offset 5, -24
+  78              		.cfi_offset 6, -20
+  79              		.cfi_offset 7, -16
+  80              		.cfi_offset 8, -12
+  81              		.cfi_offset 9, -8
+  82              		.cfi_offset 14, -4
+  83 0008 85B0     		sub	sp, sp, #20
+  84              	.LCFI1:
+  85              		.cfi_def_cfa_offset 48
+  86 000a 0646     		mov	r6, r0
+  87 000c 0D46     		mov	r5, r1
+  88 000e 9046     		mov	r8, r2
+  89 0010 1F46     		mov	r7, r3
+  69:lvgl/src/misc/lv_log.c **** 
+  70:lvgl/src/misc/lv_log.c ****     static uint32_t last_log_time = 0;
+  90              		.loc 1 70 5 is_stmt 1 view .LVU8
+  71:lvgl/src/misc/lv_log.c **** 
+  72:lvgl/src/misc/lv_log.c ****     if(level >= LV_LOG_LEVEL) {
+  91              		.loc 1 72 5 view .LVU9
+  92              		.loc 1 72 7 is_stmt 0 view .LVU10
+  93 0012 0328     		cmp	r0, #3
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 4
+
+
+  94 0014 02DC     		bgt	.L14
+  95              	.LVL2:
+  96              	.L4:
+  73:lvgl/src/misc/lv_log.c ****         va_list args;
+  74:lvgl/src/misc/lv_log.c ****         va_start(args, format);
+  75:lvgl/src/misc/lv_log.c **** 
+  76:lvgl/src/misc/lv_log.c ****         /*Use only the file name not the path*/
+  77:lvgl/src/misc/lv_log.c ****         size_t p;
+  78:lvgl/src/misc/lv_log.c ****         for(p = strlen(file); p > 0; p--) {
+  79:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+  80:lvgl/src/misc/lv_log.c ****                 p++;    /*Skip the slash*/
+  81:lvgl/src/misc/lv_log.c ****                 break;
+  82:lvgl/src/misc/lv_log.c ****             }
+  83:lvgl/src/misc/lv_log.c ****         }
+  84:lvgl/src/misc/lv_log.c **** 
+  85:lvgl/src/misc/lv_log.c ****         uint32_t t = lv_tick_get();
+  86:lvgl/src/misc/lv_log.c ****         static const char * lvl_prefix[] = {"Trace", "Info", "Warn", "Error", "User"};
+  87:lvgl/src/misc/lv_log.c **** 
+  88:lvgl/src/misc/lv_log.c **** #if LV_LOG_PRINTF
+  89:lvgl/src/misc/lv_log.c ****         printf("[%s]\t(%" LV_PRId32 ".%03" LV_PRId32 ", +%" LV_PRId32 ")\t %s: ",
+  90:lvgl/src/misc/lv_log.c ****                lvl_prefix[level], t / 1000, t % 1000, t - last_log_time, func);
+  91:lvgl/src/misc/lv_log.c ****         vprintf(format, args);
+  92:lvgl/src/misc/lv_log.c ****         printf(" \t(in %s line #%d)\n", &file[p], line);
+  93:lvgl/src/misc/lv_log.c **** #else
+  94:lvgl/src/misc/lv_log.c ****         if(custom_print_cb) {
+  95:lvgl/src/misc/lv_log.c ****             char buf[512];
+  96:lvgl/src/misc/lv_log.c **** #if LV_SPRINTF_CUSTOM
+  97:lvgl/src/misc/lv_log.c ****             char msg[256];
+  98:lvgl/src/misc/lv_log.c ****             lv_vsnprintf(msg, sizeof(msg), format, args);
+  99:lvgl/src/misc/lv_log.c ****             lv_snprintf(buf, sizeof(buf), "[%s]\t(%" LV_PRId32 ".%03" LV_PRId32 ", +%" LV_PRId32 ")
+ 100:lvgl/src/misc/lv_log.c ****                         lvl_prefix[level], t / 1000, t % 1000, t - last_log_time, func, msg, &file[
+ 101:lvgl/src/misc/lv_log.c **** #else
+ 102:lvgl/src/misc/lv_log.c ****             lv_vaformat_t vaf = {format, &args};
+ 103:lvgl/src/misc/lv_log.c ****             lv_snprintf(buf, sizeof(buf), "[%s]\t(%" LV_PRId32 ".%03" LV_PRId32 ", +%" LV_PRId32 ")
+ 104:lvgl/src/misc/lv_log.c ****                         lvl_prefix[level], t / 1000, t % 1000, t - last_log_time, func, (void *)&va
+ 105:lvgl/src/misc/lv_log.c **** #endif
+ 106:lvgl/src/misc/lv_log.c ****             custom_print_cb(buf);
+ 107:lvgl/src/misc/lv_log.c ****         }
+ 108:lvgl/src/misc/lv_log.c **** #endif
+ 109:lvgl/src/misc/lv_log.c **** 
+ 110:lvgl/src/misc/lv_log.c ****         last_log_time = t;
+ 111:lvgl/src/misc/lv_log.c ****         va_end(args);
+ 112:lvgl/src/misc/lv_log.c ****     }
+ 113:lvgl/src/misc/lv_log.c **** }
+  97              		.loc 1 113 1 view .LVU11
+  98 0016 05B0     		add	sp, sp, #20
+  99              	.LCFI2:
+ 100              		.cfi_remember_state
+ 101              		.cfi_def_cfa_offset 28
+ 102              		@ sp needed
+ 103 0018 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 104              	.LVL3:
+ 105              	.L14:
+ 106              	.LCFI3:
+ 107              		.cfi_restore_state
+ 108              	.LBB2:
+  73:lvgl/src/misc/lv_log.c ****         va_list args;
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 5
+
+
+ 109              		.loc 1 73 9 is_stmt 1 view .LVU12
+  74:lvgl/src/misc/lv_log.c **** 
+ 110              		.loc 1 74 9 view .LVU13
+ 111 001c 0DAB     		add	r3, sp, #52
+ 112              	.LVL4:
+  74:lvgl/src/misc/lv_log.c **** 
+ 113              		.loc 1 74 9 is_stmt 0 view .LVU14
+ 114 001e 0393     		str	r3, [sp, #12]
+  77:lvgl/src/misc/lv_log.c ****         for(p = strlen(file); p > 0; p--) {
+ 115              		.loc 1 77 9 is_stmt 1 view .LVU15
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 116              		.loc 1 78 9 view .LVU16
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 117              		.loc 1 78 17 is_stmt 0 view .LVU17
+ 118 0020 0846     		mov	r0, r1
+ 119              	.LVL5:
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 120              		.loc 1 78 17 view .LVU18
+ 121 0022 FFF7FEFF 		bl	strlen
+ 122              	.LVL6:
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 123              		.loc 1 78 17 view .LVU19
+ 124 0026 0446     		mov	r4, r0
+ 125              	.LVL7:
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 126              		.loc 1 78 9 view .LVU20
+ 127 0028 00E0     		b	.L6
+ 128              	.LVL8:
+ 129              	.L7:
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 130              		.loc 1 78 39 is_stmt 1 discriminator 2 view .LVU21
+ 131 002a 013C     		subs	r4, r4, #1
+ 132              	.LVL9:
+ 133              	.L6:
+  78:lvgl/src/misc/lv_log.c ****             if(file[p] == '/' || file[p] == '\\') {
+ 134              		.loc 1 78 33 discriminator 1 view .LVU22
+ 135 002c 44B1     		cbz	r4, .L8
+  79:lvgl/src/misc/lv_log.c ****                 p++;    /*Skip the slash*/
+ 136              		.loc 1 79 13 view .LVU23
+  79:lvgl/src/misc/lv_log.c ****                 p++;    /*Skip the slash*/
+ 137              		.loc 1 79 20 is_stmt 0 view .LVU24
+ 138 002e 15F804C0 		ldrb	ip, [r5, r4]	@ zero_extendqisi2
+  79:lvgl/src/misc/lv_log.c ****                 p++;    /*Skip the slash*/
+ 139              		.loc 1 79 15 view .LVU25
+ 140 0032 BCF15C0F 		cmp	ip, #92
+ 141 0036 18BF     		it	ne
+ 142 0038 BCF12F0F 		cmpne	ip, #47
+ 143 003c F5D1     		bne	.L7
+  80:lvgl/src/misc/lv_log.c ****                 break;
+ 144              		.loc 1 80 17 is_stmt 1 view .LVU26
+  80:lvgl/src/misc/lv_log.c ****                 break;
+ 145              		.loc 1 80 18 is_stmt 0 view .LVU27
+ 146 003e 0134     		adds	r4, r4, #1
+ 147              	.LVL10:
+  81:lvgl/src/misc/lv_log.c ****             }
+ 148              		.loc 1 81 17 is_stmt 1 view .LVU28
+ 149              	.L8:
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 6
+
+
+  85:lvgl/src/misc/lv_log.c ****         static const char * lvl_prefix[] = {"Trace", "Info", "Warn", "Error", "User"};
+ 150              		.loc 1 85 9 view .LVU29
+  85:lvgl/src/misc/lv_log.c ****         static const char * lvl_prefix[] = {"Trace", "Info", "Warn", "Error", "User"};
+ 151              		.loc 1 85 22 is_stmt 0 view .LVU30
+ 152 0040 FFF7FEFF 		bl	lv_tick_get
+ 153              	.LVL11:
+ 154 0044 8146     		mov	r9, r0
+ 155              	.LVL12:
+  86:lvgl/src/misc/lv_log.c **** 
+ 156              		.loc 1 86 9 is_stmt 1 view .LVU31
+  89:lvgl/src/misc/lv_log.c ****                lvl_prefix[level], t / 1000, t % 1000, t - last_log_time, func);
+ 157              		.loc 1 89 9 view .LVU32
+ 158 0046 104A     		ldr	r2, .L15
+ 159 0048 A2FB0032 		umull	r3, r2, r2, r0
+ 160 004c 9209     		lsrs	r2, r2, #6
+ 161 004e 0197     		str	r7, [sp, #4]
+ 162 0050 0E4F     		ldr	r7, .L15+4
+ 163              	.LVL13:
+  89:lvgl/src/misc/lv_log.c ****                lvl_prefix[level], t / 1000, t % 1000, t - last_log_time, func);
+ 164              		.loc 1 89 9 is_stmt 0 view .LVU33
+ 165 0052 3B68     		ldr	r3, [r7]
+ 166 0054 C31A     		subs	r3, r0, r3
+ 167 0056 0093     		str	r3, [sp]
+ 168 0058 4FF47A73 		mov	r3, #1000
+ 169 005c 03FB1203 		mls	r3, r3, r2, r0
+ 170 0060 0B49     		ldr	r1, .L15+8
+ 171 0062 51F82610 		ldr	r1, [r1, r6, lsl #2]
+ 172 0066 0B48     		ldr	r0, .L15+12
+ 173              	.LVL14:
+  89:lvgl/src/misc/lv_log.c ****                lvl_prefix[level], t / 1000, t % 1000, t - last_log_time, func);
+ 174              		.loc 1 89 9 view .LVU34
+ 175 0068 FFF7FEFF 		bl	printf
+ 176              	.LVL15:
+  91:lvgl/src/misc/lv_log.c ****         printf(" \t(in %s line #%d)\n", &file[p], line);
+ 177              		.loc 1 91 9 is_stmt 1 view .LVU35
+ 178 006c 0399     		ldr	r1, [sp, #12]
+ 179 006e 0C98     		ldr	r0, [sp, #48]
+ 180 0070 FFF7FEFF 		bl	vprintf
+ 181              	.LVL16:
+  92:lvgl/src/misc/lv_log.c **** #else
+ 182              		.loc 1 92 9 view .LVU36
+ 183 0074 4246     		mov	r2, r8
+ 184 0076 2919     		adds	r1, r5, r4
+ 185 0078 0748     		ldr	r0, .L15+16
+ 186 007a FFF7FEFF 		bl	printf
+ 187              	.LVL17:
+ 110:lvgl/src/misc/lv_log.c ****         va_end(args);
+ 188              		.loc 1 110 9 view .LVU37
+ 110:lvgl/src/misc/lv_log.c ****         va_end(args);
+ 189              		.loc 1 110 23 is_stmt 0 view .LVU38
+ 190 007e C7F80090 		str	r9, [r7]
+ 111:lvgl/src/misc/lv_log.c ****     }
+ 191              		.loc 1 111 9 is_stmt 1 view .LVU39
+ 192 0082 C8E7     		b	.L4
+ 193              	.LVL18:
+ 194              	.L11:
+ 195              	.LCFI4:
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 7
+
+
+ 196              		.cfi_def_cfa_offset 0
+ 197              		.cfi_restore 4
+ 198              		.cfi_restore 5
+ 199              		.cfi_restore 6
+ 200              		.cfi_restore 7
+ 201              		.cfi_restore 8
+ 202              		.cfi_restore 9
+ 203              		.cfi_restore 14
+ 111:lvgl/src/misc/lv_log.c ****     }
+ 204              		.loc 1 111 9 is_stmt 0 view .LVU40
+ 205 0084 7047     		bx	lr
+ 206              	.L16:
+ 207 0086 00BF     		.align	2
+ 208              	.L15:
+ 209 0088 D34D6210 		.word	274877907
+ 210 008c 00000000 		.word	last_log_time.0
+ 211 0090 00000000 		.word	lvl_prefix.1
+ 212 0094 00000000 		.word	.LC0
+ 213 0098 20000000 		.word	.LC1
+ 214              	.LBE2:
+ 215              		.cfi_endproc
+ 216              	.LFE4:
+ 218              		.section	.text.lv_log,"ax",%progbits
+ 219              		.align	1
+ 220              		.global	lv_log
+ 221              		.syntax unified
+ 222              		.thumb
+ 223              		.thumb_func
+ 225              	lv_log:
+ 226              	.LVL19:
+ 227              	.LFB5:
+ 114:lvgl/src/misc/lv_log.c **** 
+ 115:lvgl/src/misc/lv_log.c **** void lv_log(const char * buf)
+ 116:lvgl/src/misc/lv_log.c **** {
+ 228              		.loc 1 116 1 is_stmt 1 view -0
+ 229              		.cfi_startproc
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232              		.loc 1 116 1 is_stmt 0 view .LVU42
+ 233 0000 10B5     		push	{r4, lr}
+ 234              	.LCFI5:
+ 235              		.cfi_def_cfa_offset 8
+ 236              		.cfi_offset 4, -8
+ 237              		.cfi_offset 14, -4
+ 238 0002 0446     		mov	r4, r0
+ 117:lvgl/src/misc/lv_log.c **** #if LV_LOG_PRINTF
+ 118:lvgl/src/misc/lv_log.c ****     puts(buf);
+ 239              		.loc 1 118 5 is_stmt 1 view .LVU43
+ 240 0004 FFF7FEFF 		bl	puts
+ 241              	.LVL20:
+ 119:lvgl/src/misc/lv_log.c **** #endif
+ 120:lvgl/src/misc/lv_log.c ****     if(custom_print_cb) custom_print_cb(buf);
+ 242              		.loc 1 120 5 view .LVU44
+ 243              		.loc 1 120 8 is_stmt 0 view .LVU45
+ 244 0008 024B     		ldr	r3, .L20
+ 245 000a 1B68     		ldr	r3, [r3]
+ 246              		.loc 1 120 7 view .LVU46
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 8
+
+
+ 247 000c 0BB1     		cbz	r3, .L17
+ 248              		.loc 1 120 25 is_stmt 1 discriminator 1 view .LVU47
+ 249 000e 2046     		mov	r0, r4
+ 250 0010 9847     		blx	r3
+ 251              	.LVL21:
+ 252              	.L17:
+ 121:lvgl/src/misc/lv_log.c **** }
+ 253              		.loc 1 121 1 is_stmt 0 view .LVU48
+ 254 0012 10BD     		pop	{r4, pc}
+ 255              	.LVL22:
+ 256              	.L21:
+ 257              		.loc 1 121 1 view .LVU49
+ 258              		.align	2
+ 259              	.L20:
+ 260 0014 00000000 		.word	custom_print_cb
+ 261              		.cfi_endproc
+ 262              	.LFE5:
+ 264              		.section	.bss.last_log_time.0,"aw",%nobits
+ 265              		.align	2
+ 268              	last_log_time.0:
+ 269 0000 00000000 		.space	4
+ 270              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 271              		.align	2
+ 272              	.LC2:
+ 273 0000 54726163 		.ascii	"Trace\000"
+ 273      6500
+ 274 0006 0000     		.align	2
+ 275              	.LC3:
+ 276 0008 496E666F 		.ascii	"Info\000"
+ 276      00
+ 277 000d 000000   		.align	2
+ 278              	.LC4:
+ 279 0010 5761726E 		.ascii	"Warn\000"
+ 279      00
+ 280 0015 000000   		.align	2
+ 281              	.LC5:
+ 282 0018 4572726F 		.ascii	"Error\000"
+ 282      7200
+ 283 001e 0000     		.align	2
+ 284              	.LC6:
+ 285 0020 55736572 		.ascii	"User\000"
+ 285      00
+ 286              		.section	.rodata.lvl_prefix.1,"a"
+ 287              		.align	2
+ 290              	lvl_prefix.1:
+ 291 0000 00000000 		.word	.LC2
+ 292 0004 08000000 		.word	.LC3
+ 293 0008 10000000 		.word	.LC4
+ 294 000c 18000000 		.word	.LC5
+ 295 0010 20000000 		.word	.LC6
+ 296              		.section	.bss.custom_print_cb,"aw",%nobits
+ 297              		.align	2
+ 300              	custom_print_cb:
+ 301 0000 00000000 		.space	4
+ 302              		.text
+ 303              	.Letext0:
+ 304              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 9
+
+
+ 305              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 306              		.file 4 "lvgl/src/misc/lv_log.h"
+ 307              		.file 5 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 308              		.file 6 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 309              		.file 7 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 310              		.file 8 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 311              		.file 9 "<built-in>"
+ 312              		.file 10 "lvgl/src/misc/../hal/lv_hal_tick.h"
+ARM GAS  C:\usertemp\ccb5ppSV.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_log.c
+C:\usertemp\ccb5ppSV.s:20     .text.lv_log_register_print_cb:00000000 $t
+C:\usertemp\ccb5ppSV.s:26     .text.lv_log_register_print_cb:00000000 lv_log_register_print_cb
+C:\usertemp\ccb5ppSV.s:43     .text.lv_log_register_print_cb:00000008 $d
+C:\usertemp\ccb5ppSV.s:300    .bss.custom_print_cb:00000000 custom_print_cb
+C:\usertemp\ccb5ppSV.s:48     .rodata._lv_log_add.str1.4:00000000 $d
+C:\usertemp\ccb5ppSV.s:55     .text._lv_log_add:00000000 $t
+C:\usertemp\ccb5ppSV.s:61     .text._lv_log_add:00000000 _lv_log_add
+C:\usertemp\ccb5ppSV.s:209    .text._lv_log_add:00000088 $d
+C:\usertemp\ccb5ppSV.s:268    .bss.last_log_time.0:00000000 last_log_time.0
+C:\usertemp\ccb5ppSV.s:290    .rodata.lvl_prefix.1:00000000 lvl_prefix.1
+C:\usertemp\ccb5ppSV.s:219    .text.lv_log:00000000 $t
+C:\usertemp\ccb5ppSV.s:225    .text.lv_log:00000000 lv_log
+C:\usertemp\ccb5ppSV.s:260    .text.lv_log:00000014 $d
+C:\usertemp\ccb5ppSV.s:265    .bss.last_log_time.0:00000000 $d
+C:\usertemp\ccb5ppSV.s:271    .rodata.str1.4:00000000 $d
+C:\usertemp\ccb5ppSV.s:287    .rodata.lvl_prefix.1:00000000 $d
+C:\usertemp\ccb5ppSV.s:297    .bss.custom_print_cb:00000000 $d
+
+UNDEFINED SYMBOLS
+strlen
+lv_tick_get
+printf
+vprintf
+puts

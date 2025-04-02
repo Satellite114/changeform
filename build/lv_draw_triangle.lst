@@ -1,0 +1,163 @@
+ARM GAS  C:\usertemp\ccVrRNja.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_draw_triangle.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/draw/lv_draw_triangle.c"
+  19              		.section	.text.lv_draw_polygon,"ax",%progbits
+  20              		.align	1
+  21              		.global	lv_draw_polygon
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	lv_draw_polygon:
+  27              	.LVL0:
+  28              	.LFB56:
+   1:lvgl/src/draw/lv_draw_triangle.c **** /**
+   2:lvgl/src/draw/lv_draw_triangle.c ****  * @file lv_draw_triangle.c
+   3:lvgl/src/draw/lv_draw_triangle.c ****  *
+   4:lvgl/src/draw/lv_draw_triangle.c ****  */
+   5:lvgl/src/draw/lv_draw_triangle.c **** 
+   6:lvgl/src/draw/lv_draw_triangle.c **** /*********************
+   7:lvgl/src/draw/lv_draw_triangle.c ****  *      INCLUDES
+   8:lvgl/src/draw/lv_draw_triangle.c ****  *********************/
+   9:lvgl/src/draw/lv_draw_triangle.c **** #include "lv_draw.h"
+  10:lvgl/src/draw/lv_draw_triangle.c **** #include "lv_draw_triangle.h"
+  11:lvgl/src/draw/lv_draw_triangle.c **** #include "../misc/lv_math.h"
+  12:lvgl/src/draw/lv_draw_triangle.c **** #include "../misc/lv_mem.h"
+  13:lvgl/src/draw/lv_draw_triangle.c **** 
+  14:lvgl/src/draw/lv_draw_triangle.c **** /*********************
+  15:lvgl/src/draw/lv_draw_triangle.c ****  *      DEFINES
+  16:lvgl/src/draw/lv_draw_triangle.c ****  *********************/
+  17:lvgl/src/draw/lv_draw_triangle.c **** 
+  18:lvgl/src/draw/lv_draw_triangle.c **** /**********************
+  19:lvgl/src/draw/lv_draw_triangle.c ****  *      TYPEDEFS
+  20:lvgl/src/draw/lv_draw_triangle.c ****  **********************/
+  21:lvgl/src/draw/lv_draw_triangle.c **** 
+  22:lvgl/src/draw/lv_draw_triangle.c **** /**********************
+  23:lvgl/src/draw/lv_draw_triangle.c ****  *  STATIC PROTOTYPES
+  24:lvgl/src/draw/lv_draw_triangle.c ****  **********************/
+  25:lvgl/src/draw/lv_draw_triangle.c **** 
+  26:lvgl/src/draw/lv_draw_triangle.c **** /**********************
+  27:lvgl/src/draw/lv_draw_triangle.c ****  *  STATIC VARIABLES
+  28:lvgl/src/draw/lv_draw_triangle.c ****  **********************/
+  29:lvgl/src/draw/lv_draw_triangle.c **** 
+  30:lvgl/src/draw/lv_draw_triangle.c **** /**********************
+ARM GAS  C:\usertemp\ccVrRNja.s 			page 2
+
+
+  31:lvgl/src/draw/lv_draw_triangle.c ****  *      MACROS
+  32:lvgl/src/draw/lv_draw_triangle.c ****  **********************/
+  33:lvgl/src/draw/lv_draw_triangle.c **** 
+  34:lvgl/src/draw/lv_draw_triangle.c **** /**********************
+  35:lvgl/src/draw/lv_draw_triangle.c ****  *   GLOBAL FUNCTIONS
+  36:lvgl/src/draw/lv_draw_triangle.c ****  **********************/
+  37:lvgl/src/draw/lv_draw_triangle.c **** 
+  38:lvgl/src/draw/lv_draw_triangle.c **** void lv_draw_polygon(struct _lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * draw_dsc, const l
+  39:lvgl/src/draw/lv_draw_triangle.c ****                      uint16_t point_cnt)
+  40:lvgl/src/draw/lv_draw_triangle.c **** {
+  29              		.loc 1 40 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 40 1 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  41:lvgl/src/draw/lv_draw_triangle.c ****     draw_ctx->draw_polygon(draw_ctx, draw_dsc, points, point_cnt);
+  39              		.loc 1 41 5 is_stmt 1 view .LVU2
+  40              		.loc 1 41 13 is_stmt 0 view .LVU3
+  41 0002 446A     		ldr	r4, [r0, #36]
+  42              		.loc 1 41 5 view .LVU4
+  43 0004 A047     		blx	r4
+  44              	.LVL1:
+  42:lvgl/src/draw/lv_draw_triangle.c **** }
+  45              		.loc 1 42 1 view .LVU5
+  46 0006 10BD     		pop	{r4, pc}
+  47              		.cfi_endproc
+  48              	.LFE56:
+  50              		.section	.text.lv_draw_triangle,"ax",%progbits
+  51              		.align	1
+  52              		.global	lv_draw_triangle
+  53              		.syntax unified
+  54              		.thumb
+  55              		.thumb_func
+  57              	lv_draw_triangle:
+  58              	.LVL2:
+  59              	.LFB57:
+  43:lvgl/src/draw/lv_draw_triangle.c **** 
+  44:lvgl/src/draw/lv_draw_triangle.c **** void lv_draw_triangle(struct _lv_draw_ctx_t * draw_ctx, const lv_draw_rect_dsc_t * draw_dsc, const 
+  45:lvgl/src/draw/lv_draw_triangle.c **** {
+  60              		.loc 1 45 1 is_stmt 1 view -0
+  61              		.cfi_startproc
+  62              		@ args = 0, pretend = 0, frame = 0
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64              		.loc 1 45 1 is_stmt 0 view .LVU7
+  65 0000 10B5     		push	{r4, lr}
+  66              	.LCFI1:
+  67              		.cfi_def_cfa_offset 8
+  68              		.cfi_offset 4, -8
+  69              		.cfi_offset 14, -4
+  46:lvgl/src/draw/lv_draw_triangle.c **** 
+  47:lvgl/src/draw/lv_draw_triangle.c ****     draw_ctx->draw_polygon(draw_ctx, draw_dsc, points, 3);
+  70              		.loc 1 47 5 is_stmt 1 view .LVU8
+ARM GAS  C:\usertemp\ccVrRNja.s 			page 3
+
+
+  71              		.loc 1 47 13 is_stmt 0 view .LVU9
+  72 0002 446A     		ldr	r4, [r0, #36]
+  73              		.loc 1 47 5 view .LVU10
+  74 0004 0323     		movs	r3, #3
+  75 0006 A047     		blx	r4
+  76              	.LVL3:
+  48:lvgl/src/draw/lv_draw_triangle.c **** }
+  77              		.loc 1 48 1 view .LVU11
+  78 0008 10BD     		pop	{r4, pc}
+  79              		.cfi_endproc
+  80              	.LFE57:
+  82              		.text
+  83              	.Letext0:
+  84              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+  85              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+  86              		.file 4 "lvgl/src/draw/../misc/../font/../misc/lv_area.h"
+  87              		.file 5 "lvgl/src/draw/../misc/../font/lv_font.h"
+  88              		.file 6 "lvgl/src/draw/../misc/lv_types.h"
+  89              		.file 7 "lvgl/src/draw/../misc/lv_color.h"
+  90              		.file 8 "lvgl/src/draw/../misc/lv_txt.h"
+  91              		.file 9 "lvgl/src/draw/../misc/lv_bidi.h"
+  92              		.file 10 "lvgl/src/draw/../misc/lv_style.h"
+  93              		.file 11 "lvgl/src/draw/lv_img_buf.h"
+  94              		.file 12 "lvgl/src/draw/lv_draw_rect.h"
+  95              		.file 13 "lvgl/src/draw/lv_draw_label.h"
+  96              		.file 14 "lvgl/src/draw/lv_draw_img.h"
+  97              		.file 15 "lvgl/src/draw/lv_draw_line.h"
+  98              		.file 16 "lvgl/src/draw/lv_draw_arc.h"
+  99              		.file 17 "lvgl/src/draw/lv_draw.h"
+ARM GAS  C:\usertemp\ccVrRNja.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_draw_triangle.c
+C:\usertemp\ccVrRNja.s:20     .text.lv_draw_polygon:00000000 $t
+C:\usertemp\ccVrRNja.s:26     .text.lv_draw_polygon:00000000 lv_draw_polygon
+C:\usertemp\ccVrRNja.s:51     .text.lv_draw_triangle:00000000 $t
+C:\usertemp\ccVrRNja.s:57     .text.lv_draw_triangle:00000000 lv_draw_triangle
+
+NO UNDEFINED SYMBOLS

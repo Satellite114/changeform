@@ -1,0 +1,1271 @@
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_tileview.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/widgets/tileview/lv_tileview.c"
+  19              		.section	.text.lv_tileview_constructor,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	lv_tileview_constructor:
+  26              	.LVL0:
+  27              	.LFB161:
+   1:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**
+   2:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  * @file lv_tileview.c
+   3:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *
+   4:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  */
+   5:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+   6:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /*********************
+   7:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *      INCLUDES
+   8:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *********************/
+   9:lvgl/src/extra/widgets/tileview/lv_tileview.c **** #include "lv_tileview.h"
+  10:lvgl/src/extra/widgets/tileview/lv_tileview.c **** #if LV_USE_TILEVIEW
+  11:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  12:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /*********************
+  13:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *      DEFINES
+  14:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *********************/
+  15:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  16:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**********************
+  17:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *      TYPEDEFS
+  18:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  **********************/
+  19:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  20:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**********************
+  21:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *  STATIC PROTOTYPES
+  22:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  **********************/
+  23:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static void lv_tileview_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  24:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static void lv_tileview_tile_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  25:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static void tileview_event_cb(lv_event_t * e);
+  26:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  27:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**********************
+  28:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *  STATIC VARIABLES
+  29:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  **********************/
+  30:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  31:lvgl/src/extra/widgets/tileview/lv_tileview.c **** const lv_obj_class_t lv_tileview_class = {.constructor_cb = lv_tileview_constructor,
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 2
+
+
+  32:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                                           .base_class = &lv_obj_class,
+  33:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                                           .instance_size = sizeof(lv_tileview_t)
+  34:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                                          };
+  35:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  36:lvgl/src/extra/widgets/tileview/lv_tileview.c **** const lv_obj_class_t lv_tileview_tile_class = {.constructor_cb = lv_tileview_tile_constructor,
+  37:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                                                .base_class = &lv_obj_class,
+  38:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                                                .instance_size = sizeof(lv_tileview_tile_t)
+  39:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                                               };
+  40:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  41:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static lv_dir_t create_dir;
+  42:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static uint32_t create_col_id;
+  43:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static uint32_t create_row_id;
+  44:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  45:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**********************
+  46:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *      MACROS
+  47:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  **********************/
+  48:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  49:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**********************
+  50:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *   GLOBAL FUNCTIONS
+  51:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  **********************/
+  52:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  53:lvgl/src/extra/widgets/tileview/lv_tileview.c **** lv_obj_t * lv_tileview_create(lv_obj_t * parent)
+  54:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+  55:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_INFO("begin");
+  56:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_tileview_class, parent);
+  57:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+  58:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     return obj;
+  59:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+  60:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  61:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /*======================
+  62:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  * Add/remove functions
+  63:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *=====================*/
+  64:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  65:lvgl/src/extra/widgets/tileview/lv_tileview.c **** lv_obj_t * lv_tileview_add_tile(lv_obj_t * tv, uint8_t col_id, uint8_t row_id, lv_dir_t dir)
+  66:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+  67:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_INFO("begin");
+  68:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_dir = dir;
+  69:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_col_id = col_id;
+  70:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_row_id = row_id;
+  71:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  72:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_tileview_tile_class, tv);
+  73:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+  74:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     return obj;
+  75:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+  76:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  77:lvgl/src/extra/widgets/tileview/lv_tileview.c **** void lv_obj_set_tile(lv_obj_t * obj, lv_obj_t * tile_obj, lv_anim_enable_t anim_en)
+  78:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+  79:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t tx = lv_obj_get_x(tile_obj);
+  80:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = lv_obj_get_y(tile_obj);
+  81:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  82:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_tile_t * tile = (lv_tileview_tile_t *)tile_obj;
+  83:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_t * tv = (lv_tileview_t *) obj;
+  84:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     tv->tile_act = (lv_obj_t *)tile;
+  85:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  86:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_scroll_dir(obj, tile->dir);
+  87:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_scroll_to(obj, tx, ty, anim_en);
+  88:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 3
+
+
+  89:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  90:lvgl/src/extra/widgets/tileview/lv_tileview.c **** void lv_obj_set_tile_id(lv_obj_t * tv, uint32_t col_id, uint32_t row_id, lv_anim_enable_t anim_en)
+  91:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+  92:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_update_layout(tv);
+  93:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  94:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t w = lv_obj_get_content_width(tv);
+  95:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t h = lv_obj_get_content_height(tv);
+  96:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+  97:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t tx = col_id * w;
+  98:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = row_id * h;
+  99:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 100:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     uint32_t i;
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     for(i = 0; i < lv_obj_get_child_cnt(tv); i++) {
+ 102:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 103:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t x = lv_obj_get_x(tile_obj);
+ 104:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t y = lv_obj_get_y(tile_obj);
+ 105:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         if(x == tx && y == ty) {
+ 106:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_set_tile(tv, tile_obj, anim_en);
+ 107:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             return;
+ 108:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         }
+ 109:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     }
+ 110:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 111:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_WARN("No tile found with at (%d,%d) index", (int)col_id, (int)row_id);
+ 112:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 113:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 114:lvgl/src/extra/widgets/tileview/lv_tileview.c **** lv_obj_t * lv_tileview_get_tile_act(lv_obj_t * obj)
+ 115:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+ 116:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_t * tv = (lv_tileview_t *) obj;
+ 117:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     return tv->tile_act;
+ 118:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 119:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 120:lvgl/src/extra/widgets/tileview/lv_tileview.c **** /**********************
+ 121:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  *   STATIC FUNCTIONS
+ 122:lvgl/src/extra/widgets/tileview/lv_tileview.c ****  **********************/
+ 123:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 124:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static void lv_tileview_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ 125:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+  28              		.loc 1 125 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 125 1 is_stmt 0 view .LVU1
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 0C46     		mov	r4, r1
+ 126:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_UNUSED(class_p);
+  39              		.loc 1 126 5 is_stmt 1 view .LVU2
+ 127:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+  40              		.loc 1 127 5 view .LVU3
+  41 0004 42F26402 		movw	r2, #8292
+  42 0008 1146     		mov	r1, r2
+  43              	.LVL1:
+  44              		.loc 1 127 5 is_stmt 0 view .LVU4
+  45 000a 2046     		mov	r0, r4
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 4
+
+
+  46              	.LVL2:
+  47              		.loc 1 127 5 view .LVU5
+  48 000c FFF7FEFF 		bl	lv_obj_set_size
+  49              	.LVL3:
+ 128:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_add_event_cb(obj, tileview_event_cb, LV_EVENT_ALL, NULL);
+  50              		.loc 1 128 5 is_stmt 1 view .LVU6
+  51 0010 0023     		movs	r3, #0
+  52 0012 1A46     		mov	r2, r3
+  53 0014 0849     		ldr	r1, .L3
+  54 0016 2046     		mov	r0, r4
+  55 0018 FFF7FEFF 		bl	lv_obj_add_event_cb
+  56              	.LVL4:
+ 129:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ONE);
+  57              		.loc 1 129 5 view .LVU7
+  58 001c 8021     		movs	r1, #128
+  59 001e 2046     		mov	r0, r4
+  60 0020 FFF7FEFF 		bl	lv_obj_add_flag
+  61              	.LVL5:
+ 130:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_scroll_snap_x(obj, LV_SCROLL_SNAP_CENTER);
+  62              		.loc 1 130 5 view .LVU8
+  63 0024 0321     		movs	r1, #3
+  64 0026 2046     		mov	r0, r4
+  65 0028 FFF7FEFF 		bl	lv_obj_set_scroll_snap_x
+  66              	.LVL6:
+ 131:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_scroll_snap_y(obj, LV_SCROLL_SNAP_CENTER);
+  67              		.loc 1 131 5 view .LVU9
+  68 002c 0321     		movs	r1, #3
+  69 002e 2046     		mov	r0, r4
+  70 0030 FFF7FEFF 		bl	lv_obj_set_scroll_snap_y
+  71              	.LVL7:
+ 132:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 133:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+  72              		.loc 1 133 1 is_stmt 0 view .LVU10
+  73 0034 10BD     		pop	{r4, pc}
+  74              	.LVL8:
+  75              	.L4:
+  76              		.loc 1 133 1 view .LVU11
+  77 0036 00BF     		.align	2
+  78              	.L3:
+  79 0038 00000000 		.word	tileview_event_cb
+  80              		.cfi_endproc
+  81              	.LFE161:
+  83              		.section	.text.tileview_event_cb,"ax",%progbits
+  84              		.align	1
+  85              		.syntax unified
+  86              		.thumb
+  87              		.thumb_func
+  89              	tileview_event_cb:
+  90              	.LVL9:
+  91              	.LFB163:
+ 134:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 135:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static void lv_tileview_tile_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ 136:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+ 137:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 138:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_UNUSED(class_p);
+ 139:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * parent = lv_obj_get_parent(obj);
+ 140:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 5
+
+
+ 141:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_update_layout(obj);  /*Be sure the size is correct*/
+ 142:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_pos(obj, create_col_id * lv_obj_get_content_width(parent),
+ 143:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                    create_row_id * lv_obj_get_content_height(parent));
+ 144:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 145:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_tile_t * tile = (lv_tileview_tile_t *)obj;
+ 146:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     tile->dir = create_dir;
+ 147:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 148:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     if(create_col_id == 0 && create_row_id == 0) {
+ 149:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(parent, create_dir);
+ 150:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     }
+ 151:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 152:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 153:lvgl/src/extra/widgets/tileview/lv_tileview.c **** static void tileview_event_cb(lv_event_t * e)
+ 154:lvgl/src/extra/widgets/tileview/lv_tileview.c **** {
+  92              		.loc 1 154 1 is_stmt 1 view -0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 8
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96              		.loc 1 154 1 is_stmt 0 view .LVU13
+  97 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  98              	.LCFI1:
+  99              		.cfi_def_cfa_offset 28
+ 100              		.cfi_offset 4, -28
+ 101              		.cfi_offset 5, -24
+ 102              		.cfi_offset 6, -20
+ 103              		.cfi_offset 7, -16
+ 104              		.cfi_offset 8, -12
+ 105              		.cfi_offset 9, -8
+ 106              		.cfi_offset 14, -4
+ 107 0004 83B0     		sub	sp, sp, #12
+ 108              	.LCFI2:
+ 109              		.cfi_def_cfa_offset 40
+ 110 0006 0446     		mov	r4, r0
+ 155:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_event_code_t code = lv_event_get_code(e);
+ 111              		.loc 1 155 5 is_stmt 1 view .LVU14
+ 112              		.loc 1 155 28 is_stmt 0 view .LVU15
+ 113 0008 FFF7FEFF 		bl	lv_event_get_code
+ 114              	.LVL10:
+ 115              		.loc 1 155 28 view .LVU16
+ 116 000c 0546     		mov	r5, r0
+ 117              	.LVL11:
+ 156:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * obj = lv_event_get_target(e);
+ 118              		.loc 1 156 5 is_stmt 1 view .LVU17
+ 119              		.loc 1 156 22 is_stmt 0 view .LVU18
+ 120 000e 2046     		mov	r0, r4
+ 121 0010 FFF7FEFF 		bl	lv_event_get_target
+ 122              	.LVL12:
+ 157:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_t * tv = (lv_tileview_t *) obj;
+ 123              		.loc 1 157 5 is_stmt 1 view .LVU19
+ 158:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 159:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     if(code == LV_EVENT_SCROLL_END) {
+ 124              		.loc 1 159 5 view .LVU20
+ 125              		.loc 1 159 7 is_stmt 0 view .LVU21
+ 126 0014 0A2D     		cmp	r5, #10
+ 127 0016 02D0     		beq	.L14
+ 128              	.LVL13:
+ 129              	.L5:
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 6
+
+
+ 160:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t w = lv_obj_get_content_width(obj);
+ 161:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t h = lv_obj_get_content_height(obj);
+ 162:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 163:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_point_t scroll_end;
+ 164:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_get_scroll_end(obj, &scroll_end);
+ 165:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t left = scroll_end.x;
+ 166:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t top = scroll_end.y;
+ 167:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t tx = ((left + (w / 2)) / w) * w;
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 170:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 171:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_dir_t dir = LV_DIR_ALL;
+ 172:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         uint32_t i;
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         for(i = 0; i < lv_obj_get_child_cnt(obj); i++) {
+ 174:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 175:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t x = lv_obj_get_x(tile_obj);
+ 176:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t y = lv_obj_get_y(tile_obj);
+ 177:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             if(x == tx && y == ty) {
+ 178:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 lv_tileview_tile_t * tile = (lv_tileview_tile_t *)tile_obj;
+ 179:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 tv->tile_act = (lv_obj_t *)tile;
+ 180:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 dir = tile->dir;
+ 181:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+ 182:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 break;
+ 183:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             }
+ 184:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         }
+ 185:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(obj, dir);
+ 186:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     }
+ 187:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 130              		.loc 1 187 1 view .LVU22
+ 131 0018 03B0     		add	sp, sp, #12
+ 132              	.LCFI3:
+ 133              		.cfi_remember_state
+ 134              		.cfi_def_cfa_offset 28
+ 135              		@ sp needed
+ 136 001a BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 137              	.LVL14:
+ 138              	.L14:
+ 139              	.LCFI4:
+ 140              		.cfi_restore_state
+ 141              		.loc 1 187 1 view .LVU23
+ 142 001e 0446     		mov	r4, r0
+ 143              	.LVL15:
+ 144              	.LBB2:
+ 160:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t w = lv_obj_get_content_width(obj);
+ 145              		.loc 1 160 9 is_stmt 1 view .LVU24
+ 160:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t w = lv_obj_get_content_width(obj);
+ 146              		.loc 1 160 24 is_stmt 0 view .LVU25
+ 147 0020 FFF7FEFF 		bl	lv_obj_get_content_width
+ 148              	.LVL16:
+ 160:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t w = lv_obj_get_content_width(obj);
+ 149              		.loc 1 160 24 view .LVU26
+ 150 0024 0646     		mov	r6, r0
+ 151              	.LVL17:
+ 161:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 152              		.loc 1 161 9 is_stmt 1 view .LVU27
+ 161:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 153              		.loc 1 161 24 is_stmt 0 view .LVU28
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 7
+
+
+ 154 0026 2046     		mov	r0, r4
+ 155 0028 FFF7FEFF 		bl	lv_obj_get_content_height
+ 156              	.LVL18:
+ 157 002c 0546     		mov	r5, r0
+ 158              	.LVL19:
+ 163:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_get_scroll_end(obj, &scroll_end);
+ 159              		.loc 1 163 9 is_stmt 1 view .LVU29
+ 164:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t left = scroll_end.x;
+ 160              		.loc 1 164 9 view .LVU30
+ 161 002e 01A9     		add	r1, sp, #4
+ 162 0030 2046     		mov	r0, r4
+ 163 0032 FFF7FEFF 		bl	lv_obj_get_scroll_end
+ 164              	.LVL20:
+ 165:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t top = scroll_end.y;
+ 165              		.loc 1 165 9 view .LVU31
+ 165:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t top = scroll_end.y;
+ 166              		.loc 1 165 20 is_stmt 0 view .LVU32
+ 167 0036 BDF90490 		ldrsh	r9, [sp, #4]
+ 168              	.LVL21:
+ 166:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 169              		.loc 1 166 9 is_stmt 1 view .LVU33
+ 166:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 170              		.loc 1 166 20 is_stmt 0 view .LVU34
+ 171 003a BDF90680 		ldrsh	r8, [sp, #6]
+ 172              	.LVL22:
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 173              		.loc 1 168 9 is_stmt 1 view .LVU35
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 174              		.loc 1 168 37 is_stmt 0 view .LVU36
+ 175 003e 3346     		mov	r3, r6
+ 176 0040 002E     		cmp	r6, #0
+ 177 0042 2BDB     		blt	.L15
+ 178              	.L7:
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 179              		.loc 1 168 37 view .LVU37
+ 180 0044 43F34F03 		sbfx	r3, r3, #1, #16
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 181              		.loc 1 168 32 view .LVU38
+ 182 0048 9944     		add	r9, r9, r3
+ 183              	.LVL23:
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 184              		.loc 1 168 43 view .LVU39
+ 185 004a 99FBF6F9 		sdiv	r9, r9, r6
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 186              		.loc 1 168 20 view .LVU40
+ 187 004e 19FB06F9 		smulbb	r9, r9, r6
+ 188 0052 0FFA89F9 		sxth	r9, r9
+ 189              	.LVL24:
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 190              		.loc 1 169 9 is_stmt 1 view .LVU41
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 191              		.loc 1 169 36 is_stmt 0 view .LVU42
+ 192 0056 2B46     		mov	r3, r5
+ 193 0058 002D     		cmp	r5, #0
+ 194 005a 21DB     		blt	.L16
+ 195              	.L8:
+ 196 005c 43F34F03 		sbfx	r3, r3, #1, #16
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 8
+
+
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 197              		.loc 1 169 31 view .LVU43
+ 198 0060 9844     		add	r8, r8, r3
+ 199              	.LVL25:
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 200              		.loc 1 169 42 view .LVU44
+ 201 0062 98FBF5F8 		sdiv	r8, r8, r5
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 202              		.loc 1 169 20 view .LVU45
+ 203 0066 18FB05F8 		smulbb	r8, r8, r5
+ 204 006a 0FFA88F8 		sxth	r8, r8
+ 205              	.LVL26:
+ 171:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         uint32_t i;
+ 206              		.loc 1 171 9 is_stmt 1 view .LVU46
+ 172:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         for(i = 0; i < lv_obj_get_child_cnt(obj); i++) {
+ 207              		.loc 1 172 9 view .LVU47
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 208              		.loc 1 173 9 view .LVU48
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 209              		.loc 1 173 15 is_stmt 0 view .LVU49
+ 210 006e 0026     		movs	r6, #0
+ 211              	.LVL27:
+ 212              	.L9:
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 213              		.loc 1 173 22 is_stmt 1 discriminator 1 view .LVU50
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 214              		.loc 1 173 24 is_stmt 0 discriminator 1 view .LVU51
+ 215 0070 2046     		mov	r0, r4
+ 216 0072 FFF7FEFF 		bl	lv_obj_get_child_cnt
+ 217              	.LVL28:
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 218              		.loc 1 173 22 discriminator 1 view .LVU52
+ 219 0076 B042     		cmp	r0, r6
+ 220 0078 1DD9     		bls	.L17
+ 221              	.LBB3:
+ 174:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t x = lv_obj_get_x(tile_obj);
+ 222              		.loc 1 174 13 is_stmt 1 view .LVU53
+ 174:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t x = lv_obj_get_x(tile_obj);
+ 223              		.loc 1 174 35 is_stmt 0 view .LVU54
+ 224 007a 3146     		mov	r1, r6
+ 225 007c 2046     		mov	r0, r4
+ 226 007e FFF7FEFF 		bl	lv_obj_get_child
+ 227              	.LVL29:
+ 228 0082 0546     		mov	r5, r0
+ 229              	.LVL30:
+ 175:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t y = lv_obj_get_y(tile_obj);
+ 230              		.loc 1 175 13 is_stmt 1 view .LVU55
+ 175:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t y = lv_obj_get_y(tile_obj);
+ 231              		.loc 1 175 28 is_stmt 0 view .LVU56
+ 232 0084 FFF7FEFF 		bl	lv_obj_get_x
+ 233              	.LVL31:
+ 175:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_coord_t y = lv_obj_get_y(tile_obj);
+ 234              		.loc 1 175 28 view .LVU57
+ 235 0088 0746     		mov	r7, r0
+ 236              	.LVL32:
+ 176:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             if(x == tx && y == ty) {
+ 237              		.loc 1 176 13 is_stmt 1 view .LVU58
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 9
+
+
+ 176:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             if(x == tx && y == ty) {
+ 238              		.loc 1 176 28 is_stmt 0 view .LVU59
+ 239 008a 2846     		mov	r0, r5
+ 240 008c FFF7FEFF 		bl	lv_obj_get_y
+ 241              	.LVL33:
+ 177:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 lv_tileview_tile_t * tile = (lv_tileview_tile_t *)tile_obj;
+ 242              		.loc 1 177 13 is_stmt 1 view .LVU60
+ 177:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 lv_tileview_tile_t * tile = (lv_tileview_tile_t *)tile_obj;
+ 243              		.loc 1 177 15 is_stmt 0 view .LVU61
+ 244 0090 B945     		cmp	r9, r7
+ 245 0092 08BF     		it	eq
+ 246 0094 8045     		cmpeq	r8, r0
+ 247 0096 05D0     		beq	.L18
+ 248              	.LBE3:
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 249              		.loc 1 173 52 is_stmt 1 discriminator 2 view .LVU62
+ 250 0098 0136     		adds	r6, r6, #1
+ 251              	.LVL34:
+ 173:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_t * tile_obj = lv_obj_get_child(obj, i);
+ 252              		.loc 1 173 52 is_stmt 0 discriminator 2 view .LVU63
+ 253 009a E9E7     		b	.L9
+ 254              	.LVL35:
+ 255              	.L15:
+ 168:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t ty = ((top + (h / 2)) / h) * h;
+ 256              		.loc 1 168 37 view .LVU64
+ 257 009c 731C     		adds	r3, r6, #1
+ 258 009e D1E7     		b	.L7
+ 259              	.LVL36:
+ 260              	.L16:
+ 169:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 261              		.loc 1 169 36 view .LVU65
+ 262 00a0 6B1C     		adds	r3, r5, #1
+ 263 00a2 DBE7     		b	.L8
+ 264              	.LVL37:
+ 265              	.L18:
+ 266              	.LBB5:
+ 267              	.LBB4:
+ 178:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 tv->tile_act = (lv_obj_t *)tile;
+ 268              		.loc 1 178 17 is_stmt 1 view .LVU66
+ 179:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 dir = tile->dir;
+ 269              		.loc 1 179 17 view .LVU67
+ 179:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 dir = tile->dir;
+ 270              		.loc 1 179 30 is_stmt 0 view .LVU68
+ 271 00a4 6562     		str	r5, [r4, #36]
+ 180:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+ 272              		.loc 1 180 17 is_stmt 1 view .LVU69
+ 180:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+ 273              		.loc 1 180 21 is_stmt 0 view .LVU70
+ 274 00a6 95F82450 		ldrb	r5, [r5, #36]	@ zero_extendqisi2
+ 275              	.LVL38:
+ 181:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 break;
+ 276              		.loc 1 181 17 is_stmt 1 view .LVU71
+ 277 00aa 0022     		movs	r2, #0
+ 278 00ac 1C21     		movs	r1, #28
+ 279 00ae 2046     		mov	r0, r4
+ 280              	.LVL39:
+ 181:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                 break;
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 10
+
+
+ 281              		.loc 1 181 17 is_stmt 0 view .LVU72
+ 282 00b0 FFF7FEFF 		bl	lv_event_send
+ 283              	.LVL40:
+ 182:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             }
+ 284              		.loc 1 182 17 is_stmt 1 view .LVU73
+ 285 00b4 00E0     		b	.L11
+ 286              	.LVL41:
+ 287              	.L17:
+ 182:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             }
+ 288              		.loc 1 182 17 is_stmt 0 view .LVU74
+ 289              	.LBE4:
+ 290              	.LBE5:
+ 171:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         uint32_t i;
+ 291              		.loc 1 171 18 view .LVU75
+ 292 00b6 0F25     		movs	r5, #15
+ 293              	.LVL42:
+ 294              	.L11:
+ 185:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     }
+ 295              		.loc 1 185 9 is_stmt 1 view .LVU76
+ 296 00b8 2946     		mov	r1, r5
+ 297 00ba 2046     		mov	r0, r4
+ 298 00bc FFF7FEFF 		bl	lv_obj_set_scroll_dir
+ 299              	.LVL43:
+ 300              	.LBE2:
+ 301              		.loc 1 187 1 is_stmt 0 view .LVU77
+ 302 00c0 AAE7     		b	.L5
+ 303              		.cfi_endproc
+ 304              	.LFE163:
+ 306              		.section	.text.lv_tileview_tile_constructor,"ax",%progbits
+ 307              		.align	1
+ 308              		.syntax unified
+ 309              		.thumb
+ 310              		.thumb_func
+ 312              	lv_tileview_tile_constructor:
+ 313              	.LVL44:
+ 314              	.LFB162:
+ 136:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 315              		.loc 1 136 1 is_stmt 1 view -0
+ 316              		.cfi_startproc
+ 317              		@ args = 0, pretend = 0, frame = 0
+ 318              		@ frame_needed = 0, uses_anonymous_args = 0
+ 136:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 319              		.loc 1 136 1 is_stmt 0 view .LVU79
+ 320 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 321              	.LCFI5:
+ 322              		.cfi_def_cfa_offset 24
+ 323              		.cfi_offset 3, -24
+ 324              		.cfi_offset 4, -20
+ 325              		.cfi_offset 5, -16
+ 326              		.cfi_offset 6, -12
+ 327              		.cfi_offset 7, -8
+ 328              		.cfi_offset 14, -4
+ 329 0002 0C46     		mov	r4, r1
+ 138:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * parent = lv_obj_get_parent(obj);
+ 330              		.loc 1 138 5 is_stmt 1 view .LVU80
+ 139:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+ 331              		.loc 1 139 5 view .LVU81
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 11
+
+
+ 139:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+ 332              		.loc 1 139 25 is_stmt 0 view .LVU82
+ 333 0004 0846     		mov	r0, r1
+ 334              	.LVL45:
+ 139:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+ 335              		.loc 1 139 25 view .LVU83
+ 336 0006 FFF7FEFF 		bl	lv_obj_get_parent
+ 337              	.LVL46:
+ 139:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+ 338              		.loc 1 139 25 view .LVU84
+ 339 000a 0646     		mov	r6, r0
+ 340              	.LVL47:
+ 140:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_update_layout(obj);  /*Be sure the size is correct*/
+ 341              		.loc 1 140 5 is_stmt 1 view .LVU85
+ 342 000c 42F26402 		movw	r2, #8292
+ 343 0010 1146     		mov	r1, r2
+ 344 0012 2046     		mov	r0, r4
+ 345              	.LVL48:
+ 140:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_update_layout(obj);  /*Be sure the size is correct*/
+ 346              		.loc 1 140 5 is_stmt 0 view .LVU86
+ 347 0014 FFF7FEFF 		bl	lv_obj_set_size
+ 348              	.LVL49:
+ 141:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_set_pos(obj, create_col_id * lv_obj_get_content_width(parent),
+ 349              		.loc 1 141 5 is_stmt 1 view .LVU87
+ 350 0018 2046     		mov	r0, r4
+ 351 001a FFF7FEFF 		bl	lv_obj_update_layout
+ 352              	.LVL50:
+ 142:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                    create_row_id * lv_obj_get_content_height(parent));
+ 353              		.loc 1 142 5 view .LVU88
+ 142:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                    create_row_id * lv_obj_get_content_height(parent));
+ 354              		.loc 1 142 41 is_stmt 0 view .LVU89
+ 355 001e 3046     		mov	r0, r6
+ 356 0020 FFF7FEFF 		bl	lv_obj_get_content_width
+ 357              	.LVL51:
+ 142:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                    create_row_id * lv_obj_get_content_height(parent));
+ 358              		.loc 1 142 5 discriminator 1 view .LVU90
+ 359 0024 0F4F     		ldr	r7, .L23
+ 360 0026 3D68     		ldr	r5, [r7]
+ 361 0028 15FB00F5 		smulbb	r5, r5, r0
+ 362 002c 2DB2     		sxth	r5, r5
+ 143:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 363              		.loc 1 143 36 view .LVU91
+ 364 002e 3046     		mov	r0, r6
+ 365 0030 FFF7FEFF 		bl	lv_obj_get_content_height
+ 366              	.LVL52:
+ 142:lvgl/src/extra/widgets/tileview/lv_tileview.c ****                    create_row_id * lv_obj_get_content_height(parent));
+ 367              		.loc 1 142 5 view .LVU92
+ 368 0034 0C4B     		ldr	r3, .L23+4
+ 369 0036 1A68     		ldr	r2, [r3]
+ 370 0038 12FB00F2 		smulbb	r2, r2, r0
+ 371 003c 12B2     		sxth	r2, r2
+ 372 003e 2946     		mov	r1, r5
+ 373 0040 2046     		mov	r0, r4
+ 374 0042 FFF7FEFF 		bl	lv_obj_set_pos
+ 375              	.LVL53:
+ 145:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     tile->dir = create_dir;
+ 376              		.loc 1 145 5 is_stmt 1 view .LVU93
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 12
+
+
+ 146:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 377              		.loc 1 146 5 view .LVU94
+ 146:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 378              		.loc 1 146 15 is_stmt 0 view .LVU95
+ 379 0046 094B     		ldr	r3, .L23+8
+ 380 0048 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 381 004a 84F82410 		strb	r1, [r4, #36]
+ 148:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(parent, create_dir);
+ 382              		.loc 1 148 5 is_stmt 1 view .LVU96
+ 148:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(parent, create_dir);
+ 383              		.loc 1 148 22 is_stmt 0 view .LVU97
+ 384 004e 3B68     		ldr	r3, [r7]
+ 148:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(parent, create_dir);
+ 385              		.loc 1 148 7 view .LVU98
+ 386 0050 13B9     		cbnz	r3, .L19
+ 148:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(parent, create_dir);
+ 387              		.loc 1 148 44 discriminator 1 view .LVU99
+ 388 0052 054B     		ldr	r3, .L23+4
+ 389 0054 1B68     		ldr	r3, [r3]
+ 148:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_set_scroll_dir(parent, create_dir);
+ 390              		.loc 1 148 27 discriminator 1 view .LVU100
+ 391 0056 03B1     		cbz	r3, .L22
+ 392              	.L19:
+ 151:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 393              		.loc 1 151 1 view .LVU101
+ 394 0058 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 395              	.LVL54:
+ 396              	.L22:
+ 149:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     }
+ 397              		.loc 1 149 9 is_stmt 1 view .LVU102
+ 398 005a 3046     		mov	r0, r6
+ 399 005c FFF7FEFF 		bl	lv_obj_set_scroll_dir
+ 400              	.LVL55:
+ 151:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 401              		.loc 1 151 1 is_stmt 0 view .LVU103
+ 402 0060 FAE7     		b	.L19
+ 403              	.L24:
+ 404 0062 00BF     		.align	2
+ 405              	.L23:
+ 406 0064 00000000 		.word	create_col_id
+ 407 0068 00000000 		.word	create_row_id
+ 408 006c 00000000 		.word	create_dir
+ 409              		.cfi_endproc
+ 410              	.LFE162:
+ 412              		.section	.text.lv_tileview_create,"ax",%progbits
+ 413              		.align	1
+ 414              		.global	lv_tileview_create
+ 415              		.syntax unified
+ 416              		.thumb
+ 417              		.thumb_func
+ 419              	lv_tileview_create:
+ 420              	.LVL56:
+ 421              	.LFB156:
+  54:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_INFO("begin");
+ 422              		.loc 1 54 1 is_stmt 1 view -0
+ 423              		.cfi_startproc
+ 424              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 13
+
+
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+  54:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_INFO("begin");
+ 426              		.loc 1 54 1 is_stmt 0 view .LVU105
+ 427 0000 10B5     		push	{r4, lr}
+ 428              	.LCFI6:
+ 429              		.cfi_def_cfa_offset 8
+ 430              		.cfi_offset 4, -8
+ 431              		.cfi_offset 14, -4
+ 432 0002 0146     		mov	r1, r0
+  55:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_tileview_class, parent);
+ 433              		.loc 1 55 5 is_stmt 1 view .LVU106
+  55:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_tileview_class, parent);
+ 434              		.loc 1 55 5 view .LVU107
+  55:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_tileview_class, parent);
+ 435              		.loc 1 55 5 view .LVU108
+  56:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 436              		.loc 1 56 5 view .LVU109
+  56:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 437              		.loc 1 56 22 is_stmt 0 view .LVU110
+ 438 0004 0348     		ldr	r0, .L27
+ 439              	.LVL57:
+  56:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 440              		.loc 1 56 22 view .LVU111
+ 441 0006 FFF7FEFF 		bl	lv_obj_class_create_obj
+ 442              	.LVL58:
+  56:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 443              		.loc 1 56 22 view .LVU112
+ 444 000a 0446     		mov	r4, r0
+ 445              	.LVL59:
+  57:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     return obj;
+ 446              		.loc 1 57 5 is_stmt 1 view .LVU113
+ 447 000c FFF7FEFF 		bl	lv_obj_class_init_obj
+ 448              	.LVL60:
+  58:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 449              		.loc 1 58 5 view .LVU114
+  59:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 450              		.loc 1 59 1 is_stmt 0 view .LVU115
+ 451 0010 2046     		mov	r0, r4
+ 452 0012 10BD     		pop	{r4, pc}
+ 453              	.LVL61:
+ 454              	.L28:
+  59:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 455              		.loc 1 59 1 view .LVU116
+ 456              		.align	2
+ 457              	.L27:
+ 458 0014 00000000 		.word	lv_tileview_class
+ 459              		.cfi_endproc
+ 460              	.LFE156:
+ 462              		.section	.text.lv_tileview_add_tile,"ax",%progbits
+ 463              		.align	1
+ 464              		.global	lv_tileview_add_tile
+ 465              		.syntax unified
+ 466              		.thumb
+ 467              		.thumb_func
+ 469              	lv_tileview_add_tile:
+ 470              	.LVL62:
+ 471              	.LFB157:
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 14
+
+
+  66:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_INFO("begin");
+ 472              		.loc 1 66 1 is_stmt 1 view -0
+ 473              		.cfi_startproc
+ 474              		@ args = 0, pretend = 0, frame = 0
+ 475              		@ frame_needed = 0, uses_anonymous_args = 0
+  66:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     LV_LOG_INFO("begin");
+ 476              		.loc 1 66 1 is_stmt 0 view .LVU118
+ 477 0000 10B5     		push	{r4, lr}
+ 478              	.LCFI7:
+ 479              		.cfi_def_cfa_offset 8
+ 480              		.cfi_offset 4, -8
+ 481              		.cfi_offset 14, -4
+  67:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_dir = dir;
+ 482              		.loc 1 67 5 is_stmt 1 view .LVU119
+  67:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_dir = dir;
+ 483              		.loc 1 67 5 view .LVU120
+  67:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_dir = dir;
+ 484              		.loc 1 67 5 view .LVU121
+  68:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_col_id = col_id;
+ 485              		.loc 1 68 5 view .LVU122
+  68:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_col_id = col_id;
+ 486              		.loc 1 68 16 is_stmt 0 view .LVU123
+ 487 0002 074C     		ldr	r4, .L31
+ 488 0004 2370     		strb	r3, [r4]
+  69:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_row_id = row_id;
+ 489              		.loc 1 69 5 is_stmt 1 view .LVU124
+  69:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_row_id = row_id;
+ 490              		.loc 1 69 19 is_stmt 0 view .LVU125
+ 491 0006 074B     		ldr	r3, .L31+4
+ 492              	.LVL63:
+  69:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     create_row_id = row_id;
+ 493              		.loc 1 69 19 view .LVU126
+ 494 0008 1960     		str	r1, [r3]
+  70:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 495              		.loc 1 70 5 is_stmt 1 view .LVU127
+  70:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 496              		.loc 1 70 19 is_stmt 0 view .LVU128
+ 497 000a 074B     		ldr	r3, .L31+8
+ 498 000c 1A60     		str	r2, [r3]
+  72:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 499              		.loc 1 72 5 is_stmt 1 view .LVU129
+  72:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 500              		.loc 1 72 22 is_stmt 0 view .LVU130
+ 501 000e 0146     		mov	r1, r0
+ 502              	.LVL64:
+  72:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 503              		.loc 1 72 22 view .LVU131
+ 504 0010 0648     		ldr	r0, .L31+12
+ 505              	.LVL65:
+  72:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 506              		.loc 1 72 22 view .LVU132
+ 507 0012 FFF7FEFF 		bl	lv_obj_class_create_obj
+ 508              	.LVL66:
+  72:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_class_init_obj(obj);
+ 509              		.loc 1 72 22 view .LVU133
+ 510 0016 0446     		mov	r4, r0
+ 511              	.LVL67:
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 15
+
+
+  73:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     return obj;
+ 512              		.loc 1 73 5 is_stmt 1 view .LVU134
+ 513 0018 FFF7FEFF 		bl	lv_obj_class_init_obj
+ 514              	.LVL68:
+  74:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 515              		.loc 1 74 5 view .LVU135
+  75:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 516              		.loc 1 75 1 is_stmt 0 view .LVU136
+ 517 001c 2046     		mov	r0, r4
+ 518 001e 10BD     		pop	{r4, pc}
+ 519              	.LVL69:
+ 520              	.L32:
+  75:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 521              		.loc 1 75 1 view .LVU137
+ 522              		.align	2
+ 523              	.L31:
+ 524 0020 00000000 		.word	create_dir
+ 525 0024 00000000 		.word	create_col_id
+ 526 0028 00000000 		.word	create_row_id
+ 527 002c 00000000 		.word	lv_tileview_tile_class
+ 528              		.cfi_endproc
+ 529              	.LFE157:
+ 531              		.section	.text.lv_obj_set_tile,"ax",%progbits
+ 532              		.align	1
+ 533              		.global	lv_obj_set_tile
+ 534              		.syntax unified
+ 535              		.thumb
+ 536              		.thumb_func
+ 538              	lv_obj_set_tile:
+ 539              	.LVL70:
+ 540              	.LFB158:
+  78:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t tx = lv_obj_get_x(tile_obj);
+ 541              		.loc 1 78 1 is_stmt 1 view -0
+ 542              		.cfi_startproc
+ 543              		@ args = 0, pretend = 0, frame = 0
+ 544              		@ frame_needed = 0, uses_anonymous_args = 0
+  78:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t tx = lv_obj_get_x(tile_obj);
+ 545              		.loc 1 78 1 is_stmt 0 view .LVU139
+ 546 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 547              	.LCFI8:
+ 548              		.cfi_def_cfa_offset 24
+ 549              		.cfi_offset 4, -24
+ 550              		.cfi_offset 5, -20
+ 551              		.cfi_offset 6, -16
+ 552              		.cfi_offset 7, -12
+ 553              		.cfi_offset 8, -8
+ 554              		.cfi_offset 14, -4
+ 555 0004 0546     		mov	r5, r0
+ 556 0006 0C46     		mov	r4, r1
+ 557 0008 9046     		mov	r8, r2
+  79:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = lv_obj_get_y(tile_obj);
+ 558              		.loc 1 79 5 is_stmt 1 view .LVU140
+  79:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = lv_obj_get_y(tile_obj);
+ 559              		.loc 1 79 21 is_stmt 0 view .LVU141
+ 560 000a 0846     		mov	r0, r1
+ 561              	.LVL71:
+  79:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = lv_obj_get_y(tile_obj);
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 16
+
+
+ 562              		.loc 1 79 21 view .LVU142
+ 563 000c FFF7FEFF 		bl	lv_obj_get_x
+ 564              	.LVL72:
+  79:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = lv_obj_get_y(tile_obj);
+ 565              		.loc 1 79 21 view .LVU143
+ 566 0010 0646     		mov	r6, r0
+ 567              	.LVL73:
+  80:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 568              		.loc 1 80 5 is_stmt 1 view .LVU144
+  80:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 569              		.loc 1 80 21 is_stmt 0 view .LVU145
+ 570 0012 2046     		mov	r0, r4
+ 571 0014 FFF7FEFF 		bl	lv_obj_get_y
+ 572              	.LVL74:
+ 573 0018 0746     		mov	r7, r0
+ 574              	.LVL75:
+  82:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_t * tv = (lv_tileview_t *) obj;
+ 575              		.loc 1 82 5 is_stmt 1 view .LVU146
+  83:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     tv->tile_act = (lv_obj_t *)tile;
+ 576              		.loc 1 83 5 view .LVU147
+  84:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 577              		.loc 1 84 5 view .LVU148
+  84:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 578              		.loc 1 84 18 is_stmt 0 view .LVU149
+ 579 001a 6C62     		str	r4, [r5, #36]
+  86:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_scroll_to(obj, tx, ty, anim_en);
+ 580              		.loc 1 86 5 is_stmt 1 view .LVU150
+ 581 001c 94F82410 		ldrb	r1, [r4, #36]	@ zero_extendqisi2
+ 582 0020 2846     		mov	r0, r5
+ 583 0022 FFF7FEFF 		bl	lv_obj_set_scroll_dir
+ 584              	.LVL76:
+  87:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 585              		.loc 1 87 5 view .LVU151
+ 586 0026 4346     		mov	r3, r8
+ 587 0028 3A46     		mov	r2, r7
+ 588 002a 3146     		mov	r1, r6
+ 589 002c 2846     		mov	r0, r5
+ 590 002e FFF7FEFF 		bl	lv_obj_scroll_to
+ 591              	.LVL77:
+  88:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 592              		.loc 1 88 1 is_stmt 0 view .LVU152
+ 593 0032 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+  88:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 594              		.loc 1 88 1 view .LVU153
+ 595              		.cfi_endproc
+ 596              	.LFE158:
+ 598              		.section	.text.lv_obj_set_tile_id,"ax",%progbits
+ 599              		.align	1
+ 600              		.global	lv_obj_set_tile_id
+ 601              		.syntax unified
+ 602              		.thumb
+ 603              		.thumb_func
+ 605              	lv_obj_set_tile_id:
+ 606              	.LVL78:
+ 607              	.LFB159:
+  91:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_update_layout(tv);
+ 608              		.loc 1 91 1 is_stmt 1 view -0
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 17
+
+
+ 609              		.cfi_startproc
+ 610              		@ args = 0, pretend = 0, frame = 0
+ 611              		@ frame_needed = 0, uses_anonymous_args = 0
+  91:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_obj_update_layout(tv);
+ 612              		.loc 1 91 1 is_stmt 0 view .LVU155
+ 613 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 614              	.LCFI9:
+ 615              		.cfi_def_cfa_offset 32
+ 616              		.cfi_offset 4, -32
+ 617              		.cfi_offset 5, -28
+ 618              		.cfi_offset 6, -24
+ 619              		.cfi_offset 7, -20
+ 620              		.cfi_offset 8, -16
+ 621              		.cfi_offset 9, -12
+ 622              		.cfi_offset 10, -8
+ 623              		.cfi_offset 14, -4
+ 624 0004 0746     		mov	r7, r0
+ 625 0006 0D46     		mov	r5, r1
+ 626 0008 9146     		mov	r9, r2
+ 627 000a 9A46     		mov	r10, r3
+  92:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 628              		.loc 1 92 5 is_stmt 1 view .LVU156
+ 629 000c FFF7FEFF 		bl	lv_obj_update_layout
+ 630              	.LVL79:
+  94:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t h = lv_obj_get_content_height(tv);
+ 631              		.loc 1 94 5 view .LVU157
+  94:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t h = lv_obj_get_content_height(tv);
+ 632              		.loc 1 94 20 is_stmt 0 view .LVU158
+ 633 0010 3846     		mov	r0, r7
+ 634 0012 FFF7FEFF 		bl	lv_obj_get_content_width
+ 635              	.LVL80:
+ 636 0016 8046     		mov	r8, r0
+ 637              	.LVL81:
+  95:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 638              		.loc 1 95 5 is_stmt 1 view .LVU159
+  95:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 639              		.loc 1 95 20 is_stmt 0 view .LVU160
+ 640 0018 3846     		mov	r0, r7
+ 641 001a FFF7FEFF 		bl	lv_obj_get_content_height
+ 642              	.LVL82:
+  97:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = row_id * h;
+ 643              		.loc 1 97 5 is_stmt 1 view .LVU161
+  97:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = row_id * h;
+ 644              		.loc 1 97 16 is_stmt 0 view .LVU162
+ 645 001e 18FB05F8 		smulbb	r8, r8, r5
+ 646              	.LVL83:
+  97:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_coord_t ty = row_id * h;
+ 647              		.loc 1 97 16 view .LVU163
+ 648 0022 0FFA88F8 		sxth	r8, r8
+ 649              	.LVL84:
+  98:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 650              		.loc 1 98 5 is_stmt 1 view .LVU164
+  98:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 651              		.loc 1 98 16 is_stmt 0 view .LVU165
+ 652 0026 10FB09F9 		smulbb	r9, r0, r9
+ 653              	.LVL85:
+  98:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 18
+
+
+ 654              		.loc 1 98 16 view .LVU166
+ 655 002a 0FFA89F9 		sxth	r9, r9
+ 656              	.LVL86:
+ 100:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     for(i = 0; i < lv_obj_get_child_cnt(tv); i++) {
+ 657              		.loc 1 100 5 is_stmt 1 view .LVU167
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 658              		.loc 1 101 5 view .LVU168
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 659              		.loc 1 101 11 is_stmt 0 view .LVU169
+ 660 002e 0024     		movs	r4, #0
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 661              		.loc 1 101 5 view .LVU170
+ 662 0030 00E0     		b	.L36
+ 663              	.LVL87:
+ 664              	.L37:
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 665              		.loc 1 101 47 is_stmt 1 discriminator 2 view .LVU171
+ 666 0032 0134     		adds	r4, r4, #1
+ 667              	.LVL88:
+ 668              	.L36:
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 669              		.loc 1 101 18 discriminator 1 view .LVU172
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 670              		.loc 1 101 20 is_stmt 0 discriminator 1 view .LVU173
+ 671 0034 3846     		mov	r0, r7
+ 672 0036 FFF7FEFF 		bl	lv_obj_get_child_cnt
+ 673              	.LVL89:
+ 101:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_obj_t * tile_obj = lv_obj_get_child(tv, i);
+ 674              		.loc 1 101 18 discriminator 1 view .LVU174
+ 675 003a A042     		cmp	r0, r4
+ 676 003c 13D9     		bls	.L35
+ 677              	.LBB6:
+ 102:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t x = lv_obj_get_x(tile_obj);
+ 678              		.loc 1 102 9 is_stmt 1 view .LVU175
+ 102:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t x = lv_obj_get_x(tile_obj);
+ 679              		.loc 1 102 31 is_stmt 0 view .LVU176
+ 680 003e 2146     		mov	r1, r4
+ 681 0040 3846     		mov	r0, r7
+ 682 0042 FFF7FEFF 		bl	lv_obj_get_child
+ 683              	.LVL90:
+ 684 0046 0546     		mov	r5, r0
+ 685              	.LVL91:
+ 103:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t y = lv_obj_get_y(tile_obj);
+ 686              		.loc 1 103 9 is_stmt 1 view .LVU177
+ 103:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t y = lv_obj_get_y(tile_obj);
+ 687              		.loc 1 103 24 is_stmt 0 view .LVU178
+ 688 0048 FFF7FEFF 		bl	lv_obj_get_x
+ 689              	.LVL92:
+ 103:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         lv_coord_t y = lv_obj_get_y(tile_obj);
+ 690              		.loc 1 103 24 view .LVU179
+ 691 004c 0646     		mov	r6, r0
+ 692              	.LVL93:
+ 104:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         if(x == tx && y == ty) {
+ 693              		.loc 1 104 9 is_stmt 1 view .LVU180
+ 104:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         if(x == tx && y == ty) {
+ 694              		.loc 1 104 24 is_stmt 0 view .LVU181
+ 695 004e 2846     		mov	r0, r5
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 19
+
+
+ 696 0050 FFF7FEFF 		bl	lv_obj_get_y
+ 697              	.LVL94:
+ 105:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_set_tile(tv, tile_obj, anim_en);
+ 698              		.loc 1 105 9 is_stmt 1 view .LVU182
+ 105:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             lv_obj_set_tile(tv, tile_obj, anim_en);
+ 699              		.loc 1 105 11 is_stmt 0 view .LVU183
+ 700 0054 B045     		cmp	r8, r6
+ 701 0056 08BF     		it	eq
+ 702 0058 8145     		cmpeq	r9, r0
+ 703 005a EAD1     		bne	.L37
+ 106:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             return;
+ 704              		.loc 1 106 13 is_stmt 1 view .LVU184
+ 705 005c 5246     		mov	r2, r10
+ 706 005e 2946     		mov	r1, r5
+ 707 0060 3846     		mov	r0, r7
+ 708              	.LVL95:
+ 106:lvgl/src/extra/widgets/tileview/lv_tileview.c ****             return;
+ 709              		.loc 1 106 13 is_stmt 0 view .LVU185
+ 710 0062 FFF7FEFF 		bl	lv_obj_set_tile
+ 711              	.LVL96:
+ 107:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         }
+ 712              		.loc 1 107 13 is_stmt 1 view .LVU186
+ 713              	.L35:
+ 107:lvgl/src/extra/widgets/tileview/lv_tileview.c ****         }
+ 714              		.loc 1 107 13 is_stmt 0 view .LVU187
+ 715              	.LBE6:
+ 112:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 716              		.loc 1 112 1 view .LVU188
+ 717 0066 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 112:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 718              		.loc 1 112 1 view .LVU189
+ 719              		.cfi_endproc
+ 720              	.LFE159:
+ 722              		.section	.text.lv_tileview_get_tile_act,"ax",%progbits
+ 723              		.align	1
+ 724              		.global	lv_tileview_get_tile_act
+ 725              		.syntax unified
+ 726              		.thumb
+ 727              		.thumb_func
+ 729              	lv_tileview_get_tile_act:
+ 730              	.LVL97:
+ 731              	.LFB160:
+ 115:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     lv_tileview_t * tv = (lv_tileview_t *) obj;
+ 732              		.loc 1 115 1 is_stmt 1 view -0
+ 733              		.cfi_startproc
+ 734              		@ args = 0, pretend = 0, frame = 0
+ 735              		@ frame_needed = 0, uses_anonymous_args = 0
+ 736              		@ link register save eliminated.
+ 116:lvgl/src/extra/widgets/tileview/lv_tileview.c ****     return tv->tile_act;
+ 737              		.loc 1 116 5 view .LVU191
+ 117:lvgl/src/extra/widgets/tileview/lv_tileview.c **** }
+ 738              		.loc 1 117 5 view .LVU192
+ 118:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ 739              		.loc 1 118 1 is_stmt 0 view .LVU193
+ 740 0000 406A     		ldr	r0, [r0, #36]
+ 741              	.LVL98:
+ 118:lvgl/src/extra/widgets/tileview/lv_tileview.c **** 
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 20
+
+
+ 742              		.loc 1 118 1 view .LVU194
+ 743 0002 7047     		bx	lr
+ 744              		.cfi_endproc
+ 745              	.LFE160:
+ 747              		.section	.bss.create_row_id,"aw",%nobits
+ 748              		.align	2
+ 751              	create_row_id:
+ 752 0000 00000000 		.space	4
+ 753              		.section	.bss.create_col_id,"aw",%nobits
+ 754              		.align	2
+ 757              	create_col_id:
+ 758 0000 00000000 		.space	4
+ 759              		.section	.bss.create_dir,"aw",%nobits
+ 762              	create_dir:
+ 763 0000 00       		.space	1
+ 764              		.global	lv_tileview_tile_class
+ 765              		.section	.rodata.lv_tileview_tile_class,"a"
+ 766              		.align	2
+ 769              	lv_tileview_tile_class:
+ 770 0000 00000000 		.word	lv_obj_class
+ 771 0004 00000000 		.word	lv_tileview_tile_constructor
+ 772 0008 00000000 		.space	16
+ 772      00000000 
+ 772      00000000 
+ 772      00000000 
+ 773 0018 80       		.byte	128
+ 774 0019 02       		.byte	2
+ 775 001a 00       		.byte	0
+ 776 001b 00       		.space	1
+ 777              		.global	lv_tileview_class
+ 778              		.section	.rodata.lv_tileview_class,"a"
+ 779              		.align	2
+ 782              	lv_tileview_class:
+ 783 0000 00000000 		.word	lv_obj_class
+ 784 0004 00000000 		.word	lv_tileview_constructor
+ 785 0008 00000000 		.space	16
+ 785      00000000 
+ 785      00000000 
+ 785      00000000 
+ 786 0018 80       		.byte	128
+ 787 0019 02       		.byte	2
+ 788 001a 00       		.byte	0
+ 789 001b 00       		.space	1
+ 790              		.text
+ 791              	.Letext0:
+ 792              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 793              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 794              		.file 4 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_area.h"
+ 795              		.file 5 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_types.h"
+ 796              		.file 6 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_color.h"
+ 797              		.file 7 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_anim.h"
+ 798              		.file 8 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_style.h"
+ 799              		.file 9 "lvgl/src/extra/widgets/tileview/../../../core/lv_obj.h"
+ 800              		.file 10 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_ll.h"
+ 801              		.file 11 "lvgl/src/extra/widgets/tileview/../../../core/lv_group.h"
+ 802              		.file 12 "lvgl/src/extra/widgets/tileview/../../../core/lv_obj_scroll.h"
+ 803              		.file 13 "lvgl/src/extra/widgets/tileview/../../../core/lv_obj_style.h"
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 21
+
+
+ 804              		.file 14 "lvgl/src/extra/widgets/tileview/../../../core/lv_obj_class.h"
+ 805              		.file 15 "lvgl/src/extra/widgets/tileview/../../../core/lv_event.h"
+ 806              		.file 16 "lvgl/src/extra/widgets/tileview/lv_tileview.h"
+ 807              		.file 17 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_pos.h"
+ 808              		.file 18 "lvgl/src/extra/widgets/tileview/../../../core/lv_obj_tree.h"
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 22
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_tileview.c
+C:\usertemp\ccYOpU0T.s:20     .text.lv_tileview_constructor:00000000 $t
+C:\usertemp\ccYOpU0T.s:25     .text.lv_tileview_constructor:00000000 lv_tileview_constructor
+C:\usertemp\ccYOpU0T.s:79     .text.lv_tileview_constructor:00000038 $d
+C:\usertemp\ccYOpU0T.s:89     .text.tileview_event_cb:00000000 tileview_event_cb
+C:\usertemp\ccYOpU0T.s:84     .text.tileview_event_cb:00000000 $t
+C:\usertemp\ccYOpU0T.s:307    .text.lv_tileview_tile_constructor:00000000 $t
+C:\usertemp\ccYOpU0T.s:312    .text.lv_tileview_tile_constructor:00000000 lv_tileview_tile_constructor
+C:\usertemp\ccYOpU0T.s:406    .text.lv_tileview_tile_constructor:00000064 $d
+C:\usertemp\ccYOpU0T.s:757    .bss.create_col_id:00000000 create_col_id
+C:\usertemp\ccYOpU0T.s:751    .bss.create_row_id:00000000 create_row_id
+C:\usertemp\ccYOpU0T.s:762    .bss.create_dir:00000000 create_dir
+C:\usertemp\ccYOpU0T.s:413    .text.lv_tileview_create:00000000 $t
+C:\usertemp\ccYOpU0T.s:419    .text.lv_tileview_create:00000000 lv_tileview_create
+C:\usertemp\ccYOpU0T.s:458    .text.lv_tileview_create:00000014 $d
+C:\usertemp\ccYOpU0T.s:782    .rodata.lv_tileview_class:00000000 lv_tileview_class
+C:\usertemp\ccYOpU0T.s:463    .text.lv_tileview_add_tile:00000000 $t
+C:\usertemp\ccYOpU0T.s:469    .text.lv_tileview_add_tile:00000000 lv_tileview_add_tile
+C:\usertemp\ccYOpU0T.s:524    .text.lv_tileview_add_tile:00000020 $d
+C:\usertemp\ccYOpU0T.s:769    .rodata.lv_tileview_tile_class:00000000 lv_tileview_tile_class
+C:\usertemp\ccYOpU0T.s:532    .text.lv_obj_set_tile:00000000 $t
+C:\usertemp\ccYOpU0T.s:538    .text.lv_obj_set_tile:00000000 lv_obj_set_tile
+C:\usertemp\ccYOpU0T.s:599    .text.lv_obj_set_tile_id:00000000 $t
+C:\usertemp\ccYOpU0T.s:605    .text.lv_obj_set_tile_id:00000000 lv_obj_set_tile_id
+C:\usertemp\ccYOpU0T.s:723    .text.lv_tileview_get_tile_act:00000000 $t
+C:\usertemp\ccYOpU0T.s:729    .text.lv_tileview_get_tile_act:00000000 lv_tileview_get_tile_act
+C:\usertemp\ccYOpU0T.s:748    .bss.create_row_id:00000000 $d
+C:\usertemp\ccYOpU0T.s:754    .bss.create_col_id:00000000 $d
+C:\usertemp\ccYOpU0T.s:763    .bss.create_dir:00000000 $d
+C:\usertemp\ccYOpU0T.s:766    .rodata.lv_tileview_tile_class:00000000 $d
+C:\usertemp\ccYOpU0T.s:779    .rodata.lv_tileview_class:00000000 $d
+
+UNDEFINED SYMBOLS
+lv_obj_set_size
+lv_obj_add_event_cb
+lv_obj_add_flag
+lv_obj_set_scroll_snap_x
+lv_obj_set_scroll_snap_y
+lv_event_get_code
+lv_event_get_target
+lv_obj_get_content_width
+lv_obj_get_content_height
+lv_obj_get_scroll_end
+lv_obj_get_child_cnt
+lv_obj_get_child
+lv_obj_get_x
+lv_obj_get_y
+lv_event_send
+lv_obj_set_scroll_dir
+lv_obj_get_parent
+lv_obj_update_layout
+lv_obj_set_pos
+lv_obj_class_create_obj
+lv_obj_class_init_obj
+lv_obj_scroll_to
+lv_obj_class
+ARM GAS  C:\usertemp\ccYOpU0T.s 			page 23
+
+

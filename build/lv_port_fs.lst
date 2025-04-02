@@ -1,0 +1,1200 @@
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_port_fs.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/porting/lv_port_fs.c"
+  19              		.section	.text.fs_tell,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	fs_tell:
+  26              	.LVL0:
+  27              	.LFB541:
+   1:lvgl/porting/lv_port_fs.c **** /**
+   2:lvgl/porting/lv_port_fs.c ****  * @file lv_port_fs_templ.c
+   3:lvgl/porting/lv_port_fs.c ****  *
+   4:lvgl/porting/lv_port_fs.c ****  */
+   5:lvgl/porting/lv_port_fs.c **** 
+   6:lvgl/porting/lv_port_fs.c ****  /*Copy this file as "lv_port_fs.c" and set this value to "1" to enable content*/
+   7:lvgl/porting/lv_port_fs.c **** #if 1
+   8:lvgl/porting/lv_port_fs.c **** 
+   9:lvgl/porting/lv_port_fs.c **** /*********************
+  10:lvgl/porting/lv_port_fs.c ****  *      INCLUDES
+  11:lvgl/porting/lv_port_fs.c ****  *********************/
+  12:lvgl/porting/lv_port_fs.c **** #include "lv_port_fs.h"
+  13:lvgl/porting/lv_port_fs.c **** #include "lvgl.h"
+  14:lvgl/porting/lv_port_fs.c **** 
+  15:lvgl/porting/lv_port_fs.c **** /*********************
+  16:lvgl/porting/lv_port_fs.c ****  *      DEFINES
+  17:lvgl/porting/lv_port_fs.c ****  *********************/
+  18:lvgl/porting/lv_port_fs.c **** #include "fatfs.h"
+  19:lvgl/porting/lv_port_fs.c **** 
+  20:lvgl/porting/lv_port_fs.c **** /**********************
+  21:lvgl/porting/lv_port_fs.c ****  *      TYPEDEFS
+  22:lvgl/porting/lv_port_fs.c ****  **********************/
+  23:lvgl/porting/lv_port_fs.c **** 
+  24:lvgl/porting/lv_port_fs.c **** /**********************
+  25:lvgl/porting/lv_port_fs.c ****  *  STATIC PROTOTYPES
+  26:lvgl/porting/lv_port_fs.c ****  **********************/
+  27:lvgl/porting/lv_port_fs.c **** static void fs_init(void);
+  28:lvgl/porting/lv_port_fs.c **** 
+  29:lvgl/porting/lv_port_fs.c **** static void * fs_open (lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode);
+  30:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_close (lv_fs_drv_t * drv, void * file_p);
+  31:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_read (lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * 
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 2
+
+
+  32:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_write(lv_fs_drv_t * drv, void * file_p, const void * buf, uint32_t btw, uint3
+  33:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_seek (lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence);
+  34:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_size (lv_fs_drv_t * drv, void * file_p, uint32_t * size_p);
+  35:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_tell (lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p);
+  36:lvgl/porting/lv_port_fs.c **** 
+  37:lvgl/porting/lv_port_fs.c **** static void * fs_dir_open (lv_fs_drv_t * drv, void * rddir_p, const char *path);
+  38:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_dir_read (lv_fs_drv_t * drv, void * rddir_p, char *fn);
+  39:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_dir_close (lv_fs_drv_t * drv, void * rddir_p);
+  40:lvgl/porting/lv_port_fs.c **** 
+  41:lvgl/porting/lv_port_fs.c **** /**********************
+  42:lvgl/porting/lv_port_fs.c ****  *  STATIC VARIABLES
+  43:lvgl/porting/lv_port_fs.c ****  **********************/
+  44:lvgl/porting/lv_port_fs.c **** 
+  45:lvgl/porting/lv_port_fs.c **** /**********************
+  46:lvgl/porting/lv_port_fs.c ****  * GLOBAL PROTOTYPES
+  47:lvgl/porting/lv_port_fs.c ****  **********************/
+  48:lvgl/porting/lv_port_fs.c **** 
+  49:lvgl/porting/lv_port_fs.c **** /**********************
+  50:lvgl/porting/lv_port_fs.c ****  *      MACROS
+  51:lvgl/porting/lv_port_fs.c ****  **********************/
+  52:lvgl/porting/lv_port_fs.c **** 
+  53:lvgl/porting/lv_port_fs.c **** /**********************
+  54:lvgl/porting/lv_port_fs.c ****  *   GLOBAL FUNCTIONS
+  55:lvgl/porting/lv_port_fs.c ****  **********************/
+  56:lvgl/porting/lv_port_fs.c **** 
+  57:lvgl/porting/lv_port_fs.c **** void lv_port_fs_init(void)
+  58:lvgl/porting/lv_port_fs.c **** {
+  59:lvgl/porting/lv_port_fs.c ****     /*----------------------------------------------------
+  60:lvgl/porting/lv_port_fs.c ****      * Initialize your storage device and File System
+  61:lvgl/porting/lv_port_fs.c ****      * -------------------------------------------------*/
+  62:lvgl/porting/lv_port_fs.c ****     fs_init();
+  63:lvgl/porting/lv_port_fs.c **** 
+  64:lvgl/porting/lv_port_fs.c ****     /*---------------------------------------------------
+  65:lvgl/porting/lv_port_fs.c ****      * Register the file system interface in LVGL
+  66:lvgl/porting/lv_port_fs.c ****      *--------------------------------------------------*/
+  67:lvgl/porting/lv_port_fs.c **** 
+  68:lvgl/porting/lv_port_fs.c ****     /*Add a simple drive to open images*/
+  69:lvgl/porting/lv_port_fs.c ****     static lv_fs_drv_t fs_drv;
+  70:lvgl/porting/lv_port_fs.c ****     lv_fs_drv_init(&fs_drv);
+  71:lvgl/porting/lv_port_fs.c **** 
+  72:lvgl/porting/lv_port_fs.c ****     /*Set up fields...*/
+  73:lvgl/porting/lv_port_fs.c ****     fs_drv.letter = '0';
+  74:lvgl/porting/lv_port_fs.c ****     fs_drv.open_cb = fs_open;
+  75:lvgl/porting/lv_port_fs.c ****     fs_drv.close_cb = fs_close;
+  76:lvgl/porting/lv_port_fs.c ****     fs_drv.read_cb = fs_read;
+  77:lvgl/porting/lv_port_fs.c ****     fs_drv.write_cb = fs_write;
+  78:lvgl/porting/lv_port_fs.c ****     fs_drv.seek_cb = fs_seek;
+  79:lvgl/porting/lv_port_fs.c ****     fs_drv.tell_cb = fs_tell;
+  80:lvgl/porting/lv_port_fs.c **** 
+  81:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_close_cb = fs_dir_close;
+  82:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_open_cb = fs_dir_open;
+  83:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_read_cb = fs_dir_read;
+  84:lvgl/porting/lv_port_fs.c **** 
+  85:lvgl/porting/lv_port_fs.c ****     lv_fs_drv_register(&fs_drv);
+  86:lvgl/porting/lv_port_fs.c **** }
+  87:lvgl/porting/lv_port_fs.c **** 
+  88:lvgl/porting/lv_port_fs.c **** /**********************
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 3
+
+
+  89:lvgl/porting/lv_port_fs.c ****  *   STATIC FUNCTIONS
+  90:lvgl/porting/lv_port_fs.c ****  **********************/
+  91:lvgl/porting/lv_port_fs.c **** 
+  92:lvgl/porting/lv_port_fs.c **** /*Initialize your Storage device and File system.*/
+  93:lvgl/porting/lv_port_fs.c **** static void fs_init(void)
+  94:lvgl/porting/lv_port_fs.c **** {
+  95:lvgl/porting/lv_port_fs.c ****     /*E.g. for FatFS initialize the SD card and FatFS itself*/
+  96:lvgl/porting/lv_port_fs.c **** 
+  97:lvgl/porting/lv_port_fs.c ****     /*You code here*/
+  98:lvgl/porting/lv_port_fs.c **** }
+  99:lvgl/porting/lv_port_fs.c **** 
+ 100:lvgl/porting/lv_port_fs.c **** /**
+ 101:lvgl/porting/lv_port_fs.c ****  * Open a file
+ 102:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 103:lvgl/porting/lv_port_fs.c ****  * @param path      path to the file beginning with the driver letter (e.g. S:/folder/file.txt)
+ 104:lvgl/porting/lv_port_fs.c ****  * @param mode      read: FS_MODE_RD, write: FS_MODE_WR, both: FS_MODE_RD | FS_MODE_WR
+ 105:lvgl/porting/lv_port_fs.c ****  * @return          a file descriptor or NULL on error
+ 106:lvgl/porting/lv_port_fs.c ****  */
+ 107:lvgl/porting/lv_port_fs.c **** static void * fs_open (lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode)
+ 108:lvgl/porting/lv_port_fs.c **** {
+ 109:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 110:lvgl/porting/lv_port_fs.c ****     FIL *file = NULL;
+ 111:lvgl/porting/lv_port_fs.c ****     
+ 112:lvgl/porting/lv_port_fs.c ****     // 初始化文件对象
+ 113:lvgl/porting/lv_port_fs.c ****     file = (FIL *)malloc(sizeof(FIL)); // 为文件句柄分配内存
+ 114:lvgl/porting/lv_port_fs.c ****     if (file == NULL) {
+ 115:lvgl/porting/lv_port_fs.c ****         return NULL;  // 内存分配失败
+ 116:lvgl/porting/lv_port_fs.c ****     }
+ 117:lvgl/porting/lv_port_fs.c ****     
+ 118:lvgl/porting/lv_port_fs.c ****     if (mode == LV_FS_MODE_RD) {
+ 119:lvgl/porting/lv_port_fs.c ****         // 打开文件进行读取
+ 120:lvgl/porting/lv_port_fs.c ****         res = f_open(file, path, FA_READ);
+ 121:lvgl/porting/lv_port_fs.c ****     } 
+ 122:lvgl/porting/lv_port_fs.c ****     else if (mode == LV_FS_MODE_WR) {
+ 123:lvgl/porting/lv_port_fs.c ****         // 打开文件进行写入
+ 124:lvgl/porting/lv_port_fs.c ****         res = f_open(file, path, FA_WRITE | FA_CREATE_ALWAYS);  // 如果文件不存在，创建�
+ 125:lvgl/porting/lv_port_fs.c ****     } 
+ 126:lvgl/porting/lv_port_fs.c ****     else if (mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) {
+ 127:lvgl/porting/lv_port_fs.c ****         // 读写模式
+ 128:lvgl/porting/lv_port_fs.c ****         res = f_open(file, path, FA_READ | FA_WRITE);
+ 129:lvgl/porting/lv_port_fs.c ****     } 
+ 130:lvgl/porting/lv_port_fs.c **** 
+ 131:lvgl/porting/lv_port_fs.c ****     if (res != FR_OK) {
+ 132:lvgl/porting/lv_port_fs.c ****         free(file);  // 如果打开失败，释放文件句柄内存
+ 133:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 134:lvgl/porting/lv_port_fs.c ****     }
+ 135:lvgl/porting/lv_port_fs.c **** 
+ 136:lvgl/porting/lv_port_fs.c ****     return file;  // 返回文件句柄
+ 137:lvgl/porting/lv_port_fs.c **** 
+ 138:lvgl/porting/lv_port_fs.c **** }
+ 139:lvgl/porting/lv_port_fs.c **** 
+ 140:lvgl/porting/lv_port_fs.c **** /**
+ 141:lvgl/porting/lv_port_fs.c ****  * Close an opened file
+ 142:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 143:lvgl/porting/lv_port_fs.c ****  * @param file_p    pointer to a file_t variable. (opened with lv_ufs_open)
+ 144:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 145:lvgl/porting/lv_port_fs.c ****  */
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 4
+
+
+ 146:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_close (lv_fs_drv_t * drv, void * file_p)
+ 147:lvgl/porting/lv_port_fs.c **** {
+ 148:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 149:lvgl/porting/lv_port_fs.c **** 
+ 150:lvgl/porting/lv_port_fs.c ****     FRESULT res = f_close(file);  // 关闭文件
+ 151:lvgl/porting/lv_port_fs.c **** 
+ 152:lvgl/porting/lv_port_fs.c ****     free(file);  // 释放文件句柄内存
+ 153:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 154:lvgl/porting/lv_port_fs.c **** }
+ 155:lvgl/porting/lv_port_fs.c **** 
+ 156:lvgl/porting/lv_port_fs.c **** /**
+ 157:lvgl/porting/lv_port_fs.c ****  * Read data from an opened file
+ 158:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 159:lvgl/porting/lv_port_fs.c ****  * @param file_p    pointer to a file_t variable.
+ 160:lvgl/porting/lv_port_fs.c ****  * @param buf       pointer to a memory block where to store the read data
+ 161:lvgl/porting/lv_port_fs.c ****  * @param btr       number of Bytes To Read
+ 162:lvgl/porting/lv_port_fs.c ****  * @param br        the real number of read bytes (Byte Read)
+ 163:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 164:lvgl/porting/lv_port_fs.c ****  */
+ 165:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_read (lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * 
+ 166:lvgl/porting/lv_port_fs.c **** {
+ 167:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 168:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 169:lvgl/porting/lv_port_fs.c **** 
+ 170:lvgl/porting/lv_port_fs.c ****     res = f_read(file, buf, btr, (UINT *)br);  // 读取文件数据
+ 171:lvgl/porting/lv_port_fs.c **** 
+ 172:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 173:lvgl/porting/lv_port_fs.c **** }
+ 174:lvgl/porting/lv_port_fs.c **** 
+ 175:lvgl/porting/lv_port_fs.c **** /**
+ 176:lvgl/porting/lv_port_fs.c ****  * Write into a file
+ 177:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 178:lvgl/porting/lv_port_fs.c ****  * @param file_p    pointer to a file_t variable
+ 179:lvgl/porting/lv_port_fs.c ****  * @param buf       pointer to a buffer with the bytes to write
+ 180:lvgl/porting/lv_port_fs.c ****  * @param btr       Bytes To Write
+ 181:lvgl/porting/lv_port_fs.c ****  * @param br        the number of real written bytes (Bytes Written). NULL if unused.
+ 182:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 183:lvgl/porting/lv_port_fs.c ****  */
+ 184:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_write(lv_fs_drv_t * drv, void * file_p, const void * buf, uint32_t btw, uint3
+ 185:lvgl/porting/lv_port_fs.c **** {
+ 186:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 187:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 188:lvgl/porting/lv_port_fs.c **** 
+ 189:lvgl/porting/lv_port_fs.c ****     res = f_write(file, buf, btw, (UINT *)bw);  // 写入文件数据
+ 190:lvgl/porting/lv_port_fs.c **** 
+ 191:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 192:lvgl/porting/lv_port_fs.c **** }
+ 193:lvgl/porting/lv_port_fs.c **** 
+ 194:lvgl/porting/lv_port_fs.c **** /**
+ 195:lvgl/porting/lv_port_fs.c ****  * Set the read write pointer. Also expand the file size if necessary.
+ 196:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 197:lvgl/porting/lv_port_fs.c ****  * @param file_p    pointer to a file_t variable. (opened with lv_ufs_open )
+ 198:lvgl/porting/lv_port_fs.c ****  * @param pos       the new position of read write pointer
+ 199:lvgl/porting/lv_port_fs.c ****  * @param whence    tells from where to interpret the `pos`. See @lv_fs_whence_t
+ 200:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 201:lvgl/porting/lv_port_fs.c ****  */
+ 202:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_seek (lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence)
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 5
+
+
+ 203:lvgl/porting/lv_port_fs.c **** {
+ 204:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 205:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 206:lvgl/porting/lv_port_fs.c **** 
+ 207:lvgl/porting/lv_port_fs.c ****     // FatFS 使用的是文件指针的绝对位置
+ 208:lvgl/porting/lv_port_fs.c ****     switch (whence) {
+ 209:lvgl/porting/lv_port_fs.c ****         case LV_FS_SEEK_SET:
+ 210:lvgl/porting/lv_port_fs.c ****             res = f_lseek(file, pos);  // 从文件开头设置指针
+ 211:lvgl/porting/lv_port_fs.c ****             break;
+ 212:lvgl/porting/lv_port_fs.c ****         case LV_FS_SEEK_CUR:
+ 213:lvgl/porting/lv_port_fs.c ****             res = f_lseek(file, file->fptr + pos);  // 相对当前位置设置指针
+ 214:lvgl/porting/lv_port_fs.c ****             break;
+ 215:lvgl/porting/lv_port_fs.c **** 
+ 216:lvgl/porting/lv_port_fs.c ****         default:
+ 217:lvgl/porting/lv_port_fs.c ****             res = FR_INVALID_PARAMETER;
+ 218:lvgl/porting/lv_port_fs.c ****             break;
+ 219:lvgl/porting/lv_port_fs.c ****     }
+ 220:lvgl/porting/lv_port_fs.c **** 
+ 221:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 222:lvgl/porting/lv_port_fs.c **** }
+ 223:lvgl/porting/lv_port_fs.c **** /**
+ 224:lvgl/porting/lv_port_fs.c ****  * Give the position of the read write pointer
+ 225:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 226:lvgl/porting/lv_port_fs.c ****  * @param file_p    pointer to a file_t variable.
+ 227:lvgl/porting/lv_port_fs.c ****  * @param pos_p     pointer to to store the result
+ 228:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 229:lvgl/porting/lv_port_fs.c ****  */
+ 230:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_tell (lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p)
+ 231:lvgl/porting/lv_port_fs.c **** {
+  28              		.loc 1 231 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ 232:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+  33              		.loc 1 232 5 view .LVU1
+ 233:lvgl/porting/lv_port_fs.c **** 
+ 234:lvgl/porting/lv_port_fs.c ****     *pos_p = file->fptr;  // 获取文件指针当前位置
+  34              		.loc 1 234 5 view .LVU2
+  35              		.loc 1 234 18 is_stmt 0 view .LVU3
+  36 0000 8B69     		ldr	r3, [r1, #24]
+  37              		.loc 1 234 12 view .LVU4
+  38 0002 1360     		str	r3, [r2]
+ 235:lvgl/porting/lv_port_fs.c **** 
+ 236:lvgl/porting/lv_port_fs.c ****     return LV_FS_RES_OK;
+  39              		.loc 1 236 5 is_stmt 1 view .LVU5
+ 237:lvgl/porting/lv_port_fs.c **** }
+  40              		.loc 1 237 1 is_stmt 0 view .LVU6
+  41 0004 0020     		movs	r0, #0
+  42              	.LVL1:
+  43              		.loc 1 237 1 view .LVU7
+  44 0006 7047     		bx	lr
+  45              		.cfi_endproc
+  46              	.LFE541:
+  48              		.section	.text.fs_dir_read,"ax",%progbits
+  49              		.align	1
+  50              		.syntax unified
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 6
+
+
+  51              		.thumb
+  52              		.thumb_func
+  54              	fs_dir_read:
+  55              	.LVL2:
+  56              	.LFB543:
+ 238:lvgl/porting/lv_port_fs.c **** 
+ 239:lvgl/porting/lv_port_fs.c **** /**
+ 240:lvgl/porting/lv_port_fs.c ****  * Initialize a 'lv_fs_dir_t' variable for directory reading
+ 241:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 242:lvgl/porting/lv_port_fs.c ****  * @param path      path to a directory
+ 243:lvgl/porting/lv_port_fs.c ****  * @return          pointer to the directory read descriptor or NULL on error
+ 244:lvgl/porting/lv_port_fs.c ****  */
+ 245:lvgl/porting/lv_port_fs.c **** static void * fs_dir_open (lv_fs_drv_t * drv, void * rddir_p, const char *path)
+ 246:lvgl/porting/lv_port_fs.c **** {
+ 247:lvgl/porting/lv_port_fs.c ****     DIR *dir = (DIR *)malloc(sizeof(DIR));  // 为目录句柄分配内存
+ 248:lvgl/porting/lv_port_fs.c ****     if (dir == NULL) {
+ 249:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 250:lvgl/porting/lv_port_fs.c ****     }
+ 251:lvgl/porting/lv_port_fs.c **** 
+ 252:lvgl/porting/lv_port_fs.c ****     FRESULT res = f_opendir(dir, path);  // 打开目录
+ 253:lvgl/porting/lv_port_fs.c ****     if (res != FR_OK) {
+ 254:lvgl/porting/lv_port_fs.c ****         free(dir);
+ 255:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 256:lvgl/porting/lv_port_fs.c ****     }
+ 257:lvgl/porting/lv_port_fs.c **** 
+ 258:lvgl/porting/lv_port_fs.c ****     return dir;
+ 259:lvgl/porting/lv_port_fs.c **** }
+ 260:lvgl/porting/lv_port_fs.c **** 
+ 261:lvgl/porting/lv_port_fs.c **** /**
+ 262:lvgl/porting/lv_port_fs.c ****  * Read the next filename form a directory.
+ 263:lvgl/porting/lv_port_fs.c ****  * The name of the directories will begin with '/'
+ 264:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 265:lvgl/porting/lv_port_fs.c ****  * @param rddir_p   pointer to an initialized 'lv_fs_dir_t' variable
+ 266:lvgl/porting/lv_port_fs.c ****  * @param fn        pointer to a buffer to store the filename
+ 267:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 268:lvgl/porting/lv_port_fs.c ****  */
+ 269:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_dir_read (lv_fs_drv_t * drv, void * rddir_p, char *fn)
+ 270:lvgl/porting/lv_port_fs.c **** {
+  57              		.loc 1 270 1 is_stmt 1 view -0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 24
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61              		.loc 1 270 1 is_stmt 0 view .LVU9
+  62 0000 30B5     		push	{r4, r5, lr}
+  63              	.LCFI0:
+  64              		.cfi_def_cfa_offset 12
+  65              		.cfi_offset 4, -12
+  66              		.cfi_offset 5, -8
+  67              		.cfi_offset 14, -4
+  68 0002 87B0     		sub	sp, sp, #28
+  69              	.LCFI1:
+  70              		.cfi_def_cfa_offset 40
+  71 0004 0846     		mov	r0, r1
+  72              	.LVL3:
+  73              		.loc 1 270 1 view .LVU10
+  74 0006 1446     		mov	r4, r2
+ 271:lvgl/porting/lv_port_fs.c ****     DIR *dir = (DIR *)rddir_p;
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 7
+
+
+  75              		.loc 1 271 5 is_stmt 1 view .LVU11
+  76              	.LVL4:
+ 272:lvgl/porting/lv_port_fs.c ****     FILINFO fno;
+  77              		.loc 1 272 5 view .LVU12
+ 273:lvgl/porting/lv_port_fs.c **** 
+ 274:lvgl/porting/lv_port_fs.c ****     FRESULT res = f_readdir(dir, &fno);  // 读取目录内容
+  78              		.loc 1 274 5 view .LVU13
+  79              		.loc 1 274 19 is_stmt 0 view .LVU14
+  80 0008 6946     		mov	r1, sp
+  81              	.LVL5:
+  82              		.loc 1 274 19 view .LVU15
+  83 000a FFF7FEFF 		bl	f_readdir
+  84              	.LVL6:
+ 275:lvgl/porting/lv_port_fs.c ****     if (res != FR_OK || fno.fname[0] == '\0') {
+  85              		.loc 1 275 5 is_stmt 1 view .LVU16
+  86              		.loc 1 275 8 is_stmt 0 view .LVU17
+  87 000e 58B9     		cbnz	r0, .L4
+  88 0010 0546     		mov	r5, r0
+  89              		.loc 1 275 34 discriminator 1 view .LVU18
+  90 0012 9DF80930 		ldrb	r3, [sp, #9]	@ zero_extendqisi2
+  91              		.loc 1 275 22 discriminator 1 view .LVU19
+  92 0016 4BB1     		cbz	r3, .L5
+ 276:lvgl/porting/lv_port_fs.c ****         return LV_FS_RES_UNKNOWN;  // 如果没有更多文件或读取失败
+ 277:lvgl/porting/lv_port_fs.c ****     }
+ 278:lvgl/porting/lv_port_fs.c **** 
+ 279:lvgl/porting/lv_port_fs.c ****     strcpy(fn, fno.fname);  // 复制文件名
+  93              		.loc 1 279 5 is_stmt 1 view .LVU20
+  94 0018 0DF10901 		add	r1, sp, #9
+  95 001c 2046     		mov	r0, r4
+  96              	.LVL7:
+  97              		.loc 1 279 5 is_stmt 0 view .LVU21
+  98 001e FFF7FEFF 		bl	strcpy
+  99              	.LVL8:
+ 280:lvgl/porting/lv_port_fs.c ****     return LV_FS_RES_OK;
+ 100              		.loc 1 280 5 is_stmt 1 view .LVU22
+ 101              	.L3:
+ 281:lvgl/porting/lv_port_fs.c **** }
+ 102              		.loc 1 281 1 is_stmt 0 view .LVU23
+ 103 0022 2846     		mov	r0, r5
+ 104 0024 07B0     		add	sp, sp, #28
+ 105              	.LCFI2:
+ 106              		.cfi_remember_state
+ 107              		.cfi_def_cfa_offset 12
+ 108              		@ sp needed
+ 109 0026 30BD     		pop	{r4, r5, pc}
+ 110              	.LVL9:
+ 111              	.L4:
+ 112              	.LCFI3:
+ 113              		.cfi_restore_state
+ 276:lvgl/porting/lv_port_fs.c ****         return LV_FS_RES_UNKNOWN;  // 如果没有更多文件或读取失败
+ 114              		.loc 1 276 16 view .LVU24
+ 115 0028 0C25     		movs	r5, #12
+ 116 002a FAE7     		b	.L3
+ 117              	.L5:
+ 118 002c 0C25     		movs	r5, #12
+ 119 002e F8E7     		b	.L3
+ 120              		.cfi_endproc
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 8
+
+
+ 121              	.LFE543:
+ 123              		.section	.text.fs_dir_open,"ax",%progbits
+ 124              		.align	1
+ 125              		.syntax unified
+ 126              		.thumb
+ 127              		.thumb_func
+ 129              	fs_dir_open:
+ 130              	.LVL10:
+ 131              	.LFB542:
+ 246:lvgl/porting/lv_port_fs.c ****     DIR *dir = (DIR *)malloc(sizeof(DIR));  // 为目录句柄分配内存
+ 132              		.loc 1 246 1 is_stmt 1 view -0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 0, uses_anonymous_args = 0
+ 246:lvgl/porting/lv_port_fs.c ****     DIR *dir = (DIR *)malloc(sizeof(DIR));  // 为目录句柄分配内存
+ 136              		.loc 1 246 1 is_stmt 0 view .LVU26
+ 137 0000 38B5     		push	{r3, r4, r5, lr}
+ 138              	.LCFI4:
+ 139              		.cfi_def_cfa_offset 16
+ 140              		.cfi_offset 3, -16
+ 141              		.cfi_offset 4, -12
+ 142              		.cfi_offset 5, -8
+ 143              		.cfi_offset 14, -4
+ 144 0002 1446     		mov	r4, r2
+ 247:lvgl/porting/lv_port_fs.c ****     if (dir == NULL) {
+ 145              		.loc 1 247 5 is_stmt 1 view .LVU27
+ 247:lvgl/porting/lv_port_fs.c ****     if (dir == NULL) {
+ 146              		.loc 1 247 23 is_stmt 0 view .LVU28
+ 147 0004 3020     		movs	r0, #48
+ 148              	.LVL11:
+ 247:lvgl/porting/lv_port_fs.c ****     if (dir == NULL) {
+ 149              		.loc 1 247 23 view .LVU29
+ 150 0006 FFF7FEFF 		bl	malloc
+ 151              	.LVL12:
+ 248:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 152              		.loc 1 248 5 is_stmt 1 view .LVU30
+ 248:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 153              		.loc 1 248 8 is_stmt 0 view .LVU31
+ 154 000a 0546     		mov	r5, r0
+ 155 000c 18B1     		cbz	r0, .L7
+ 252:lvgl/porting/lv_port_fs.c ****     if (res != FR_OK) {
+ 156              		.loc 1 252 5 is_stmt 1 view .LVU32
+ 252:lvgl/porting/lv_port_fs.c ****     if (res != FR_OK) {
+ 157              		.loc 1 252 19 is_stmt 0 view .LVU33
+ 158 000e 2146     		mov	r1, r4
+ 159 0010 FFF7FEFF 		bl	f_opendir
+ 160              	.LVL13:
+ 253:lvgl/porting/lv_port_fs.c ****         free(dir);
+ 161              		.loc 1 253 5 is_stmt 1 view .LVU34
+ 253:lvgl/porting/lv_port_fs.c ****         free(dir);
+ 162              		.loc 1 253 8 is_stmt 0 view .LVU35
+ 163 0014 08B9     		cbnz	r0, .L10
+ 164              	.LVL14:
+ 165              	.L7:
+ 259:lvgl/porting/lv_port_fs.c **** 
+ 166              		.loc 1 259 1 view .LVU36
+ 167 0016 2846     		mov	r0, r5
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 9
+
+
+ 168 0018 38BD     		pop	{r3, r4, r5, pc}
+ 169              	.LVL15:
+ 170              	.L10:
+ 254:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 171              		.loc 1 254 9 is_stmt 1 view .LVU37
+ 172 001a 2846     		mov	r0, r5
+ 173              	.LVL16:
+ 254:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 174              		.loc 1 254 9 is_stmt 0 view .LVU38
+ 175 001c FFF7FEFF 		bl	free
+ 176              	.LVL17:
+ 255:lvgl/porting/lv_port_fs.c ****     }
+ 177              		.loc 1 255 9 is_stmt 1 view .LVU39
+ 255:lvgl/porting/lv_port_fs.c ****     }
+ 178              		.loc 1 255 16 is_stmt 0 view .LVU40
+ 179 0020 0025     		movs	r5, #0
+ 180              	.LVL18:
+ 255:lvgl/porting/lv_port_fs.c ****     }
+ 181              		.loc 1 255 16 view .LVU41
+ 182 0022 F8E7     		b	.L7
+ 183              		.cfi_endproc
+ 184              	.LFE542:
+ 186              		.section	.text.fs_dir_close,"ax",%progbits
+ 187              		.align	1
+ 188              		.syntax unified
+ 189              		.thumb
+ 190              		.thumb_func
+ 192              	fs_dir_close:
+ 193              	.LVL19:
+ 194              	.LFB544:
+ 282:lvgl/porting/lv_port_fs.c **** 
+ 283:lvgl/porting/lv_port_fs.c **** /**
+ 284:lvgl/porting/lv_port_fs.c ****  * Close the directory reading
+ 285:lvgl/porting/lv_port_fs.c ****  * @param drv       pointer to a driver where this function belongs
+ 286:lvgl/porting/lv_port_fs.c ****  * @param rddir_p   pointer to an initialized 'lv_fs_dir_t' variable
+ 287:lvgl/porting/lv_port_fs.c ****  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
+ 288:lvgl/porting/lv_port_fs.c ****  */
+ 289:lvgl/porting/lv_port_fs.c **** static lv_fs_res_t fs_dir_close (lv_fs_drv_t * drv, void * rddir_p)
+ 290:lvgl/porting/lv_port_fs.c **** {
+ 195              		.loc 1 290 1 is_stmt 1 view -0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199              		.loc 1 290 1 is_stmt 0 view .LVU43
+ 200 0000 38B5     		push	{r3, r4, r5, lr}
+ 201              	.LCFI5:
+ 202              		.cfi_def_cfa_offset 16
+ 203              		.cfi_offset 3, -16
+ 204              		.cfi_offset 4, -12
+ 205              		.cfi_offset 5, -8
+ 206              		.cfi_offset 14, -4
+ 207 0002 0D46     		mov	r5, r1
+ 291:lvgl/porting/lv_port_fs.c ****     DIR *dir = (DIR *)rddir_p;
+ 208              		.loc 1 291 5 is_stmt 1 view .LVU44
+ 209              	.LVL20:
+ 292:lvgl/porting/lv_port_fs.c **** 
+ 293:lvgl/porting/lv_port_fs.c ****     FRESULT res = f_closedir(dir);  // 关闭目录
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 10
+
+
+ 210              		.loc 1 293 5 view .LVU45
+ 211              		.loc 1 293 19 is_stmt 0 view .LVU46
+ 212 0004 0846     		mov	r0, r1
+ 213              	.LVL21:
+ 214              		.loc 1 293 19 view .LVU47
+ 215 0006 FFF7FEFF 		bl	f_closedir
+ 216              	.LVL22:
+ 217              		.loc 1 293 19 view .LVU48
+ 218 000a 0446     		mov	r4, r0
+ 219              	.LVL23:
+ 294:lvgl/porting/lv_port_fs.c ****     free(dir);  // 释放目录句柄内存
+ 220              		.loc 1 294 5 is_stmt 1 view .LVU49
+ 221 000c 2846     		mov	r0, r5
+ 222 000e FFF7FEFF 		bl	free
+ 223              	.LVL24:
+ 295:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 224              		.loc 1 295 5 view .LVU50
+ 225              		.loc 1 295 42 is_stmt 0 view .LVU51
+ 226 0012 0CB9     		cbnz	r4, .L15
+ 227              	.LVL25:
+ 228              	.L12:
+ 296:lvgl/porting/lv_port_fs.c **** }
+ 229              		.loc 1 296 1 view .LVU52
+ 230 0014 2046     		mov	r0, r4
+ 231 0016 38BD     		pop	{r3, r4, r5, pc}
+ 232              	.LVL26:
+ 233              	.L15:
+ 295:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 234              		.loc 1 295 42 discriminator 2 view .LVU53
+ 235 0018 0C24     		movs	r4, #12
+ 236              	.LVL27:
+ 295:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 237              		.loc 1 295 42 discriminator 2 view .LVU54
+ 238 001a FBE7     		b	.L12
+ 239              		.cfi_endproc
+ 240              	.LFE544:
+ 242              		.section	.text.fs_seek,"ax",%progbits
+ 243              		.align	1
+ 244              		.syntax unified
+ 245              		.thumb
+ 246              		.thumb_func
+ 248              	fs_seek:
+ 249              	.LVL28:
+ 250              	.LFB540:
+ 203:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 251              		.loc 1 203 1 is_stmt 1 view -0
+ 252              		.cfi_startproc
+ 253              		@ args = 0, pretend = 0, frame = 0
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 203:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 255              		.loc 1 203 1 is_stmt 0 view .LVU56
+ 256 0000 08B5     		push	{r3, lr}
+ 257              	.LCFI6:
+ 258              		.cfi_def_cfa_offset 8
+ 259              		.cfi_offset 3, -8
+ 260              		.cfi_offset 14, -4
+ 261 0002 0846     		mov	r0, r1
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 11
+
+
+ 262              	.LVL29:
+ 204:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 263              		.loc 1 204 5 is_stmt 1 view .LVU57
+ 205:lvgl/porting/lv_port_fs.c **** 
+ 264              		.loc 1 205 5 view .LVU58
+ 208:lvgl/porting/lv_port_fs.c ****         case LV_FS_SEEK_SET:
+ 265              		.loc 1 208 5 view .LVU59
+ 266 0004 1BB1     		cbz	r3, .L17
+ 267 0006 012B     		cmp	r3, #1
+ 268 0008 06D0     		beq	.L18
+ 269 000a 0C20     		movs	r0, #12
+ 270 000c 03E0     		b	.L19
+ 271              	.LVL30:
+ 272              	.L17:
+ 210:lvgl/porting/lv_port_fs.c ****             break;
+ 273              		.loc 1 210 13 view .LVU60
+ 210:lvgl/porting/lv_port_fs.c ****             break;
+ 274              		.loc 1 210 19 is_stmt 0 view .LVU61
+ 275 000e 1146     		mov	r1, r2
+ 276 0010 FFF7FEFF 		bl	f_lseek
+ 277              	.LVL31:
+ 211:lvgl/porting/lv_port_fs.c ****         case LV_FS_SEEK_CUR:
+ 278              		.loc 1 211 13 is_stmt 1 view .LVU62
+ 279              	.L20:
+ 221:lvgl/porting/lv_port_fs.c **** }
+ 280              		.loc 1 221 5 view .LVU63
+ 221:lvgl/porting/lv_port_fs.c **** }
+ 281              		.loc 1 221 42 is_stmt 0 view .LVU64
+ 282 0014 28B9     		cbnz	r0, .L23
+ 283              	.LVL32:
+ 284              	.L19:
+ 222:lvgl/porting/lv_port_fs.c **** /**
+ 285              		.loc 1 222 1 view .LVU65
+ 286 0016 08BD     		pop	{r3, pc}
+ 287              	.LVL33:
+ 288              	.L18:
+ 213:lvgl/porting/lv_port_fs.c ****             break;
+ 289              		.loc 1 213 13 is_stmt 1 view .LVU66
+ 213:lvgl/porting/lv_port_fs.c ****             break;
+ 290              		.loc 1 213 37 is_stmt 0 view .LVU67
+ 291 0018 8169     		ldr	r1, [r0, #24]
+ 213:lvgl/porting/lv_port_fs.c ****             break;
+ 292              		.loc 1 213 19 view .LVU68
+ 293 001a 1144     		add	r1, r1, r2
+ 294 001c FFF7FEFF 		bl	f_lseek
+ 295              	.LVL34:
+ 214:lvgl/porting/lv_port_fs.c **** 
+ 296              		.loc 1 214 13 is_stmt 1 view .LVU69
+ 297 0020 F8E7     		b	.L20
+ 298              	.L23:
+ 221:lvgl/porting/lv_port_fs.c **** }
+ 299              		.loc 1 221 42 is_stmt 0 discriminator 2 view .LVU70
+ 300 0022 0C20     		movs	r0, #12
+ 301              	.LVL35:
+ 221:lvgl/porting/lv_port_fs.c **** }
+ 302              		.loc 1 221 42 discriminator 2 view .LVU71
+ 303 0024 F7E7     		b	.L19
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 12
+
+
+ 304              		.cfi_endproc
+ 305              	.LFE540:
+ 307              		.section	.text.fs_write,"ax",%progbits
+ 308              		.align	1
+ 309              		.syntax unified
+ 310              		.thumb
+ 311              		.thumb_func
+ 313              	fs_write:
+ 314              	.LVL36:
+ 315              	.LFB539:
+ 185:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 316              		.loc 1 185 1 is_stmt 1 view -0
+ 317              		.cfi_startproc
+ 318              		@ args = 4, pretend = 0, frame = 0
+ 319              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 320              		.loc 1 185 1 is_stmt 0 view .LVU73
+ 321 0000 08B5     		push	{r3, lr}
+ 322              	.LCFI7:
+ 323              		.cfi_def_cfa_offset 8
+ 324              		.cfi_offset 3, -8
+ 325              		.cfi_offset 14, -4
+ 326 0002 0846     		mov	r0, r1
+ 327              	.LVL37:
+ 185:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 328              		.loc 1 185 1 view .LVU74
+ 329 0004 1146     		mov	r1, r2
+ 330              	.LVL38:
+ 185:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 331              		.loc 1 185 1 view .LVU75
+ 332 0006 1A46     		mov	r2, r3
+ 333              	.LVL39:
+ 186:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 334              		.loc 1 186 5 is_stmt 1 view .LVU76
+ 187:lvgl/porting/lv_port_fs.c **** 
+ 335              		.loc 1 187 5 view .LVU77
+ 189:lvgl/porting/lv_port_fs.c **** 
+ 336              		.loc 1 189 5 view .LVU78
+ 189:lvgl/porting/lv_port_fs.c **** 
+ 337              		.loc 1 189 11 is_stmt 0 view .LVU79
+ 338 0008 029B     		ldr	r3, [sp, #8]
+ 339              	.LVL40:
+ 189:lvgl/porting/lv_port_fs.c **** 
+ 340              		.loc 1 189 11 view .LVU80
+ 341 000a FFF7FEFF 		bl	f_write
+ 342              	.LVL41:
+ 191:lvgl/porting/lv_port_fs.c **** }
+ 343              		.loc 1 191 5 is_stmt 1 view .LVU81
+ 191:lvgl/porting/lv_port_fs.c **** }
+ 344              		.loc 1 191 42 is_stmt 0 view .LVU82
+ 345 000e 00B9     		cbnz	r0, .L28
+ 346              	.L25:
+ 192:lvgl/porting/lv_port_fs.c **** 
+ 347              		.loc 1 192 1 view .LVU83
+ 348 0010 08BD     		pop	{r3, pc}
+ 349              	.LVL42:
+ 350              	.L28:
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 13
+
+
+ 191:lvgl/porting/lv_port_fs.c **** }
+ 351              		.loc 1 191 42 discriminator 2 view .LVU84
+ 352 0012 0C20     		movs	r0, #12
+ 353 0014 FCE7     		b	.L25
+ 354              		.cfi_endproc
+ 355              	.LFE539:
+ 357              		.section	.text.fs_read,"ax",%progbits
+ 358              		.align	1
+ 359              		.syntax unified
+ 360              		.thumb
+ 361              		.thumb_func
+ 363              	fs_read:
+ 364              	.LVL43:
+ 365              	.LFB538:
+ 166:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 366              		.loc 1 166 1 is_stmt 1 view -0
+ 367              		.cfi_startproc
+ 368              		@ args = 4, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 370              		.loc 1 166 1 is_stmt 0 view .LVU86
+ 371 0000 08B5     		push	{r3, lr}
+ 372              	.LCFI8:
+ 373              		.cfi_def_cfa_offset 8
+ 374              		.cfi_offset 3, -8
+ 375              		.cfi_offset 14, -4
+ 376 0002 0846     		mov	r0, r1
+ 377              	.LVL44:
+ 166:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 378              		.loc 1 166 1 view .LVU87
+ 379 0004 1146     		mov	r1, r2
+ 380              	.LVL45:
+ 166:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 381              		.loc 1 166 1 view .LVU88
+ 382 0006 1A46     		mov	r2, r3
+ 383              	.LVL46:
+ 167:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 384              		.loc 1 167 5 is_stmt 1 view .LVU89
+ 168:lvgl/porting/lv_port_fs.c **** 
+ 385              		.loc 1 168 5 view .LVU90
+ 170:lvgl/porting/lv_port_fs.c **** 
+ 386              		.loc 1 170 5 view .LVU91
+ 170:lvgl/porting/lv_port_fs.c **** 
+ 387              		.loc 1 170 11 is_stmt 0 view .LVU92
+ 388 0008 029B     		ldr	r3, [sp, #8]
+ 389              	.LVL47:
+ 170:lvgl/porting/lv_port_fs.c **** 
+ 390              		.loc 1 170 11 view .LVU93
+ 391 000a FFF7FEFF 		bl	f_read
+ 392              	.LVL48:
+ 172:lvgl/porting/lv_port_fs.c **** }
+ 393              		.loc 1 172 5 is_stmt 1 view .LVU94
+ 172:lvgl/porting/lv_port_fs.c **** }
+ 394              		.loc 1 172 42 is_stmt 0 view .LVU95
+ 395 000e 00B9     		cbnz	r0, .L33
+ 396              	.L30:
+ 173:lvgl/porting/lv_port_fs.c **** 
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 14
+
+
+ 397              		.loc 1 173 1 view .LVU96
+ 398 0010 08BD     		pop	{r3, pc}
+ 399              	.LVL49:
+ 400              	.L33:
+ 172:lvgl/porting/lv_port_fs.c **** }
+ 401              		.loc 1 172 42 discriminator 2 view .LVU97
+ 402 0012 0C20     		movs	r0, #12
+ 403 0014 FCE7     		b	.L30
+ 404              		.cfi_endproc
+ 405              	.LFE538:
+ 407              		.section	.text.fs_close,"ax",%progbits
+ 408              		.align	1
+ 409              		.syntax unified
+ 410              		.thumb
+ 411              		.thumb_func
+ 413              	fs_close:
+ 414              	.LVL50:
+ 415              	.LFB537:
+ 147:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 416              		.loc 1 147 1 is_stmt 1 view -0
+ 417              		.cfi_startproc
+ 418              		@ args = 0, pretend = 0, frame = 0
+ 419              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147:lvgl/porting/lv_port_fs.c ****     FIL *file = (FIL *)file_p;
+ 420              		.loc 1 147 1 is_stmt 0 view .LVU99
+ 421 0000 38B5     		push	{r3, r4, r5, lr}
+ 422              	.LCFI9:
+ 423              		.cfi_def_cfa_offset 16
+ 424              		.cfi_offset 3, -16
+ 425              		.cfi_offset 4, -12
+ 426              		.cfi_offset 5, -8
+ 427              		.cfi_offset 14, -4
+ 428 0002 0D46     		mov	r5, r1
+ 148:lvgl/porting/lv_port_fs.c **** 
+ 429              		.loc 1 148 5 is_stmt 1 view .LVU100
+ 430              	.LVL51:
+ 150:lvgl/porting/lv_port_fs.c **** 
+ 431              		.loc 1 150 5 view .LVU101
+ 150:lvgl/porting/lv_port_fs.c **** 
+ 432              		.loc 1 150 19 is_stmt 0 view .LVU102
+ 433 0004 0846     		mov	r0, r1
+ 434              	.LVL52:
+ 150:lvgl/porting/lv_port_fs.c **** 
+ 435              		.loc 1 150 19 view .LVU103
+ 436 0006 FFF7FEFF 		bl	f_close
+ 437              	.LVL53:
+ 150:lvgl/porting/lv_port_fs.c **** 
+ 438              		.loc 1 150 19 view .LVU104
+ 439 000a 0446     		mov	r4, r0
+ 440              	.LVL54:
+ 152:lvgl/porting/lv_port_fs.c ****     return (res == FR_OK) ? LV_FS_RES_OK : LV_FS_RES_UNKNOWN;
+ 441              		.loc 1 152 5 is_stmt 1 view .LVU105
+ 442 000c 2846     		mov	r0, r5
+ 443 000e FFF7FEFF 		bl	free
+ 444              	.LVL55:
+ 153:lvgl/porting/lv_port_fs.c **** }
+ 445              		.loc 1 153 5 view .LVU106
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 15
+
+
+ 153:lvgl/porting/lv_port_fs.c **** }
+ 446              		.loc 1 153 42 is_stmt 0 view .LVU107
+ 447 0012 0CB9     		cbnz	r4, .L38
+ 448              	.LVL56:
+ 449              	.L35:
+ 154:lvgl/porting/lv_port_fs.c **** 
+ 450              		.loc 1 154 1 view .LVU108
+ 451 0014 2046     		mov	r0, r4
+ 452 0016 38BD     		pop	{r3, r4, r5, pc}
+ 453              	.LVL57:
+ 454              	.L38:
+ 153:lvgl/porting/lv_port_fs.c **** }
+ 455              		.loc 1 153 42 discriminator 2 view .LVU109
+ 456 0018 0C24     		movs	r4, #12
+ 457              	.LVL58:
+ 153:lvgl/porting/lv_port_fs.c **** }
+ 458              		.loc 1 153 42 discriminator 2 view .LVU110
+ 459 001a FBE7     		b	.L35
+ 460              		.cfi_endproc
+ 461              	.LFE537:
+ 463              		.section	.text.fs_open,"ax",%progbits
+ 464              		.align	1
+ 465              		.syntax unified
+ 466              		.thumb
+ 467              		.thumb_func
+ 469              	fs_open:
+ 470              	.LVL59:
+ 471              	.LFB536:
+ 108:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 472              		.loc 1 108 1 is_stmt 1 view -0
+ 473              		.cfi_startproc
+ 474              		@ args = 0, pretend = 0, frame = 0
+ 475              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108:lvgl/porting/lv_port_fs.c ****     FRESULT res;
+ 476              		.loc 1 108 1 is_stmt 0 view .LVU112
+ 477 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 478              	.LCFI10:
+ 479              		.cfi_def_cfa_offset 24
+ 480              		.cfi_offset 3, -24
+ 481              		.cfi_offset 4, -20
+ 482              		.cfi_offset 5, -16
+ 483              		.cfi_offset 6, -12
+ 484              		.cfi_offset 7, -8
+ 485              		.cfi_offset 14, -4
+ 486 0002 0D46     		mov	r5, r1
+ 487 0004 1446     		mov	r4, r2
+ 109:lvgl/porting/lv_port_fs.c ****     FIL *file = NULL;
+ 488              		.loc 1 109 5 is_stmt 1 view .LVU113
+ 110:lvgl/porting/lv_port_fs.c ****     
+ 489              		.loc 1 110 5 view .LVU114
+ 490              	.LVL60:
+ 113:lvgl/porting/lv_port_fs.c ****     if (file == NULL) {
+ 491              		.loc 1 113 5 view .LVU115
+ 113:lvgl/porting/lv_port_fs.c ****     if (file == NULL) {
+ 492              		.loc 1 113 19 is_stmt 0 view .LVU116
+ 493 0006 4FF40C70 		mov	r0, #560
+ 494              	.LVL61:
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 16
+
+
+ 113:lvgl/porting/lv_port_fs.c ****     if (file == NULL) {
+ 495              		.loc 1 113 19 view .LVU117
+ 496 000a FFF7FEFF 		bl	malloc
+ 497              	.LVL62:
+ 114:lvgl/porting/lv_port_fs.c ****         return NULL;  // 内存分配失败
+ 498              		.loc 1 114 5 is_stmt 1 view .LVU118
+ 114:lvgl/porting/lv_port_fs.c ****         return NULL;  // 内存分配失败
+ 499              		.loc 1 114 8 is_stmt 0 view .LVU119
+ 500 000e 0746     		mov	r7, r0
+ 501 0010 38B1     		cbz	r0, .L39
+ 502 0012 0026     		movs	r6, #0
+ 118:lvgl/porting/lv_port_fs.c ****         // 打开文件进行读取
+ 503              		.loc 1 118 5 is_stmt 1 view .LVU120
+ 118:lvgl/porting/lv_port_fs.c ****         // 打开文件进行读取
+ 504              		.loc 1 118 8 is_stmt 0 view .LVU121
+ 505 0014 022C     		cmp	r4, #2
+ 506 0016 06D0     		beq	.L45
+ 122:lvgl/porting/lv_port_fs.c ****         // 打开文件进行写入
+ 507              		.loc 1 122 10 is_stmt 1 view .LVU122
+ 122:lvgl/porting/lv_port_fs.c ****         // 打开文件进行写入
+ 508              		.loc 1 122 13 is_stmt 0 view .LVU123
+ 509 0018 012C     		cmp	r4, #1
+ 510 001a 0AD0     		beq	.L46
+ 126:lvgl/porting/lv_port_fs.c ****         // 读写模式
+ 511              		.loc 1 126 10 is_stmt 1 view .LVU124
+ 126:lvgl/porting/lv_port_fs.c ****         // 读写模式
+ 512              		.loc 1 126 13 is_stmt 0 view .LVU125
+ 513 001c 032C     		cmp	r4, #3
+ 514 001e 0ED0     		beq	.L47
+ 515              	.LVL63:
+ 516              	.L42:
+ 131:lvgl/porting/lv_port_fs.c ****         free(file);  // 如果打开失败，释放文件句柄内存
+ 517              		.loc 1 131 5 is_stmt 1 view .LVU126
+ 131:lvgl/porting/lv_port_fs.c ****         free(file);  // 如果打开失败，释放文件句柄内存
+ 518              		.loc 1 131 8 is_stmt 0 view .LVU127
+ 519 0020 9EB9     		cbnz	r6, .L48
+ 520              	.LVL64:
+ 521              	.L39:
+ 138:lvgl/porting/lv_port_fs.c **** 
+ 522              		.loc 1 138 1 view .LVU128
+ 523 0022 3846     		mov	r0, r7
+ 524 0024 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 525              	.LVL65:
+ 526              	.L45:
+ 120:lvgl/porting/lv_port_fs.c ****     } 
+ 527              		.loc 1 120 9 is_stmt 1 view .LVU129
+ 120:lvgl/porting/lv_port_fs.c ****     } 
+ 528              		.loc 1 120 15 is_stmt 0 view .LVU130
+ 529 0026 0122     		movs	r2, #1
+ 530 0028 2946     		mov	r1, r5
+ 531 002a FFF7FEFF 		bl	f_open
+ 532              	.LVL66:
+ 120:lvgl/porting/lv_port_fs.c ****     } 
+ 533              		.loc 1 120 15 view .LVU131
+ 534 002e 0646     		mov	r6, r0
+ 535              	.LVL67:
+ 120:lvgl/porting/lv_port_fs.c ****     } 
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 17
+
+
+ 536              		.loc 1 120 15 view .LVU132
+ 537 0030 F6E7     		b	.L42
+ 538              	.LVL68:
+ 539              	.L46:
+ 124:lvgl/porting/lv_port_fs.c ****     } 
+ 540              		.loc 1 124 9 is_stmt 1 view .LVU133
+ 124:lvgl/porting/lv_port_fs.c ****     } 
+ 541              		.loc 1 124 15 is_stmt 0 view .LVU134
+ 542 0032 0A22     		movs	r2, #10
+ 543 0034 2946     		mov	r1, r5
+ 544 0036 FFF7FEFF 		bl	f_open
+ 545              	.LVL69:
+ 124:lvgl/porting/lv_port_fs.c ****     } 
+ 546              		.loc 1 124 15 view .LVU135
+ 547 003a 0646     		mov	r6, r0
+ 548              	.LVL70:
+ 124:lvgl/porting/lv_port_fs.c ****     } 
+ 549              		.loc 1 124 15 view .LVU136
+ 550 003c F0E7     		b	.L42
+ 551              	.LVL71:
+ 552              	.L47:
+ 128:lvgl/porting/lv_port_fs.c ****     } 
+ 553              		.loc 1 128 9 is_stmt 1 view .LVU137
+ 128:lvgl/porting/lv_port_fs.c ****     } 
+ 554              		.loc 1 128 15 is_stmt 0 view .LVU138
+ 555 003e 0322     		movs	r2, #3
+ 556 0040 2946     		mov	r1, r5
+ 557 0042 FFF7FEFF 		bl	f_open
+ 558              	.LVL72:
+ 128:lvgl/porting/lv_port_fs.c ****     } 
+ 559              		.loc 1 128 15 view .LVU139
+ 560 0046 0646     		mov	r6, r0
+ 561              	.LVL73:
+ 128:lvgl/porting/lv_port_fs.c ****     } 
+ 562              		.loc 1 128 15 view .LVU140
+ 563 0048 EAE7     		b	.L42
+ 564              	.L48:
+ 132:lvgl/porting/lv_port_fs.c ****         return NULL;
+ 565              		.loc 1 132 9 is_stmt 1 view .LVU141
+ 566 004a 3846     		mov	r0, r7
+ 567 004c FFF7FEFF 		bl	free
+ 568              	.LVL74:
+ 133:lvgl/porting/lv_port_fs.c ****     }
+ 569              		.loc 1 133 9 view .LVU142
+ 133:lvgl/porting/lv_port_fs.c ****     }
+ 570              		.loc 1 133 16 is_stmt 0 view .LVU143
+ 571 0050 0027     		movs	r7, #0
+ 572              	.LVL75:
+ 133:lvgl/porting/lv_port_fs.c ****     }
+ 573              		.loc 1 133 16 view .LVU144
+ 574 0052 E6E7     		b	.L39
+ 575              		.cfi_endproc
+ 576              	.LFE536:
+ 578              		.section	.text.lv_port_fs_init,"ax",%progbits
+ 579              		.align	1
+ 580              		.global	lv_port_fs_init
+ 581              		.syntax unified
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 18
+
+
+ 582              		.thumb
+ 583              		.thumb_func
+ 585              	lv_port_fs_init:
+ 586              	.LFB534:
+  58:lvgl/porting/lv_port_fs.c ****     /*----------------------------------------------------
+ 587              		.loc 1 58 1 is_stmt 1 view -0
+ 588              		.cfi_startproc
+ 589              		@ args = 0, pretend = 0, frame = 0
+ 590              		@ frame_needed = 0, uses_anonymous_args = 0
+ 591 0000 10B5     		push	{r4, lr}
+ 592              	.LCFI11:
+ 593              		.cfi_def_cfa_offset 8
+ 594              		.cfi_offset 4, -8
+ 595              		.cfi_offset 14, -4
+  62:lvgl/porting/lv_port_fs.c **** 
+ 596              		.loc 1 62 5 view .LVU146
+  69:lvgl/porting/lv_port_fs.c ****     lv_fs_drv_init(&fs_drv);
+ 597              		.loc 1 69 5 view .LVU147
+  70:lvgl/porting/lv_port_fs.c **** 
+ 598              		.loc 1 70 5 view .LVU148
+ 599 0002 0E4C     		ldr	r4, .L51
+ 600 0004 2046     		mov	r0, r4
+ 601 0006 FFF7FEFF 		bl	lv_fs_drv_init
+ 602              	.LVL76:
+  73:lvgl/porting/lv_port_fs.c ****     fs_drv.open_cb = fs_open;
+ 603              		.loc 1 73 5 view .LVU149
+  73:lvgl/porting/lv_port_fs.c ****     fs_drv.open_cb = fs_open;
+ 604              		.loc 1 73 19 is_stmt 0 view .LVU150
+ 605 000a 3023     		movs	r3, #48
+ 606 000c 2370     		strb	r3, [r4]
+  74:lvgl/porting/lv_port_fs.c ****     fs_drv.close_cb = fs_close;
+ 607              		.loc 1 74 5 is_stmt 1 view .LVU151
+  74:lvgl/porting/lv_port_fs.c ****     fs_drv.close_cb = fs_close;
+ 608              		.loc 1 74 20 is_stmt 0 view .LVU152
+ 609 000e 0C4B     		ldr	r3, .L51+4
+ 610 0010 A360     		str	r3, [r4, #8]
+  75:lvgl/porting/lv_port_fs.c ****     fs_drv.read_cb = fs_read;
+ 611              		.loc 1 75 5 is_stmt 1 view .LVU153
+  75:lvgl/porting/lv_port_fs.c ****     fs_drv.read_cb = fs_read;
+ 612              		.loc 1 75 21 is_stmt 0 view .LVU154
+ 613 0012 0C4B     		ldr	r3, .L51+8
+ 614 0014 E360     		str	r3, [r4, #12]
+  76:lvgl/porting/lv_port_fs.c ****     fs_drv.write_cb = fs_write;
+ 615              		.loc 1 76 5 is_stmt 1 view .LVU155
+  76:lvgl/porting/lv_port_fs.c ****     fs_drv.write_cb = fs_write;
+ 616              		.loc 1 76 20 is_stmt 0 view .LVU156
+ 617 0016 0C4B     		ldr	r3, .L51+12
+ 618 0018 2361     		str	r3, [r4, #16]
+  77:lvgl/porting/lv_port_fs.c ****     fs_drv.seek_cb = fs_seek;
+ 619              		.loc 1 77 5 is_stmt 1 view .LVU157
+  77:lvgl/porting/lv_port_fs.c ****     fs_drv.seek_cb = fs_seek;
+ 620              		.loc 1 77 21 is_stmt 0 view .LVU158
+ 621 001a 0C4B     		ldr	r3, .L51+16
+ 622 001c 6361     		str	r3, [r4, #20]
+  78:lvgl/porting/lv_port_fs.c ****     fs_drv.tell_cb = fs_tell;
+ 623              		.loc 1 78 5 is_stmt 1 view .LVU159
+  78:lvgl/porting/lv_port_fs.c ****     fs_drv.tell_cb = fs_tell;
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 19
+
+
+ 624              		.loc 1 78 20 is_stmt 0 view .LVU160
+ 625 001e 0C4B     		ldr	r3, .L51+20
+ 626 0020 A361     		str	r3, [r4, #24]
+  79:lvgl/porting/lv_port_fs.c **** 
+ 627              		.loc 1 79 5 is_stmt 1 view .LVU161
+  79:lvgl/porting/lv_port_fs.c **** 
+ 628              		.loc 1 79 20 is_stmt 0 view .LVU162
+ 629 0022 0C4B     		ldr	r3, .L51+24
+ 630 0024 E361     		str	r3, [r4, #28]
+  81:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_open_cb = fs_dir_open;
+ 631              		.loc 1 81 5 is_stmt 1 view .LVU163
+  81:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_open_cb = fs_dir_open;
+ 632              		.loc 1 81 25 is_stmt 0 view .LVU164
+ 633 0026 0C4B     		ldr	r3, .L51+28
+ 634 0028 A362     		str	r3, [r4, #40]
+  82:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_read_cb = fs_dir_read;
+ 635              		.loc 1 82 5 is_stmt 1 view .LVU165
+  82:lvgl/porting/lv_port_fs.c ****     fs_drv.dir_read_cb = fs_dir_read;
+ 636              		.loc 1 82 24 is_stmt 0 view .LVU166
+ 637 002a 0C4B     		ldr	r3, .L51+32
+ 638 002c 2362     		str	r3, [r4, #32]
+  83:lvgl/porting/lv_port_fs.c **** 
+ 639              		.loc 1 83 5 is_stmt 1 view .LVU167
+  83:lvgl/porting/lv_port_fs.c **** 
+ 640              		.loc 1 83 24 is_stmt 0 view .LVU168
+ 641 002e 0C4B     		ldr	r3, .L51+36
+ 642 0030 6362     		str	r3, [r4, #36]
+  85:lvgl/porting/lv_port_fs.c **** }
+ 643              		.loc 1 85 5 is_stmt 1 view .LVU169
+ 644 0032 2046     		mov	r0, r4
+ 645 0034 FFF7FEFF 		bl	lv_fs_drv_register
+ 646              	.LVL77:
+  86:lvgl/porting/lv_port_fs.c **** 
+ 647              		.loc 1 86 1 is_stmt 0 view .LVU170
+ 648 0038 10BD     		pop	{r4, pc}
+ 649              	.L52:
+ 650 003a 00BF     		.align	2
+ 651              	.L51:
+ 652 003c 00000000 		.word	fs_drv.0
+ 653 0040 00000000 		.word	fs_open
+ 654 0044 00000000 		.word	fs_close
+ 655 0048 00000000 		.word	fs_read
+ 656 004c 00000000 		.word	fs_write
+ 657 0050 00000000 		.word	fs_seek
+ 658 0054 00000000 		.word	fs_tell
+ 659 0058 00000000 		.word	fs_dir_close
+ 660 005c 00000000 		.word	fs_dir_open
+ 661 0060 00000000 		.word	fs_dir_read
+ 662              		.cfi_endproc
+ 663              	.LFE534:
+ 665              		.section	.bss.fs_drv.0,"aw",%nobits
+ 666              		.align	2
+ 669              	fs_drv.0:
+ 670 0000 00000000 		.space	48
+ 670      00000000 
+ 670      00000000 
+ 670      00000000 
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 20
+
+
+ 670      00000000 
+ 671              		.text
+ 672              	.Letext0:
+ 673              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 674              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 675              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 676              		.file 5 "lvgl/src/hal/../draw/../misc/lv_fs.h"
+ 677              		.file 6 "Middlewares/Third_Party/FatFs/src/integer.h"
+ 678              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 679              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 680              		.file 9 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 681              		.file 10 "Middlewares/Third_Party/FatFs/src/ff.h"
+ 682              		.file 11 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ 683              		.file 12 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ARM GAS  C:\usertemp\cc28rIFh.s 			page 21
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_port_fs.c
+C:\usertemp\cc28rIFh.s:20     .text.fs_tell:00000000 $t
+C:\usertemp\cc28rIFh.s:25     .text.fs_tell:00000000 fs_tell
+C:\usertemp\cc28rIFh.s:49     .text.fs_dir_read:00000000 $t
+C:\usertemp\cc28rIFh.s:54     .text.fs_dir_read:00000000 fs_dir_read
+C:\usertemp\cc28rIFh.s:124    .text.fs_dir_open:00000000 $t
+C:\usertemp\cc28rIFh.s:129    .text.fs_dir_open:00000000 fs_dir_open
+C:\usertemp\cc28rIFh.s:187    .text.fs_dir_close:00000000 $t
+C:\usertemp\cc28rIFh.s:192    .text.fs_dir_close:00000000 fs_dir_close
+C:\usertemp\cc28rIFh.s:243    .text.fs_seek:00000000 $t
+C:\usertemp\cc28rIFh.s:248    .text.fs_seek:00000000 fs_seek
+C:\usertemp\cc28rIFh.s:308    .text.fs_write:00000000 $t
+C:\usertemp\cc28rIFh.s:313    .text.fs_write:00000000 fs_write
+C:\usertemp\cc28rIFh.s:358    .text.fs_read:00000000 $t
+C:\usertemp\cc28rIFh.s:363    .text.fs_read:00000000 fs_read
+C:\usertemp\cc28rIFh.s:408    .text.fs_close:00000000 $t
+C:\usertemp\cc28rIFh.s:413    .text.fs_close:00000000 fs_close
+C:\usertemp\cc28rIFh.s:464    .text.fs_open:00000000 $t
+C:\usertemp\cc28rIFh.s:469    .text.fs_open:00000000 fs_open
+C:\usertemp\cc28rIFh.s:579    .text.lv_port_fs_init:00000000 $t
+C:\usertemp\cc28rIFh.s:585    .text.lv_port_fs_init:00000000 lv_port_fs_init
+C:\usertemp\cc28rIFh.s:652    .text.lv_port_fs_init:0000003c $d
+C:\usertemp\cc28rIFh.s:669    .bss.fs_drv.0:00000000 fs_drv.0
+C:\usertemp\cc28rIFh.s:666    .bss.fs_drv.0:00000000 $d
+
+UNDEFINED SYMBOLS
+f_readdir
+strcpy
+malloc
+f_opendir
+free
+f_closedir
+f_lseek
+f_write
+f_read
+f_close
+f_open
+lv_fs_drv_init
+lv_fs_drv_register

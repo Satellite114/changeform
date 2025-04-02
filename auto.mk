@@ -1,5 +1,5 @@
 # --- Automatic Path Configuration ---
-ROOT_DIRS = User
+ROOT_DIRS = lvgl generated custom
 EXCLUDE_DIRS = build
 AUTO_INCLUDES = auto_includes.mk
 INCLUDE_FILE = auto_includes_paths.mk

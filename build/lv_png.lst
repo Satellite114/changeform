@@ -1,0 +1,1795 @@
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_png.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/libs/png/lv_png.c"
+  19              		.section	.text.convert_color_depth,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	convert_color_depth:
+  26              	.LVL0:
+  27              	.LFB200:
+   1:lvgl/src/extra/libs/png/lv_png.c **** /**
+   2:lvgl/src/extra/libs/png/lv_png.c ****  * @file lv_png.c
+   3:lvgl/src/extra/libs/png/lv_png.c ****  *
+   4:lvgl/src/extra/libs/png/lv_png.c ****  */
+   5:lvgl/src/extra/libs/png/lv_png.c **** 
+   6:lvgl/src/extra/libs/png/lv_png.c **** /*********************
+   7:lvgl/src/extra/libs/png/lv_png.c ****  *      INCLUDES
+   8:lvgl/src/extra/libs/png/lv_png.c ****  *********************/
+   9:lvgl/src/extra/libs/png/lv_png.c **** #include "../../../lvgl.h"
+  10:lvgl/src/extra/libs/png/lv_png.c **** #if LV_USE_PNG
+  11:lvgl/src/extra/libs/png/lv_png.c **** 
+  12:lvgl/src/extra/libs/png/lv_png.c **** #include "lv_png.h"
+  13:lvgl/src/extra/libs/png/lv_png.c **** #include "lodepng.h"
+  14:lvgl/src/extra/libs/png/lv_png.c **** #include <stdlib.h>
+  15:lvgl/src/extra/libs/png/lv_png.c **** 
+  16:lvgl/src/extra/libs/png/lv_png.c **** /*********************
+  17:lvgl/src/extra/libs/png/lv_png.c ****  *      DEFINES
+  18:lvgl/src/extra/libs/png/lv_png.c ****  *********************/
+  19:lvgl/src/extra/libs/png/lv_png.c **** 
+  20:lvgl/src/extra/libs/png/lv_png.c **** /**********************
+  21:lvgl/src/extra/libs/png/lv_png.c ****  *      TYPEDEFS
+  22:lvgl/src/extra/libs/png/lv_png.c ****  **********************/
+  23:lvgl/src/extra/libs/png/lv_png.c **** 
+  24:lvgl/src/extra/libs/png/lv_png.c **** /**********************
+  25:lvgl/src/extra/libs/png/lv_png.c ****  *  STATIC PROTOTYPES
+  26:lvgl/src/extra/libs/png/lv_png.c ****  **********************/
+  27:lvgl/src/extra/libs/png/lv_png.c **** static lv_res_t decoder_info(struct _lv_img_decoder_t * decoder, const void * src, lv_img_header_t 
+  28:lvgl/src/extra/libs/png/lv_png.c **** static lv_res_t decoder_open(lv_img_decoder_t * dec, lv_img_decoder_dsc_t * dsc);
+  29:lvgl/src/extra/libs/png/lv_png.c **** static void decoder_close(lv_img_decoder_t * dec, lv_img_decoder_dsc_t * dsc);
+  30:lvgl/src/extra/libs/png/lv_png.c **** static void convert_color_depth(uint8_t * img, uint32_t px_cnt);
+  31:lvgl/src/extra/libs/png/lv_png.c **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 2
+
+
+  32:lvgl/src/extra/libs/png/lv_png.c **** /**********************
+  33:lvgl/src/extra/libs/png/lv_png.c ****  *  STATIC VARIABLES
+  34:lvgl/src/extra/libs/png/lv_png.c ****  **********************/
+  35:lvgl/src/extra/libs/png/lv_png.c **** 
+  36:lvgl/src/extra/libs/png/lv_png.c **** /**********************
+  37:lvgl/src/extra/libs/png/lv_png.c ****  *      MACROS
+  38:lvgl/src/extra/libs/png/lv_png.c ****  **********************/
+  39:lvgl/src/extra/libs/png/lv_png.c **** 
+  40:lvgl/src/extra/libs/png/lv_png.c **** /**********************
+  41:lvgl/src/extra/libs/png/lv_png.c ****  *   GLOBAL FUNCTIONS
+  42:lvgl/src/extra/libs/png/lv_png.c ****  **********************/
+  43:lvgl/src/extra/libs/png/lv_png.c **** 
+  44:lvgl/src/extra/libs/png/lv_png.c **** /**
+  45:lvgl/src/extra/libs/png/lv_png.c ****  * Register the PNG decoder functions in LVGL
+  46:lvgl/src/extra/libs/png/lv_png.c ****  */
+  47:lvgl/src/extra/libs/png/lv_png.c **** void lv_png_init(void)
+  48:lvgl/src/extra/libs/png/lv_png.c **** {
+  49:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_t * dec = lv_img_decoder_create();
+  50:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_info_cb(dec, decoder_info);
+  51:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_open_cb(dec, decoder_open);
+  52:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_close_cb(dec, decoder_close);
+  53:lvgl/src/extra/libs/png/lv_png.c **** }
+  54:lvgl/src/extra/libs/png/lv_png.c **** 
+  55:lvgl/src/extra/libs/png/lv_png.c **** /**********************
+  56:lvgl/src/extra/libs/png/lv_png.c ****  *   STATIC FUNCTIONS
+  57:lvgl/src/extra/libs/png/lv_png.c ****  **********************/
+  58:lvgl/src/extra/libs/png/lv_png.c **** 
+  59:lvgl/src/extra/libs/png/lv_png.c **** /**
+  60:lvgl/src/extra/libs/png/lv_png.c ****  * Get info about a PNG image
+  61:lvgl/src/extra/libs/png/lv_png.c ****  * @param src can be file name or pointer to a C array
+  62:lvgl/src/extra/libs/png/lv_png.c ****  * @param header store the info here
+  63:lvgl/src/extra/libs/png/lv_png.c ****  * @return LV_RES_OK: no error; LV_RES_INV: can't get the info
+  64:lvgl/src/extra/libs/png/lv_png.c ****  */
+  65:lvgl/src/extra/libs/png/lv_png.c **** static lv_res_t decoder_info(struct _lv_img_decoder_t * decoder, const void * src, lv_img_header_t 
+  66:lvgl/src/extra/libs/png/lv_png.c **** {
+  67:lvgl/src/extra/libs/png/lv_png.c ****     (void) decoder; /*Unused*/
+  68:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_src_t src_type = lv_img_src_get_type(src);          /*Get the source type*/
+  69:lvgl/src/extra/libs/png/lv_png.c **** 
+  70:lvgl/src/extra/libs/png/lv_png.c ****     /*If it's a PNG file...*/
+  71:lvgl/src/extra/libs/png/lv_png.c ****     if(src_type == LV_IMG_SRC_FILE) {
+  72:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = src;
+  73:lvgl/src/extra/libs/png/lv_png.c ****         if(!strcmp(&fn[strlen(fn) - 3], "png")) {              /*Check the extension*/
+  74:lvgl/src/extra/libs/png/lv_png.c **** 
+  75:lvgl/src/extra/libs/png/lv_png.c ****             /* Read the width and height from the file. They have a constant location:
+  76:lvgl/src/extra/libs/png/lv_png.c ****              * [16..23]: width
+  77:lvgl/src/extra/libs/png/lv_png.c ****              * [24..27]: height
+  78:lvgl/src/extra/libs/png/lv_png.c ****              */
+  79:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t size[2];
+  80:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_file_t f;
+  81:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_res_t res = lv_fs_open(&f, fn, LV_FS_MODE_RD);
+  82:lvgl/src/extra/libs/png/lv_png.c ****             if(res != LV_FS_RES_OK) return LV_RES_INV;
+  83:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_seek(&f, 16, LV_FS_SEEK_SET);
+  84:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t rn;
+  85:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_read(&f, &size, 8, &rn);
+  86:lvgl/src/extra/libs/png/lv_png.c ****             if(rn != 8) return LV_RES_INV;
+  87:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_close(&f);
+  88:lvgl/src/extra/libs/png/lv_png.c ****             /*Save the data in the header*/
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 3
+
+
+  89:lvgl/src/extra/libs/png/lv_png.c ****             header->always_zero = 0;
+  90:lvgl/src/extra/libs/png/lv_png.c ****             header->cf = LV_IMG_CF_RAW_ALPHA;
+  91:lvgl/src/extra/libs/png/lv_png.c ****             /*The width and height are stored in Big endian format so convert them to little endian
+  92:lvgl/src/extra/libs/png/lv_png.c ****             header->w = (lv_coord_t)((size[0] & 0xff000000) >> 24) + ((size[0] & 0x00ff0000) >> 8);
+  93:lvgl/src/extra/libs/png/lv_png.c ****             header->h = (lv_coord_t)((size[1] & 0xff000000) >> 24) + ((size[1] & 0x00ff0000) >> 8);
+  94:lvgl/src/extra/libs/png/lv_png.c **** 
+  95:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_OK;
+  96:lvgl/src/extra/libs/png/lv_png.c ****         }
+  97:lvgl/src/extra/libs/png/lv_png.c ****     }
+  98:lvgl/src/extra/libs/png/lv_png.c ****     /*If it's a PNG file in a  C array...*/
+  99:lvgl/src/extra/libs/png/lv_png.c ****     else if(src_type == LV_IMG_SRC_VARIABLE) {
+ 100:lvgl/src/extra/libs/png/lv_png.c ****         const lv_img_dsc_t * img_dsc = src;
+ 101:lvgl/src/extra/libs/png/lv_png.c ****         const uint8_t magic[] = {0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
+ 102:lvgl/src/extra/libs/png/lv_png.c ****         if(memcmp(magic, img_dsc->data, sizeof(magic))) return LV_RES_INV;
+ 103:lvgl/src/extra/libs/png/lv_png.c ****         header->always_zero = 0;
+ 104:lvgl/src/extra/libs/png/lv_png.c ****         header->cf = img_dsc->header.cf;       /*Save the color format*/
+ 105:lvgl/src/extra/libs/png/lv_png.c ****         header->w = img_dsc->header.w;         /*Save the color width*/
+ 106:lvgl/src/extra/libs/png/lv_png.c ****         header->h = img_dsc->header.h;         /*Save the color height*/
+ 107:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;
+ 108:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 109:lvgl/src/extra/libs/png/lv_png.c **** 
+ 110:lvgl/src/extra/libs/png/lv_png.c ****     return LV_RES_INV;         /*If didn't succeeded earlier then it's an error*/
+ 111:lvgl/src/extra/libs/png/lv_png.c **** }
+ 112:lvgl/src/extra/libs/png/lv_png.c **** 
+ 113:lvgl/src/extra/libs/png/lv_png.c **** 
+ 114:lvgl/src/extra/libs/png/lv_png.c **** /**
+ 115:lvgl/src/extra/libs/png/lv_png.c ****  * Open a PNG image and return the decided image
+ 116:lvgl/src/extra/libs/png/lv_png.c ****  * @param src can be file name or pointer to a C array
+ 117:lvgl/src/extra/libs/png/lv_png.c ****  * @param style style of the image object (unused now but certain formats might use it)
+ 118:lvgl/src/extra/libs/png/lv_png.c ****  * @return pointer to the decoded image or  `LV_IMG_DECODER_OPEN_FAIL` if failed
+ 119:lvgl/src/extra/libs/png/lv_png.c ****  */
+ 120:lvgl/src/extra/libs/png/lv_png.c **** static lv_res_t decoder_open(lv_img_decoder_t * decoder, lv_img_decoder_dsc_t * dsc)
+ 121:lvgl/src/extra/libs/png/lv_png.c **** {
+ 122:lvgl/src/extra/libs/png/lv_png.c **** 
+ 123:lvgl/src/extra/libs/png/lv_png.c ****     (void) decoder; /*Unused*/
+ 124:lvgl/src/extra/libs/png/lv_png.c ****     uint32_t error;                 /*For the return values of PNG decoder functions*/
+ 125:lvgl/src/extra/libs/png/lv_png.c **** 
+ 126:lvgl/src/extra/libs/png/lv_png.c ****     uint8_t * img_data = NULL;
+ 127:lvgl/src/extra/libs/png/lv_png.c **** 
+ 128:lvgl/src/extra/libs/png/lv_png.c ****     /*If it's a PNG file...*/
+ 129:lvgl/src/extra/libs/png/lv_png.c ****     if(dsc->src_type == LV_IMG_SRC_FILE) {
+ 130:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = dsc->src;
+ 131:lvgl/src/extra/libs/png/lv_png.c **** 
+ 132:lvgl/src/extra/libs/png/lv_png.c ****         if(!strcmp(&fn[strlen(fn) - 3], "png")) {              /*Check the extension*/
+ 133:lvgl/src/extra/libs/png/lv_png.c **** 
+ 134:lvgl/src/extra/libs/png/lv_png.c ****             /*Load the PNG file into buffer. It's still compressed (not decoded)*/
+ 135:lvgl/src/extra/libs/png/lv_png.c ****             unsigned char * png_data;      /*Pointer to the loaded data. Same as the original file 
+ 136:lvgl/src/extra/libs/png/lv_png.c ****             size_t png_data_size;          /*Size of `png_data` in bytes*/
+ 137:lvgl/src/extra/libs/png/lv_png.c **** 
+ 138:lvgl/src/extra/libs/png/lv_png.c ****             error = lodepng_load_file(&png_data, &png_data_size, fn);   /*Load the file*/
+ 139:lvgl/src/extra/libs/png/lv_png.c ****             if(error) {
+ 140:lvgl/src/extra/libs/png/lv_png.c ****                 LV_LOG_WARN("error %u: %s\n", error, lodepng_error_text(error));
+ 141:lvgl/src/extra/libs/png/lv_png.c ****                 return LV_RES_INV;
+ 142:lvgl/src/extra/libs/png/lv_png.c ****             }
+ 143:lvgl/src/extra/libs/png/lv_png.c **** 
+ 144:lvgl/src/extra/libs/png/lv_png.c ****             /*Decode the PNG image*/
+ 145:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t png_width;             /*Will be the width of the decoded image*/
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 4
+
+
+ 146:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t png_height;            /*Will be the width of the decoded image*/
+ 147:lvgl/src/extra/libs/png/lv_png.c **** 
+ 148:lvgl/src/extra/libs/png/lv_png.c ****             /*Decode the loaded image in ARGB8888 */
+ 149:lvgl/src/extra/libs/png/lv_png.c ****             error = lodepng_decode32(&img_data, &png_width, &png_height, png_data, png_data_size);
+ 150:lvgl/src/extra/libs/png/lv_png.c ****             lv_mem_free(png_data); /*Free the loaded file*/
+ 151:lvgl/src/extra/libs/png/lv_png.c ****             if(error) {
+ 152:lvgl/src/extra/libs/png/lv_png.c ****                 LV_LOG_WARN("error %u: %s\n", error, lodepng_error_text(error));
+ 153:lvgl/src/extra/libs/png/lv_png.c ****                 return LV_RES_INV;
+ 154:lvgl/src/extra/libs/png/lv_png.c ****             }
+ 155:lvgl/src/extra/libs/png/lv_png.c **** 
+ 156:lvgl/src/extra/libs/png/lv_png.c ****             /*Convert the image to the system's color depth*/
+ 157:lvgl/src/extra/libs/png/lv_png.c ****             convert_color_depth(img_data,  png_width * png_height);
+ 158:lvgl/src/extra/libs/png/lv_png.c ****             dsc->img_data = img_data;
+ 159:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_OK;     /*The image is fully decoded. Return with its pointer*/
+ 160:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 161:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 162:lvgl/src/extra/libs/png/lv_png.c ****     /*If it's a PNG file in a  C array...*/
+ 163:lvgl/src/extra/libs/png/lv_png.c ****     else if(dsc->src_type == LV_IMG_SRC_VARIABLE) {
+ 164:lvgl/src/extra/libs/png/lv_png.c ****         const lv_img_dsc_t * img_dsc = dsc->src;
+ 165:lvgl/src/extra/libs/png/lv_png.c ****         uint32_t png_width;             /*No used, just required by he decoder*/
+ 166:lvgl/src/extra/libs/png/lv_png.c ****         uint32_t png_height;            /*No used, just required by he decoder*/
+ 167:lvgl/src/extra/libs/png/lv_png.c **** 
+ 168:lvgl/src/extra/libs/png/lv_png.c ****         /*Decode the image in ARGB8888 */
+ 169:lvgl/src/extra/libs/png/lv_png.c ****         error = lodepng_decode32(&img_data, &png_width, &png_height, img_dsc->data, img_dsc->data_s
+ 170:lvgl/src/extra/libs/png/lv_png.c **** 
+ 171:lvgl/src/extra/libs/png/lv_png.c ****         if(error) {
+ 172:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_INV;
+ 173:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 174:lvgl/src/extra/libs/png/lv_png.c **** 
+ 175:lvgl/src/extra/libs/png/lv_png.c ****         /*Convert the image to the system's color depth*/
+ 176:lvgl/src/extra/libs/png/lv_png.c ****         convert_color_depth(img_data,  png_width * png_height);
+ 177:lvgl/src/extra/libs/png/lv_png.c **** 
+ 178:lvgl/src/extra/libs/png/lv_png.c ****         dsc->img_data = img_data;
+ 179:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;     /*Return with its pointer*/
+ 180:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 181:lvgl/src/extra/libs/png/lv_png.c **** 
+ 182:lvgl/src/extra/libs/png/lv_png.c ****     return LV_RES_INV;    /*If not returned earlier then it failed*/
+ 183:lvgl/src/extra/libs/png/lv_png.c **** }
+ 184:lvgl/src/extra/libs/png/lv_png.c **** 
+ 185:lvgl/src/extra/libs/png/lv_png.c **** /**
+ 186:lvgl/src/extra/libs/png/lv_png.c ****  * Free the allocated resources
+ 187:lvgl/src/extra/libs/png/lv_png.c ****  */
+ 188:lvgl/src/extra/libs/png/lv_png.c **** static void decoder_close(lv_img_decoder_t * decoder, lv_img_decoder_dsc_t * dsc)
+ 189:lvgl/src/extra/libs/png/lv_png.c **** {
+ 190:lvgl/src/extra/libs/png/lv_png.c ****     LV_UNUSED(decoder); /*Unused*/
+ 191:lvgl/src/extra/libs/png/lv_png.c ****     if(dsc->img_data) {
+ 192:lvgl/src/extra/libs/png/lv_png.c ****         lv_mem_free((uint8_t *)dsc->img_data);
+ 193:lvgl/src/extra/libs/png/lv_png.c ****         dsc->img_data = NULL;
+ 194:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 195:lvgl/src/extra/libs/png/lv_png.c **** }
+ 196:lvgl/src/extra/libs/png/lv_png.c **** 
+ 197:lvgl/src/extra/libs/png/lv_png.c **** /**
+ 198:lvgl/src/extra/libs/png/lv_png.c ****  * If the display is not in 32 bit format (ARGB888) then covert the image to the current color dept
+ 199:lvgl/src/extra/libs/png/lv_png.c ****  * @param img the ARGB888 image
+ 200:lvgl/src/extra/libs/png/lv_png.c ****  * @param px_cnt number of pixels in `img`
+ 201:lvgl/src/extra/libs/png/lv_png.c ****  */
+ 202:lvgl/src/extra/libs/png/lv_png.c **** static void convert_color_depth(uint8_t * img, uint32_t px_cnt)
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 5
+
+
+ 203:lvgl/src/extra/libs/png/lv_png.c **** {
+  28              		.loc 1 203 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204:lvgl/src/extra/libs/png/lv_png.c **** #if LV_COLOR_DEPTH == 32
+ 205:lvgl/src/extra/libs/png/lv_png.c ****     lv_color32_t * img_argb = (lv_color32_t *)img;
+ 206:lvgl/src/extra/libs/png/lv_png.c ****     lv_color_t c;
+ 207:lvgl/src/extra/libs/png/lv_png.c ****     lv_color_t * img_c = (lv_color_t *) img;
+ 208:lvgl/src/extra/libs/png/lv_png.c ****     uint32_t i;
+ 209:lvgl/src/extra/libs/png/lv_png.c ****     for(i = 0; i < px_cnt; i++) {
+ 210:lvgl/src/extra/libs/png/lv_png.c ****         c = lv_color_make(img_argb[i].ch.red, img_argb[i].ch.green, img_argb[i].ch.blue);
+ 211:lvgl/src/extra/libs/png/lv_png.c ****         img_c[i].ch.red = c.ch.blue;
+ 212:lvgl/src/extra/libs/png/lv_png.c ****         img_c[i].ch.blue = c.ch.red;
+ 213:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 214:lvgl/src/extra/libs/png/lv_png.c **** #elif LV_COLOR_DEPTH == 16
+ 215:lvgl/src/extra/libs/png/lv_png.c ****     lv_color32_t * img_argb = (lv_color32_t *)img;
+  32              		.loc 1 215 5 view .LVU1
+ 216:lvgl/src/extra/libs/png/lv_png.c ****     lv_color_t c;
+  33              		.loc 1 216 5 view .LVU2
+ 217:lvgl/src/extra/libs/png/lv_png.c ****     uint32_t i;
+  34              		.loc 1 217 5 view .LVU3
+ 218:lvgl/src/extra/libs/png/lv_png.c ****     for(i = 0; i < px_cnt; i++) {
+  35              		.loc 1 218 5 view .LVU4
+  36              		.loc 1 218 11 is_stmt 0 view .LVU5
+  37 0000 0023     		movs	r3, #0
+  38              	.LVL1:
+  39              		.loc 1 218 18 is_stmt 1 discriminator 1 view .LVU6
+  40 0002 8B42     		cmp	r3, r1
+  41 0004 24D2     		bcs	.L7
+ 203:lvgl/src/extra/libs/png/lv_png.c **** #if LV_COLOR_DEPTH == 32
+  42              		.loc 1 203 1 is_stmt 0 view .LVU7
+  43 0006 30B5     		push	{r4, r5, lr}
+  44              	.LCFI0:
+  45              		.cfi_def_cfa_offset 12
+  46              		.cfi_offset 4, -12
+  47              		.cfi_offset 5, -8
+  48              		.cfi_offset 14, -4
+  49              	.L3:
+ 219:lvgl/src/extra/libs/png/lv_png.c ****         c = lv_color_make(img_argb[i].ch.blue, img_argb[i].ch.green, img_argb[i].ch.red);
+  50              		.loc 1 219 9 is_stmt 1 view .LVU8
+  51              		.loc 1 219 35 is_stmt 0 view .LVU9
+  52 0008 00EB830E 		add	lr, r0, r3, lsl #2
+  53              		.loc 1 219 13 view .LVU10
+  54 000c 10F823C0 		ldrb	ip, [r0, r3, lsl #2]	@ zero_extendqisi2
+  55 0010 9EF80140 		ldrb	r4, [lr, #1]	@ zero_extendqisi2
+  56 0014 9EF80250 		ldrb	r5, [lr, #2]	@ zero_extendqisi2
+  57              	.LVL2:
+  58              	.LBB4:
+  59              	.LBI4:
+  60              		.file 2 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_color.h"
+   1:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+   2:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @file lv_color.h
+   3:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *
+   4:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+   5:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+   6:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #ifndef LV_COLOR_H
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 6
+
+
+   7:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_H
+   8:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+   9:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #ifdef __cplusplus
+  10:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** extern "C" {
+  11:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  12:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  13:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*********************
+  14:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *      INCLUDES
+  15:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *********************/
+  16:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #include "../lv_conf_internal.h"
+  17:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #include "lv_assert.h"
+  18:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #include "lv_math.h"
+  19:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #include "lv_types.h"
+  20:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  21:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*Error checking*/
+  22:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 24
+  23:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #error "LV_COLOR_DEPTH 24 is deprecated. Use LV_COLOR_DEPTH 32 instead (lv_conf.h)"
+  24:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  25:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  26:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH != 32 && LV_COLOR_SCREEN_TRANSP != 0
+  27:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #error "LV_COLOR_SCREEN_TRANSP requires LV_COLOR_DEPTH == 32. Set it in lv_conf.h"
+  28:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  29:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  30:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH != 16 && LV_COLOR_16_SWAP != 0
+  31:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #error "LV_COLOR_16_SWAP requires LV_COLOR_DEPTH == 16. Set it in lv_conf.h"
+  32:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  33:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  34:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #include <stdint.h>
+  35:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  36:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*********************
+  37:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *      DEFINES
+  38:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *********************/
+  39:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** LV_EXPORT_CONST_INT(LV_COLOR_DEPTH);
+  40:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** LV_EXPORT_CONST_INT(LV_COLOR_16_SWAP);
+  41:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  42:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+  43:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Opacity percentages.
+  44:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+  45:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** enum {
+  46:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_TRANSP = 0,
+  47:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_0      = 0,
+  48:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_10     = 25,
+  49:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_20     = 51,
+  50:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_30     = 76,
+  51:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_40     = 102,
+  52:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_50     = 127,
+  53:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_60     = 153,
+  54:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_70     = 178,
+  55:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_80     = 204,
+  56:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_90     = 229,
+  57:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_100    = 255,
+  58:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_OPA_COVER  = 255,
+  59:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** };
+  60:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  61:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_OPA_MIN 2    /*Opacities below this will be transparent*/
+  62:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_OPA_MAX 253  /*Opacities above this will fully cover*/
+  63:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 7
+
+
+  64:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 1
+  65:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SIZE 8
+  66:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 8
+  67:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SIZE 8
+  68:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 16
+  69:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SIZE 16
+  70:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 32
+  71:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SIZE 32
+  72:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+  73:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #error "Invalid LV_COLOR_DEPTH in lv_conf.h! Set it to 1, 8, 16 or 32!"
+  74:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  75:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  76:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if defined(__cplusplus) && !defined(_LV_COLOR_HAS_MODERN_CPP)
+  77:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+  78:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** * MSVC compiler's definition of the __cplusplus indicating 199711L regardless to C++ standard versi
+  79:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** * see https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-cplusplus
+  80:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** * so we use _MSC_VER macro instead of __cplusplus
+  81:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** */
+  82:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #ifdef _MSC_VER
+  83:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if _MSC_VER >= 1900 /*Visual Studio 2015*/
+  84:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define _LV_COLOR_HAS_MODERN_CPP 1
+  85:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  86:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+  87:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if __cplusplus >= 201103L
+  88:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define _LV_COLOR_HAS_MODERN_CPP 1
+  89:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  90:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  91:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif /*__cplusplus*/
+  92:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  93:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #ifndef _LV_COLOR_HAS_MODERN_CPP
+  94:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define _LV_COLOR_HAS_MODERN_CPP 0
+  95:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+  96:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+  97:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if _LV_COLOR_HAS_MODERN_CPP
+  98:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*Fix msvc compiler error C4576 inside C++ code*/
+  99:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define _LV_COLOR_MAKE_TYPE_HELPER lv_color_t
+ 100:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 101:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define _LV_COLOR_MAKE_TYPE_HELPER (lv_color_t)
+ 102:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 103:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 104:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*---------------------------------------
+ 105:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Macros for all existing color depths
+ 106:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * to set/get values of the color channels
+ 107:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *------------------------------------------*/
+ 108:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_R1(c, v) (c).ch.red = (uint8_t)((v) & 0x1)
+ 109:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_G1(c, v) (c).ch.green = (uint8_t)((v) & 0x1)
+ 110:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_B1(c, v) (c).ch.blue = (uint8_t)((v) & 0x1)
+ 111:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_A1(c, v) do {} while(0)
+ 112:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 113:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_R1(c) (c).ch.red
+ 114:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_G1(c) (c).ch.green
+ 115:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_B1(c) (c).ch.blue
+ 116:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_A1(c) 0xFF
+ 117:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 118:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER1 {0x00}
+ 119:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_MAKE1(r8, g8, b8)  {(uint8_t)((b8 >> 7) | (g8 >> 7) | (r8 >> 7))}
+ 120:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 8
+
+
+ 121:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_R8(c, v) (c).ch.red = (uint8_t)((v) & 0x7U)
+ 122:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_G8(c, v) (c).ch.green = (uint8_t)((v) & 0x7U)
+ 123:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_B8(c, v) (c).ch.blue = (uint8_t)((v) & 0x3U)
+ 124:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_A8(c, v) do {} while(0)
+ 125:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 126:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_R8(c) (c).ch.red
+ 127:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_G8(c) (c).ch.green
+ 128:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_B8(c) (c).ch.blue
+ 129:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_A8(c) 0xFF
+ 130:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 131:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER8 {{0x00, 0x00, 0x00}}
+ 132:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_MAKE8(r8, g8, b8) {{(uint8_t)((b8 >> 6) & 0x3U), (uint8_t)((g8 >> 5) & 0x7U), (ui
+ 133:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 134:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_R16(c, v) (c).ch.red = (uint8_t)((v) & 0x1FU)
+ 135:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 136:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_G16(c, v) (c).ch.green = (uint8_t)((v) & 0x3FU)
+ 137:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 138:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_G16(c, v) {(c).ch.green_h = (uint8_t)(((v) >> 3) & 0x7); (c).ch.green_l = (ui
+ 139:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 140:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_B16(c, v) (c).ch.blue = (uint8_t)((v) & 0x1FU)
+ 141:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_A16(c, v) do {} while(0)
+ 142:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 143:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_R16(c) (c).ch.red
+ 144:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 145:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_G16(c) (c).ch.green
+ 146:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 147:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_G16(c) (((c).ch.green_h << 3) + (c).ch.green_l)
+ 148:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 149:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_B16(c) (c).ch.blue
+ 150:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_A16(c) 0xFF
+ 151:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 152:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 153:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER16  {{0x00, 0x00, 0x00}}
+ 154:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_MAKE16(r8, g8, b8) {{(uint8_t)((b8 >> 3) & 0x1FU), (uint8_t)((g8 >> 2) & 0x3FU), 
+ 155:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 156:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER16 {{0x00, 0x00, 0x00, 0x00}}
+ 157:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_MAKE16(r8, g8, b8) {{(uint8_t)((g8 >> 5) & 0x7U), (uint8_t)((r8 >> 3) & 0x1FU), (
+ 158:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 159:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 160:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_R32(c, v) (c).ch.red = (uint8_t)((v) & 0xFF)
+ 161:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_G32(c, v) (c).ch.green = (uint8_t)((v) & 0xFF)
+ 162:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_B32(c, v) (c).ch.blue = (uint8_t)((v) & 0xFF)
+ 163:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_SET_A32(c, v) (c).ch.alpha = (uint8_t)((v) & 0xFF)
+ 164:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 165:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_R32(c) (c).ch.red
+ 166:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_G32(c) (c).ch.green
+ 167:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_B32(c) (c).ch.blue
+ 168:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_GET_A32(c) (c).ch.alpha
+ 169:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 170:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER32  {{0x00, 0x00, 0x00, 0x00}}
+ 171:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** # define LV_COLOR_MAKE32(r8, g8, b8) {{b8, g8, r8, 0xff}} /*Fix 0xff alpha*/
+ 172:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 173:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*---------------------------------------
+ 174:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Macros for the current color depth
+ 175:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * to set/get values of the color channels
+ 176:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *------------------------------------------*/
+ 177:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SET_R(c, v) LV_CONCAT(LV_COLOR_SET_R, LV_COLOR_DEPTH)(c, v)
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 9
+
+
+ 178:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SET_G(c, v) LV_CONCAT(LV_COLOR_SET_G, LV_COLOR_DEPTH)(c, v)
+ 179:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SET_B(c, v) LV_CONCAT(LV_COLOR_SET_B, LV_COLOR_DEPTH)(c, v)
+ 180:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_SET_A(c, v) LV_CONCAT(LV_COLOR_SET_A, LV_COLOR_DEPTH)(c, v)
+ 181:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 182:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_GET_R(c) LV_CONCAT(LV_COLOR_GET_R, LV_COLOR_DEPTH)(c)
+ 183:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_GET_G(c) LV_CONCAT(LV_COLOR_GET_G, LV_COLOR_DEPTH)(c)
+ 184:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_GET_B(c) LV_CONCAT(LV_COLOR_GET_B, LV_COLOR_DEPTH)(c)
+ 185:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_GET_A(c) LV_CONCAT(LV_COLOR_GET_A, LV_COLOR_DEPTH)(c)
+ 186:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 187:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define _LV_COLOR_ZERO_INITIALIZER LV_CONCAT(_LV_COLOR_ZERO_INITIALIZER, LV_COLOR_DEPTH)
+ 188:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #define LV_COLOR_MAKE(r8, g8, b8) LV_CONCAT(LV_COLOR_MAKE, LV_COLOR_DEPTH)(r8, g8, b8)
+ 189:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 190:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**********************
+ 191:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *      TYPEDEFS
+ 192:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  **********************/
+ 193:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 194:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef union {
+ 195:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint8_t full; /*must be declared first to set all bits of byte via initializer list*/
+ 196:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     union {
+ 197:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t blue : 1;
+ 198:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t green : 1;
+ 199:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t red : 1;
+ 200:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     } ch;
+ 201:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_color1_t;
+ 202:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 203:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef union {
+ 204:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     struct {
+ 205:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t blue : 2;
+ 206:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t green : 3;
+ 207:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t red : 3;
+ 208:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     } ch;
+ 209:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint8_t full;
+ 210:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_color8_t;
+ 211:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 212:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef union {
+ 213:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     struct {
+ 214:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 215:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t blue : 5;
+ 216:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t green : 6;
+ 217:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t red : 5;
+ 218:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 219:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t green_h : 3;
+ 220:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t red : 5;
+ 221:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t blue : 5;
+ 222:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint16_t green_l : 3;
+ 223:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 224:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     } ch;
+ 225:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint16_t full;
+ 226:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_color16_t;
+ 227:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 228:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef union {
+ 229:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     struct {
+ 230:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t blue;
+ 231:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t green;
+ 232:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t red;
+ 233:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         uint8_t alpha;
+ 234:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     } ch;
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 10
+
+
+ 235:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint32_t full;
+ 236:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_color32_t;
+ 237:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 238:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef LV_CONCAT3(uint, LV_COLOR_SIZE, _t) lv_color_int_t;
+ 239:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef LV_CONCAT3(lv_color, LV_COLOR_DEPTH, _t) lv_color_t;
+ 240:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 241:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef struct {
+ 242:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint16_t h;
+ 243:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint8_t s;
+ 244:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint8_t v;
+ 245:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_color_hsv_t;
+ 246:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 247:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** //! @cond Doxygen_Suppress
+ 248:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*No idea where the guard is required but else throws warnings in the docs*/
+ 249:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef uint8_t lv_opa_t;
+ 250:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** //! @endcond
+ 251:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 252:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** struct _lv_color_filter_dsc_t;
+ 253:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 254:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef lv_color_t (*lv_color_filter_cb_t)(const struct _lv_color_filter_dsc_t *, lv_color_t, lv_op
+ 255:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 256:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef struct _lv_color_filter_dsc_t {
+ 257:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color_filter_cb_t filter_cb;
+ 258:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     void * user_data;
+ 259:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_color_filter_dsc_t;
+ 260:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 261:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 262:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** typedef enum {
+ 263:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_RED,
+ 264:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_PINK,
+ 265:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_PURPLE,
+ 266:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_DEEP_PURPLE,
+ 267:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_INDIGO,
+ 268:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_BLUE,
+ 269:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_LIGHT_BLUE,
+ 270:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_CYAN,
+ 271:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_TEAL,
+ 272:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_GREEN,
+ 273:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_LIGHT_GREEN,
+ 274:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_LIME,
+ 275:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_YELLOW,
+ 276:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_AMBER,
+ 277:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_ORANGE,
+ 278:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_DEEP_ORANGE,
+ 279:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_BROWN,
+ 280:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_BLUE_GREY,
+ 281:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_GREY,
+ 282:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     _LV_PALETTE_LAST,
+ 283:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_PALETTE_NONE = 0xff,
+ 284:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** } lv_palette_t;
+ 285:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 286:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**********************
+ 287:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * GLOBAL PROTOTYPES
+ 288:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  **********************/
+ 289:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 290:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /*In color conversations:
+ 291:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * - When converting to bigger color type the LSB weight of 1 LSB is calculated
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 11
+
+
+ 292:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *   E.g. 16 bit Red has 5 bits
+ 293:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *         8 bit Red has 3 bits
+ 294:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *        ----------------------
+ 295:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *        8 bit red LSB = (2^5 - 1) / (2^3 - 1) = 31 / 7 = 4
+ 296:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *
+ 297:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * - When calculating to smaller color type simply shift out the LSBs
+ 298:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *   E.g.  8 bit Red has 3 bits
+ 299:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *        16 bit Red has 5 bits
+ 300:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *        ----------------------
+ 301:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *         Shift right with 5 - 3 = 2
+ 302:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+ 303:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** static inline uint8_t lv_color_to1(lv_color_t color)
+ 304:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 305:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 306:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return color.full;
+ 307:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 308:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if((LV_COLOR_GET_R(color) & 0x4) || (LV_COLOR_GET_G(color) & 0x4) || (LV_COLOR_GET_B(color) & 0
+ 309:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 1;
+ 310:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 311:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else {
+ 312:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0;
+ 313:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 314:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 315:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if((LV_COLOR_GET_R(color) & 0x10) || (LV_COLOR_GET_G(color) & 0x20) || (LV_COLOR_GET_B(color) &
+ 316:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 1;
+ 317:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 318:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else {
+ 319:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0;
+ 320:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 321:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 322:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if((LV_COLOR_GET_R(color) & 0x80) || (LV_COLOR_GET_G(color) & 0x80) || (LV_COLOR_GET_B(color) &
+ 323:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 1;
+ 324:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 325:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else {
+ 326:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0;
+ 327:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 328:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 329:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 330:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 331:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** static inline uint8_t lv_color_to8(lv_color_t color)
+ 332:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 333:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 334:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if(color.full == 0)
+ 335:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0;
+ 336:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else
+ 337:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0xFF;
+ 338:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 339:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return color.full;
+ 340:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 341:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color8_t ret;
+ 342:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R8(ret, LV_COLOR_GET_R(color) >> 2); /*5 - 3  = 2*/
+ 343:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G8(ret, LV_COLOR_GET_G(color) >> 3); /*6 - 3  = 3*/
+ 344:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B8(ret, LV_COLOR_GET_B(color) >> 3); /*5 - 2  = 3*/
+ 345:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret.full;
+ 346:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 347:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color8_t ret;
+ 348:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R8(ret, LV_COLOR_GET_R(color) >> 5); /*8 - 3  = 5*/
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 12
+
+
+ 349:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G8(ret, LV_COLOR_GET_G(color) >> 5); /*8 - 3  = 5*/
+ 350:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B8(ret, LV_COLOR_GET_B(color) >> 6); /*8 - 2  = 6*/
+ 351:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret.full;
+ 352:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 353:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 354:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 355:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** static inline uint16_t lv_color_to16(lv_color_t color)
+ 356:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 357:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 358:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if(color.full == 0)
+ 359:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0;
+ 360:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else
+ 361:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0xFFFF;
+ 362:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 363:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color16_t ret;
+ 364:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R16(ret, LV_COLOR_GET_R(color) * 4);  /*(2^5 - 1)/(2^3 - 1) = 31/7 = 4*/
+ 365:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G16(ret, LV_COLOR_GET_G(color) * 9);  /*(2^6 - 1)/(2^3 - 1) = 63/7 = 9*/
+ 366:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B16(ret, LV_COLOR_GET_B(color) * 10); /*(2^5 - 1)/(2^2 - 1) = 31/3 = 10*/
+ 367:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret.full;
+ 368:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 369:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return color.full;
+ 370:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 371:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color16_t ret;
+ 372:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R16(ret, LV_COLOR_GET_R(color) >> 3); /*8 - 5  = 3*/
+ 373:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G16(ret, LV_COLOR_GET_G(color) >> 2); /*8 - 6  = 2*/
+ 374:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B16(ret, LV_COLOR_GET_B(color) >> 3); /*8 - 5  = 3*/
+ 375:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret.full;
+ 376:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 377:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 378:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 379:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** static inline uint32_t lv_color_to32(lv_color_t color)
+ 380:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 381:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 382:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if(color.full == 0)
+ 383:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0xFF000000;
+ 384:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else
+ 385:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         return 0xFFFFFFFF;
+ 386:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 387:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color32_t ret;
+ 388:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R32(ret, LV_COLOR_GET_R(color) * 36); /*(2^8 - 1)/(2^3 - 1) = 255/7 = 36*/
+ 389:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G32(ret, LV_COLOR_GET_G(color) * 36); /*(2^8 - 1)/(2^3 - 1) = 255/7 = 36*/
+ 390:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B32(ret, LV_COLOR_GET_B(color) * 85); /*(2^8 - 1)/(2^2 - 1) = 255/3 = 85*/
+ 391:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_A32(ret, 0xFF);
+ 392:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret.full;
+ 393:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 394:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /**
+ 395:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * The floating point math for conversion is:
+ 396:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *  valueto = valuefrom * ( (2^bitsto - 1) / (float)(2^bitsfrom - 1) )
+ 397:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * The faster integer math for conversion is:
+ 398:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *  valueto = ( valuefrom * multiplier + adder ) >> divisor
+ 399:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *   multiplier = FLOOR( ( (2^bitsto - 1) << divisor ) / (float)(2^bitsfrom - 1) )
+ 400:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *
+ 401:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * Find the first divisor where ( adder >> divisor ) <= 0
+ 402:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *
+ 403:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * 5-bit to 8-bit: ( 31 * multiplier + adder ) >> divisor = 255
+ 404:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * divisor  multiplier  adder  min (0)  max (31)
+ 405:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       0           8      7        7       255
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 13
+
+
+ 406:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       1          16     14        7       255
+ 407:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       2          32     28        7       255
+ 408:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       3          65     25        3       255
+ 409:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       4         131     19        1       255
+ 410:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       5         263      7        0       255
+ 411:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *
+ 412:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * 6-bit to 8-bit: 255 = ( 63 * multiplier + adder ) >> divisor
+ 413:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      * divisor  multiplier  adder  min (0)  max (63)
+ 414:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       0           4      3        3       255
+ 415:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       1           8      6        3       255
+ 416:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       2          16     12        3       255
+ 417:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       3          32     24        3       255
+ 418:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       4          64     48        3       255
+ 419:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       5         129     33        1       255
+ 420:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      *       6         259      3        0       255
+ 421:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****      */
+ 422:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 423:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color32_t ret;
+ 424:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R32(ret, (LV_COLOR_GET_R(color) * 263 + 7) >> 5);
+ 425:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G32(ret, (LV_COLOR_GET_G(color) * 259 + 3) >> 6);
+ 426:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B32(ret, (LV_COLOR_GET_B(color) * 263 + 7) >> 5);
+ 427:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_A32(ret, 0xFF);
+ 428:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret.full;
+ 429:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 430:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return color.full;
+ 431:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 432:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 433:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 434:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** //! @cond Doxygen_Suppress
+ 435:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 436:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+ 437:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Mix two colors with a given ratio.
+ 438:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param c1 the first color to mix (usually the foreground)
+ 439:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param c2 the second color to mix (usually the background)
+ 440:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param mix The ratio of the colors. 0: full `c2`, 255: full `c1`, 127: half `c1` and half`c2`
+ 441:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @return the mixed color
+ 442:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+ 443:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline lv_color_t lv_color_mix(lv_color_t c1, lv_color_t c2, uint8_t m
+ 444:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 445:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color_t ret;
+ 446:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 447:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH == 16 && LV_COLOR_16_SWAP == 0
+ 448:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Source: https://stackoverflow.com/a/50012418/1999969*/
+ 449:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     mix = (mix + 4) >> 3;
+ 450:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint32_t bg = (uint32_t)((uint32_t)c2.full | ((uint32_t)c2.full << 16)) &
+ 451:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****                   0x7E0F81F; /*0b00000111111000001111100000011111*/
+ 452:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint32_t fg = (uint32_t)((uint32_t)c1.full | ((uint32_t)c1.full << 16)) & 0x7E0F81F;
+ 453:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint32_t result = ((((fg - bg) * mix) >> 5) + bg) & 0x7E0F81F;
+ 454:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     ret.full = (uint16_t)((result >> 16) | result);
+ 455:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #elif LV_COLOR_DEPTH != 1
+ 456:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*LV_COLOR_DEPTH == 8, 16 or 32*/
+ 457:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R(ret, LV_UDIV255((uint16_t)LV_COLOR_GET_R(c1) * mix + LV_COLOR_GET_R(c2) *
+ 458:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****                                    (255 - mix) + LV_COLOR_MIX_ROUND_OFS));
+ 459:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G(ret, LV_UDIV255((uint16_t)LV_COLOR_GET_G(c1) * mix + LV_COLOR_GET_G(c2) *
+ 460:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****                                    (255 - mix) + LV_COLOR_MIX_ROUND_OFS));
+ 461:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B(ret, LV_UDIV255((uint16_t)LV_COLOR_GET_B(c1) * mix + LV_COLOR_GET_B(c2) *
+ 462:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****                                    (255 - mix) + LV_COLOR_MIX_ROUND_OFS));
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 14
+
+
+ 463:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_A(ret, 0xFF);
+ 464:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 465:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*LV_COLOR_DEPTH == 1*/
+ 466:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     ret.full = mix > LV_OPA_50 ? c1.full : c2.full;
+ 467:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 468:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 469:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret;
+ 470:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 471:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 472:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline void lv_color_premult(lv_color_t c, uint8_t mix, uint16_t * out
+ 473:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 474:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH != 1
+ 475:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     out[0] = (uint16_t)LV_COLOR_GET_R(c) * mix;
+ 476:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     out[1] = (uint16_t)LV_COLOR_GET_G(c) * mix;
+ 477:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     out[2] = (uint16_t)LV_COLOR_GET_B(c) * mix;
+ 478:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 479:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     (void) mix;
+ 480:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Pre-multiplication can't be used with 1 bpp*/
+ 481:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     out[0] = LV_COLOR_GET_R(c);
+ 482:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     out[1] = LV_COLOR_GET_G(c);
+ 483:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     out[2] = LV_COLOR_GET_B(c);
+ 484:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 485:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 486:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 487:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 488:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+ 489:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Mix two colors with a given ratio. It runs faster then `lv_color_mix` but requires some pre comp
+ 490:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param premult_c1 The first color. Should be preprocessed with `lv_color_premult(c1)`
+ 491:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param c2 The second color. As it is no pre computation required on it
+ 492:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param mix The ratio of the colors. 0: full `c1`, 255: full `c2`, 127: half `c1` and half `c2`.
+ 493:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  *            Should be modified like mix = `255 - mix`
+ 494:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @return the mixed color
+ 495:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @note 255 won't give clearly `c1`.
+ 496:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+ 497:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline lv_color_t lv_color_mix_premult(uint16_t * premult_c1, lv_color
+ 498:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 499:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color_t ret;
+ 500:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #if LV_COLOR_DEPTH != 1
+ 501:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*LV_COLOR_DEPTH == 8 or 32*/
+ 502:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R(ret, LV_UDIV255(premult_c1[0] + LV_COLOR_GET_R(c2) * mix + LV_COLOR_MIX_ROUND_OF
+ 503:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G(ret, LV_UDIV255(premult_c1[1] + LV_COLOR_GET_G(c2) * mix + LV_COLOR_MIX_ROUND_OF
+ 504:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B(ret, LV_UDIV255(premult_c1[2] + LV_COLOR_GET_B(c2) * mix + LV_COLOR_MIX_ROUND_OF
+ 505:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_A(ret, 0xFF);
+ 506:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #else
+ 507:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*LV_COLOR_DEPTH == 1*/
+ 508:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Restore color1*/
+ 509:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color_t c1;
+ 510:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_R(c1, premult_c1[0]);
+ 511:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_G(c1, premult_c1[1]);
+ 512:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     LV_COLOR_SET_B(c1, premult_c1[2]);
+ 513:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     ret.full = mix > LV_OPA_50 ? c2.full : c1.full;
+ 514:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** #endif
+ 515:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 516:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return ret;
+ 517:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 518:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 519:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 15
+
+
+ 520:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Mix two colors. Both color can have alpha value.
+ 521:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param bg_color background color
+ 522:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param bg_opa alpha of the background color
+ 523:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param fg_color foreground color
+ 524:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param fg_opa alpha of the foreground color
+ 525:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param res_color the result color
+ 526:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param res_opa the result opacity
+ 527:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+ 528:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline void lv_color_mix_with_alpha(lv_color_t bg_color, lv_opa_t bg_o
+ 529:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****                                                                  lv_color_t fg_color, lv_opa_t fg_o
+ 530:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****                                                                  lv_color_t * res_color, lv_opa_t *
+ 531:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 532:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Pick the foreground if it's fully opaque or the Background is fully transparent*/
+ 533:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     if(fg_opa >= LV_OPA_MAX || bg_opa <= LV_OPA_MIN) {
+ 534:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         res_color->full = fg_color.full;
+ 535:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         *res_opa = fg_opa;
+ 536:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 537:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Transparent foreground: use the Background*/
+ 538:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else if(fg_opa <= LV_OPA_MIN) {
+ 539:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         res_color->full = bg_color.full;
+ 540:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         *res_opa = bg_opa;
+ 541:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 542:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Opaque background: use simple mix*/
+ 543:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else if(bg_opa >= LV_OPA_MAX) {
+ 544:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         *res_color = lv_color_mix(fg_color, bg_color, fg_opa);
+ 545:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         *res_opa = LV_OPA_COVER;
+ 546:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 547:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     /*Both colors have alpha. Expensive calculation need to be applied*/
+ 548:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     else {
+ 549:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         /*Save the parameters and the result. If they will be asked again don't compute again*/
+ 550:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         static lv_opa_t fg_opa_save     = 0;
+ 551:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         static lv_opa_t bg_opa_save     = 0;
+ 552:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         static lv_color_t fg_color_save = _LV_COLOR_ZERO_INITIALIZER;
+ 553:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         static lv_color_t bg_color_save = _LV_COLOR_ZERO_INITIALIZER;
+ 554:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         static lv_color_t res_color_saved = _LV_COLOR_ZERO_INITIALIZER;
+ 555:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         static lv_opa_t res_opa_saved = 0;
+ 556:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 557:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         if(fg_opa != fg_opa_save || bg_opa != bg_opa_save || fg_color.full != fg_color_save.full ||
+ 558:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****            bg_color.full != bg_color_save.full) {
+ 559:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             fg_opa_save        = fg_opa;
+ 560:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             bg_opa_save        = bg_opa;
+ 561:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             fg_color_save.full = fg_color.full;
+ 562:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             bg_color_save.full = bg_color.full;
+ 563:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             /*Info:
+ 564:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****              * https://en.wikipedia.org/wiki/Alpha_compositing#Analytical_derivation_of_the_over_op
+ 565:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             res_opa_saved = 255 - ((uint16_t)((uint16_t)(255 - fg_opa) * (255 - bg_opa)) >> 8);
+ 566:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             LV_ASSERT(res_opa_saved != 0);
+ 567:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             lv_opa_t ratio = (uint16_t)((uint16_t)fg_opa * 255) / res_opa_saved;
+ 568:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****             res_color_saved = lv_color_mix(fg_color, bg_color, ratio);
+ 569:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 570:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         }
+ 571:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 572:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         res_color->full = res_color_saved.full;
+ 573:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****         *res_opa = res_opa_saved;
+ 574:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     }
+ 575:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 576:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 16
+
+
+ 577:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** //! @endcond
+ 578:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 579:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** /**
+ 580:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * Get the brightness of a color
+ 581:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @param color a color
+ 582:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  * @return the brightness [0..255]
+ 583:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****  */
+ 584:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** static inline uint8_t lv_color_brightness(lv_color_t color)
+ 585:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 586:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     lv_color32_t c32;
+ 587:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     c32.full        = lv_color_to32(color);
+ 588:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     uint16_t bright = (uint16_t)(3u * LV_COLOR_GET_R32(c32) + LV_COLOR_GET_B32(c32) + 4u * LV_COLOR
+ 589:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return (uint8_t)(bright >> 3);
+ 590:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** }
+ 591:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** 
+ 592:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** static inline lv_color_t lv_color_make(uint8_t r, uint8_t g, uint8_t b)
+  61              		.loc 2 592 26 is_stmt 1 view .LVU11
+  62              	.LBB5:
+ 593:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h **** {
+ 594:D:/update_2024EL/changeform/743zit6/lvgl/src/misc\lv_color.h ****     return _LV_COLOR_MAKE_TYPE_HELPER LV_COLOR_MAKE(r, g, b);
+  63              		.loc 2 594 5 view .LVU12
+  64              		.loc 2 594 39 is_stmt 0 view .LVU13
+  65 0018 ED08     		lsrs	r5, r5, #3
+  66 001a A408     		lsrs	r4, r4, #2
+  67 001c 4FEADC0C 		lsr	ip, ip, #3
+  68              		.loc 2 594 12 view .LVU14
+  69 0020 65F30402 		bfi	r2, r5, #0, #5
+  70 0024 64F34A12 		bfi	r2, r4, #5, #6
+  71 0028 6CF3CF22 		bfi	r2, ip, #11, #5
+  72              	.LVL3:
+  73              		.loc 2 594 12 view .LVU15
+  74              	.LBE5:
+  75              	.LBE4:
+ 220:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 3 + 2] = img_argb[i].ch.alpha;
+  76              		.loc 1 220 9 is_stmt 1 view .LVU16
+  77              		.loc 1 220 15 is_stmt 0 view .LVU17
+  78 002c 03EB430C 		add	ip, r3, r3, lsl #1
+  79              		.loc 1 220 12 view .LVU18
+  80 0030 0CF10204 		add	r4, ip, #2
+  81              		.loc 1 220 40 view .LVU19
+  82 0034 9EF80350 		ldrb	r5, [lr, #3]	@ zero_extendqisi2
+  83              		.loc 1 220 24 view .LVU20
+  84 0038 0555     		strb	r5, [r0, r4]
+ 221:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 3 + 1] = c.full >> 8;
+  85              		.loc 1 221 9 is_stmt 1 view .LVU21
+  86              		.loc 1 221 12 is_stmt 0 view .LVU22
+  87 003a 0CF10104 		add	r4, ip, #1
+  88              		.loc 1 221 24 view .LVU23
+  89 003e C2F30725 		ubfx	r5, r2, #8, #8
+  90 0042 0555     		strb	r5, [r0, r4]
+ 222:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 3 + 0] = c.full & 0xFF;
+  91              		.loc 1 222 9 is_stmt 1 view .LVU24
+  92              		.loc 1 222 24 is_stmt 0 view .LVU25
+  93 0044 00F80C20 		strb	r2, [r0, ip]
+ 218:lvgl/src/extra/libs/png/lv_png.c ****         c = lv_color_make(img_argb[i].ch.blue, img_argb[i].ch.green, img_argb[i].ch.red);
+  94              		.loc 1 218 29 is_stmt 1 discriminator 3 view .LVU26
+  95 0048 0133     		adds	r3, r3, #1
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 17
+
+
+  96              	.LVL4:
+ 218:lvgl/src/extra/libs/png/lv_png.c ****         c = lv_color_make(img_argb[i].ch.blue, img_argb[i].ch.green, img_argb[i].ch.red);
+  97              		.loc 1 218 18 discriminator 1 view .LVU27
+  98 004a 8B42     		cmp	r3, r1
+  99 004c DCD3     		bcc	.L3
+ 223:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 224:lvgl/src/extra/libs/png/lv_png.c **** #elif LV_COLOR_DEPTH == 8
+ 225:lvgl/src/extra/libs/png/lv_png.c ****     lv_color32_t * img_argb = (lv_color32_t *)img;
+ 226:lvgl/src/extra/libs/png/lv_png.c ****     lv_color_t c;
+ 227:lvgl/src/extra/libs/png/lv_png.c ****     uint32_t i;
+ 228:lvgl/src/extra/libs/png/lv_png.c ****     for(i = 0; i < px_cnt; i++) {
+ 229:lvgl/src/extra/libs/png/lv_png.c ****         c = lv_color_make(img_argb[i].ch.red, img_argb[i].ch.green, img_argb[i].ch.blue);
+ 230:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 2 + 1] = img_argb[i].ch.alpha;
+ 231:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 2 + 0] = c.full;
+ 232:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 233:lvgl/src/extra/libs/png/lv_png.c **** #elif LV_COLOR_DEPTH == 1
+ 234:lvgl/src/extra/libs/png/lv_png.c ****     lv_color32_t * img_argb = (lv_color32_t *)img;
+ 235:lvgl/src/extra/libs/png/lv_png.c ****     uint8_t b;
+ 236:lvgl/src/extra/libs/png/lv_png.c ****     uint32_t i;
+ 237:lvgl/src/extra/libs/png/lv_png.c ****     for(i = 0; i < px_cnt; i++) {
+ 238:lvgl/src/extra/libs/png/lv_png.c ****         b = img_argb[i].ch.red | img_argb[i].ch.green | img_argb[i].ch.blue;
+ 239:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 2 + 1] = img_argb[i].ch.alpha;
+ 240:lvgl/src/extra/libs/png/lv_png.c ****         img[i * 2 + 0] = b > 128 ? 1 : 0;
+ 241:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 242:lvgl/src/extra/libs/png/lv_png.c **** #endif
+ 243:lvgl/src/extra/libs/png/lv_png.c **** }
+ 100              		.loc 1 243 1 is_stmt 0 view .LVU28
+ 101 004e 30BD     		pop	{r4, r5, pc}
+ 102              	.L7:
+ 103              	.LCFI1:
+ 104              		.cfi_def_cfa_offset 0
+ 105              		.cfi_restore 4
+ 106              		.cfi_restore 5
+ 107              		.cfi_restore 14
+ 108              		.loc 1 243 1 view .LVU29
+ 109 0050 7047     		bx	lr
+ 110              		.cfi_endproc
+ 111              	.LFE200:
+ 113              		.section	.text.decoder_close,"ax",%progbits
+ 114              		.align	1
+ 115              		.syntax unified
+ 116              		.thumb
+ 117              		.thumb_func
+ 119              	decoder_close:
+ 120              	.LVL5:
+ 121              	.LFB199:
+ 189:lvgl/src/extra/libs/png/lv_png.c ****     LV_UNUSED(decoder); /*Unused*/
+ 122              		.loc 1 189 1 is_stmt 1 view -0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 190:lvgl/src/extra/libs/png/lv_png.c ****     if(dsc->img_data) {
+ 126              		.loc 1 190 5 view .LVU31
+ 191:lvgl/src/extra/libs/png/lv_png.c ****         lv_mem_free((uint8_t *)dsc->img_data);
+ 127              		.loc 1 191 5 view .LVU32
+ 191:lvgl/src/extra/libs/png/lv_png.c ****         lv_mem_free((uint8_t *)dsc->img_data);
+ 128              		.loc 1 191 11 is_stmt 0 view .LVU33
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 18
+
+
+ 129 0000 8869     		ldr	r0, [r1, #24]
+ 130              	.LVL6:
+ 191:lvgl/src/extra/libs/png/lv_png.c ****         lv_mem_free((uint8_t *)dsc->img_data);
+ 131              		.loc 1 191 7 view .LVU34
+ 132 0002 30B1     		cbz	r0, .L11
+ 189:lvgl/src/extra/libs/png/lv_png.c ****     LV_UNUSED(decoder); /*Unused*/
+ 133              		.loc 1 189 1 view .LVU35
+ 134 0004 10B5     		push	{r4, lr}
+ 135              	.LCFI2:
+ 136              		.cfi_def_cfa_offset 8
+ 137              		.cfi_offset 4, -8
+ 138              		.cfi_offset 14, -4
+ 139 0006 0C46     		mov	r4, r1
+ 192:lvgl/src/extra/libs/png/lv_png.c ****         dsc->img_data = NULL;
+ 140              		.loc 1 192 9 is_stmt 1 view .LVU36
+ 141 0008 FFF7FEFF 		bl	lv_mem_free
+ 142              	.LVL7:
+ 193:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 143              		.loc 1 193 9 view .LVU37
+ 193:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 144              		.loc 1 193 23 is_stmt 0 view .LVU38
+ 145 000c 0023     		movs	r3, #0
+ 146 000e A361     		str	r3, [r4, #24]
+ 195:lvgl/src/extra/libs/png/lv_png.c **** 
+ 147              		.loc 1 195 1 view .LVU39
+ 148 0010 10BD     		pop	{r4, pc}
+ 149              	.LVL8:
+ 150              	.L11:
+ 151              	.LCFI3:
+ 152              		.cfi_def_cfa_offset 0
+ 153              		.cfi_restore 4
+ 154              		.cfi_restore 14
+ 195:lvgl/src/extra/libs/png/lv_png.c **** 
+ 155              		.loc 1 195 1 view .LVU40
+ 156 0012 7047     		bx	lr
+ 157              		.cfi_endproc
+ 158              	.LFE199:
+ 160              		.section	.rodata.decoder_open.str1.4,"aMS",%progbits,1
+ 161              		.align	2
+ 162              	.LC0:
+ 163 0000 706E6700 		.ascii	"png\000"
+ 164              		.section	.text.decoder_open,"ax",%progbits
+ 165              		.align	1
+ 166              		.syntax unified
+ 167              		.thumb
+ 168              		.thumb_func
+ 170              	decoder_open:
+ 171              	.LVL9:
+ 172              	.LFB198:
+ 121:lvgl/src/extra/libs/png/lv_png.c **** 
+ 173              		.loc 1 121 1 is_stmt 1 view -0
+ 174              		.cfi_startproc
+ 175              		@ args = 0, pretend = 0, frame = 24
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121:lvgl/src/extra/libs/png/lv_png.c **** 
+ 177              		.loc 1 121 1 is_stmt 0 view .LVU42
+ 178 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 19
+
+
+ 179              	.LCFI4:
+ 180              		.cfi_def_cfa_offset 16
+ 181              		.cfi_offset 4, -16
+ 182              		.cfi_offset 5, -12
+ 183              		.cfi_offset 6, -8
+ 184              		.cfi_offset 14, -4
+ 185 0002 88B0     		sub	sp, sp, #32
+ 186              	.LCFI5:
+ 187              		.cfi_def_cfa_offset 48
+ 188 0004 0C46     		mov	r4, r1
+ 123:lvgl/src/extra/libs/png/lv_png.c ****     uint32_t error;                 /*For the return values of PNG decoder functions*/
+ 189              		.loc 1 123 5 is_stmt 1 view .LVU43
+ 124:lvgl/src/extra/libs/png/lv_png.c **** 
+ 190              		.loc 1 124 5 view .LVU44
+ 126:lvgl/src/extra/libs/png/lv_png.c **** 
+ 191              		.loc 1 126 5 view .LVU45
+ 126:lvgl/src/extra/libs/png/lv_png.c **** 
+ 192              		.loc 1 126 15 is_stmt 0 view .LVU46
+ 193 0006 0023     		movs	r3, #0
+ 194 0008 0793     		str	r3, [sp, #28]
+ 129:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = dsc->src;
+ 195              		.loc 1 129 5 is_stmt 1 view .LVU47
+ 129:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = dsc->src;
+ 196              		.loc 1 129 11 is_stmt 0 view .LVU48
+ 197 000a 0D7C     		ldrb	r5, [r1, #16]	@ zero_extendqisi2
+ 129:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = dsc->src;
+ 198              		.loc 1 129 7 view .LVU49
+ 199 000c 012D     		cmp	r5, #1
+ 200 000e 05D0     		beq	.L24
+ 163:lvgl/src/extra/libs/png/lv_png.c ****         const lv_img_dsc_t * img_dsc = dsc->src;
+ 201              		.loc 1 163 10 is_stmt 1 view .LVU50
+ 163:lvgl/src/extra/libs/png/lv_png.c ****         const lv_img_dsc_t * img_dsc = dsc->src;
+ 202              		.loc 1 163 12 is_stmt 0 view .LVU51
+ 203 0010 002D     		cmp	r5, #0
+ 204 0012 30D0     		beq	.L25
+ 182:lvgl/src/extra/libs/png/lv_png.c **** }
+ 205              		.loc 1 182 12 view .LVU52
+ 206 0014 0025     		movs	r5, #0
+ 207              	.LVL10:
+ 208              	.L16:
+ 183:lvgl/src/extra/libs/png/lv_png.c **** 
+ 209              		.loc 1 183 1 view .LVU53
+ 210 0016 2846     		mov	r0, r5
+ 211 0018 08B0     		add	sp, sp, #32
+ 212              	.LCFI6:
+ 213              		.cfi_remember_state
+ 214              		.cfi_def_cfa_offset 16
+ 215              		@ sp needed
+ 216 001a 70BD     		pop	{r4, r5, r6, pc}
+ 217              	.LVL11:
+ 218              	.L24:
+ 219              	.LCFI7:
+ 220              		.cfi_restore_state
+ 221              	.LBB6:
+ 130:lvgl/src/extra/libs/png/lv_png.c **** 
+ 222              		.loc 1 130 9 is_stmt 1 view .LVU54
+ 130:lvgl/src/extra/libs/png/lv_png.c **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 20
+
+
+ 223              		.loc 1 130 22 is_stmt 0 view .LVU55
+ 224 001c 4E68     		ldr	r6, [r1, #4]
+ 225              	.LVL12:
+ 132:lvgl/src/extra/libs/png/lv_png.c **** 
+ 226              		.loc 1 132 9 is_stmt 1 view .LVU56
+ 132:lvgl/src/extra/libs/png/lv_png.c **** 
+ 227              		.loc 1 132 24 is_stmt 0 view .LVU57
+ 228 001e 3046     		mov	r0, r6
+ 229              	.LVL13:
+ 132:lvgl/src/extra/libs/png/lv_png.c **** 
+ 230              		.loc 1 132 24 view .LVU58
+ 231 0020 FFF7FEFF 		bl	strlen
+ 232              	.LVL14:
+ 132:lvgl/src/extra/libs/png/lv_png.c **** 
+ 233              		.loc 1 132 23 discriminator 1 view .LVU59
+ 234 0024 0338     		subs	r0, r0, #3
+ 132:lvgl/src/extra/libs/png/lv_png.c **** 
+ 235              		.loc 1 132 13 discriminator 1 view .LVU60
+ 236 0026 1F49     		ldr	r1, .L29
+ 237 0028 3044     		add	r0, r0, r6
+ 238 002a FFF7FEFF 		bl	strcmp
+ 239              	.LVL15:
+ 132:lvgl/src/extra/libs/png/lv_png.c **** 
+ 240              		.loc 1 132 11 discriminator 2 view .LVU61
+ 241 002e 08B1     		cbz	r0, .L26
+ 242              	.LBE6:
+ 182:lvgl/src/extra/libs/png/lv_png.c **** }
+ 243              		.loc 1 182 12 view .LVU62
+ 244 0030 0025     		movs	r5, #0
+ 245 0032 F0E7     		b	.L16
+ 246              	.L26:
+ 247              	.LBB8:
+ 248              	.LBB7:
+ 135:lvgl/src/extra/libs/png/lv_png.c ****             size_t png_data_size;          /*Size of `png_data` in bytes*/
+ 249              		.loc 1 135 13 is_stmt 1 view .LVU63
+ 136:lvgl/src/extra/libs/png/lv_png.c **** 
+ 250              		.loc 1 136 13 view .LVU64
+ 138:lvgl/src/extra/libs/png/lv_png.c ****             if(error) {
+ 251              		.loc 1 138 13 view .LVU65
+ 138:lvgl/src/extra/libs/png/lv_png.c ****             if(error) {
+ 252              		.loc 1 138 21 is_stmt 0 view .LVU66
+ 253 0034 3246     		mov	r2, r6
+ 254 0036 04A9     		add	r1, sp, #16
+ 255 0038 03A8     		add	r0, sp, #12
+ 256 003a FFF7FEFF 		bl	lodepng_load_file
+ 257              	.LVL16:
+ 139:lvgl/src/extra/libs/png/lv_png.c ****                 LV_LOG_WARN("error %u: %s\n", error, lodepng_error_text(error));
+ 258              		.loc 1 139 13 is_stmt 1 view .LVU67
+ 139:lvgl/src/extra/libs/png/lv_png.c ****                 LV_LOG_WARN("error %u: %s\n", error, lodepng_error_text(error));
+ 259              		.loc 1 139 15 is_stmt 0 view .LVU68
+ 260 003e 08B1     		cbz	r0, .L27
+ 141:lvgl/src/extra/libs/png/lv_png.c ****             }
+ 261              		.loc 1 141 24 view .LVU69
+ 262 0040 0025     		movs	r5, #0
+ 263 0042 E8E7     		b	.L16
+ 264              	.L27:
+ 145:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t png_height;            /*Will be the width of the decoded image*/
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 21
+
+
+ 265              		.loc 1 145 13 is_stmt 1 view .LVU70
+ 146:lvgl/src/extra/libs/png/lv_png.c **** 
+ 266              		.loc 1 146 13 view .LVU71
+ 149:lvgl/src/extra/libs/png/lv_png.c ****             lv_mem_free(png_data); /*Free the loaded file*/
+ 267              		.loc 1 149 13 view .LVU72
+ 149:lvgl/src/extra/libs/png/lv_png.c ****             lv_mem_free(png_data); /*Free the loaded file*/
+ 268              		.loc 1 149 21 is_stmt 0 view .LVU73
+ 269 0044 049B     		ldr	r3, [sp, #16]
+ 270 0046 0093     		str	r3, [sp]
+ 271 0048 039B     		ldr	r3, [sp, #12]
+ 272 004a 06AA     		add	r2, sp, #24
+ 273 004c 05A9     		add	r1, sp, #20
+ 274 004e 07A8     		add	r0, sp, #28
+ 275              	.LVL17:
+ 149:lvgl/src/extra/libs/png/lv_png.c ****             lv_mem_free(png_data); /*Free the loaded file*/
+ 276              		.loc 1 149 21 view .LVU74
+ 277 0050 FFF7FEFF 		bl	lodepng_decode32
+ 278              	.LVL18:
+ 279 0054 0646     		mov	r6, r0
+ 280              	.LVL19:
+ 150:lvgl/src/extra/libs/png/lv_png.c ****             if(error) {
+ 281              		.loc 1 150 13 is_stmt 1 view .LVU75
+ 282 0056 0398     		ldr	r0, [sp, #12]
+ 283              	.LVL20:
+ 150:lvgl/src/extra/libs/png/lv_png.c ****             if(error) {
+ 284              		.loc 1 150 13 is_stmt 0 view .LVU76
+ 285 0058 FFF7FEFF 		bl	lv_mem_free
+ 286              	.LVL21:
+ 151:lvgl/src/extra/libs/png/lv_png.c ****                 LV_LOG_WARN("error %u: %s\n", error, lodepng_error_text(error));
+ 287              		.loc 1 151 13 is_stmt 1 view .LVU77
+ 151:lvgl/src/extra/libs/png/lv_png.c ****                 LV_LOG_WARN("error %u: %s\n", error, lodepng_error_text(error));
+ 288              		.loc 1 151 15 is_stmt 0 view .LVU78
+ 289 005c 0EB1     		cbz	r6, .L28
+ 153:lvgl/src/extra/libs/png/lv_png.c ****             }
+ 290              		.loc 1 153 24 view .LVU79
+ 291 005e 0025     		movs	r5, #0
+ 292 0060 D9E7     		b	.L16
+ 293              	.L28:
+ 157:lvgl/src/extra/libs/png/lv_png.c ****             dsc->img_data = img_data;
+ 294              		.loc 1 157 13 is_stmt 1 view .LVU80
+ 295 0062 059B     		ldr	r3, [sp, #20]
+ 296 0064 0699     		ldr	r1, [sp, #24]
+ 297 0066 03FB01F1 		mul	r1, r3, r1
+ 298 006a 0798     		ldr	r0, [sp, #28]
+ 299 006c FFF7FEFF 		bl	convert_color_depth
+ 300              	.LVL22:
+ 158:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_OK;     /*The image is fully decoded. Return with its pointer*/
+ 301              		.loc 1 158 13 view .LVU81
+ 158:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_OK;     /*The image is fully decoded. Return with its pointer*/
+ 302              		.loc 1 158 27 is_stmt 0 view .LVU82
+ 303 0070 079B     		ldr	r3, [sp, #28]
+ 304 0072 A361     		str	r3, [r4, #24]
+ 159:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 305              		.loc 1 159 13 is_stmt 1 view .LVU83
+ 159:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 306              		.loc 1 159 20 is_stmt 0 view .LVU84
+ 307 0074 CFE7     		b	.L16
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 22
+
+
+ 308              	.LVL23:
+ 309              	.L25:
+ 159:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 310              		.loc 1 159 20 view .LVU85
+ 311              	.LBE7:
+ 312              	.LBE8:
+ 313              	.LBB9:
+ 164:lvgl/src/extra/libs/png/lv_png.c ****         uint32_t png_width;             /*No used, just required by he decoder*/
+ 314              		.loc 1 164 9 is_stmt 1 view .LVU86
+ 164:lvgl/src/extra/libs/png/lv_png.c ****         uint32_t png_width;             /*No used, just required by he decoder*/
+ 315              		.loc 1 164 30 is_stmt 0 view .LVU87
+ 316 0076 4A68     		ldr	r2, [r1, #4]
+ 317              	.LVL24:
+ 165:lvgl/src/extra/libs/png/lv_png.c ****         uint32_t png_height;            /*No used, just required by he decoder*/
+ 318              		.loc 1 165 9 is_stmt 1 view .LVU88
+ 166:lvgl/src/extra/libs/png/lv_png.c **** 
+ 319              		.loc 1 166 9 view .LVU89
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 320              		.loc 1 169 9 view .LVU90
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 321              		.loc 1 169 77 is_stmt 0 view .LVU91
+ 322 0078 9368     		ldr	r3, [r2, #8]
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 323              		.loc 1 169 92 view .LVU92
+ 324 007a 5268     		ldr	r2, [r2, #4]
+ 325              	.LVL25:
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 326              		.loc 1 169 17 view .LVU93
+ 327 007c 0092     		str	r2, [sp]
+ 328              	.LVL26:
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 329              		.loc 1 169 17 view .LVU94
+ 330 007e 06AA     		add	r2, sp, #24
+ 331 0080 05A9     		add	r1, sp, #20
+ 332              	.LVL27:
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 333              		.loc 1 169 17 view .LVU95
+ 334 0082 07A8     		add	r0, sp, #28
+ 335              	.LVL28:
+ 169:lvgl/src/extra/libs/png/lv_png.c **** 
+ 336              		.loc 1 169 17 view .LVU96
+ 337 0084 FFF7FEFF 		bl	lodepng_decode32
+ 338              	.LVL29:
+ 171:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_INV;
+ 339              		.loc 1 171 9 is_stmt 1 view .LVU97
+ 171:lvgl/src/extra/libs/png/lv_png.c ****             return LV_RES_INV;
+ 340              		.loc 1 171 11 is_stmt 0 view .LVU98
+ 341 0088 0028     		cmp	r0, #0
+ 342 008a C4D1     		bne	.L16
+ 176:lvgl/src/extra/libs/png/lv_png.c **** 
+ 343              		.loc 1 176 9 is_stmt 1 view .LVU99
+ 344 008c 059B     		ldr	r3, [sp, #20]
+ 345 008e 0699     		ldr	r1, [sp, #24]
+ 346 0090 03FB01F1 		mul	r1, r3, r1
+ 347 0094 0798     		ldr	r0, [sp, #28]
+ 348              	.LVL30:
+ 176:lvgl/src/extra/libs/png/lv_png.c **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 23
+
+
+ 349              		.loc 1 176 9 is_stmt 0 view .LVU100
+ 350 0096 FFF7FEFF 		bl	convert_color_depth
+ 351              	.LVL31:
+ 178:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;     /*Return with its pointer*/
+ 352              		.loc 1 178 9 is_stmt 1 view .LVU101
+ 178:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;     /*Return with its pointer*/
+ 353              		.loc 1 178 23 is_stmt 0 view .LVU102
+ 354 009a 079B     		ldr	r3, [sp, #28]
+ 355 009c A361     		str	r3, [r4, #24]
+ 179:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 356              		.loc 1 179 9 is_stmt 1 view .LVU103
+ 179:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 357              		.loc 1 179 16 is_stmt 0 view .LVU104
+ 358 009e 0125     		movs	r5, #1
+ 359 00a0 B9E7     		b	.L16
+ 360              	.L30:
+ 361 00a2 00BF     		.align	2
+ 362              	.L29:
+ 363 00a4 00000000 		.word	.LC0
+ 364              	.LBE9:
+ 365              		.cfi_endproc
+ 366              	.LFE198:
+ 368              		.section	.rodata.decoder_info.str1.4,"aMS",%progbits,1
+ 369              		.align	2
+ 370              	.LC1:
+ 371 0000 89504E47 		.ascii	"\211PNG\015\012\032\012\000"
+ 371      0D0A1A0A 
+ 371      00
+ 372              		.section	.text.decoder_info,"ax",%progbits
+ 373              		.align	1
+ 374              		.syntax unified
+ 375              		.thumb
+ 376              		.thumb_func
+ 378              	decoder_info:
+ 379              	.LVL32:
+ 380              	.LFB197:
+  66:lvgl/src/extra/libs/png/lv_png.c ****     (void) decoder; /*Unused*/
+ 381              		.loc 1 66 1 is_stmt 1 view -0
+ 382              		.cfi_startproc
+ 383              		@ args = 0, pretend = 0, frame = 24
+ 384              		@ frame_needed = 0, uses_anonymous_args = 0
+  66:lvgl/src/extra/libs/png/lv_png.c ****     (void) decoder; /*Unused*/
+ 385              		.loc 1 66 1 is_stmt 0 view .LVU106
+ 386 0000 70B5     		push	{r4, r5, r6, lr}
+ 387              	.LCFI8:
+ 388              		.cfi_def_cfa_offset 16
+ 389              		.cfi_offset 4, -16
+ 390              		.cfi_offset 5, -12
+ 391              		.cfi_offset 6, -8
+ 392              		.cfi_offset 14, -4
+ 393 0002 86B0     		sub	sp, sp, #24
+ 394              	.LCFI9:
+ 395              		.cfi_def_cfa_offset 40
+ 396 0004 0D46     		mov	r5, r1
+ 397 0006 1646     		mov	r6, r2
+  67:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_src_t src_type = lv_img_src_get_type(src);          /*Get the source type*/
+ 398              		.loc 1 67 5 is_stmt 1 view .LVU107
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 24
+
+
+  68:lvgl/src/extra/libs/png/lv_png.c **** 
+ 399              		.loc 1 68 5 view .LVU108
+  68:lvgl/src/extra/libs/png/lv_png.c **** 
+ 400              		.loc 1 68 29 is_stmt 0 view .LVU109
+ 401 0008 0846     		mov	r0, r1
+ 402              	.LVL33:
+  68:lvgl/src/extra/libs/png/lv_png.c **** 
+ 403              		.loc 1 68 29 view .LVU110
+ 404 000a FFF7FEFF 		bl	lv_img_src_get_type
+ 405              	.LVL34:
+  68:lvgl/src/extra/libs/png/lv_png.c **** 
+ 406              		.loc 1 68 29 view .LVU111
+ 407 000e 0446     		mov	r4, r0
+ 408              	.LVL35:
+  71:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = src;
+ 409              		.loc 1 71 5 is_stmt 1 view .LVU112
+  71:lvgl/src/extra/libs/png/lv_png.c ****         const char * fn = src;
+ 410              		.loc 1 71 7 is_stmt 0 view .LVU113
+ 411 0010 0128     		cmp	r0, #1
+ 412 0012 27D0     		beq	.L41
+  99:lvgl/src/extra/libs/png/lv_png.c ****         const lv_img_dsc_t * img_dsc = src;
+ 413              		.loc 1 99 10 is_stmt 1 view .LVU114
+  99:lvgl/src/extra/libs/png/lv_png.c ****         const lv_img_dsc_t * img_dsc = src;
+ 414              		.loc 1 99 12 is_stmt 0 view .LVU115
+ 415 0014 0028     		cmp	r0, #0
+ 416 0016 6AD1     		bne	.L39
+ 417              	.LBB10:
+ 100:lvgl/src/extra/libs/png/lv_png.c ****         const uint8_t magic[] = {0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
+ 418              		.loc 1 100 9 is_stmt 1 view .LVU116
+ 419              	.LVL36:
+ 101:lvgl/src/extra/libs/png/lv_png.c ****         if(memcmp(magic, img_dsc->data, sizeof(magic))) return LV_RES_INV;
+ 420              		.loc 1 101 9 view .LVU117
+ 101:lvgl/src/extra/libs/png/lv_png.c ****         if(memcmp(magic, img_dsc->data, sizeof(magic))) return LV_RES_INV;
+ 421              		.loc 1 101 23 is_stmt 0 view .LVU118
+ 422 0018 374A     		ldr	r2, .L45
+ 423 001a 03AB     		add	r3, sp, #12
+ 424 001c 92E80300 		ldm	r2, {r0, r1}
+ 425              	.LVL37:
+ 101:lvgl/src/extra/libs/png/lv_png.c ****         if(memcmp(magic, img_dsc->data, sizeof(magic))) return LV_RES_INV;
+ 426              		.loc 1 101 23 view .LVU119
+ 427 0020 83E80300 		stm	r3, {r0, r1}
+ 102:lvgl/src/extra/libs/png/lv_png.c ****         header->always_zero = 0;
+ 428              		.loc 1 102 9 is_stmt 1 view .LVU120
+ 102:lvgl/src/extra/libs/png/lv_png.c ****         header->always_zero = 0;
+ 429              		.loc 1 102 12 is_stmt 0 view .LVU121
+ 430 0024 0822     		movs	r2, #8
+ 431 0026 A968     		ldr	r1, [r5, #8]
+ 432 0028 1846     		mov	r0, r3
+ 433 002a FFF7FEFF 		bl	memcmp
+ 434              	.LVL38:
+ 102:lvgl/src/extra/libs/png/lv_png.c ****         header->always_zero = 0;
+ 435              		.loc 1 102 11 discriminator 1 view .LVU122
+ 436 002e 0028     		cmp	r0, #0
+ 437 0030 5ED1     		bne	.L33
+ 103:lvgl/src/extra/libs/png/lv_png.c ****         header->cf = img_dsc->header.cf;       /*Save the color format*/
+ 438              		.loc 1 103 9 is_stmt 1 view .LVU123
+ 103:lvgl/src/extra/libs/png/lv_png.c ****         header->cf = img_dsc->header.cf;       /*Save the color format*/
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 25
+
+
+ 439              		.loc 1 103 29 is_stmt 0 view .LVU124
+ 440 0032 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 441 0034 23F0E003 		bic	r3, r3, #224
+ 442 0038 3370     		strb	r3, [r6]
+ 104:lvgl/src/extra/libs/png/lv_png.c ****         header->w = img_dsc->header.w;         /*Save the color width*/
+ 443              		.loc 1 104 9 is_stmt 1 view .LVU125
+ 104:lvgl/src/extra/libs/png/lv_png.c ****         header->w = img_dsc->header.w;         /*Save the color width*/
+ 444              		.loc 1 104 37 is_stmt 0 view .LVU126
+ 445 003a 2A78     		ldrb	r2, [r5]	@ zero_extendqisi2
+ 104:lvgl/src/extra/libs/png/lv_png.c ****         header->w = img_dsc->header.w;         /*Save the color width*/
+ 446              		.loc 1 104 20 view .LVU127
+ 447 003c DBB2     		uxtb	r3, r3
+ 448 003e 62F30403 		bfi	r3, r2, #0, #5
+ 449 0042 3370     		strb	r3, [r6]
+ 105:lvgl/src/extra/libs/png/lv_png.c ****         header->h = img_dsc->header.h;         /*Save the color height*/
+ 450              		.loc 1 105 9 is_stmt 1 view .LVU128
+ 105:lvgl/src/extra/libs/png/lv_png.c ****         header->h = img_dsc->header.h;         /*Save the color height*/
+ 451              		.loc 1 105 36 is_stmt 0 view .LVU129
+ 452 0044 2B68     		ldr	r3, [r5]
+ 453 0046 C3F38A23 		ubfx	r3, r3, #10, #11
+ 105:lvgl/src/extra/libs/png/lv_png.c ****         header->h = img_dsc->header.h;         /*Save the color height*/
+ 454              		.loc 1 105 19 view .LVU130
+ 455 004a 3268     		ldr	r2, [r6]
+ 456 004c 63F39422 		bfi	r2, r3, #10, #11
+ 457 0050 3260     		str	r2, [r6]
+ 106:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;
+ 458              		.loc 1 106 9 is_stmt 1 view .LVU131
+ 106:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;
+ 459              		.loc 1 106 36 is_stmt 0 view .LVU132
+ 460 0052 6B88     		ldrh	r3, [r5, #2]
+ 461 0054 C3F34A13 		ubfx	r3, r3, #5, #11
+ 106:lvgl/src/extra/libs/png/lv_png.c ****         return LV_RES_OK;
+ 462              		.loc 1 106 19 view .LVU133
+ 463 0058 7288     		ldrh	r2, [r6, #2]
+ 464 005a 63F34F12 		bfi	r2, r3, #5, #11
+ 465 005e 7280     		strh	r2, [r6, #2]	@ movhi
+ 107:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 466              		.loc 1 107 9 is_stmt 1 view .LVU134
+ 107:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 467              		.loc 1 107 16 is_stmt 0 view .LVU135
+ 468 0060 0124     		movs	r4, #1
+ 469 0062 45E0     		b	.L33
+ 470              	.LVL39:
+ 471              	.L41:
+ 107:lvgl/src/extra/libs/png/lv_png.c ****     }
+ 472              		.loc 1 107 16 view .LVU136
+ 473              	.LBE10:
+ 474              	.LBB11:
+  72:lvgl/src/extra/libs/png/lv_png.c ****         if(!strcmp(&fn[strlen(fn) - 3], "png")) {              /*Check the extension*/
+ 475              		.loc 1 72 9 is_stmt 1 view .LVU137
+  73:lvgl/src/extra/libs/png/lv_png.c **** 
+ 476              		.loc 1 73 9 view .LVU138
+  73:lvgl/src/extra/libs/png/lv_png.c **** 
+ 477              		.loc 1 73 24 is_stmt 0 view .LVU139
+ 478 0064 2846     		mov	r0, r5
+ 479              	.LVL40:
+  73:lvgl/src/extra/libs/png/lv_png.c **** 
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 26
+
+
+ 480              		.loc 1 73 24 view .LVU140
+ 481 0066 FFF7FEFF 		bl	strlen
+ 482              	.LVL41:
+  73:lvgl/src/extra/libs/png/lv_png.c **** 
+ 483              		.loc 1 73 23 discriminator 1 view .LVU141
+ 484 006a 0338     		subs	r0, r0, #3
+  73:lvgl/src/extra/libs/png/lv_png.c **** 
+ 485              		.loc 1 73 13 discriminator 1 view .LVU142
+ 486 006c 2349     		ldr	r1, .L45+4
+ 487 006e 2844     		add	r0, r0, r5
+ 488 0070 FFF7FEFF 		bl	strcmp
+ 489              	.LVL42:
+  73:lvgl/src/extra/libs/png/lv_png.c **** 
+ 490              		.loc 1 73 11 discriminator 2 view .LVU143
+ 491 0074 08B1     		cbz	r0, .L42
+ 492              	.LBE11:
+ 110:lvgl/src/extra/libs/png/lv_png.c **** }
+ 493              		.loc 1 110 12 view .LVU144
+ 494 0076 0024     		movs	r4, #0
+ 495 0078 3AE0     		b	.L33
+ 496              	.L42:
+ 497              	.LBB13:
+ 498              	.LBB12:
+  79:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_file_t f;
+ 499              		.loc 1 79 13 is_stmt 1 view .LVU145
+  80:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_res_t res = lv_fs_open(&f, fn, LV_FS_MODE_RD);
+ 500              		.loc 1 80 13 view .LVU146
+  81:lvgl/src/extra/libs/png/lv_png.c ****             if(res != LV_FS_RES_OK) return LV_RES_INV;
+ 501              		.loc 1 81 13 view .LVU147
+  81:lvgl/src/extra/libs/png/lv_png.c ****             if(res != LV_FS_RES_OK) return LV_RES_INV;
+ 502              		.loc 1 81 31 is_stmt 0 view .LVU148
+ 503 007a 0222     		movs	r2, #2
+ 504 007c 2946     		mov	r1, r5
+ 505 007e 03A8     		add	r0, sp, #12
+ 506 0080 FFF7FEFF 		bl	lv_fs_open
+ 507              	.LVL43:
+  82:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_seek(&f, 16, LV_FS_SEEK_SET);
+ 508              		.loc 1 82 13 is_stmt 1 view .LVU149
+  82:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_seek(&f, 16, LV_FS_SEEK_SET);
+ 509              		.loc 1 82 15 is_stmt 0 view .LVU150
+ 510 0084 0546     		mov	r5, r0
+ 511              	.LVL44:
+  82:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_seek(&f, 16, LV_FS_SEEK_SET);
+ 512              		.loc 1 82 15 view .LVU151
+ 513 0086 08B1     		cbz	r0, .L43
+  82:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_seek(&f, 16, LV_FS_SEEK_SET);
+ 514              		.loc 1 82 44 discriminator 1 view .LVU152
+ 515 0088 0024     		movs	r4, #0
+ 516 008a 31E0     		b	.L33
+ 517              	.L43:
+  83:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t rn;
+ 518              		.loc 1 83 13 is_stmt 1 view .LVU153
+ 519 008c 0022     		movs	r2, #0
+ 520 008e 1021     		movs	r1, #16
+ 521 0090 03A8     		add	r0, sp, #12
+ 522              	.LVL45:
+  83:lvgl/src/extra/libs/png/lv_png.c ****             uint32_t rn;
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 27
+
+
+ 523              		.loc 1 83 13 is_stmt 0 view .LVU154
+ 524 0092 FFF7FEFF 		bl	lv_fs_seek
+ 525              	.LVL46:
+  84:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_read(&f, &size, 8, &rn);
+ 526              		.loc 1 84 13 is_stmt 1 view .LVU155
+  85:lvgl/src/extra/libs/png/lv_png.c ****             if(rn != 8) return LV_RES_INV;
+ 527              		.loc 1 85 13 view .LVU156
+ 528 0096 6B46     		mov	r3, sp
+ 529 0098 0822     		movs	r2, #8
+ 530 009a 01A9     		add	r1, sp, #4
+ 531 009c 03A8     		add	r0, sp, #12
+ 532 009e FFF7FEFF 		bl	lv_fs_read
+ 533              	.LVL47:
+  86:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_close(&f);
+ 534              		.loc 1 86 13 view .LVU157
+  86:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_close(&f);
+ 535              		.loc 1 86 19 is_stmt 0 view .LVU158
+ 536 00a2 009B     		ldr	r3, [sp]
+  86:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_close(&f);
+ 537              		.loc 1 86 15 view .LVU159
+ 538 00a4 082B     		cmp	r3, #8
+ 539 00a6 01D0     		beq	.L44
+  86:lvgl/src/extra/libs/png/lv_png.c ****             lv_fs_close(&f);
+ 540              		.loc 1 86 32 discriminator 1 view .LVU160
+ 541 00a8 2C46     		mov	r4, r5
+ 542 00aa 21E0     		b	.L33
+ 543              	.L44:
+  87:lvgl/src/extra/libs/png/lv_png.c ****             /*Save the data in the header*/
+ 544              		.loc 1 87 13 is_stmt 1 view .LVU161
+ 545 00ac 03A8     		add	r0, sp, #12
+ 546 00ae FFF7FEFF 		bl	lv_fs_close
+ 547              	.LVL48:
+  89:lvgl/src/extra/libs/png/lv_png.c ****             header->cf = LV_IMG_CF_RAW_ALPHA;
+ 548              		.loc 1 89 13 view .LVU162
+  89:lvgl/src/extra/libs/png/lv_png.c ****             header->cf = LV_IMG_CF_RAW_ALPHA;
+ 549              		.loc 1 89 33 is_stmt 0 view .LVU163
+ 550 00b2 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 551 00b4 23F0E003 		bic	r3, r3, #224
+ 552 00b8 3370     		strb	r3, [r6]
+  90:lvgl/src/extra/libs/png/lv_png.c ****             /*The width and height are stored in Big endian format so convert them to little endian
+ 553              		.loc 1 90 13 is_stmt 1 view .LVU164
+  90:lvgl/src/extra/libs/png/lv_png.c ****             /*The width and height are stored in Big endian format so convert them to little endian
+ 554              		.loc 1 90 24 is_stmt 0 view .LVU165
+ 555 00ba DBB2     		uxtb	r3, r3
+ 556 00bc 0222     		movs	r2, #2
+ 557 00be 62F30403 		bfi	r3, r2, #0, #5
+ 558 00c2 3370     		strb	r3, [r6]
+  92:lvgl/src/extra/libs/png/lv_png.c ****             header->h = (lv_coord_t)((size[1] & 0xff000000) >> 24) + ((size[1] & 0x00ff0000) >> 8);
+ 559              		.loc 1 92 13 is_stmt 1 view .LVU166
+  92:lvgl/src/extra/libs/png/lv_png.c ****             header->h = (lv_coord_t)((size[1] & 0xff000000) >> 24) + ((size[1] & 0x00ff0000) >> 8);
+ 560              		.loc 1 92 43 is_stmt 0 view .LVU167
+ 561 00c4 019A     		ldr	r2, [sp, #4]
+  92:lvgl/src/extra/libs/png/lv_png.c ****             header->h = (lv_coord_t)((size[1] & 0xff000000) >> 24) + ((size[1] & 0x00ff0000) >> 8);
+ 562              		.loc 1 92 94 view .LVU168
+ 563 00c6 130A     		lsrs	r3, r2, #8
+ 564 00c8 03F47F43 		and	r3, r3, #65280
+  92:lvgl/src/extra/libs/png/lv_png.c ****             header->h = (lv_coord_t)((size[1] & 0xff000000) >> 24) + ((size[1] & 0x00ff0000) >> 8);
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 28
+
+
+ 565              		.loc 1 92 68 view .LVU169
+ 566 00cc 03EB1263 		add	r3, r3, r2, lsr #24
+  92:lvgl/src/extra/libs/png/lv_png.c ****             header->h = (lv_coord_t)((size[1] & 0xff000000) >> 24) + ((size[1] & 0x00ff0000) >> 8);
+ 567              		.loc 1 92 23 view .LVU170
+ 568 00d0 3268     		ldr	r2, [r6]
+ 569 00d2 63F39422 		bfi	r2, r3, #10, #11
+ 570 00d6 3260     		str	r2, [r6]
+  93:lvgl/src/extra/libs/png/lv_png.c **** 
+ 571              		.loc 1 93 13 is_stmt 1 view .LVU171
+  93:lvgl/src/extra/libs/png/lv_png.c **** 
+ 572              		.loc 1 93 43 is_stmt 0 view .LVU172
+ 573 00d8 029A     		ldr	r2, [sp, #8]
+  93:lvgl/src/extra/libs/png/lv_png.c **** 
+ 574              		.loc 1 93 94 view .LVU173
+ 575 00da 130A     		lsrs	r3, r2, #8
+ 576 00dc 03F47F43 		and	r3, r3, #65280
+  93:lvgl/src/extra/libs/png/lv_png.c **** 
+ 577              		.loc 1 93 68 view .LVU174
+ 578 00e0 03EB1263 		add	r3, r3, r2, lsr #24
+  93:lvgl/src/extra/libs/png/lv_png.c **** 
+ 579              		.loc 1 93 23 view .LVU175
+ 580 00e4 7288     		ldrh	r2, [r6, #2]
+ 581 00e6 63F34F12 		bfi	r2, r3, #5, #11
+ 582 00ea 7280     		strh	r2, [r6, #2]	@ movhi
+  95:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 583              		.loc 1 95 13 is_stmt 1 view .LVU176
+  95:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 584              		.loc 1 95 20 is_stmt 0 view .LVU177
+ 585 00ec 00E0     		b	.L33
+ 586              	.LVL49:
+ 587              	.L39:
+  95:lvgl/src/extra/libs/png/lv_png.c ****         }
+ 588              		.loc 1 95 20 view .LVU178
+ 589              	.LBE12:
+ 590              	.LBE13:
+ 110:lvgl/src/extra/libs/png/lv_png.c **** }
+ 591              		.loc 1 110 12 view .LVU179
+ 592 00ee 0024     		movs	r4, #0
+ 593              	.LVL50:
+ 594              	.L33:
+ 111:lvgl/src/extra/libs/png/lv_png.c **** 
+ 595              		.loc 1 111 1 view .LVU180
+ 596 00f0 2046     		mov	r0, r4
+ 597 00f2 06B0     		add	sp, sp, #24
+ 598              	.LCFI10:
+ 599              		.cfi_def_cfa_offset 16
+ 600              		@ sp needed
+ 601 00f4 70BD     		pop	{r4, r5, r6, pc}
+ 602              	.LVL51:
+ 603              	.L46:
+ 111:lvgl/src/extra/libs/png/lv_png.c **** 
+ 604              		.loc 1 111 1 view .LVU181
+ 605 00f6 00BF     		.align	2
+ 606              	.L45:
+ 607 00f8 00000000 		.word	.LC1
+ 608 00fc 00000000 		.word	.LC0
+ 609              		.cfi_endproc
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 29
+
+
+ 610              	.LFE197:
+ 612              		.section	.text.lv_png_init,"ax",%progbits
+ 613              		.align	1
+ 614              		.global	lv_png_init
+ 615              		.syntax unified
+ 616              		.thumb
+ 617              		.thumb_func
+ 619              	lv_png_init:
+ 620              	.LFB196:
+  48:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_t * dec = lv_img_decoder_create();
+ 621              		.loc 1 48 1 is_stmt 1 view -0
+ 622              		.cfi_startproc
+ 623              		@ args = 0, pretend = 0, frame = 0
+ 624              		@ frame_needed = 0, uses_anonymous_args = 0
+ 625 0000 10B5     		push	{r4, lr}
+ 626              	.LCFI11:
+ 627              		.cfi_def_cfa_offset 8
+ 628              		.cfi_offset 4, -8
+ 629              		.cfi_offset 14, -4
+  49:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_info_cb(dec, decoder_info);
+ 630              		.loc 1 49 5 view .LVU183
+  49:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_info_cb(dec, decoder_info);
+ 631              		.loc 1 49 30 is_stmt 0 view .LVU184
+ 632 0002 FFF7FEFF 		bl	lv_img_decoder_create
+ 633              	.LVL52:
+ 634 0006 0446     		mov	r4, r0
+ 635              	.LVL53:
+  50:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_open_cb(dec, decoder_open);
+ 636              		.loc 1 50 5 is_stmt 1 view .LVU185
+ 637 0008 0549     		ldr	r1, .L49
+ 638 000a FFF7FEFF 		bl	lv_img_decoder_set_info_cb
+ 639              	.LVL54:
+  51:lvgl/src/extra/libs/png/lv_png.c ****     lv_img_decoder_set_close_cb(dec, decoder_close);
+ 640              		.loc 1 51 5 view .LVU186
+ 641 000e 0549     		ldr	r1, .L49+4
+ 642 0010 2046     		mov	r0, r4
+ 643 0012 FFF7FEFF 		bl	lv_img_decoder_set_open_cb
+ 644              	.LVL55:
+  52:lvgl/src/extra/libs/png/lv_png.c **** }
+ 645              		.loc 1 52 5 view .LVU187
+ 646 0016 0449     		ldr	r1, .L49+8
+ 647 0018 2046     		mov	r0, r4
+ 648 001a FFF7FEFF 		bl	lv_img_decoder_set_close_cb
+ 649              	.LVL56:
+  53:lvgl/src/extra/libs/png/lv_png.c **** 
+ 650              		.loc 1 53 1 is_stmt 0 view .LVU188
+ 651 001e 10BD     		pop	{r4, pc}
+ 652              	.LVL57:
+ 653              	.L50:
+  53:lvgl/src/extra/libs/png/lv_png.c **** 
+ 654              		.loc 1 53 1 view .LVU189
+ 655              		.align	2
+ 656              	.L49:
+ 657 0020 00000000 		.word	decoder_info
+ 658 0024 00000000 		.word	decoder_open
+ 659 0028 00000000 		.word	decoder_close
+ 660              		.cfi_endproc
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 30
+
+
+ 661              	.LFE196:
+ 663              		.text
+ 664              	.Letext0:
+ 665              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 666              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 667              		.file 5 "lvgl/src/extra/libs/png/../../../../src/misc/lv_types.h"
+ 668              		.file 6 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 669              		.file 7 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_area.h"
+ 670              		.file 8 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_img_buf.h"
+ 671              		.file 9 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_fs.h"
+ 672              		.file 10 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_img_decoder.h"
+ 673              		.file 11 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ 674              		.file 12 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_img.h"
+ 675              		.file 13 "lvgl/src/extra/libs/png/lodepng.h"
+ 676              		.file 14 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_mem.h"
+ARM GAS  C:\usertemp\ccH2D95f.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_png.c
+C:\usertemp\ccH2D95f.s:20     .text.convert_color_depth:00000000 $t
+C:\usertemp\ccH2D95f.s:25     .text.convert_color_depth:00000000 convert_color_depth
+C:\usertemp\ccH2D95f.s:114    .text.decoder_close:00000000 $t
+C:\usertemp\ccH2D95f.s:119    .text.decoder_close:00000000 decoder_close
+C:\usertemp\ccH2D95f.s:161    .rodata.decoder_open.str1.4:00000000 $d
+C:\usertemp\ccH2D95f.s:165    .text.decoder_open:00000000 $t
+C:\usertemp\ccH2D95f.s:170    .text.decoder_open:00000000 decoder_open
+C:\usertemp\ccH2D95f.s:363    .text.decoder_open:000000a4 $d
+C:\usertemp\ccH2D95f.s:369    .rodata.decoder_info.str1.4:00000000 $d
+C:\usertemp\ccH2D95f.s:373    .text.decoder_info:00000000 $t
+C:\usertemp\ccH2D95f.s:378    .text.decoder_info:00000000 decoder_info
+C:\usertemp\ccH2D95f.s:607    .text.decoder_info:000000f8 $d
+C:\usertemp\ccH2D95f.s:613    .text.lv_png_init:00000000 $t
+C:\usertemp\ccH2D95f.s:619    .text.lv_png_init:00000000 lv_png_init
+C:\usertemp\ccH2D95f.s:657    .text.lv_png_init:00000020 $d
+
+UNDEFINED SYMBOLS
+lv_mem_free
+strlen
+strcmp
+lodepng_load_file
+lodepng_decode32
+lv_img_src_get_type
+memcmp
+lv_fs_open
+lv_fs_seek
+lv_fs_read
+lv_fs_close
+lv_img_decoder_create
+lv_img_decoder_set_info_cb
+lv_img_decoder_set_open_cb
+lv_img_decoder_set_close_cb

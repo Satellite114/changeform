@@ -1,0 +1,618 @@
+ARM GAS  C:\usertemp\cck4xFip.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_port_indev.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/porting/lv_port_indev.c"
+  19              		.section	.text.encoder_read,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	encoder_read:
+  26              	.LVL0:
+  27              	.LFB531:
+   1:lvgl/porting/lv_port_indev.c **** /**
+   2:lvgl/porting/lv_port_indev.c ****  * @file lv_port_indev_templ.c
+   3:lvgl/porting/lv_port_indev.c ****  *
+   4:lvgl/porting/lv_port_indev.c ****  */
+   5:lvgl/porting/lv_port_indev.c **** 
+   6:lvgl/porting/lv_port_indev.c **** /*Copy this file as "lv_port_indev.c" and set this value to "1" to enable content*/
+   7:lvgl/porting/lv_port_indev.c **** #if 1
+   8:lvgl/porting/lv_port_indev.c **** 
+   9:lvgl/porting/lv_port_indev.c **** /*********************
+  10:lvgl/porting/lv_port_indev.c ****  *      INCLUDES
+  11:lvgl/porting/lv_port_indev.c ****  *********************/
+  12:lvgl/porting/lv_port_indev.c **** #include "lv_port_indev.h"
+  13:lvgl/porting/lv_port_indev.c **** #include "../../lvgl.h"
+  14:lvgl/porting/lv_port_indev.c **** #include "gui_guider.h"
+  15:lvgl/porting/lv_port_indev.c **** 
+  16:lvgl/porting/lv_port_indev.c **** /*********************
+  17:lvgl/porting/lv_port_indev.c ****  *      DEFINES
+  18:lvgl/porting/lv_port_indev.c ****  *********************/
+  19:lvgl/porting/lv_port_indev.c **** uint8_t Direction = 0;
+  20:lvgl/porting/lv_port_indev.c **** int32_t enc1 = 0, enc1_old = 0;
+  21:lvgl/porting/lv_port_indev.c **** 
+  22:lvgl/porting/lv_port_indev.c **** /**********************
+  23:lvgl/porting/lv_port_indev.c ****  *      TYPEDEFS
+  24:lvgl/porting/lv_port_indev.c ****  **********************/
+  25:lvgl/porting/lv_port_indev.c **** extern lv_ui guider_ui;
+  26:lvgl/porting/lv_port_indev.c **** /**********************
+  27:lvgl/porting/lv_port_indev.c ****  *  STATIC PROTOTYPES
+  28:lvgl/porting/lv_port_indev.c ****  **********************/
+  29:lvgl/porting/lv_port_indev.c **** static void encoder_init(void);
+  30:lvgl/porting/lv_port_indev.c **** static void encoder_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data);
+  31:lvgl/porting/lv_port_indev.c **** static void encoder_handler(void);
+ARM GAS  C:\usertemp\cck4xFip.s 			page 2
+
+
+  32:lvgl/porting/lv_port_indev.c **** 
+  33:lvgl/porting/lv_port_indev.c **** static void button_init(void);
+  34:lvgl/porting/lv_port_indev.c **** static void button_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data);
+  35:lvgl/porting/lv_port_indev.c **** static int8_t button_get_pressed_id(void);
+  36:lvgl/porting/lv_port_indev.c **** static bool button_is_pressed(uint8_t id);
+  37:lvgl/porting/lv_port_indev.c **** 
+  38:lvgl/porting/lv_port_indev.c **** /**********************
+  39:lvgl/porting/lv_port_indev.c ****  *  STATIC VARIABLES
+  40:lvgl/porting/lv_port_indev.c ****  **********************/
+  41:lvgl/porting/lv_port_indev.c **** static lv_indev_t *indev_encoder;
+  42:lvgl/porting/lv_port_indev.c **** lv_indev_t *indev_button;
+  43:lvgl/porting/lv_port_indev.c **** 
+  44:lvgl/porting/lv_port_indev.c **** static int32_t encoder_diff;
+  45:lvgl/porting/lv_port_indev.c **** static lv_indev_state_t encoder_state;
+  46:lvgl/porting/lv_port_indev.c **** 
+  47:lvgl/porting/lv_port_indev.c **** /**********************
+  48:lvgl/porting/lv_port_indev.c ****  *      MACROS
+  49:lvgl/porting/lv_port_indev.c ****  **********************/
+  50:lvgl/porting/lv_port_indev.c **** 
+  51:lvgl/porting/lv_port_indev.c **** /**********************
+  52:lvgl/porting/lv_port_indev.c ****  *   GLOBAL FUNCTIONS
+  53:lvgl/porting/lv_port_indev.c ****  **********************/
+  54:lvgl/porting/lv_port_indev.c **** 
+  55:lvgl/porting/lv_port_indev.c **** void lv_port_indev_init(void)
+  56:lvgl/porting/lv_port_indev.c **** {
+  57:lvgl/porting/lv_port_indev.c ****     static lv_indev_drv_t indev_drv;
+  58:lvgl/porting/lv_port_indev.c **** 
+  59:lvgl/porting/lv_port_indev.c ****     encoder_init();
+  60:lvgl/porting/lv_port_indev.c **** 
+  61:lvgl/porting/lv_port_indev.c ****     /*Register a encoder input device*/
+  62:lvgl/porting/lv_port_indev.c ****     lv_indev_drv_init(&indev_drv);
+  63:lvgl/porting/lv_port_indev.c ****     indev_drv.type = LV_INDEV_TYPE_ENCODER;
+  64:lvgl/porting/lv_port_indev.c ****     indev_drv.read_cb = encoder_read;
+  65:lvgl/porting/lv_port_indev.c ****     indev_encoder = lv_indev_drv_register(&indev_drv);
+  66:lvgl/porting/lv_port_indev.c **** 
+  67:lvgl/porting/lv_port_indev.c ****     lv_group_t *g = lv_group_create();
+  68:lvgl/porting/lv_port_indev.c ****     lv_group_set_default(g); // 设置组(group)为默认模式,后面的部件创建时会自动�
+  69:lvgl/porting/lv_port_indev.c ****     g->wrap = 1;
+  70:lvgl/porting/lv_port_indev.c ****     g->editing = 0;
+  71:lvgl/porting/lv_port_indev.c ****     g->frozen = 0;
+  72:lvgl/porting/lv_port_indev.c ****     lv_indev_set_group(indev_encoder, g);
+  73:lvgl/porting/lv_port_indev.c **** 
+  74:lvgl/porting/lv_port_indev.c ****     // lv_group_focus_next(g);
+  75:lvgl/porting/lv_port_indev.c ****     // lv_indev_drv_init(&indev_drv);
+  76:lvgl/porting/lv_port_indev.c ****     // indev_drv.type = LV_INDEV_TYPE_BUTTON;
+  77:lvgl/porting/lv_port_indev.c ****     // indev_drv.read_cb = button_read;
+  78:lvgl/porting/lv_port_indev.c ****     // indev_button = lv_indev_drv_register(&indev_drv);
+  79:lvgl/porting/lv_port_indev.c **** 
+  80:lvgl/porting/lv_port_indev.c ****     // /*Assign buttons to points on the screen*/
+  81:lvgl/porting/lv_port_indev.c ****     // static const lv_point_t btn_points[1] = {
+  82:lvgl/porting/lv_port_indev.c ****     //         {20, 420},   /*Button 0 -> x:10; y:10*/
+  83:lvgl/porting/lv_port_indev.c ****     // };
+  84:lvgl/porting/lv_port_indev.c ****     // lv_indev_set_button_points(indev_button, btn_points);
+  85:lvgl/porting/lv_port_indev.c **** }
+  86:lvgl/porting/lv_port_indev.c **** 
+  87:lvgl/porting/lv_port_indev.c **** /**********************
+  88:lvgl/porting/lv_port_indev.c ****  *   STATIC FUNCTIONS
+ARM GAS  C:\usertemp\cck4xFip.s 			page 3
+
+
+  89:lvgl/porting/lv_port_indev.c ****  **********************/
+  90:lvgl/porting/lv_port_indev.c **** 
+  91:lvgl/porting/lv_port_indev.c **** /*------------------
+  92:lvgl/porting/lv_port_indev.c ****  * Encoder
+  93:lvgl/porting/lv_port_indev.c ****  * -----------------*/
+  94:lvgl/porting/lv_port_indev.c **** 
+  95:lvgl/porting/lv_port_indev.c **** /*Initialize your keypad*/
+  96:lvgl/porting/lv_port_indev.c **** static void encoder_init(void)
+  97:lvgl/porting/lv_port_indev.c **** {
+  98:lvgl/porting/lv_port_indev.c ****     /*Your code comes here*/
+  99:lvgl/porting/lv_port_indev.c **** 
+ 100:lvgl/porting/lv_port_indev.c ****     HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
+ 101:lvgl/porting/lv_port_indev.c **** }
+ 102:lvgl/porting/lv_port_indev.c **** 
+ 103:lvgl/porting/lv_port_indev.c **** /*Will be called by the library to read the encoder*/
+ 104:lvgl/porting/lv_port_indev.c **** static void encoder_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
+ 105:lvgl/porting/lv_port_indev.c **** {
+  28              		.loc 1 105 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 105 1 is_stmt 0 view .LVU1
+  33 0000 70B5     		push	{r4, r5, r6, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36              		.cfi_offset 4, -16
+  37              		.cfi_offset 5, -12
+  38              		.cfi_offset 6, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0C46     		mov	r4, r1
+ 106:lvgl/porting/lv_port_indev.c **** 
+ 107:lvgl/porting/lv_port_indev.c ****     if (EC_K == 0)                         // 编码器的按键
+  41              		.loc 1 107 5 is_stmt 1 view .LVU2
+  42              		.loc 1 107 9 is_stmt 0 view .LVU3
+  43 0004 4FF40051 		mov	r1, #8192
+  44              	.LVL1:
+  45              		.loc 1 107 9 view .LVU4
+  46 0008 1F48     		ldr	r0, .L9
+  47              	.LVL2:
+  48              		.loc 1 107 9 view .LVU5
+  49 000a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+  50              	.LVL3:
+  51              		.loc 1 107 8 discriminator 1 view .LVU6
+  52 000e C8B9     		cbnz	r0, .L2
+ 108:lvgl/porting/lv_port_indev.c ****         encoder_state = LV_INDEV_STATE_PR; // 按下
+  53              		.loc 1 108 9 is_stmt 1 view .LVU7
+  54              		.loc 1 108 23 is_stmt 0 view .LVU8
+  55 0010 1E4B     		ldr	r3, .L9+4
+  56 0012 0122     		movs	r2, #1
+  57 0014 1A70     		strb	r2, [r3]
+  58              	.L3:
+ 109:lvgl/porting/lv_port_indev.c **** 
+ 110:lvgl/porting/lv_port_indev.c ****     else
+ 111:lvgl/porting/lv_port_indev.c ****         encoder_state = LV_INDEV_STATE_REL; // 松开
+ 112:lvgl/porting/lv_port_indev.c ****     uint8_t temp = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);
+  59              		.loc 1 112 5 is_stmt 1 view .LVU9
+  60              		.loc 1 112 20 is_stmt 0 view .LVU10
+ARM GAS  C:\usertemp\cck4xFip.s 			page 4
+
+
+  61 0016 1E4B     		ldr	r3, .L9+8
+  62 0018 1B68     		ldr	r3, [r3]
+  63 001a 1D68     		ldr	r5, [r3]
+  64 001c 05F01006 		and	r6, r5, #16
+  65 0020 C5F30015 		ubfx	r5, r5, #4, #1
+  66              	.LVL4:
+ 113:lvgl/porting/lv_port_indev.c ****     enc1_old = (uint32_t)(__HAL_TIM_GET_COUNTER(&htim3));
+  67              		.loc 1 113 5 is_stmt 1 view .LVU11
+  68              		.loc 1 113 27 is_stmt 0 view .LVU12
+  69 0024 5B6A     		ldr	r3, [r3, #36]
+  70              		.loc 1 113 14 view .LVU13
+  71 0026 1B4A     		ldr	r2, .L9+12
+  72 0028 1360     		str	r3, [r2]
+ 114:lvgl/porting/lv_port_indev.c ****     if (enc1 != enc1_old)
+  73              		.loc 1 114 5 is_stmt 1 view .LVU14
+  74              		.loc 1 114 14 is_stmt 0 view .LVU15
+  75 002a 1B4A     		ldr	r2, .L9+16
+  76 002c 1268     		ldr	r2, [r2]
+  77              		.loc 1 114 8 view .LVU16
+  78 002e 9342     		cmp	r3, r2
+  79 0030 0CD1     		bne	.L8
+  80              	.L4:
+ 115:lvgl/porting/lv_port_indev.c ****     {
+ 116:lvgl/porting/lv_port_indev.c ****         lv_group_t *gr = lv_group_get_default();
+ 117:lvgl/porting/lv_port_indev.c ****         if (temp == 0)
+ 118:lvgl/porting/lv_port_indev.c ****         {
+ 119:lvgl/porting/lv_port_indev.c ****             lv_group_focus_prev(gr);
+ 120:lvgl/porting/lv_port_indev.c ****             encoder_diff--;
+ 121:lvgl/porting/lv_port_indev.c ****             encoder_state = LV_KEY_LEFT;
+ 122:lvgl/porting/lv_port_indev.c ****         }
+ 123:lvgl/porting/lv_port_indev.c ****         else if (temp == 1)
+ 124:lvgl/porting/lv_port_indev.c ****         {
+ 125:lvgl/porting/lv_port_indev.c **** 
+ 126:lvgl/porting/lv_port_indev.c ****             lv_group_focus_next(gr);
+ 127:lvgl/porting/lv_port_indev.c ****             encoder_diff++;
+ 128:lvgl/porting/lv_port_indev.c ****             encoder_state = LV_KEY_RIGHT;
+ 129:lvgl/porting/lv_port_indev.c ****         }
+ 130:lvgl/porting/lv_port_indev.c ****         Direction = temp;
+ 131:lvgl/porting/lv_port_indev.c ****         enc1 = enc1_old;
+ 132:lvgl/porting/lv_port_indev.c ****     }
+ 133:lvgl/porting/lv_port_indev.c **** 
+ 134:lvgl/porting/lv_port_indev.c ****     data->enc_diff = encoder_diff;
+  81              		.loc 1 134 5 is_stmt 1 view .LVU17
+  82              		.loc 1 134 20 is_stmt 0 view .LVU18
+  83 0032 1A4B     		ldr	r3, .L9+20
+  84 0034 1A68     		ldr	r2, [r3]
+  85 0036 A281     		strh	r2, [r4, #12]	@ movhi
+ 135:lvgl/porting/lv_port_indev.c ****     data->state = encoder_state;
+  86              		.loc 1 135 5 is_stmt 1 view .LVU19
+  87              		.loc 1 135 17 is_stmt 0 view .LVU20
+  88 0038 144A     		ldr	r2, .L9+4
+  89 003a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+  90 003c A273     		strb	r2, [r4, #14]
+ 136:lvgl/porting/lv_port_indev.c ****     encoder_diff = 0;
+  91              		.loc 1 136 5 is_stmt 1 view .LVU21
+  92              		.loc 1 136 18 is_stmt 0 view .LVU22
+  93 003e 0022     		movs	r2, #0
+ARM GAS  C:\usertemp\cck4xFip.s 			page 5
+
+
+  94 0040 1A60     		str	r2, [r3]
+ 137:lvgl/porting/lv_port_indev.c **** }
+  95              		.loc 1 137 1 view .LVU23
+  96 0042 70BD     		pop	{r4, r5, r6, pc}
+  97              	.LVL5:
+  98              	.L2:
+ 111:lvgl/porting/lv_port_indev.c ****     uint8_t temp = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);
+  99              		.loc 1 111 9 is_stmt 1 view .LVU24
+ 111:lvgl/porting/lv_port_indev.c ****     uint8_t temp = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);
+ 100              		.loc 1 111 23 is_stmt 0 view .LVU25
+ 101 0044 114B     		ldr	r3, .L9+4
+ 102 0046 0022     		movs	r2, #0
+ 103 0048 1A70     		strb	r2, [r3]
+ 104 004a E4E7     		b	.L3
+ 105              	.LVL6:
+ 106              	.L8:
+ 107              	.LBB2:
+ 116:lvgl/porting/lv_port_indev.c ****         if (temp == 0)
+ 108              		.loc 1 116 9 is_stmt 1 view .LVU26
+ 116:lvgl/porting/lv_port_indev.c ****         if (temp == 0)
+ 109              		.loc 1 116 26 is_stmt 0 view .LVU27
+ 110 004c FFF7FEFF 		bl	lv_group_get_default
+ 111              	.LVL7:
+ 117:lvgl/porting/lv_port_indev.c ****         {
+ 112              		.loc 1 117 9 is_stmt 1 view .LVU28
+ 117:lvgl/porting/lv_port_indev.c ****         {
+ 113              		.loc 1 117 12 is_stmt 0 view .LVU29
+ 114 0050 7EB9     		cbnz	r6, .L5
+ 119:lvgl/porting/lv_port_indev.c ****             encoder_diff--;
+ 115              		.loc 1 119 13 is_stmt 1 view .LVU30
+ 116 0052 FFF7FEFF 		bl	lv_group_focus_prev
+ 117              	.LVL8:
+ 120:lvgl/porting/lv_port_indev.c ****             encoder_state = LV_KEY_LEFT;
+ 118              		.loc 1 120 13 view .LVU31
+ 120:lvgl/porting/lv_port_indev.c ****             encoder_state = LV_KEY_LEFT;
+ 119              		.loc 1 120 25 is_stmt 0 view .LVU32
+ 120 0056 114A     		ldr	r2, .L9+20
+ 121 0058 1368     		ldr	r3, [r2]
+ 122 005a 013B     		subs	r3, r3, #1
+ 123 005c 1360     		str	r3, [r2]
+ 121:lvgl/porting/lv_port_indev.c ****         }
+ 124              		.loc 1 121 13 is_stmt 1 view .LVU33
+ 121:lvgl/porting/lv_port_indev.c ****         }
+ 125              		.loc 1 121 27 is_stmt 0 view .LVU34
+ 126 005e 0B4B     		ldr	r3, .L9+4
+ 127 0060 1422     		movs	r2, #20
+ 128 0062 1A70     		strb	r2, [r3]
+ 129              	.L6:
+ 130:lvgl/porting/lv_port_indev.c ****         enc1 = enc1_old;
+ 130              		.loc 1 130 9 is_stmt 1 view .LVU35
+ 130:lvgl/porting/lv_port_indev.c ****         enc1 = enc1_old;
+ 131              		.loc 1 130 19 is_stmt 0 view .LVU36
+ 132 0064 0E4B     		ldr	r3, .L9+24
+ 133 0066 1D70     		strb	r5, [r3]
+ 131:lvgl/porting/lv_port_indev.c ****     }
+ 134              		.loc 1 131 9 is_stmt 1 view .LVU37
+ 131:lvgl/porting/lv_port_indev.c ****     }
+ARM GAS  C:\usertemp\cck4xFip.s 			page 6
+
+
+ 135              		.loc 1 131 14 is_stmt 0 view .LVU38
+ 136 0068 0A4B     		ldr	r3, .L9+12
+ 137 006a 1A68     		ldr	r2, [r3]
+ 138 006c 0A4B     		ldr	r3, .L9+16
+ 139 006e 1A60     		str	r2, [r3]
+ 140 0070 DFE7     		b	.L4
+ 141              	.LVL9:
+ 142              	.L5:
+ 123:lvgl/porting/lv_port_indev.c ****         {
+ 143              		.loc 1 123 14 is_stmt 1 view .LVU39
+ 126:lvgl/porting/lv_port_indev.c ****             encoder_diff++;
+ 144              		.loc 1 126 13 view .LVU40
+ 145 0072 FFF7FEFF 		bl	lv_group_focus_next
+ 146              	.LVL10:
+ 127:lvgl/porting/lv_port_indev.c ****             encoder_state = LV_KEY_RIGHT;
+ 147              		.loc 1 127 13 view .LVU41
+ 127:lvgl/porting/lv_port_indev.c ****             encoder_state = LV_KEY_RIGHT;
+ 148              		.loc 1 127 25 is_stmt 0 view .LVU42
+ 149 0076 094A     		ldr	r2, .L9+20
+ 150 0078 1368     		ldr	r3, [r2]
+ 151 007a 0133     		adds	r3, r3, #1
+ 152 007c 1360     		str	r3, [r2]
+ 128:lvgl/porting/lv_port_indev.c ****         }
+ 153              		.loc 1 128 13 is_stmt 1 view .LVU43
+ 128:lvgl/porting/lv_port_indev.c ****         }
+ 154              		.loc 1 128 27 is_stmt 0 view .LVU44
+ 155 007e 034B     		ldr	r3, .L9+4
+ 156 0080 1322     		movs	r2, #19
+ 157 0082 1A70     		strb	r2, [r3]
+ 158 0084 EEE7     		b	.L6
+ 159              	.L10:
+ 160 0086 00BF     		.align	2
+ 161              	.L9:
+ 162 0088 00180258 		.word	1476532224
+ 163 008c 00000000 		.word	encoder_state
+ 164 0090 00000000 		.word	htim3
+ 165 0094 00000000 		.word	enc1_old
+ 166 0098 00000000 		.word	enc1
+ 167 009c 00000000 		.word	encoder_diff
+ 168 00a0 00000000 		.word	Direction
+ 169              	.LBE2:
+ 170              		.cfi_endproc
+ 171              	.LFE531:
+ 173              		.section	.text.encoder_init,"ax",%progbits
+ 174              		.align	1
+ 175              		.syntax unified
+ 176              		.thumb
+ 177              		.thumb_func
+ 179              	encoder_init:
+ 180              	.LFB530:
+  97:lvgl/porting/lv_port_indev.c ****     /*Your code comes here*/
+ 181              		.loc 1 97 1 is_stmt 1 view -0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185 0000 08B5     		push	{r3, lr}
+ 186              	.LCFI1:
+ARM GAS  C:\usertemp\cck4xFip.s 			page 7
+
+
+ 187              		.cfi_def_cfa_offset 8
+ 188              		.cfi_offset 3, -8
+ 189              		.cfi_offset 14, -4
+ 100:lvgl/porting/lv_port_indev.c **** }
+ 190              		.loc 1 100 5 view .LVU46
+ 191 0002 3C21     		movs	r1, #60
+ 192 0004 0148     		ldr	r0, .L13
+ 193 0006 FFF7FEFF 		bl	HAL_TIM_Encoder_Start
+ 194              	.LVL11:
+ 101:lvgl/porting/lv_port_indev.c **** 
+ 195              		.loc 1 101 1 is_stmt 0 view .LVU47
+ 196 000a 08BD     		pop	{r3, pc}
+ 197              	.L14:
+ 198              		.align	2
+ 199              	.L13:
+ 200 000c 00000000 		.word	htim3
+ 201              		.cfi_endproc
+ 202              	.LFE530:
+ 204              		.section	.text.lv_port_indev_init,"ax",%progbits
+ 205              		.align	1
+ 206              		.global	lv_port_indev_init
+ 207              		.syntax unified
+ 208              		.thumb
+ 209              		.thumb_func
+ 211              	lv_port_indev_init:
+ 212              	.LFB529:
+  56:lvgl/porting/lv_port_indev.c ****     static lv_indev_drv_t indev_drv;
+ 213              		.loc 1 56 1 is_stmt 1 view -0
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217 0000 38B5     		push	{r3, r4, r5, lr}
+ 218              	.LCFI2:
+ 219              		.cfi_def_cfa_offset 16
+ 220              		.cfi_offset 3, -16
+ 221              		.cfi_offset 4, -12
+ 222              		.cfi_offset 5, -8
+ 223              		.cfi_offset 14, -4
+  57:lvgl/porting/lv_port_indev.c **** 
+ 224              		.loc 1 57 5 view .LVU49
+  59:lvgl/porting/lv_port_indev.c **** 
+ 225              		.loc 1 59 5 view .LVU50
+ 226 0002 FFF7FEFF 		bl	encoder_init
+ 227              	.LVL12:
+  62:lvgl/porting/lv_port_indev.c ****     indev_drv.type = LV_INDEV_TYPE_ENCODER;
+ 228              		.loc 1 62 5 view .LVU51
+ 229 0006 114C     		ldr	r4, .L17
+ 230 0008 2046     		mov	r0, r4
+ 231 000a FFF7FEFF 		bl	lv_indev_drv_init
+ 232              	.LVL13:
+  63:lvgl/porting/lv_port_indev.c ****     indev_drv.read_cb = encoder_read;
+ 233              		.loc 1 63 5 view .LVU52
+  63:lvgl/porting/lv_port_indev.c ****     indev_drv.read_cb = encoder_read;
+ 234              		.loc 1 63 20 is_stmt 0 view .LVU53
+ 235 000e 0423     		movs	r3, #4
+ 236 0010 2370     		strb	r3, [r4]
+  64:lvgl/porting/lv_port_indev.c ****     indev_encoder = lv_indev_drv_register(&indev_drv);
+ARM GAS  C:\usertemp\cck4xFip.s 			page 8
+
+
+ 237              		.loc 1 64 5 is_stmt 1 view .LVU54
+  64:lvgl/porting/lv_port_indev.c ****     indev_encoder = lv_indev_drv_register(&indev_drv);
+ 238              		.loc 1 64 23 is_stmt 0 view .LVU55
+ 239 0012 0F4B     		ldr	r3, .L17+4
+ 240 0014 6360     		str	r3, [r4, #4]
+  65:lvgl/porting/lv_port_indev.c **** 
+ 241              		.loc 1 65 5 is_stmt 1 view .LVU56
+  65:lvgl/porting/lv_port_indev.c **** 
+ 242              		.loc 1 65 21 is_stmt 0 view .LVU57
+ 243 0016 2046     		mov	r0, r4
+ 244 0018 FFF7FEFF 		bl	lv_indev_drv_register
+ 245              	.LVL14:
+  65:lvgl/porting/lv_port_indev.c **** 
+ 246              		.loc 1 65 19 discriminator 1 view .LVU58
+ 247 001c 0D4D     		ldr	r5, .L17+8
+ 248 001e 2860     		str	r0, [r5]
+  67:lvgl/porting/lv_port_indev.c ****     lv_group_set_default(g); // 设置组(group)为默认模式,后面的部件创建时会自动�
+ 249              		.loc 1 67 5 is_stmt 1 view .LVU59
+  67:lvgl/porting/lv_port_indev.c ****     lv_group_set_default(g); // 设置组(group)为默认模式,后面的部件创建时会自动�
+ 250              		.loc 1 67 21 is_stmt 0 view .LVU60
+ 251 0020 FFF7FEFF 		bl	lv_group_create
+ 252              	.LVL15:
+ 253 0024 0446     		mov	r4, r0
+ 254              	.LVL16:
+  68:lvgl/porting/lv_port_indev.c ****     g->wrap = 1;
+ 255              		.loc 1 68 5 is_stmt 1 view .LVU61
+ 256 0026 FFF7FEFF 		bl	lv_group_set_default
+ 257              	.LVL17:
+  69:lvgl/porting/lv_port_indev.c ****     g->editing = 0;
+ 258              		.loc 1 69 5 view .LVU62
+  69:lvgl/porting/lv_port_indev.c ****     g->editing = 0;
+ 259              		.loc 1 69 13 is_stmt 0 view .LVU63
+ 260 002a 237E     		ldrb	r3, [r4, #24]	@ zero_extendqisi2
+ 261 002c 43F00803 		orr	r3, r3, #8
+ 262 0030 2376     		strb	r3, [r4, #24]
+  70:lvgl/porting/lv_port_indev.c ****     g->frozen = 0;
+ 263              		.loc 1 70 5 is_stmt 1 view .LVU64
+  70:lvgl/porting/lv_port_indev.c ****     g->frozen = 0;
+ 264              		.loc 1 70 16 is_stmt 0 view .LVU65
+ 265 0032 DBB2     		uxtb	r3, r3
+ 266 0034 23F00203 		bic	r3, r3, #2
+ 267 0038 2376     		strb	r3, [r4, #24]
+  71:lvgl/porting/lv_port_indev.c ****     lv_indev_set_group(indev_encoder, g);
+ 268              		.loc 1 71 5 is_stmt 1 view .LVU66
+  71:lvgl/porting/lv_port_indev.c ****     lv_indev_set_group(indev_encoder, g);
+ 269              		.loc 1 71 15 is_stmt 0 view .LVU67
+ 270 003a DBB2     		uxtb	r3, r3
+ 271 003c 23F00103 		bic	r3, r3, #1
+ 272 0040 2376     		strb	r3, [r4, #24]
+  72:lvgl/porting/lv_port_indev.c **** 
+ 273              		.loc 1 72 5 is_stmt 1 view .LVU68
+ 274 0042 2146     		mov	r1, r4
+ 275 0044 2868     		ldr	r0, [r5]
+ 276 0046 FFF7FEFF 		bl	lv_indev_set_group
+ 277              	.LVL18:
+  85:lvgl/porting/lv_port_indev.c **** 
+ 278              		.loc 1 85 1 is_stmt 0 view .LVU69
+ARM GAS  C:\usertemp\cck4xFip.s 			page 9
+
+
+ 279 004a 38BD     		pop	{r3, r4, r5, pc}
+ 280              	.LVL19:
+ 281              	.L18:
+  85:lvgl/porting/lv_port_indev.c **** 
+ 282              		.loc 1 85 1 view .LVU70
+ 283              		.align	2
+ 284              	.L17:
+ 285 004c 00000000 		.word	indev_drv.0
+ 286 0050 00000000 		.word	encoder_read
+ 287 0054 00000000 		.word	indev_encoder
+ 288              		.cfi_endproc
+ 289              	.LFE529:
+ 291              		.section	.bss.indev_drv.0,"aw",%nobits
+ 292              		.align	2
+ 295              	indev_drv.0:
+ 296 0000 00000000 		.space	32
+ 296      00000000 
+ 296      00000000 
+ 296      00000000 
+ 296      00000000 
+ 297              		.section	.bss.encoder_state,"aw",%nobits
+ 300              	encoder_state:
+ 301 0000 00       		.space	1
+ 302              		.section	.bss.encoder_diff,"aw",%nobits
+ 303              		.align	2
+ 306              	encoder_diff:
+ 307 0000 00000000 		.space	4
+ 308              		.global	indev_button
+ 309              		.section	.bss.indev_button,"aw",%nobits
+ 310              		.align	2
+ 313              	indev_button:
+ 314 0000 00000000 		.space	4
+ 315              		.section	.bss.indev_encoder,"aw",%nobits
+ 316              		.align	2
+ 319              	indev_encoder:
+ 320 0000 00000000 		.space	4
+ 321              		.global	enc1_old
+ 322              		.section	.bss.enc1_old,"aw",%nobits
+ 323              		.align	2
+ 326              	enc1_old:
+ 327 0000 00000000 		.space	4
+ 328              		.global	enc1
+ 329              		.section	.bss.enc1,"aw",%nobits
+ 330              		.align	2
+ 333              	enc1:
+ 334 0000 00000000 		.space	4
+ 335              		.global	Direction
+ 336              		.section	.bss.Direction,"aw",%nobits
+ 339              	Direction:
+ 340 0000 00       		.space	1
+ 341              		.text
+ 342              	.Letext0:
+ 343              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 344              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 345              		.file 4 "lvgl/src/misc/lv_types.h"
+ 346              		.file 5 "lvgl/src/misc/lv_timer.h"
+ 347              		.file 6 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ARM GAS  C:\usertemp\cck4xFip.s 			page 10
+
+
+ 348              		.file 7 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 349              		.file 8 "lvgl/src/hal/../draw/../misc/../font/lv_font.h"
+ 350              		.file 9 "lvgl/src/hal/../draw/../misc/lv_color.h"
+ 351              		.file 10 "lvgl/src/hal/../draw/../misc/lv_txt.h"
+ 352              		.file 11 "lvgl/src/hal/../draw/../misc/lv_bidi.h"
+ 353              		.file 12 "lvgl/src/hal/../draw/../misc/lv_style.h"
+ 354              		.file 13 "lvgl/src/hal/../draw/lv_img_buf.h"
+ 355              		.file 14 "lvgl/src/core/lv_obj.h"
+ 356              		.file 15 "lvgl/src/hal/../draw/lv_draw_rect.h"
+ 357              		.file 16 "lvgl/src/hal/../draw/lv_draw_label.h"
+ 358              		.file 17 "lvgl/src/hal/../draw/lv_draw_img.h"
+ 359              		.file 18 "lvgl/src/hal/../draw/lv_draw_line.h"
+ 360              		.file 19 "lvgl/src/hal/../draw/lv_draw_arc.h"
+ 361              		.file 20 "lvgl/src/hal/../draw/lv_draw.h"
+ 362              		.file 21 "lvgl/src/hal/../misc/lv_ll.h"
+ 363              		.file 22 "lvgl/src/hal/lv_hal_disp.h"
+ 364              		.file 23 "lvgl/src/core/lv_theme.h"
+ 365              		.file 24 "lvgl/src/hal/lv_hal_indev.h"
+ 366              		.file 25 "lvgl/src/core/lv_group.h"
+ 367              		.file 26 "lvgl/src/core/lv_obj_scroll.h"
+ 368              		.file 27 "lvgl/src/core/lv_obj_style.h"
+ 369              		.file 28 "lvgl/src/core/lv_obj_class.h"
+ 370              		.file 29 "lvgl/src/core/lv_event.h"
+ 371              		.file 30 "lvgl/src/widgets/lv_bar.h"
+ 372              		.file 31 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 373              		.file 32 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 374              		.file 33 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 375              		.file 34 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 376              		.file 35 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 377              		.file 36 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h"
+ 378              		.file 37 "Core/Inc/tim.h"
+ 379              		.file 38 "lvgl/src/core/lv_indev.h"
+ARM GAS  C:\usertemp\cck4xFip.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_port_indev.c
+C:\usertemp\cck4xFip.s:20     .text.encoder_read:00000000 $t
+C:\usertemp\cck4xFip.s:25     .text.encoder_read:00000000 encoder_read
+C:\usertemp\cck4xFip.s:162    .text.encoder_read:00000088 $d
+C:\usertemp\cck4xFip.s:300    .bss.encoder_state:00000000 encoder_state
+C:\usertemp\cck4xFip.s:326    .bss.enc1_old:00000000 enc1_old
+C:\usertemp\cck4xFip.s:333    .bss.enc1:00000000 enc1
+C:\usertemp\cck4xFip.s:306    .bss.encoder_diff:00000000 encoder_diff
+C:\usertemp\cck4xFip.s:339    .bss.Direction:00000000 Direction
+C:\usertemp\cck4xFip.s:174    .text.encoder_init:00000000 $t
+C:\usertemp\cck4xFip.s:179    .text.encoder_init:00000000 encoder_init
+C:\usertemp\cck4xFip.s:200    .text.encoder_init:0000000c $d
+C:\usertemp\cck4xFip.s:205    .text.lv_port_indev_init:00000000 $t
+C:\usertemp\cck4xFip.s:211    .text.lv_port_indev_init:00000000 lv_port_indev_init
+C:\usertemp\cck4xFip.s:285    .text.lv_port_indev_init:0000004c $d
+C:\usertemp\cck4xFip.s:295    .bss.indev_drv.0:00000000 indev_drv.0
+C:\usertemp\cck4xFip.s:319    .bss.indev_encoder:00000000 indev_encoder
+C:\usertemp\cck4xFip.s:292    .bss.indev_drv.0:00000000 $d
+C:\usertemp\cck4xFip.s:301    .bss.encoder_state:00000000 $d
+C:\usertemp\cck4xFip.s:303    .bss.encoder_diff:00000000 $d
+C:\usertemp\cck4xFip.s:313    .bss.indev_button:00000000 indev_button
+C:\usertemp\cck4xFip.s:310    .bss.indev_button:00000000 $d
+C:\usertemp\cck4xFip.s:316    .bss.indev_encoder:00000000 $d
+C:\usertemp\cck4xFip.s:323    .bss.enc1_old:00000000 $d
+C:\usertemp\cck4xFip.s:330    .bss.enc1:00000000 $d
+C:\usertemp\cck4xFip.s:340    .bss.Direction:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_ReadPin
+lv_group_get_default
+lv_group_focus_prev
+lv_group_focus_next
+htim3
+HAL_TIM_Encoder_Start
+lv_indev_drv_init
+lv_indev_drv_register
+lv_group_create
+lv_group_set_default
+lv_indev_set_group

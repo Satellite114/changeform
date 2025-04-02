@@ -1,0 +1,2076 @@
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"screenshot.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "User/screenshot/screenshot.c"
+  19              		.section	.rodata.save_snapshot_to_sd.str1.4,"aMS",%progbits,1
+  20              		.align	2
+  21              	.LC0:
+  22 0000 55736572 		.ascii	"User/screenshot/screenshot.c\000"
+  22      2F736372 
+  22      65656E73 
+  22      686F742F 
+  22      73637265 
+  23 001d 000000   		.align	2
+  24              	.LC1:
+  25 0020 53442066 		.ascii	"SD failed: %d\000"
+  25      61696C65 
+  25      643A2025 
+  25      6400
+  26 002e 0000     		.align	2
+  27              	.LC2:
+  28 0030 6572726F 		.ascii	"error\000"
+  28      7200
+  29 0036 0000     		.align	2
+  30              	.LC3:
+  31 0038 73756363 		.ascii	"successed %d to %s\000"
+  31      65737365 
+  31      64202564 
+  31      20746F20 
+  31      257300
+  32              		.section	.text.save_snapshot_to_sd,"ax",%progbits
+  33              		.align	1
+  34              		.global	save_snapshot_to_sd
+  35              		.syntax unified
+  36              		.thumb
+  37              		.thumb_func
+  39              	save_snapshot_to_sd:
+  40              	.LVL0:
+  41              	.LFB558:
+   1:User/screenshot/screenshot.c **** #include "screenshot.h"
+   2:User/screenshot/screenshot.c **** #include "ff.h"
+   3:User/screenshot/screenshot.c **** #include "lvgl.h"
+   4:User/screenshot/screenshot.c **** #include "gui_guider.h"
+   5:User/screenshot/screenshot.c **** ALIGN_32BYTES(uint8_t snapshot_buf[800000])
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 2
+
+
+   6:User/screenshot/screenshot.c **** __attribute__((section(".SDRAM")));
+   7:User/screenshot/screenshot.c **** char cwd[256]; // 用于保存当前路径
+   8:User/screenshot/screenshot.c **** FRESULT fr;
+   9:User/screenshot/screenshot.c **** extern uint16_t sd_count;
+  10:User/screenshot/screenshot.c **** 
+  11:User/screenshot/screenshot.c **** static lv_img_dsc_t snapshot_dsc; // 需保持全局有效
+  12:User/screenshot/screenshot.c **** static lv_img_dsc_t load_img_dsc;
+  13:User/screenshot/screenshot.c **** uint8_t take_snapshot_with_buffer(lv_obj_t *obj, const char *filename)
+  14:User/screenshot/screenshot.c **** {
+  15:User/screenshot/screenshot.c ****     // 计算所需的缓冲区大小
+  16:User/screenshot/screenshot.c ****     uint32_t buf_size = lv_snapshot_buf_size_needed(obj, LV_IMG_CF_TRUE_COLOR_ALPHA);
+  17:User/screenshot/screenshot.c **** 
+  18:User/screenshot/screenshot.c ****     if (buf_size > sizeof(snapshot_buf))
+  19:User/screenshot/screenshot.c ****     {
+  20:User/screenshot/screenshot.c ****         LV_LOG_USER("error : %s size: %d", buf_size, sizeof(snapshot_buf));
+  21:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+  22:User/screenshot/screenshot.c ****     }
+  23:User/screenshot/screenshot.c **** 
+  24:User/screenshot/screenshot.c ****     // 生成快照
+  25:User/screenshot/screenshot.c ****     if (lv_snapshot_take_to_buf(obj, LV_IMG_CF_TRUE_COLOR_ALPHA, &snapshot_dsc, snapshot_buf, buf_s
+  26:User/screenshot/screenshot.c ****     {
+  27:User/screenshot/screenshot.c ****         LV_LOG_USER("fail to take snapshot");
+  28:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+  29:User/screenshot/screenshot.c ****     }
+  30:User/screenshot/screenshot.c **** 
+  31:User/screenshot/screenshot.c ****     // 将快照数据存储到 SD 卡
+  32:User/screenshot/screenshot.c ****     return save_snapshot_to_sd(filename, snapshot_buf, buf_size);
+  33:User/screenshot/screenshot.c **** }
+  34:User/screenshot/screenshot.c **** 
+  35:User/screenshot/screenshot.c **** uint8_t save_snapshot_to_sd(const char *filename, uint8_t *buf, uint32_t size)
+  36:User/screenshot/screenshot.c **** {
+  42              		.loc 1 36 1 view -0
+  43              		.cfi_startproc
+  44              		@ args = 0, pretend = 0, frame = 568
+  45              		@ frame_needed = 0, uses_anonymous_args = 0
+  46              		.loc 1 36 1 is_stmt 0 view .LVU1
+  47 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  48              	.LCFI0:
+  49              		.cfi_def_cfa_offset 20
+  50              		.cfi_offset 4, -20
+  51              		.cfi_offset 5, -16
+  52              		.cfi_offset 6, -12
+  53              		.cfi_offset 7, -8
+  54              		.cfi_offset 14, -4
+  55 0002 ADF5137D 		sub	sp, sp, #588
+  56              	.LCFI1:
+  57              		.cfi_def_cfa_offset 608
+  58 0006 0646     		mov	r6, r0
+  59 0008 0D46     		mov	r5, r1
+  60 000a 1446     		mov	r4, r2
+  37:User/screenshot/screenshot.c ****     FIL file; // 文件对象
+  61              		.loc 1 37 5 is_stmt 1 view .LVU2
+  38:User/screenshot/screenshot.c ****     UINT bytes_written;
+  62              		.loc 1 38 5 view .LVU3
+  39:User/screenshot/screenshot.c ****     FRESULT res;
+  63              		.loc 1 39 5 view .LVU4
+  40:User/screenshot/screenshot.c **** 
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 3
+
+
+  41:User/screenshot/screenshot.c ****     // 1. 打开/创建文件
+  42:User/screenshot/screenshot.c ****     res = f_open(&file, filename, FA_CREATE_ALWAYS | FA_WRITE);
+  64              		.loc 1 42 5 view .LVU5
+  65              		.loc 1 42 11 is_stmt 0 view .LVU6
+  66 000c 0A22     		movs	r2, #10
+  67              	.LVL1:
+  68              		.loc 1 42 11 view .LVU7
+  69 000e 0146     		mov	r1, r0
+  70              	.LVL2:
+  71              		.loc 1 42 11 view .LVU8
+  72 0010 06A8     		add	r0, sp, #24
+  73              	.LVL3:
+  74              		.loc 1 42 11 view .LVU9
+  75 0012 FFF7FEFF 		bl	f_open
+  76              	.LVL4:
+  43:User/screenshot/screenshot.c **** 
+  44:User/screenshot/screenshot.c ****     if (res != FR_OK)
+  77              		.loc 1 44 5 is_stmt 1 view .LVU10
+  78              		.loc 1 44 8 is_stmt 0 view .LVU11
+  79 0016 0746     		mov	r7, r0
+  80 0018 F0B9     		cbnz	r0, .L8
+  45:User/screenshot/screenshot.c ****     {
+  46:User/screenshot/screenshot.c ****         LV_LOG_USER("SD failed: %d", res);
+  47:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+  48:User/screenshot/screenshot.c ****     }
+  49:User/screenshot/screenshot.c ****     if (buf == NULL || size == 0)
+  81              		.loc 1 49 5 is_stmt 1 view .LVU12
+  82              		.loc 1 49 8 is_stmt 0 view .LVU13
+  83 001a 002C     		cmp	r4, #0
+  84 001c 18BF     		it	ne
+  85 001e 002D     		cmpne	r5, #0
+  86 0020 25D0     		beq	.L9
+  50:User/screenshot/screenshot.c ****     {
+  51:User/screenshot/screenshot.c ****         LV_LOG_USER("error");
+  52:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+  53:User/screenshot/screenshot.c ****     }
+  54:User/screenshot/screenshot.c **** 
+  55:User/screenshot/screenshot.c ****     // 2. 写入数据
+  56:User/screenshot/screenshot.c ****     res = f_write(&file, buf, size, &bytes_written);
+  87              		.loc 1 56 5 is_stmt 1 view .LVU14
+  88              		.loc 1 56 11 is_stmt 0 view .LVU15
+  89 0022 05AB     		add	r3, sp, #20
+  90 0024 2246     		mov	r2, r4
+  91 0026 2946     		mov	r1, r5
+  92 0028 06A8     		add	r0, sp, #24
+  93              	.LVL5:
+  94              		.loc 1 56 11 view .LVU16
+  95 002a FFF7FEFF 		bl	f_write
+  96              	.LVL6:
+  57:User/screenshot/screenshot.c ****     if (res != FR_OK || bytes_written != size)
+  97              		.loc 1 57 5 is_stmt 1 view .LVU17
+  98              		.loc 1 57 8 is_stmt 0 view .LVU18
+  99 002e 0346     		mov	r3, r0
+ 100 0030 10B9     		cbnz	r0, .L5
+ 101              		.loc 1 57 39 discriminator 1 view .LVU19
+ 102 0032 059A     		ldr	r2, [sp, #20]
+ 103              		.loc 1 57 22 discriminator 1 view .LVU20
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 4
+
+
+ 104 0034 A242     		cmp	r2, r4
+ 105 0036 23D0     		beq	.L6
+ 106              	.L5:
+  58:User/screenshot/screenshot.c ****     {
+  59:User/screenshot/screenshot.c ****         LV_LOG_USER("SD failed: %d", res);
+ 107              		.loc 1 59 9 is_stmt 1 view .LVU21
+ 108 0038 0193     		str	r3, [sp, #4]
+ 109 003a 194B     		ldr	r3, .L10
+ 110 003c 0093     		str	r3, [sp]
+ 111 003e 194B     		ldr	r3, .L10+4
+ 112 0040 3B22     		movs	r2, #59
+ 113 0042 1949     		ldr	r1, .L10+8
+ 114 0044 0420     		movs	r0, #4
+ 115              	.LVL7:
+ 116              		.loc 1 59 9 is_stmt 0 view .LVU22
+ 117 0046 FFF7FEFF 		bl	_lv_log_add
+ 118              	.LVL8:
+  60:User/screenshot/screenshot.c ****         f_close(&file);
+ 119              		.loc 1 60 9 is_stmt 1 view .LVU23
+ 120 004a 06A8     		add	r0, sp, #24
+ 121 004c FFF7FEFF 		bl	f_close
+ 122              	.LVL9:
+  61:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 123              		.loc 1 61 9 view .LVU24
+ 124              	.L3:
+  62:User/screenshot/screenshot.c ****     }
+  63:User/screenshot/screenshot.c **** 
+  64:User/screenshot/screenshot.c ****     // 3. 关闭文件
+  65:User/screenshot/screenshot.c ****     f_close(&file);
+  66:User/screenshot/screenshot.c ****     LV_LOG_USER("successed %d to %s", bytes_written, filename);
+  67:User/screenshot/screenshot.c ****     return SNAPSHOT_SUCCESS;
+  68:User/screenshot/screenshot.c **** }
+ 125              		.loc 1 68 1 is_stmt 0 view .LVU25
+ 126 0050 3846     		mov	r0, r7
+ 127 0052 0DF5137D 		add	sp, sp, #588
+ 128              	.LCFI2:
+ 129              		.cfi_remember_state
+ 130              		.cfi_def_cfa_offset 20
+ 131              		@ sp needed
+ 132 0056 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 133              	.LVL10:
+ 134              	.L8:
+ 135              	.LCFI3:
+ 136              		.cfi_restore_state
+  46:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 137              		.loc 1 46 9 is_stmt 1 view .LVU26
+ 138 0058 0190     		str	r0, [sp, #4]
+ 139 005a 114B     		ldr	r3, .L10
+ 140 005c 0093     		str	r3, [sp]
+ 141 005e 114B     		ldr	r3, .L10+4
+ 142 0060 2E22     		movs	r2, #46
+ 143 0062 1149     		ldr	r1, .L10+8
+ 144 0064 0420     		movs	r0, #4
+ 145              	.LVL11:
+  46:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 146              		.loc 1 46 9 is_stmt 0 view .LVU27
+ 147 0066 FFF7FEFF 		bl	_lv_log_add
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 5
+
+
+ 148              	.LVL12:
+  47:User/screenshot/screenshot.c ****     }
+ 149              		.loc 1 47 9 is_stmt 1 view .LVU28
+  47:User/screenshot/screenshot.c ****     }
+ 150              		.loc 1 47 16 is_stmt 0 view .LVU29
+ 151 006a 0027     		movs	r7, #0
+ 152              	.LVL13:
+  47:User/screenshot/screenshot.c ****     }
+ 153              		.loc 1 47 16 view .LVU30
+ 154 006c F0E7     		b	.L3
+ 155              	.LVL14:
+ 156              	.L9:
+  51:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 157              		.loc 1 51 9 is_stmt 1 view .LVU31
+ 158 006e 0F4B     		ldr	r3, .L10+12
+ 159 0070 0093     		str	r3, [sp]
+ 160 0072 0C4B     		ldr	r3, .L10+4
+ 161 0074 3322     		movs	r2, #51
+ 162 0076 0C49     		ldr	r1, .L10+8
+ 163 0078 0420     		movs	r0, #4
+ 164              	.LVL15:
+  51:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 165              		.loc 1 51 9 is_stmt 0 view .LVU32
+ 166 007a FFF7FEFF 		bl	_lv_log_add
+ 167              	.LVL16:
+  52:User/screenshot/screenshot.c ****     }
+ 168              		.loc 1 52 9 is_stmt 1 view .LVU33
+  52:User/screenshot/screenshot.c ****     }
+ 169              		.loc 1 52 16 is_stmt 0 view .LVU34
+ 170 007e E7E7     		b	.L3
+ 171              	.LVL17:
+ 172              	.L6:
+  65:User/screenshot/screenshot.c ****     LV_LOG_USER("successed %d to %s", bytes_written, filename);
+ 173              		.loc 1 65 5 is_stmt 1 view .LVU35
+ 174 0080 06A8     		add	r0, sp, #24
+ 175              	.LVL18:
+  65:User/screenshot/screenshot.c ****     LV_LOG_USER("successed %d to %s", bytes_written, filename);
+ 176              		.loc 1 65 5 is_stmt 0 view .LVU36
+ 177 0082 FFF7FEFF 		bl	f_close
+ 178              	.LVL19:
+  66:User/screenshot/screenshot.c ****     return SNAPSHOT_SUCCESS;
+ 179              		.loc 1 66 5 is_stmt 1 view .LVU37
+ 180 0086 0296     		str	r6, [sp, #8]
+ 181 0088 059B     		ldr	r3, [sp, #20]
+ 182 008a 0193     		str	r3, [sp, #4]
+ 183 008c 084B     		ldr	r3, .L10+16
+ 184 008e 0093     		str	r3, [sp]
+ 185 0090 044B     		ldr	r3, .L10+4
+ 186 0092 4222     		movs	r2, #66
+ 187 0094 0449     		ldr	r1, .L10+8
+ 188 0096 0420     		movs	r0, #4
+ 189 0098 FFF7FEFF 		bl	_lv_log_add
+ 190              	.LVL20:
+  67:User/screenshot/screenshot.c **** }
+ 191              		.loc 1 67 5 view .LVU38
+  67:User/screenshot/screenshot.c **** }
+ 192              		.loc 1 67 12 is_stmt 0 view .LVU39
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 6
+
+
+ 193 009c 0127     		movs	r7, #1
+ 194 009e D7E7     		b	.L3
+ 195              	.L11:
+ 196              		.align	2
+ 197              	.L10:
+ 198 00a0 20000000 		.word	.LC1
+ 199 00a4 00000000 		.word	__func__.5
+ 200 00a8 00000000 		.word	.LC0
+ 201 00ac 30000000 		.word	.LC2
+ 202 00b0 38000000 		.word	.LC3
+ 203              		.cfi_endproc
+ 204              	.LFE558:
+ 206              		.section	.rodata.take_snapshot_with_buffer.str1.4,"aMS",%progbits,1
+ 207              		.align	2
+ 208              	.LC4:
+ 209 0000 6572726F 		.ascii	"error : %s size: %d\000"
+ 209      72203A20 
+ 209      25732073 
+ 209      697A653A 
+ 209      20256400 
+ 210              		.align	2
+ 211              	.LC5:
+ 212 0014 6661696C 		.ascii	"fail to take snapshot\000"
+ 212      20746F20 
+ 212      74616B65 
+ 212      20736E61 
+ 212      7073686F 
+ 213              		.section	.text.take_snapshot_with_buffer,"ax",%progbits
+ 214              		.align	1
+ 215              		.global	take_snapshot_with_buffer
+ 216              		.syntax unified
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	take_snapshot_with_buffer:
+ 221              	.LVL21:
+ 222              	.LFB557:
+  14:User/screenshot/screenshot.c ****     // 计算所需的缓冲区大小
+ 223              		.loc 1 14 1 is_stmt 1 view -0
+ 224              		.cfi_startproc
+ 225              		@ args = 0, pretend = 0, frame = 0
+ 226              		@ frame_needed = 0, uses_anonymous_args = 0
+  14:User/screenshot/screenshot.c ****     // 计算所需的缓冲区大小
+ 227              		.loc 1 14 1 is_stmt 0 view .LVU41
+ 228 0000 70B5     		push	{r4, r5, r6, lr}
+ 229              	.LCFI4:
+ 230              		.cfi_def_cfa_offset 16
+ 231              		.cfi_offset 4, -16
+ 232              		.cfi_offset 5, -12
+ 233              		.cfi_offset 6, -8
+ 234              		.cfi_offset 14, -4
+ 235 0002 84B0     		sub	sp, sp, #16
+ 236              	.LCFI5:
+ 237              		.cfi_def_cfa_offset 32
+ 238 0004 0546     		mov	r5, r0
+ 239 0006 0E46     		mov	r6, r1
+  16:User/screenshot/screenshot.c **** 
+ 240              		.loc 1 16 5 is_stmt 1 view .LVU42
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 7
+
+
+  16:User/screenshot/screenshot.c **** 
+ 241              		.loc 1 16 25 is_stmt 0 view .LVU43
+ 242 0008 0521     		movs	r1, #5
+ 243              	.LVL22:
+  16:User/screenshot/screenshot.c **** 
+ 244              		.loc 1 16 25 view .LVU44
+ 245 000a FFF7FEFF 		bl	lv_snapshot_buf_size_needed
+ 246              	.LVL23:
+  16:User/screenshot/screenshot.c **** 
+ 247              		.loc 1 16 25 view .LVU45
+ 248 000e 0446     		mov	r4, r0
+ 249              	.LVL24:
+  18:User/screenshot/screenshot.c ****     {
+ 250              		.loc 1 18 5 is_stmt 1 view .LVU46
+  18:User/screenshot/screenshot.c ****     {
+ 251              		.loc 1 18 8 is_stmt 0 view .LVU47
+ 252 0010 144B     		ldr	r3, .L18
+ 253 0012 9842     		cmp	r0, r3
+ 254 0014 12D8     		bhi	.L17
+  25:User/screenshot/screenshot.c ****     {
+ 255              		.loc 1 25 5 is_stmt 1 view .LVU48
+  25:User/screenshot/screenshot.c ****     {
+ 256              		.loc 1 25 9 is_stmt 0 view .LVU49
+ 257 0016 0090     		str	r0, [sp]
+ 258 0018 134B     		ldr	r3, .L18+4
+ 259 001a 144A     		ldr	r2, .L18+8
+ 260 001c 0521     		movs	r1, #5
+ 261 001e 2846     		mov	r0, r5
+ 262              	.LVL25:
+  25:User/screenshot/screenshot.c ****     {
+ 263              		.loc 1 25 9 view .LVU50
+ 264 0020 FFF7FEFF 		bl	lv_snapshot_take_to_buf
+ 265              	.LVL26:
+  25:User/screenshot/screenshot.c ****     {
+ 266              		.loc 1 25 8 discriminator 1 view .LVU51
+ 267 0024 0128     		cmp	r0, #1
+ 268 0026 16D0     		beq	.L15
+  27:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 269              		.loc 1 27 9 is_stmt 1 view .LVU52
+ 270 0028 114B     		ldr	r3, .L18+12
+ 271 002a 0093     		str	r3, [sp]
+ 272 002c 114B     		ldr	r3, .L18+16
+ 273 002e 1B22     		movs	r2, #27
+ 274 0030 1149     		ldr	r1, .L18+20
+ 275 0032 0420     		movs	r0, #4
+ 276 0034 FFF7FEFF 		bl	_lv_log_add
+ 277              	.LVL27:
+  28:User/screenshot/screenshot.c ****     }
+ 278              		.loc 1 28 9 view .LVU53
+  28:User/screenshot/screenshot.c ****     }
+ 279              		.loc 1 28 16 is_stmt 0 view .LVU54
+ 280 0038 0020     		movs	r0, #0
+ 281 003a 0AE0     		b	.L14
+ 282              	.LVL28:
+ 283              	.L17:
+  20:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 284              		.loc 1 20 9 is_stmt 1 view .LVU55
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 8
+
+
+ 285 003c 0293     		str	r3, [sp, #8]
+ 286 003e 0190     		str	r0, [sp, #4]
+ 287 0040 0E4B     		ldr	r3, .L18+24
+ 288 0042 0093     		str	r3, [sp]
+ 289 0044 0B4B     		ldr	r3, .L18+16
+ 290 0046 1422     		movs	r2, #20
+ 291 0048 0B49     		ldr	r1, .L18+20
+ 292 004a 0420     		movs	r0, #4
+ 293              	.LVL29:
+  20:User/screenshot/screenshot.c ****         return SNAPSHOT_FAILED;
+ 294              		.loc 1 20 9 is_stmt 0 view .LVU56
+ 295 004c FFF7FEFF 		bl	_lv_log_add
+ 296              	.LVL30:
+  21:User/screenshot/screenshot.c ****     }
+ 297              		.loc 1 21 9 is_stmt 1 view .LVU57
+  21:User/screenshot/screenshot.c ****     }
+ 298              		.loc 1 21 16 is_stmt 0 view .LVU58
+ 299 0050 0020     		movs	r0, #0
+ 300              	.L14:
+  33:User/screenshot/screenshot.c **** 
+ 301              		.loc 1 33 1 view .LVU59
+ 302 0052 04B0     		add	sp, sp, #16
+ 303              	.LCFI6:
+ 304              		.cfi_remember_state
+ 305              		.cfi_def_cfa_offset 16
+ 306              		@ sp needed
+ 307 0054 70BD     		pop	{r4, r5, r6, pc}
+ 308              	.LVL31:
+ 309              	.L15:
+ 310              	.LCFI7:
+ 311              		.cfi_restore_state
+  32:User/screenshot/screenshot.c **** }
+ 312              		.loc 1 32 5 is_stmt 1 view .LVU60
+  32:User/screenshot/screenshot.c **** }
+ 313              		.loc 1 32 12 is_stmt 0 view .LVU61
+ 314 0056 2246     		mov	r2, r4
+ 315 0058 0349     		ldr	r1, .L18+4
+ 316 005a 3046     		mov	r0, r6
+ 317 005c FFF7FEFF 		bl	save_snapshot_to_sd
+ 318              	.LVL32:
+ 319 0060 F7E7     		b	.L14
+ 320              	.L19:
+ 321 0062 00BF     		.align	2
+ 322              	.L18:
+ 323 0064 00350C00 		.word	800000
+ 324 0068 00000000 		.word	snapshot_buf
+ 325 006c 00000000 		.word	snapshot_dsc
+ 326 0070 14000000 		.word	.LC5
+ 327 0074 00000000 		.word	__func__.6
+ 328 0078 00000000 		.word	.LC0
+ 329 007c 00000000 		.word	.LC4
+ 330              		.cfi_endproc
+ 331              	.LFE557:
+ 333              		.section	.rodata.load_image_from_sd.str1.4,"aMS",%progbits,1
+ 334              		.align	2
+ 335              	.LC6:
+ 336 0000 73756363 		.ascii	"successed read %d \000"
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 9
+
+
+ 336      65737365 
+ 336      64207265 
+ 336      61642025 
+ 336      642000
+ 337              		.section	.text.load_image_from_sd,"ax",%progbits
+ 338              		.align	1
+ 339              		.global	load_image_from_sd
+ 340              		.syntax unified
+ 341              		.thumb
+ 342              		.thumb_func
+ 344              	load_image_from_sd:
+ 345              	.LVL33:
+ 346              	.LFB559:
+  69:User/screenshot/screenshot.c **** 
+  70:User/screenshot/screenshot.c **** uint8_t load_image_from_sd(const char *filename)
+  71:User/screenshot/screenshot.c **** {
+ 347              		.loc 1 71 1 is_stmt 1 view -0
+ 348              		.cfi_startproc
+ 349              		@ args = 0, pretend = 0, frame = 568
+ 350              		@ frame_needed = 0, uses_anonymous_args = 0
+ 351              		.loc 1 71 1 is_stmt 0 view .LVU63
+ 352 0000 10B5     		push	{r4, lr}
+ 353              	.LCFI8:
+ 354              		.cfi_def_cfa_offset 8
+ 355              		.cfi_offset 4, -8
+ 356              		.cfi_offset 14, -4
+ 357 0002 ADF5107D 		sub	sp, sp, #576
+ 358              	.LCFI9:
+ 359              		.cfi_def_cfa_offset 584
+ 360 0006 0146     		mov	r1, r0
+  72:User/screenshot/screenshot.c ****     FIL file;
+ 361              		.loc 1 72 5 is_stmt 1 view .LVU64
+  73:User/screenshot/screenshot.c ****     UINT bytes_read;
+ 362              		.loc 1 73 5 view .LVU65
+  74:User/screenshot/screenshot.c ****     FRESULT res;
+ 363              		.loc 1 74 5 view .LVU66
+  75:User/screenshot/screenshot.c **** 
+  76:User/screenshot/screenshot.c ****     // 打开文件
+  77:User/screenshot/screenshot.c ****     res = f_open(&file, filename, FA_READ);
+ 364              		.loc 1 77 5 view .LVU67
+ 365              		.loc 1 77 11 is_stmt 0 view .LVU68
+ 366 0008 0122     		movs	r2, #1
+ 367 000a 04A8     		add	r0, sp, #16
+ 368              	.LVL34:
+ 369              		.loc 1 77 11 view .LVU69
+ 370 000c FFF7FEFF 		bl	f_open
+ 371              	.LVL35:
+  78:User/screenshot/screenshot.c ****     if (res != FR_OK)
+ 372              		.loc 1 78 5 is_stmt 1 view .LVU70
+ 373              		.loc 1 78 8 is_stmt 0 view .LVU71
+ 374 0010 0446     		mov	r4, r0
+ 375 0012 C8B9     		cbnz	r0, .L26
+  79:User/screenshot/screenshot.c ****     {
+  80:User/screenshot/screenshot.c ****         LV_LOG_USER("SD failed: %d", res);
+  81:User/screenshot/screenshot.c ****         return 0;
+  82:User/screenshot/screenshot.c ****     }
+  83:User/screenshot/screenshot.c **** 
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 10
+
+
+  84:User/screenshot/screenshot.c ****     // 读取文件
+  85:User/screenshot/screenshot.c ****     res = f_read(&file, snapshot_buf, sizeof(snapshot_buf), &bytes_read);
+ 376              		.loc 1 85 5 is_stmt 1 view .LVU72
+ 377              		.loc 1 85 11 is_stmt 0 view .LVU73
+ 378 0014 03AB     		add	r3, sp, #12
+ 379 0016 194A     		ldr	r2, .L27
+ 380 0018 1949     		ldr	r1, .L27+4
+ 381 001a 04A8     		add	r0, sp, #16
+ 382              	.LVL36:
+ 383              		.loc 1 85 11 view .LVU74
+ 384 001c FFF7FEFF 		bl	f_read
+ 385              	.LVL37:
+  86:User/screenshot/screenshot.c ****     if (res != FR_OK || bytes_read == 0)
+ 386              		.loc 1 86 5 is_stmt 1 view .LVU75
+ 387              		.loc 1 86 8 is_stmt 0 view .LVU76
+ 388 0020 0346     		mov	r3, r0
+ 389 0022 08B9     		cbnz	r0, .L23
+ 390              		.loc 1 86 36 discriminator 1 view .LVU77
+ 391 0024 039A     		ldr	r2, [sp, #12]
+ 392              		.loc 1 86 22 discriminator 1 view .LVU78
+ 393 0026 D2B9     		cbnz	r2, .L24
+ 394              	.L23:
+  87:User/screenshot/screenshot.c ****     {
+  88:User/screenshot/screenshot.c ****         LV_LOG_USER("SD failed: %d", res);
+ 395              		.loc 1 88 9 is_stmt 1 view .LVU79
+ 396 0028 0193     		str	r3, [sp, #4]
+ 397 002a 164B     		ldr	r3, .L27+8
+ 398 002c 0093     		str	r3, [sp]
+ 399 002e 164B     		ldr	r3, .L27+12
+ 400 0030 5822     		movs	r2, #88
+ 401 0032 1649     		ldr	r1, .L27+16
+ 402 0034 0420     		movs	r0, #4
+ 403              	.LVL38:
+ 404              		.loc 1 88 9 is_stmt 0 view .LVU80
+ 405 0036 FFF7FEFF 		bl	_lv_log_add
+ 406              	.LVL39:
+  89:User/screenshot/screenshot.c ****         f_close(&file);
+ 407              		.loc 1 89 9 is_stmt 1 view .LVU81
+ 408 003a 04A8     		add	r0, sp, #16
+ 409 003c FFF7FEFF 		bl	f_close
+ 410              	.LVL40:
+  90:User/screenshot/screenshot.c ****         return 0;
+ 411              		.loc 1 90 9 view .LVU82
+ 412              	.L22:
+  91:User/screenshot/screenshot.c ****     }
+  92:User/screenshot/screenshot.c **** 
+  93:User/screenshot/screenshot.c ****     // 关闭文件
+  94:User/screenshot/screenshot.c ****     f_close(&file);
+  95:User/screenshot/screenshot.c ****     LV_LOG_USER("successed read %d ", bytes_read);
+  96:User/screenshot/screenshot.c ****     return 1;
+  97:User/screenshot/screenshot.c **** }
+ 413              		.loc 1 97 1 is_stmt 0 view .LVU83
+ 414 0040 2046     		mov	r0, r4
+ 415 0042 0DF5107D 		add	sp, sp, #576
+ 416              	.LCFI10:
+ 417              		.cfi_remember_state
+ 418              		.cfi_def_cfa_offset 8
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 11
+
+
+ 419              		@ sp needed
+ 420 0046 10BD     		pop	{r4, pc}
+ 421              	.LVL41:
+ 422              	.L26:
+ 423              	.LCFI11:
+ 424              		.cfi_restore_state
+  80:User/screenshot/screenshot.c ****         return 0;
+ 425              		.loc 1 80 9 is_stmt 1 view .LVU84
+ 426 0048 0190     		str	r0, [sp, #4]
+ 427 004a 0E4B     		ldr	r3, .L27+8
+ 428 004c 0093     		str	r3, [sp]
+ 429 004e 0E4B     		ldr	r3, .L27+12
+ 430 0050 5022     		movs	r2, #80
+ 431 0052 0E49     		ldr	r1, .L27+16
+ 432 0054 0420     		movs	r0, #4
+ 433              	.LVL42:
+  80:User/screenshot/screenshot.c ****         return 0;
+ 434              		.loc 1 80 9 is_stmt 0 view .LVU85
+ 435 0056 FFF7FEFF 		bl	_lv_log_add
+ 436              	.LVL43:
+  81:User/screenshot/screenshot.c ****     }
+ 437              		.loc 1 81 9 is_stmt 1 view .LVU86
+  81:User/screenshot/screenshot.c ****     }
+ 438              		.loc 1 81 16 is_stmt 0 view .LVU87
+ 439 005a 0024     		movs	r4, #0
+ 440              	.LVL44:
+  81:User/screenshot/screenshot.c ****     }
+ 441              		.loc 1 81 16 view .LVU88
+ 442 005c F0E7     		b	.L22
+ 443              	.LVL45:
+ 444              	.L24:
+  94:User/screenshot/screenshot.c ****     LV_LOG_USER("successed read %d ", bytes_read);
+ 445              		.loc 1 94 5 is_stmt 1 view .LVU89
+ 446 005e 04A8     		add	r0, sp, #16
+ 447              	.LVL46:
+  94:User/screenshot/screenshot.c ****     LV_LOG_USER("successed read %d ", bytes_read);
+ 448              		.loc 1 94 5 is_stmt 0 view .LVU90
+ 449 0060 FFF7FEFF 		bl	f_close
+ 450              	.LVL47:
+  95:User/screenshot/screenshot.c ****     return 1;
+ 451              		.loc 1 95 5 is_stmt 1 view .LVU91
+ 452 0064 039B     		ldr	r3, [sp, #12]
+ 453 0066 0193     		str	r3, [sp, #4]
+ 454 0068 094B     		ldr	r3, .L27+20
+ 455 006a 0093     		str	r3, [sp]
+ 456 006c 064B     		ldr	r3, .L27+12
+ 457 006e 5F22     		movs	r2, #95
+ 458 0070 0649     		ldr	r1, .L27+16
+ 459 0072 0420     		movs	r0, #4
+ 460 0074 FFF7FEFF 		bl	_lv_log_add
+ 461              	.LVL48:
+  96:User/screenshot/screenshot.c **** }
+ 462              		.loc 1 96 5 view .LVU92
+  96:User/screenshot/screenshot.c **** }
+ 463              		.loc 1 96 12 is_stmt 0 view .LVU93
+ 464 0078 0124     		movs	r4, #1
+ 465 007a E1E7     		b	.L22
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 12
+
+
+ 466              	.L28:
+ 467              		.align	2
+ 468              	.L27:
+ 469 007c 00350C00 		.word	800000
+ 470 0080 00000000 		.word	snapshot_buf
+ 471 0084 20000000 		.word	.LC1
+ 472 0088 00000000 		.word	__func__.4
+ 473 008c 00000000 		.word	.LC0
+ 474 0090 00000000 		.word	.LC6
+ 475              		.cfi_endproc
+ 476              	.LFE559:
+ 478              		.section	.rodata.refersh_lvgl_image.str1.4,"aMS",%progbits,1
+ 479              		.align	2
+ 480              	.LC7:
+ 481 0000 73756363 		.ascii	"successed to create image descriptor!\015\012\000"
+ 481      65737365 
+ 481      6420746F 
+ 481      20637265 
+ 481      61746520 
+ 482              		.section	.text.refersh_lvgl_image,"ax",%progbits
+ 483              		.align	1
+ 484              		.global	refersh_lvgl_image
+ 485              		.syntax unified
+ 486              		.thumb
+ 487              		.thumb_func
+ 489              	refersh_lvgl_image:
+ 490              	.LVL49:
+ 491              	.LFB560:
+  98:User/screenshot/screenshot.c **** uint8_t refersh_lvgl_image(lv_obj_t *img)
+  99:User/screenshot/screenshot.c **** {
+ 492              		.loc 1 99 1 is_stmt 1 view -0
+ 493              		.cfi_startproc
+ 494              		@ args = 0, pretend = 0, frame = 0
+ 495              		@ frame_needed = 0, uses_anonymous_args = 0
+ 496              		.loc 1 99 1 is_stmt 0 view .LVU95
+ 497 0000 00B5     		push	{lr}
+ 498              	.LCFI12:
+ 499              		.cfi_def_cfa_offset 4
+ 500              		.cfi_offset 14, -4
+ 501 0002 83B0     		sub	sp, sp, #12
+ 502              	.LCFI13:
+ 503              		.cfi_def_cfa_offset 16
+ 100:User/screenshot/screenshot.c ****     load_img_dsc.header.always_zero = 0;
+ 504              		.loc 1 100 5 is_stmt 1 view .LVU96
+ 505              		.loc 1 100 37 is_stmt 0 view .LVU97
+ 506 0004 1349     		ldr	r1, .L31
+ 507 0006 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 508 0008 23F0E003 		bic	r3, r3, #224
+ 509 000c 0B70     		strb	r3, [r1]
+ 101:User/screenshot/screenshot.c ****     load_img_dsc.header.w = 600; // 图片宽度（根据图片实际尺寸调整）
+ 510              		.loc 1 101 5 is_stmt 1 view .LVU98
+ 511              		.loc 1 101 27 is_stmt 0 view .LVU99
+ 512 000e 0B68     		ldr	r3, [r1]
+ 513 0010 4FF41672 		mov	r2, #600
+ 514 0014 62F39423 		bfi	r3, r2, #10, #11
+ 515 0018 0B60     		str	r3, [r1]
+ 102:User/screenshot/screenshot.c ****     load_img_dsc.header.h = 420; // 图片高度（根据图片实际尺寸调整）
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 13
+
+
+ 516              		.loc 1 102 5 is_stmt 1 view .LVU100
+ 517              		.loc 1 102 27 is_stmt 0 view .LVU101
+ 518 001a 4B88     		ldrh	r3, [r1, #2]
+ 519 001c 4FF4D272 		mov	r2, #420
+ 520 0020 62F34F13 		bfi	r3, r2, #5, #11
+ 521 0024 4B80     		strh	r3, [r1, #2]	@ movhi
+ 103:User/screenshot/screenshot.c ****     load_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR_ALPHA;
+ 522              		.loc 1 103 5 is_stmt 1 view .LVU102
+ 523              		.loc 1 103 28 is_stmt 0 view .LVU103
+ 524 0026 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 525 0028 0522     		movs	r2, #5
+ 526 002a 62F30403 		bfi	r3, r2, #0, #5
+ 527 002e 0B70     		strb	r3, [r1]
+ 104:User/screenshot/screenshot.c ****     load_img_dsc.data_size = sizeof(snapshot_buf); // 图片数据大小
+ 528              		.loc 1 104 5 is_stmt 1 view .LVU104
+ 529              		.loc 1 104 28 is_stmt 0 view .LVU105
+ 530 0030 094B     		ldr	r3, .L31+4
+ 531 0032 4B60     		str	r3, [r1, #4]
+ 105:User/screenshot/screenshot.c ****     load_img_dsc.data = snapshot_buf;              // 指向图片数据
+ 532              		.loc 1 105 5 is_stmt 1 view .LVU106
+ 533              		.loc 1 105 23 is_stmt 0 view .LVU107
+ 534 0034 094B     		ldr	r3, .L31+8
+ 535 0036 8B60     		str	r3, [r1, #8]
+ 106:User/screenshot/screenshot.c ****     lv_img_set_src(img, &load_img_dsc);
+ 536              		.loc 1 106 5 is_stmt 1 view .LVU108
+ 537 0038 FFF7FEFF 		bl	lv_img_set_src
+ 538              	.LVL50:
+ 107:User/screenshot/screenshot.c ****     LV_LOG_USER("successed to create image descriptor!\r\n");
+ 539              		.loc 1 107 5 view .LVU109
+ 540 003c 084B     		ldr	r3, .L31+12
+ 541 003e 0093     		str	r3, [sp]
+ 542 0040 084B     		ldr	r3, .L31+16
+ 543 0042 6B22     		movs	r2, #107
+ 544 0044 0849     		ldr	r1, .L31+20
+ 545 0046 0420     		movs	r0, #4
+ 546 0048 FFF7FEFF 		bl	_lv_log_add
+ 547              	.LVL51:
+ 108:User/screenshot/screenshot.c ****     return 1;
+ 548              		.loc 1 108 5 view .LVU110
+ 109:User/screenshot/screenshot.c **** }
+ 549              		.loc 1 109 1 is_stmt 0 view .LVU111
+ 550 004c 0120     		movs	r0, #1
+ 551 004e 03B0     		add	sp, sp, #12
+ 552              	.LCFI14:
+ 553              		.cfi_def_cfa_offset 4
+ 554              		@ sp needed
+ 555 0050 5DF804FB 		ldr	pc, [sp], #4
+ 556              	.L32:
+ 557              		.align	2
+ 558              	.L31:
+ 559 0054 00000000 		.word	load_img_dsc
+ 560 0058 00350C00 		.word	800000
+ 561 005c 00000000 		.word	snapshot_buf
+ 562 0060 00000000 		.word	.LC7
+ 563 0064 00000000 		.word	__func__.3
+ 564 0068 00000000 		.word	.LC0
+ 565              		.cfi_endproc
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 14
+
+
+ 566              	.LFE560:
+ 568              		.section	.rodata.GetFileCount.str1.4,"aMS",%progbits,1
+ 569              		.align	2
+ 570              	.LC8:
+ 571 0000 4661696C 		.ascii	"Failed to open directory: %s, Error: %d\012\000"
+ 571      65642074 
+ 571      6F206F70 
+ 571      656E2064 
+ 571      69726563 
+ 572 0029 000000   		.align	2
+ 573              	.LC9:
+ 574 002c 66696C65 		.ascii	"file number: %d,name:%s\015\012\000"
+ 574      206E756D 
+ 574      6265723A 
+ 574      2025642C 
+ 574      6E616D65 
+ 575              		.section	.text.GetFileCount,"ax",%progbits
+ 576              		.align	1
+ 577              		.global	GetFileCount
+ 578              		.syntax unified
+ 579              		.thumb
+ 580              		.thumb_func
+ 582              	GetFileCount:
+ 583              	.LVL52:
+ 584              	.LFB561:
+ 110:User/screenshot/screenshot.c **** uint8_t GetFileCount(const char *path)
+ 111:User/screenshot/screenshot.c **** {
+ 585              		.loc 1 111 1 is_stmt 1 view -0
+ 586              		.cfi_startproc
+ 587              		@ args = 0, pretend = 0, frame = 72
+ 588              		@ frame_needed = 0, uses_anonymous_args = 0
+ 589              		.loc 1 111 1 is_stmt 0 view .LVU113
+ 590 0000 10B5     		push	{r4, lr}
+ 591              	.LCFI15:
+ 592              		.cfi_def_cfa_offset 8
+ 593              		.cfi_offset 4, -8
+ 594              		.cfi_offset 14, -4
+ 595 0002 96B0     		sub	sp, sp, #88
+ 596              	.LCFI16:
+ 597              		.cfi_def_cfa_offset 96
+ 598 0004 0446     		mov	r4, r0
+ 112:User/screenshot/screenshot.c ****     FATFS fs;
+ 599              		.loc 1 112 5 is_stmt 1 view .LVU114
+ 113:User/screenshot/screenshot.c ****     FILINFO fno;
+ 600              		.loc 1 113 5 view .LVU115
+ 114:User/screenshot/screenshot.c ****     DIR dir;
+ 601              		.loc 1 114 5 view .LVU116
+ 115:User/screenshot/screenshot.c ****     FRESULT res;
+ 602              		.loc 1 115 5 view .LVU117
+ 116:User/screenshot/screenshot.c ****     uint16_t file_count = 0;
+ 603              		.loc 1 116 5 view .LVU118
+ 604              	.LVL53:
+ 117:User/screenshot/screenshot.c ****     // fr = f_getcwd(cwd, sizeof(cwd));
+ 118:User/screenshot/screenshot.c ****     // if (fr != FR_OK)
+ 119:User/screenshot/screenshot.c ****     // {
+ 120:User/screenshot/screenshot.c ****     //     // 错误处理
+ 121:User/screenshot/screenshot.c ****     //     LV_LOG_USER("\33Error getting current directory.\n");
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 15
+
+
+ 122:User/screenshot/screenshot.c ****     //     return -1;
+ 123:User/screenshot/screenshot.c ****     // }
+ 124:User/screenshot/screenshot.c **** 
+ 125:User/screenshot/screenshot.c ****     // // 打印当前路径
+ 126:User/screenshot/screenshot.c ****     // LV_LOG_USER("Current directory: %s\n", cwd);
+ 127:User/screenshot/screenshot.c ****     // 初始化文件计数
+ 128:User/screenshot/screenshot.c ****     // 打开目录
+ 129:User/screenshot/screenshot.c ****     res = f_opendir(&dir, path);
+ 605              		.loc 1 129 5 view .LVU119
+ 606              		.loc 1 129 11 is_stmt 0 view .LVU120
+ 607 0006 0146     		mov	r1, r0
+ 608 0008 04A8     		add	r0, sp, #16
+ 609              	.LVL54:
+ 610              		.loc 1 129 11 view .LVU121
+ 611 000a FFF7FEFF 		bl	f_opendir
+ 612              	.LVL55:
+ 130:User/screenshot/screenshot.c ****     if (res != FR_OK)
+ 613              		.loc 1 130 5 is_stmt 1 view .LVU122
+ 614              		.loc 1 130 8 is_stmt 0 view .LVU123
+ 615 000e E0B9     		cbnz	r0, .L40
+ 116:User/screenshot/screenshot.c ****     uint16_t file_count = 0;
+ 616              		.loc 1 116 14 view .LVU124
+ 617 0010 0024     		movs	r4, #0
+ 618              	.LVL56:
+ 619              	.L37:
+ 131:User/screenshot/screenshot.c ****     {
+ 132:User/screenshot/screenshot.c ****         LV_LOG_USER("Failed to open directory: %s, Error: %d\n", path, res);
+ 133:User/screenshot/screenshot.c ****         f_closedir(&dir);  // 补充关闭操作
+ 134:User/screenshot/screenshot.c ****         return -1; // 失败
+ 135:User/screenshot/screenshot.c ****     }
+ 136:User/screenshot/screenshot.c **** 
+ 137:User/screenshot/screenshot.c ****     // 遍历目录
+ 138:User/screenshot/screenshot.c ****     while (1)
+ 620              		.loc 1 138 5 is_stmt 1 view .LVU125
+ 139:User/screenshot/screenshot.c ****     {
+ 140:User/screenshot/screenshot.c ****         res = f_readdir(&dir, &fno); // 读取目录项
+ 621              		.loc 1 140 9 view .LVU126
+ 622              		.loc 1 140 15 is_stmt 0 view .LVU127
+ 623 0012 10A9     		add	r1, sp, #64
+ 624 0014 04A8     		add	r0, sp, #16
+ 625 0016 FFF7FEFF 		bl	f_readdir
+ 626              	.LVL57:
+ 141:User/screenshot/screenshot.c ****         if (res != FR_OK || fno.fname[0] == 0)
+ 627              		.loc 1 141 9 is_stmt 1 view .LVU128
+ 628              		.loc 1 141 12 is_stmt 0 view .LVU129
+ 629 001a 28BB     		cbnz	r0, .L36
+ 630              		.loc 1 141 38 discriminator 1 view .LVU130
+ 631 001c 9DF84930 		ldrb	r3, [sp, #73]	@ zero_extendqisi2
+ 632              		.loc 1 141 26 discriminator 1 view .LVU131
+ 633 0020 13B3     		cbz	r3, .L36
+ 142:User/screenshot/screenshot.c **** 
+ 143:User/screenshot/screenshot.c ****             break; // 读取出错或到达目录末尾
+ 144:User/screenshot/screenshot.c **** 
+ 145:User/screenshot/screenshot.c ****         if (!(fno.fattrib & AM_DIR))
+ 634              		.loc 1 145 9 is_stmt 1 view .LVU132
+ 635              		.loc 1 145 18 is_stmt 0 view .LVU133
+ 636 0022 9DF84830 		ldrb	r3, [sp, #72]	@ zero_extendqisi2
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 16
+
+
+ 637              		.loc 1 145 12 view .LVU134
+ 638 0026 13F0100F 		tst	r3, #16
+ 639 002a F2D1     		bne	.L37
+ 146:User/screenshot/screenshot.c ****         { // 排除子目录
+ 147:User/screenshot/screenshot.c ****             file_count++;
+ 640              		.loc 1 147 13 is_stmt 1 view .LVU135
+ 641              		.loc 1 147 23 is_stmt 0 view .LVU136
+ 642 002c 0134     		adds	r4, r4, #1
+ 643              	.LVL58:
+ 644              		.loc 1 147 23 view .LVU137
+ 645 002e A4B2     		uxth	r4, r4
+ 646              	.LVL59:
+ 148:User/screenshot/screenshot.c ****             LV_LOG_USER("file number: %d,name:%s\r\n", file_count, fno.fname);
+ 647              		.loc 1 148 13 is_stmt 1 view .LVU138
+ 648 0030 0DF14903 		add	r3, sp, #73
+ 649 0034 0293     		str	r3, [sp, #8]
+ 650 0036 0194     		str	r4, [sp, #4]
+ 651 0038 0F4B     		ldr	r3, .L41
+ 652 003a 0093     		str	r3, [sp]
+ 653 003c 0F4B     		ldr	r3, .L41+4
+ 654 003e 9422     		movs	r2, #148
+ 655 0040 0F49     		ldr	r1, .L41+8
+ 656 0042 0420     		movs	r0, #4
+ 657              	.LVL60:
+ 658              		.loc 1 148 13 is_stmt 0 view .LVU139
+ 659 0044 FFF7FEFF 		bl	_lv_log_add
+ 660              	.LVL61:
+ 661 0048 E3E7     		b	.L37
+ 662              	.LVL62:
+ 663              	.L40:
+ 132:User/screenshot/screenshot.c ****         f_closedir(&dir);  // 补充关闭操作
+ 664              		.loc 1 132 9 is_stmt 1 view .LVU140
+ 665 004a 0290     		str	r0, [sp, #8]
+ 666 004c 0194     		str	r4, [sp, #4]
+ 667 004e 0D4B     		ldr	r3, .L41+12
+ 668 0050 0093     		str	r3, [sp]
+ 669 0052 0A4B     		ldr	r3, .L41+4
+ 670 0054 8422     		movs	r2, #132
+ 671 0056 0A49     		ldr	r1, .L41+8
+ 672 0058 0420     		movs	r0, #4
+ 673              	.LVL63:
+ 132:User/screenshot/screenshot.c ****         f_closedir(&dir);  // 补充关闭操作
+ 674              		.loc 1 132 9 is_stmt 0 view .LVU141
+ 675 005a FFF7FEFF 		bl	_lv_log_add
+ 676              	.LVL64:
+ 133:User/screenshot/screenshot.c ****         return -1; // 失败
+ 677              		.loc 1 133 9 is_stmt 1 view .LVU142
+ 678 005e 04A8     		add	r0, sp, #16
+ 679 0060 FFF7FEFF 		bl	f_closedir
+ 680              	.LVL65:
+ 134:User/screenshot/screenshot.c ****     }
+ 681              		.loc 1 134 9 view .LVU143
+ 134:User/screenshot/screenshot.c ****     }
+ 682              		.loc 1 134 16 is_stmt 0 view .LVU144
+ 683 0064 FF20     		movs	r0, #255
+ 684 0066 04E0     		b	.L35
+ 685              	.LVL66:
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 17
+
+
+ 686              	.L36:
+ 149:User/screenshot/screenshot.c ****         }
+ 150:User/screenshot/screenshot.c ****     }
+ 151:User/screenshot/screenshot.c **** 
+ 152:User/screenshot/screenshot.c ****     // 关闭目录
+ 153:User/screenshot/screenshot.c ****     f_closedir(&dir);
+ 687              		.loc 1 153 5 is_stmt 1 view .LVU145
+ 688 0068 04A8     		add	r0, sp, #16
+ 689              	.LVL67:
+ 690              		.loc 1 153 5 is_stmt 0 view .LVU146
+ 691 006a FFF7FEFF 		bl	f_closedir
+ 692              	.LVL68:
+ 154:User/screenshot/screenshot.c ****     // fr = f_getcwd(cwd, sizeof(cwd));
+ 155:User/screenshot/screenshot.c ****     // if (fr != FR_OK)
+ 156:User/screenshot/screenshot.c ****     // {
+ 157:User/screenshot/screenshot.c ****     //     // 错误处理
+ 158:User/screenshot/screenshot.c ****     //     LV_LOG_USER("\33Error getting current directory.\n");
+ 159:User/screenshot/screenshot.c ****     //     return -1;
+ 160:User/screenshot/screenshot.c ****     // }
+ 161:User/screenshot/screenshot.c **** 
+ 162:User/screenshot/screenshot.c ****     // // 打印当前路径
+ 163:User/screenshot/screenshot.c ****     // LV_LOG_USER("Current directory: %s\n", cwd);
+ 164:User/screenshot/screenshot.c ****     // sd_count=file_count;
+ 165:User/screenshot/screenshot.c ****     // LV_LOG_USER("sd_count: %d\n", sd_count);
+ 166:User/screenshot/screenshot.c ****     return file_count-1; // 成功
+ 693              		.loc 1 166 5 is_stmt 1 view .LVU147
+ 694              		.loc 1 166 22 is_stmt 0 view .LVU148
+ 695 006e 601E     		subs	r0, r4, #1
+ 696 0070 C0B2     		uxtb	r0, r0
+ 697              	.LVL69:
+ 698              	.L35:
+ 167:User/screenshot/screenshot.c **** }
+ 699              		.loc 1 167 1 view .LVU149
+ 700 0072 16B0     		add	sp, sp, #88
+ 701              	.LCFI17:
+ 702              		.cfi_def_cfa_offset 8
+ 703              		@ sp needed
+ 704 0074 10BD     		pop	{r4, pc}
+ 705              	.L42:
+ 706 0076 00BF     		.align	2
+ 707              	.L41:
+ 708 0078 2C000000 		.word	.LC9
+ 709 007c 00000000 		.word	__func__.2
+ 710 0080 00000000 		.word	.LC0
+ 711 0084 00000000 		.word	.LC8
+ 712              		.cfi_endproc
+ 713              	.LFE561:
+ 715              		.section	.rodata.OpenFileByIndex.str1.4,"aMS",%progbits,1
+ 716              		.align	2
+ 717              	.LC10:
+ 718 0000 66696C65 		.ascii	"filed to open dir: %d\000"
+ 718      6420746F 
+ 718      206F7065 
+ 718      6E206469 
+ 718      723A2025 
+ 719 0016 0000     		.align	2
+ 720              	.LC11:
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 18
+
+
+ 721 0018 636F756C 		.ascii	"could not read dir. res:%d\000"
+ 721      64206E6F 
+ 721      74207265 
+ 721      61642064 
+ 721      69722E20 
+ 722 0033 00       		.align	2
+ 723              	.LC12:
+ 724 0034 25732F25 		.ascii	"%s/%s\000"
+ 724      7300
+ 725 003a 0000     		.align	2
+ 726              	.LC13:
+ 727 003c 494D4147 		.ascii	"IMAGE:%s,  %d/%d\000"
+ 727      453A2573 
+ 727      2C202025 
+ 727      642F2564 
+ 727      00
+ 728 004d 000000   		.align	2
+ 729              	.LC14:
+ 730 0050 6F70656E 		.ascii	"openning: %s\015\012\000"
+ 730      6E696E67 
+ 730      3A202573 
+ 730      0D0A00
+ 731 005f 00       		.align	2
+ 732              	.LC15:
+ 733 0060 73756363 		.ascii	"successed to open number %d file: %s\015\012\000"
+ 733      65737365 
+ 733      6420746F 
+ 733      206F7065 
+ 733      6E206E75 
+ 734 0087 00       		.align	2
+ 735              	.LC16:
+ 736 0088 66696C65 		.ascii	"fileed to open number %d file,%d\000"
+ 736      65642074 
+ 736      6F206F70 
+ 736      656E206E 
+ 736      756D6265 
+ 737              		.section	.text.OpenFileByIndex,"ax",%progbits
+ 738              		.align	1
+ 739              		.global	OpenFileByIndex
+ 740              		.syntax unified
+ 741              		.thumb
+ 742              		.thumb_func
+ 744              	OpenFileByIndex:
+ 745              	.LVL70:
+ 746              	.LFB562:
+ 168:User/screenshot/screenshot.c **** uint8_t OpenFileByIndex(const char *path, uint16_t index)
+ 169:User/screenshot/screenshot.c **** {
+ 747              		.loc 1 169 1 is_stmt 1 view -0
+ 748              		.cfi_startproc
+ 749              		@ args = 0, pretend = 0, frame = 768
+ 750              		@ frame_needed = 0, uses_anonymous_args = 0
+ 751              		.loc 1 169 1 is_stmt 0 view .LVU151
+ 752 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 753              	.LCFI18:
+ 754              		.cfi_def_cfa_offset 24
+ 755              		.cfi_offset 4, -24
+ 756              		.cfi_offset 5, -20
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 19
+
+
+ 757              		.cfi_offset 6, -16
+ 758              		.cfi_offset 7, -12
+ 759              		.cfi_offset 8, -8
+ 760              		.cfi_offset 14, -4
+ 761 0004 ADF5447D 		sub	sp, sp, #784
+ 762              	.LCFI19:
+ 763              		.cfi_def_cfa_offset 808
+ 764 0008 0746     		mov	r7, r0
+ 765 000a 0E46     		mov	r6, r1
+ 170:User/screenshot/screenshot.c **** 
+ 171:User/screenshot/screenshot.c ****     // fr = f_getcwd(cwd, sizeof(cwd));
+ 172:User/screenshot/screenshot.c ****     // if (fr != FR_OK)
+ 173:User/screenshot/screenshot.c ****     // {
+ 174:User/screenshot/screenshot.c ****     //     // 错误处理
+ 175:User/screenshot/screenshot.c ****     //     LV_LOG_USER("\33Error getting current directory.\n");
+ 176:User/screenshot/screenshot.c ****     //     return -1;
+ 177:User/screenshot/screenshot.c ****     // }
+ 178:User/screenshot/screenshot.c **** 
+ 179:User/screenshot/screenshot.c **** 
+ 180:User/screenshot/screenshot.c **** 
+ 181:User/screenshot/screenshot.c ****     FATFS fs;
+ 766              		.loc 1 181 5 is_stmt 1 view .LVU152
+ 182:User/screenshot/screenshot.c ****     FILINFO fno;
+ 767              		.loc 1 182 5 view .LVU153
+ 183:User/screenshot/screenshot.c ****     FRESULT res;
+ 768              		.loc 1 183 5 view .LVU154
+ 184:User/screenshot/screenshot.c ****     uint16_t current_index = 0;
+ 769              		.loc 1 184 5 view .LVU155
+ 770              	.LVL71:
+ 185:User/screenshot/screenshot.c ****     // 2. 打开目录
+ 186:User/screenshot/screenshot.c ****     DIR dir;
+ 771              		.loc 1 186 5 view .LVU156
+ 187:User/screenshot/screenshot.c ****     res = f_opendir(&dir, path);
+ 772              		.loc 1 187 5 view .LVU157
+ 773              		.loc 1 187 11 is_stmt 0 view .LVU158
+ 774 000c 0146     		mov	r1, r0
+ 775              	.LVL72:
+ 776              		.loc 1 187 11 view .LVU159
+ 777 000e B2A8     		add	r0, sp, #712
+ 778              	.LVL73:
+ 779              		.loc 1 187 11 view .LVU160
+ 780 0010 FFF7FEFF 		bl	f_opendir
+ 781              	.LVL74:
+ 188:User/screenshot/screenshot.c ****     if (res != FR_OK)
+ 782              		.loc 1 188 5 is_stmt 1 view .LVU161
+ 783              		.loc 1 188 8 is_stmt 0 view .LVU162
+ 784 0014 8046     		mov	r8, r0
+ 785 0016 98B9     		cbnz	r0, .L57
+ 184:User/screenshot/screenshot.c ****     // 2. 打开目录
+ 786              		.loc 1 184 14 view .LVU163
+ 787 0018 0025     		movs	r5, #0
+ 788              	.LVL75:
+ 789              	.L44:
+ 189:User/screenshot/screenshot.c ****     {
+ 190:User/screenshot/screenshot.c ****         LV_LOG_USER("filed to open dir: %d", res);
+ 191:User/screenshot/screenshot.c ****         f_closedir(&dir);  // 补充关闭操作
+ 192:User/screenshot/screenshot.c ****         return 0;
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 20
+
+
+ 193:User/screenshot/screenshot.c ****     }
+ 194:User/screenshot/screenshot.c ****     FIL file;
+ 790              		.loc 1 194 5 is_stmt 1 view .LVU164
+ 195:User/screenshot/screenshot.c ****     // 3. 遍历目录找到第 index 个文件
+ 196:User/screenshot/screenshot.c ****     while (1)
+ 791              		.loc 1 196 5 view .LVU165
+ 197:User/screenshot/screenshot.c ****     {
+ 198:User/screenshot/screenshot.c ****         res = f_readdir(&dir, &fno);
+ 792              		.loc 1 198 9 view .LVU166
+ 793              		.loc 1 198 15 is_stmt 0 view .LVU167
+ 794 001a BEA9     		add	r1, sp, #760
+ 795 001c B2A8     		add	r0, sp, #712
+ 796              	.LVL76:
+ 797              		.loc 1 198 15 view .LVU168
+ 798 001e FFF7FEFF 		bl	f_readdir
+ 799              	.LVL77:
+ 199:User/screenshot/screenshot.c ****         if (res != FR_OK || fno.fname[0] == 0)
+ 800              		.loc 1 199 9 is_stmt 1 view .LVU169
+ 801              		.loc 1 199 12 is_stmt 0 view .LVU170
+ 802 0022 0346     		mov	r3, r0
+ 803 0024 D8B9     		cbnz	r0, .L46
+ 804              		.loc 1 199 38 discriminator 1 view .LVU171
+ 805 0026 9DF80123 		ldrb	r2, [sp, #769]	@ zero_extendqisi2
+ 806              		.loc 1 199 26 discriminator 1 view .LVU172
+ 807 002a C2B1     		cbz	r2, .L46
+ 200:User/screenshot/screenshot.c ****         {
+ 201:User/screenshot/screenshot.c ****             LV_LOG_USER("could not read dir. res:%d",res);
+ 202:User/screenshot/screenshot.c ****             f_closedir(&dir);
+ 203:User/screenshot/screenshot.c ****             return 0;
+ 204:User/screenshot/screenshot.c ****         }
+ 205:User/screenshot/screenshot.c **** 
+ 206:User/screenshot/screenshot.c ****         // 排除子目录，仅统计文件
+ 207:User/screenshot/screenshot.c ****         if (!(fno.fattrib & AM_DIR))
+ 808              		.loc 1 207 9 is_stmt 1 view .LVU173
+ 809              		.loc 1 207 18 is_stmt 0 view .LVU174
+ 810 002c 9DF80023 		ldrb	r2, [sp, #768]	@ zero_extendqisi2
+ 811              		.loc 1 207 12 view .LVU175
+ 812 0030 12F01004 		ands	r4, r2, #16
+ 813 0034 F1D1     		bne	.L44
+ 208:User/screenshot/screenshot.c ****         {
+ 209:User/screenshot/screenshot.c ****             if (current_index == index)
+ 814              		.loc 1 209 13 is_stmt 1 view .LVU176
+ 815              		.loc 1 209 16 is_stmt 0 view .LVU177
+ 816 0036 B542     		cmp	r5, r6
+ 817 0038 22D0     		beq	.L58
+ 210:User/screenshot/screenshot.c ****             {
+ 211:User/screenshot/screenshot.c ****                 // 4. 打开目标文件
+ 212:User/screenshot/screenshot.c ****                 char filepath[128];
+ 213:User/screenshot/screenshot.c ****                 snprintf(filepath, sizeof(filepath), "%s/%s", path, fno.fname);
+ 214:User/screenshot/screenshot.c ****                 lv_label_set_text_fmt(guider_ui.wave_model_label_27, "IMAGE:%s,  %d/%d", fno.fname,
+ 215:User/screenshot/screenshot.c ****                 LV_LOG_USER("openning: %s\r\n", filepath);
+ 216:User/screenshot/screenshot.c ****                 res = f_open(&file, filepath, FA_READ);
+ 217:User/screenshot/screenshot.c ****                 if (res == FR_OK)
+ 218:User/screenshot/screenshot.c ****                 {
+ 219:User/screenshot/screenshot.c ****                     LV_LOG_USER("successed to open number %d file: %s\r\n", index, fno.fname);
+ 220:User/screenshot/screenshot.c ****                     UINT bytes_read;
+ 221:User/screenshot/screenshot.c ****                     res = f_read(&file, snapshot_buf, sizeof(snapshot_buf), &bytes_read);
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 21
+
+
+ 222:User/screenshot/screenshot.c ****                     if (res != FR_OK || bytes_read == 0)
+ 223:User/screenshot/screenshot.c ****                     {
+ 224:User/screenshot/screenshot.c ****                         LV_LOG_USER("SD failed: %d", res);
+ 225:User/screenshot/screenshot.c ****                         f_close(&file);
+ 226:User/screenshot/screenshot.c ****                         return 0;// 读取失败
+ 227:User/screenshot/screenshot.c ****                     }
+ 228:User/screenshot/screenshot.c ****                     f_close(&file);
+ 229:User/screenshot/screenshot.c **** 
+ 230:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 231:User/screenshot/screenshot.c ****                     return 1;
+ 232:User/screenshot/screenshot.c ****                 }
+ 233:User/screenshot/screenshot.c ****                 else
+ 234:User/screenshot/screenshot.c ****                 {
+ 235:User/screenshot/screenshot.c ****                     LV_LOG_USER("fileed to open number %d file,%d", index,res);
+ 236:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 237:User/screenshot/screenshot.c ****                     return 0;
+ 238:User/screenshot/screenshot.c ****                 }
+ 239:User/screenshot/screenshot.c ****             }
+ 240:User/screenshot/screenshot.c ****             current_index++;
+ 818              		.loc 1 240 13 is_stmt 1 view .LVU178
+ 819              		.loc 1 240 26 is_stmt 0 view .LVU179
+ 820 003a 0135     		adds	r5, r5, #1
+ 821              	.LVL78:
+ 822              		.loc 1 240 26 view .LVU180
+ 823 003c ADB2     		uxth	r5, r5
+ 824              	.LVL79:
+ 825              		.loc 1 240 26 view .LVU181
+ 826 003e ECE7     		b	.L44
+ 827              	.LVL80:
+ 828              	.L57:
+ 190:User/screenshot/screenshot.c ****         f_closedir(&dir);  // 补充关闭操作
+ 829              		.loc 1 190 9 is_stmt 1 view .LVU182
+ 830 0040 0190     		str	r0, [sp, #4]
+ 831 0042 3F4B     		ldr	r3, .L59
+ 832 0044 0093     		str	r3, [sp]
+ 833 0046 3F4B     		ldr	r3, .L59+4
+ 834 0048 BE22     		movs	r2, #190
+ 835 004a 3F49     		ldr	r1, .L59+8
+ 836 004c 0420     		movs	r0, #4
+ 837              	.LVL81:
+ 190:User/screenshot/screenshot.c ****         f_closedir(&dir);  // 补充关闭操作
+ 838              		.loc 1 190 9 is_stmt 0 view .LVU183
+ 839 004e FFF7FEFF 		bl	_lv_log_add
+ 840              	.LVL82:
+ 191:User/screenshot/screenshot.c ****         return 0;
+ 841              		.loc 1 191 9 is_stmt 1 view .LVU184
+ 842 0052 B2A8     		add	r0, sp, #712
+ 843 0054 FFF7FEFF 		bl	f_closedir
+ 844              	.LVL83:
+ 192:User/screenshot/screenshot.c ****     }
+ 845              		.loc 1 192 9 view .LVU185
+ 192:User/screenshot/screenshot.c ****     }
+ 846              		.loc 1 192 16 is_stmt 0 view .LVU186
+ 847 0058 4FF00008 		mov	r8, #0
+ 848              	.LVL84:
+ 192:User/screenshot/screenshot.c ****     }
+ 849              		.loc 1 192 16 view .LVU187
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 22
+
+
+ 850 005c 0BE0     		b	.L45
+ 851              	.LVL85:
+ 852              	.L46:
+ 201:User/screenshot/screenshot.c ****             f_closedir(&dir);
+ 853              		.loc 1 201 13 is_stmt 1 view .LVU188
+ 854 005e 0193     		str	r3, [sp, #4]
+ 855 0060 3A4B     		ldr	r3, .L59+12
+ 856 0062 0093     		str	r3, [sp]
+ 857 0064 374B     		ldr	r3, .L59+4
+ 858 0066 C922     		movs	r2, #201
+ 859 0068 3749     		ldr	r1, .L59+8
+ 860 006a 0420     		movs	r0, #4
+ 861              	.LVL86:
+ 201:User/screenshot/screenshot.c ****             f_closedir(&dir);
+ 862              		.loc 1 201 13 is_stmt 0 view .LVU189
+ 863 006c FFF7FEFF 		bl	_lv_log_add
+ 864              	.LVL87:
+ 202:User/screenshot/screenshot.c ****             return 0;
+ 865              		.loc 1 202 13 is_stmt 1 view .LVU190
+ 866 0070 B2A8     		add	r0, sp, #712
+ 867 0072 FFF7FEFF 		bl	f_closedir
+ 868              	.LVL88:
+ 203:User/screenshot/screenshot.c ****         }
+ 869              		.loc 1 203 13 view .LVU191
+ 870              	.L45:
+ 241:User/screenshot/screenshot.c ****         }
+ 242:User/screenshot/screenshot.c ****     }
+ 243:User/screenshot/screenshot.c **** 
+ 244:User/screenshot/screenshot.c ****     // 5. 关闭目录
+ 245:User/screenshot/screenshot.c ****     f_closedir(&dir);
+ 246:User/screenshot/screenshot.c **** 
+ 247:User/screenshot/screenshot.c ****     // fr = f_getcwd(cwd, sizeof(cwd));
+ 248:User/screenshot/screenshot.c ****     // if (fr != FR_OK)
+ 249:User/screenshot/screenshot.c ****     // {
+ 250:User/screenshot/screenshot.c ****     //     // 错误处理
+ 251:User/screenshot/screenshot.c ****     //     LV_LOG_USER("\033Error getting current directory.\n");
+ 252:User/screenshot/screenshot.c ****     //     return -1;
+ 253:User/screenshot/screenshot.c ****     // }
+ 254:User/screenshot/screenshot.c **** 
+ 255:User/screenshot/screenshot.c ****     return 0;
+ 256:User/screenshot/screenshot.c **** }
+ 871              		.loc 1 256 1 is_stmt 0 view .LVU192
+ 872 0076 4046     		mov	r0, r8
+ 873 0078 0DF5447D 		add	sp, sp, #784
+ 874              	.LCFI20:
+ 875              		.cfi_remember_state
+ 876              		.cfi_def_cfa_offset 24
+ 877              		@ sp needed
+ 878 007c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 879              	.LVL89:
+ 880              	.L58:
+ 881              	.LCFI21:
+ 882              		.cfi_restore_state
+ 883              	.LBB2:
+ 212:User/screenshot/screenshot.c ****                 snprintf(filepath, sizeof(filepath), "%s/%s", path, fno.fname);
+ 884              		.loc 1 212 17 is_stmt 1 view .LVU193
+ 213:User/screenshot/screenshot.c ****                 lv_label_set_text_fmt(guider_ui.wave_model_label_27, "IMAGE:%s,  %d/%d", fno.fname,
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 23
+
+
+ 885              		.loc 1 213 17 view .LVU194
+ 886 0080 06AD     		add	r5, sp, #24
+ 887              	.LVL90:
+ 213:User/screenshot/screenshot.c ****                 lv_label_set_text_fmt(guider_ui.wave_model_label_27, "IMAGE:%s,  %d/%d", fno.fname,
+ 888              		.loc 1 213 17 is_stmt 0 view .LVU195
+ 889 0082 0DF20138 		addw	r8, sp, #769
+ 890 0086 CDF80080 		str	r8, [sp]
+ 891 008a 3B46     		mov	r3, r7
+ 892 008c 304A     		ldr	r2, .L59+16
+ 893 008e 8021     		movs	r1, #128
+ 894 0090 2846     		mov	r0, r5
+ 895              	.LVL91:
+ 213:User/screenshot/screenshot.c ****                 lv_label_set_text_fmt(guider_ui.wave_model_label_27, "IMAGE:%s,  %d/%d", fno.fname,
+ 896              		.loc 1 213 17 view .LVU196
+ 897 0092 FFF7FEFF 		bl	snprintf
+ 898              	.LVL92:
+ 214:User/screenshot/screenshot.c ****                 LV_LOG_USER("openning: %s\r\n", filepath);
+ 899              		.loc 1 214 17 is_stmt 1 view .LVU197
+ 900 0096 2F4B     		ldr	r3, .L59+20
+ 901 0098 1B88     		ldrh	r3, [r3]
+ 902 009a 0093     		str	r3, [sp]
+ 903 009c 3346     		mov	r3, r6
+ 904 009e 4246     		mov	r2, r8
+ 905 00a0 2D49     		ldr	r1, .L59+24
+ 906 00a2 2E48     		ldr	r0, .L59+28
+ 907 00a4 C068     		ldr	r0, [r0, #12]
+ 908 00a6 FFF7FEFF 		bl	lv_label_set_text_fmt
+ 909              	.LVL93:
+ 215:User/screenshot/screenshot.c ****                 res = f_open(&file, filepath, FA_READ);
+ 910              		.loc 1 215 17 view .LVU198
+ 911 00aa 0195     		str	r5, [sp, #4]
+ 912 00ac 2C4B     		ldr	r3, .L59+32
+ 913 00ae 0093     		str	r3, [sp]
+ 914 00b0 244B     		ldr	r3, .L59+4
+ 915 00b2 D722     		movs	r2, #215
+ 916 00b4 2449     		ldr	r1, .L59+8
+ 917 00b6 0420     		movs	r0, #4
+ 918 00b8 FFF7FEFF 		bl	_lv_log_add
+ 919              	.LVL94:
+ 216:User/screenshot/screenshot.c ****                 if (res == FR_OK)
+ 920              		.loc 1 216 17 view .LVU199
+ 216:User/screenshot/screenshot.c ****                 if (res == FR_OK)
+ 921              		.loc 1 216 23 is_stmt 0 view .LVU200
+ 922 00bc 0122     		movs	r2, #1
+ 923 00be 2946     		mov	r1, r5
+ 924 00c0 26A8     		add	r0, sp, #152
+ 925 00c2 FFF7FEFF 		bl	f_open
+ 926              	.LVL95:
+ 217:User/screenshot/screenshot.c ****                 {
+ 927              		.loc 1 217 17 is_stmt 1 view .LVU201
+ 217:User/screenshot/screenshot.c ****                 {
+ 928              		.loc 1 217 20 is_stmt 0 view .LVU202
+ 929 00c6 8046     		mov	r8, r0
+ 930 00c8 58BB     		cbnz	r0, .L50
+ 931              	.LBB3:
+ 219:User/screenshot/screenshot.c ****                     UINT bytes_read;
+ 932              		.loc 1 219 21 is_stmt 1 view .LVU203
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 24
+
+
+ 933 00ca 0DF20133 		addw	r3, sp, #769
+ 934 00ce 0293     		str	r3, [sp, #8]
+ 935 00d0 0196     		str	r6, [sp, #4]
+ 936 00d2 244B     		ldr	r3, .L59+36
+ 937 00d4 0093     		str	r3, [sp]
+ 938 00d6 1B4B     		ldr	r3, .L59+4
+ 939 00d8 DB22     		movs	r2, #219
+ 940 00da 1B49     		ldr	r1, .L59+8
+ 941 00dc 0420     		movs	r0, #4
+ 942              	.LVL96:
+ 219:User/screenshot/screenshot.c ****                     UINT bytes_read;
+ 943              		.loc 1 219 21 is_stmt 0 view .LVU204
+ 944 00de FFF7FEFF 		bl	_lv_log_add
+ 945              	.LVL97:
+ 220:User/screenshot/screenshot.c ****                     res = f_read(&file, snapshot_buf, sizeof(snapshot_buf), &bytes_read);
+ 946              		.loc 1 220 21 is_stmt 1 view .LVU205
+ 221:User/screenshot/screenshot.c ****                     if (res != FR_OK || bytes_read == 0)
+ 947              		.loc 1 221 21 view .LVU206
+ 221:User/screenshot/screenshot.c ****                     if (res != FR_OK || bytes_read == 0)
+ 948              		.loc 1 221 27 is_stmt 0 view .LVU207
+ 949 00e2 05AB     		add	r3, sp, #20
+ 950 00e4 204A     		ldr	r2, .L59+40
+ 951 00e6 2149     		ldr	r1, .L59+44
+ 952 00e8 26A8     		add	r0, sp, #152
+ 953 00ea FFF7FEFF 		bl	f_read
+ 954              	.LVL98:
+ 222:User/screenshot/screenshot.c ****                     {
+ 955              		.loc 1 222 21 is_stmt 1 view .LVU208
+ 222:User/screenshot/screenshot.c ****                     {
+ 956              		.loc 1 222 24 is_stmt 0 view .LVU209
+ 957 00ee 0346     		mov	r3, r0
+ 958 00f0 08B9     		cbnz	r0, .L51
+ 222:User/screenshot/screenshot.c ****                     {
+ 959              		.loc 1 222 52 discriminator 1 view .LVU210
+ 960 00f2 059A     		ldr	r2, [sp, #20]
+ 222:User/screenshot/screenshot.c ****                     {
+ 961              		.loc 1 222 38 discriminator 1 view .LVU211
+ 962 00f4 62B9     		cbnz	r2, .L52
+ 963              	.L51:
+ 224:User/screenshot/screenshot.c ****                         f_close(&file);
+ 964              		.loc 1 224 25 is_stmt 1 view .LVU212
+ 965 00f6 0193     		str	r3, [sp, #4]
+ 966 00f8 1D4B     		ldr	r3, .L59+48
+ 967 00fa 0093     		str	r3, [sp]
+ 968 00fc 114B     		ldr	r3, .L59+4
+ 969 00fe E022     		movs	r2, #224
+ 970 0100 1149     		ldr	r1, .L59+8
+ 971 0102 0420     		movs	r0, #4
+ 972              	.LVL99:
+ 224:User/screenshot/screenshot.c ****                         f_close(&file);
+ 973              		.loc 1 224 25 is_stmt 0 view .LVU213
+ 974 0104 FFF7FEFF 		bl	_lv_log_add
+ 975              	.LVL100:
+ 225:User/screenshot/screenshot.c ****                         return 0;// 读取失败
+ 976              		.loc 1 225 25 is_stmt 1 view .LVU214
+ 977 0108 26A8     		add	r0, sp, #152
+ 978 010a FFF7FEFF 		bl	f_close
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 25
+
+
+ 979              	.LVL101:
+ 226:User/screenshot/screenshot.c ****                     }
+ 980              		.loc 1 226 25 view .LVU215
+ 226:User/screenshot/screenshot.c ****                     }
+ 981              		.loc 1 226 32 is_stmt 0 view .LVU216
+ 982 010e B2E7     		b	.L45
+ 983              	.LVL102:
+ 984              	.L52:
+ 228:User/screenshot/screenshot.c **** 
+ 985              		.loc 1 228 21 is_stmt 1 view .LVU217
+ 986 0110 26A8     		add	r0, sp, #152
+ 987              	.LVL103:
+ 228:User/screenshot/screenshot.c **** 
+ 988              		.loc 1 228 21 is_stmt 0 view .LVU218
+ 989 0112 FFF7FEFF 		bl	f_close
+ 990              	.LVL104:
+ 230:User/screenshot/screenshot.c ****                     return 1;
+ 991              		.loc 1 230 21 is_stmt 1 view .LVU219
+ 992 0116 B2A8     		add	r0, sp, #712
+ 993 0118 FFF7FEFF 		bl	f_closedir
+ 994              	.LVL105:
+ 231:User/screenshot/screenshot.c ****                 }
+ 995              		.loc 1 231 21 view .LVU220
+ 231:User/screenshot/screenshot.c ****                 }
+ 996              		.loc 1 231 28 is_stmt 0 view .LVU221
+ 997 011c 4FF00108 		mov	r8, #1
+ 998 0120 A9E7     		b	.L45
+ 999              	.LVL106:
+ 1000              	.L50:
+ 231:User/screenshot/screenshot.c ****                 }
+ 1001              		.loc 1 231 28 view .LVU222
+ 1002              	.LBE3:
+ 235:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 1003              		.loc 1 235 21 is_stmt 1 view .LVU223
+ 1004 0122 0290     		str	r0, [sp, #8]
+ 1005 0124 0196     		str	r6, [sp, #4]
+ 1006 0126 134B     		ldr	r3, .L59+52
+ 1007 0128 0093     		str	r3, [sp]
+ 1008 012a 064B     		ldr	r3, .L59+4
+ 1009 012c EB22     		movs	r2, #235
+ 1010 012e 0649     		ldr	r1, .L59+8
+ 1011 0130 0420     		movs	r0, #4
+ 1012              	.LVL107:
+ 235:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 1013              		.loc 1 235 21 is_stmt 0 view .LVU224
+ 1014 0132 FFF7FEFF 		bl	_lv_log_add
+ 1015              	.LVL108:
+ 236:User/screenshot/screenshot.c ****                     return 0;
+ 1016              		.loc 1 236 21 is_stmt 1 view .LVU225
+ 1017 0136 B2A8     		add	r0, sp, #712
+ 1018 0138 FFF7FEFF 		bl	f_closedir
+ 1019              	.LVL109:
+ 237:User/screenshot/screenshot.c ****                 }
+ 1020              		.loc 1 237 21 view .LVU226
+ 237:User/screenshot/screenshot.c ****                 }
+ 1021              		.loc 1 237 28 is_stmt 0 view .LVU227
+ 1022 013c A046     		mov	r8, r4
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 26
+
+
+ 1023              	.LVL110:
+ 237:User/screenshot/screenshot.c ****                 }
+ 1024              		.loc 1 237 28 view .LVU228
+ 1025 013e 9AE7     		b	.L45
+ 1026              	.L60:
+ 1027              		.align	2
+ 1028              	.L59:
+ 1029 0140 00000000 		.word	.LC10
+ 1030 0144 00000000 		.word	__func__.1
+ 1031 0148 00000000 		.word	.LC0
+ 1032 014c 18000000 		.word	.LC11
+ 1033 0150 34000000 		.word	.LC12
+ 1034 0154 00000000 		.word	sd_count
+ 1035 0158 3C000000 		.word	.LC13
+ 1036 015c 00000000 		.word	guider_ui
+ 1037 0160 50000000 		.word	.LC14
+ 1038 0164 60000000 		.word	.LC15
+ 1039 0168 00350C00 		.word	800000
+ 1040 016c 00000000 		.word	snapshot_buf
+ 1041 0170 20000000 		.word	.LC1
+ 1042 0174 88000000 		.word	.LC16
+ 1043              	.LBE2:
+ 1044              		.cfi_endproc
+ 1045              	.LFE562:
+ 1047              		.section	.rodata.DeleteFileByIndex.str1.4,"aMS",%progbits,1
+ 1048              		.align	2
+ 1049              	.LC17:
+ 1050 0000 436F756C 		.ascii	"Could not read directory. Res: %d\000"
+ 1050      64206E6F 
+ 1050      74207265 
+ 1050      61642064 
+ 1050      69726563 
+ 1051 0022 0000     		.align	2
+ 1052              	.LC18:
+ 1053 0024 53756363 		.ascii	"Successfully deleted file: %s\000"
+ 1053      65737366 
+ 1053      756C6C79 
+ 1053      2064656C 
+ 1053      65746564 
+ 1054 0042 0000     		.align	2
+ 1055              	.LC19:
+ 1056 0044 4661696C 		.ascii	"Failed to delete file: %s, Error: %d\000"
+ 1056      65642074 
+ 1056      6F206465 
+ 1056      6C657465 
+ 1056      2066696C 
+ 1057              		.section	.text.DeleteFileByIndex,"ax",%progbits
+ 1058              		.align	1
+ 1059              		.global	DeleteFileByIndex
+ 1060              		.syntax unified
+ 1061              		.thumb
+ 1062              		.thumb_func
+ 1064              	DeleteFileByIndex:
+ 1065              	.LVL111:
+ 1066              	.LFB563:
+ 257:User/screenshot/screenshot.c **** 
+ 258:User/screenshot/screenshot.c **** uint8_t DeleteFileByIndex(const char *path, uint16_t index)
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 27
+
+
+ 259:User/screenshot/screenshot.c **** {
+ 1067              		.loc 1 259 1 is_stmt 1 view -0
+ 1068              		.cfi_startproc
+ 1069              		@ args = 0, pretend = 0, frame = 200
+ 1070              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1071              		.loc 1 259 1 is_stmt 0 view .LVU230
+ 1072 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1073              	.LCFI22:
+ 1074              		.cfi_def_cfa_offset 24
+ 1075              		.cfi_offset 4, -24
+ 1076              		.cfi_offset 5, -20
+ 1077              		.cfi_offset 6, -16
+ 1078              		.cfi_offset 7, -12
+ 1079              		.cfi_offset 8, -8
+ 1080              		.cfi_offset 14, -4
+ 1081 0004 B6B0     		sub	sp, sp, #216
+ 1082              	.LCFI23:
+ 1083              		.cfi_def_cfa_offset 240
+ 1084 0006 0746     		mov	r7, r0
+ 1085 0008 0E46     		mov	r6, r1
+ 260:User/screenshot/screenshot.c ****     FATFS fs;
+ 1086              		.loc 1 260 5 is_stmt 1 view .LVU231
+ 261:User/screenshot/screenshot.c ****     FILINFO fno;
+ 1087              		.loc 1 261 5 view .LVU232
+ 262:User/screenshot/screenshot.c ****     FRESULT res;
+ 1088              		.loc 1 262 5 view .LVU233
+ 263:User/screenshot/screenshot.c ****     DIR dir;
+ 1089              		.loc 1 263 5 view .LVU234
+ 264:User/screenshot/screenshot.c ****     uint16_t current_index = 0;
+ 1090              		.loc 1 264 5 view .LVU235
+ 1091              	.LVL112:
+ 265:User/screenshot/screenshot.c **** 
+ 266:User/screenshot/screenshot.c ****     // 打开目录
+ 267:User/screenshot/screenshot.c ****     res = f_opendir(&dir, path);
+ 1092              		.loc 1 267 5 view .LVU236
+ 1093              		.loc 1 267 11 is_stmt 0 view .LVU237
+ 1094 000a 0146     		mov	r1, r0
+ 1095              	.LVL113:
+ 1096              		.loc 1 267 11 view .LVU238
+ 1097 000c 24A8     		add	r0, sp, #144
+ 1098              	.LVL114:
+ 1099              		.loc 1 267 11 view .LVU239
+ 1100 000e FFF7FEFF 		bl	f_opendir
+ 1101              	.LVL115:
+ 268:User/screenshot/screenshot.c ****     if (res != FR_OK)
+ 1102              		.loc 1 268 5 is_stmt 1 view .LVU240
+ 1103              		.loc 1 268 8 is_stmt 0 view .LVU241
+ 1104 0012 8046     		mov	r8, r0
+ 1105 0014 98B9     		cbnz	r0, .L72
+ 264:User/screenshot/screenshot.c ****     uint16_t current_index = 0;
+ 1106              		.loc 1 264 14 view .LVU242
+ 1107 0016 0025     		movs	r5, #0
+ 1108              	.LVL116:
+ 1109              	.L62:
+ 269:User/screenshot/screenshot.c ****     {
+ 270:User/screenshot/screenshot.c ****         LV_LOG_USER("Failed to open directory: %s, Error: %d\n", path, res);
+ 271:User/screenshot/screenshot.c ****         return 0;
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 28
+
+
+ 272:User/screenshot/screenshot.c ****     }
+ 273:User/screenshot/screenshot.c **** 
+ 274:User/screenshot/screenshot.c ****     // 查找指定索引对应的文件
+ 275:User/screenshot/screenshot.c ****     while (1)
+ 1110              		.loc 1 275 5 is_stmt 1 view .LVU243
+ 276:User/screenshot/screenshot.c ****     {
+ 277:User/screenshot/screenshot.c ****         res = f_readdir(&dir, &fno);
+ 1111              		.loc 1 277 9 view .LVU244
+ 1112              		.loc 1 277 15 is_stmt 0 view .LVU245
+ 1113 0018 30A9     		add	r1, sp, #192
+ 1114 001a 24A8     		add	r0, sp, #144
+ 1115              	.LVL117:
+ 1116              		.loc 1 277 15 view .LVU246
+ 1117 001c FFF7FEFF 		bl	f_readdir
+ 1118              	.LVL118:
+ 278:User/screenshot/screenshot.c ****         if (res != FR_OK || fno.fname[0] == 0)
+ 1119              		.loc 1 278 9 is_stmt 1 view .LVU247
+ 1120              		.loc 1 278 12 is_stmt 0 view .LVU248
+ 1121 0020 0346     		mov	r3, r0
+ 1122 0022 D0B9     		cbnz	r0, .L64
+ 1123              		.loc 1 278 38 discriminator 1 view .LVU249
+ 1124 0024 9DF8C920 		ldrb	r2, [sp, #201]	@ zero_extendqisi2
+ 1125              		.loc 1 278 26 discriminator 1 view .LVU250
+ 1126 0028 BAB1     		cbz	r2, .L64
+ 279:User/screenshot/screenshot.c ****         {
+ 280:User/screenshot/screenshot.c ****             LV_LOG_USER("Could not read directory. Res: %d", res);
+ 281:User/screenshot/screenshot.c ****             f_closedir(&dir);
+ 282:User/screenshot/screenshot.c ****             return 0;
+ 283:User/screenshot/screenshot.c ****         }
+ 284:User/screenshot/screenshot.c **** 
+ 285:User/screenshot/screenshot.c ****         // 排除子目录，仅删除文件
+ 286:User/screenshot/screenshot.c ****         if (!(fno.fattrib & AM_DIR))
+ 1127              		.loc 1 286 9 is_stmt 1 view .LVU251
+ 1128              		.loc 1 286 18 is_stmt 0 view .LVU252
+ 1129 002a 9DF8C820 		ldrb	r2, [sp, #200]	@ zero_extendqisi2
+ 1130              		.loc 1 286 12 view .LVU253
+ 1131 002e 12F01004 		ands	r4, r2, #16
+ 1132 0032 F1D1     		bne	.L62
+ 287:User/screenshot/screenshot.c ****         {
+ 288:User/screenshot/screenshot.c ****             if (current_index == index)
+ 1133              		.loc 1 288 13 is_stmt 1 view .LVU254
+ 1134              		.loc 1 288 16 is_stmt 0 view .LVU255
+ 1135 0034 B542     		cmp	r5, r6
+ 1136 0036 21D0     		beq	.L73
+ 289:User/screenshot/screenshot.c ****             {
+ 290:User/screenshot/screenshot.c ****                 // 拼接文件路径
+ 291:User/screenshot/screenshot.c ****                 char filepath[128];
+ 292:User/screenshot/screenshot.c ****                 snprintf(filepath, sizeof(filepath), "%s/%s", path, fno.fname);
+ 293:User/screenshot/screenshot.c **** 
+ 294:User/screenshot/screenshot.c ****                 // 执行删除操作
+ 295:User/screenshot/screenshot.c ****                 res = f_unlink(filepath);
+ 296:User/screenshot/screenshot.c ****                 if (res == FR_OK)
+ 297:User/screenshot/screenshot.c ****                 {
+ 298:User/screenshot/screenshot.c ****                     LV_LOG_USER("Successfully deleted file: %s", filepath);
+ 299:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 300:User/screenshot/screenshot.c ****                     return 1;
+ 301:User/screenshot/screenshot.c ****                 }
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 29
+
+
+ 302:User/screenshot/screenshot.c ****                 else
+ 303:User/screenshot/screenshot.c ****                 {
+ 304:User/screenshot/screenshot.c ****                     LV_LOG_USER("Failed to delete file: %s, Error: %d", filepath, res);
+ 305:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 306:User/screenshot/screenshot.c ****                     return 0;
+ 307:User/screenshot/screenshot.c ****                 }
+ 308:User/screenshot/screenshot.c ****             }
+ 309:User/screenshot/screenshot.c ****             current_index++;
+ 1137              		.loc 1 309 13 is_stmt 1 view .LVU256
+ 1138              		.loc 1 309 26 is_stmt 0 view .LVU257
+ 1139 0038 0135     		adds	r5, r5, #1
+ 1140              	.LVL119:
+ 1141              		.loc 1 309 26 view .LVU258
+ 1142 003a ADB2     		uxth	r5, r5
+ 1143              	.LVL120:
+ 1144              		.loc 1 309 26 view .LVU259
+ 1145 003c ECE7     		b	.L62
+ 1146              	.LVL121:
+ 1147              	.L72:
+ 270:User/screenshot/screenshot.c ****         return 0;
+ 1148              		.loc 1 270 9 is_stmt 1 view .LVU260
+ 1149 003e 0290     		str	r0, [sp, #8]
+ 1150 0040 0197     		str	r7, [sp, #4]
+ 1151 0042 264B     		ldr	r3, .L74
+ 1152 0044 0093     		str	r3, [sp]
+ 1153 0046 264B     		ldr	r3, .L74+4
+ 1154 0048 4FF48772 		mov	r2, #270
+ 1155 004c 2549     		ldr	r1, .L74+8
+ 1156 004e 0420     		movs	r0, #4
+ 1157              	.LVL122:
+ 270:User/screenshot/screenshot.c ****         return 0;
+ 1158              		.loc 1 270 9 is_stmt 0 view .LVU261
+ 1159 0050 FFF7FEFF 		bl	_lv_log_add
+ 1160              	.LVL123:
+ 271:User/screenshot/screenshot.c ****     }
+ 1161              		.loc 1 271 9 is_stmt 1 view .LVU262
+ 271:User/screenshot/screenshot.c ****     }
+ 1162              		.loc 1 271 16 is_stmt 0 view .LVU263
+ 1163 0054 4FF00008 		mov	r8, #0
+ 1164              	.LVL124:
+ 271:User/screenshot/screenshot.c ****     }
+ 1165              		.loc 1 271 16 view .LVU264
+ 1166 0058 0CE0     		b	.L63
+ 1167              	.LVL125:
+ 1168              	.L64:
+ 280:User/screenshot/screenshot.c ****             f_closedir(&dir);
+ 1169              		.loc 1 280 13 is_stmt 1 view .LVU265
+ 1170 005a 0193     		str	r3, [sp, #4]
+ 1171 005c 224B     		ldr	r3, .L74+12
+ 1172 005e 0093     		str	r3, [sp]
+ 1173 0060 1F4B     		ldr	r3, .L74+4
+ 1174 0062 4FF48C72 		mov	r2, #280
+ 1175 0066 1F49     		ldr	r1, .L74+8
+ 1176 0068 0420     		movs	r0, #4
+ 1177              	.LVL126:
+ 280:User/screenshot/screenshot.c ****             f_closedir(&dir);
+ 1178              		.loc 1 280 13 is_stmt 0 view .LVU266
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 30
+
+
+ 1179 006a FFF7FEFF 		bl	_lv_log_add
+ 1180              	.LVL127:
+ 281:User/screenshot/screenshot.c ****             return 0;
+ 1181              		.loc 1 281 13 is_stmt 1 view .LVU267
+ 1182 006e 24A8     		add	r0, sp, #144
+ 1183 0070 FFF7FEFF 		bl	f_closedir
+ 1184              	.LVL128:
+ 282:User/screenshot/screenshot.c ****         }
+ 1185              		.loc 1 282 13 view .LVU268
+ 1186              	.L63:
+ 310:User/screenshot/screenshot.c ****         }
+ 311:User/screenshot/screenshot.c ****     }
+ 312:User/screenshot/screenshot.c **** 
+ 313:User/screenshot/screenshot.c ****     // 关闭目录
+ 314:User/screenshot/screenshot.c ****     f_closedir(&dir);
+ 315:User/screenshot/screenshot.c ****     return 0;
+ 316:User/screenshot/screenshot.c **** }
+ 1187              		.loc 1 316 1 is_stmt 0 view .LVU269
+ 1188 0074 4046     		mov	r0, r8
+ 1189 0076 36B0     		add	sp, sp, #216
+ 1190              	.LCFI24:
+ 1191              		.cfi_remember_state
+ 1192              		.cfi_def_cfa_offset 24
+ 1193              		@ sp needed
+ 1194 0078 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1195              	.LVL129:
+ 1196              	.L73:
+ 1197              	.LCFI25:
+ 1198              		.cfi_restore_state
+ 1199              	.LBB4:
+ 291:User/screenshot/screenshot.c ****                 snprintf(filepath, sizeof(filepath), "%s/%s", path, fno.fname);
+ 1200              		.loc 1 291 17 is_stmt 1 view .LVU270
+ 292:User/screenshot/screenshot.c **** 
+ 1201              		.loc 1 292 17 view .LVU271
+ 1202 007c 0DF1C903 		add	r3, sp, #201
+ 1203 0080 0093     		str	r3, [sp]
+ 1204 0082 3B46     		mov	r3, r7
+ 1205 0084 194A     		ldr	r2, .L74+16
+ 1206 0086 8021     		movs	r1, #128
+ 1207 0088 04A8     		add	r0, sp, #16
+ 1208              	.LVL130:
+ 292:User/screenshot/screenshot.c **** 
+ 1209              		.loc 1 292 17 is_stmt 0 view .LVU272
+ 1210 008a FFF7FEFF 		bl	snprintf
+ 1211              	.LVL131:
+ 295:User/screenshot/screenshot.c ****                 if (res == FR_OK)
+ 1212              		.loc 1 295 17 is_stmt 1 view .LVU273
+ 295:User/screenshot/screenshot.c ****                 if (res == FR_OK)
+ 1213              		.loc 1 295 23 is_stmt 0 view .LVU274
+ 1214 008e 04A8     		add	r0, sp, #16
+ 1215 0090 FFF7FEFF 		bl	f_unlink
+ 1216              	.LVL132:
+ 296:User/screenshot/screenshot.c ****                 {
+ 1217              		.loc 1 296 17 is_stmt 1 view .LVU275
+ 296:User/screenshot/screenshot.c ****                 {
+ 1218              		.loc 1 296 20 is_stmt 0 view .LVU276
+ 1219 0094 80B9     		cbnz	r0, .L68
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 31
+
+
+ 298:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 1220              		.loc 1 298 21 is_stmt 1 view .LVU277
+ 1221 0096 04AB     		add	r3, sp, #16
+ 1222 0098 0193     		str	r3, [sp, #4]
+ 1223 009a 154B     		ldr	r3, .L74+20
+ 1224 009c 0093     		str	r3, [sp]
+ 1225 009e 104B     		ldr	r3, .L74+4
+ 1226 00a0 4FF49572 		mov	r2, #298
+ 1227 00a4 0F49     		ldr	r1, .L74+8
+ 1228 00a6 0420     		movs	r0, #4
+ 1229              	.LVL133:
+ 298:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 1230              		.loc 1 298 21 is_stmt 0 view .LVU278
+ 1231 00a8 FFF7FEFF 		bl	_lv_log_add
+ 1232              	.LVL134:
+ 299:User/screenshot/screenshot.c ****                     return 1;
+ 1233              		.loc 1 299 21 is_stmt 1 view .LVU279
+ 1234 00ac 24A8     		add	r0, sp, #144
+ 1235 00ae FFF7FEFF 		bl	f_closedir
+ 1236              	.LVL135:
+ 300:User/screenshot/screenshot.c ****                 }
+ 1237              		.loc 1 300 21 view .LVU280
+ 300:User/screenshot/screenshot.c ****                 }
+ 1238              		.loc 1 300 28 is_stmt 0 view .LVU281
+ 1239 00b2 4FF00108 		mov	r8, #1
+ 1240 00b6 DDE7     		b	.L63
+ 1241              	.LVL136:
+ 1242              	.L68:
+ 304:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 1243              		.loc 1 304 21 is_stmt 1 view .LVU282
+ 1244 00b8 0290     		str	r0, [sp, #8]
+ 1245 00ba 04AB     		add	r3, sp, #16
+ 1246 00bc 0193     		str	r3, [sp, #4]
+ 1247 00be 0D4B     		ldr	r3, .L74+24
+ 1248 00c0 0093     		str	r3, [sp]
+ 1249 00c2 074B     		ldr	r3, .L74+4
+ 1250 00c4 4FF49872 		mov	r2, #304
+ 1251 00c8 0649     		ldr	r1, .L74+8
+ 1252 00ca 0420     		movs	r0, #4
+ 1253              	.LVL137:
+ 304:User/screenshot/screenshot.c ****                     f_closedir(&dir);
+ 1254              		.loc 1 304 21 is_stmt 0 view .LVU283
+ 1255 00cc FFF7FEFF 		bl	_lv_log_add
+ 1256              	.LVL138:
+ 305:User/screenshot/screenshot.c ****                     return 0;
+ 1257              		.loc 1 305 21 is_stmt 1 view .LVU284
+ 1258 00d0 24A8     		add	r0, sp, #144
+ 1259 00d2 FFF7FEFF 		bl	f_closedir
+ 1260              	.LVL139:
+ 306:User/screenshot/screenshot.c ****                 }
+ 1261              		.loc 1 306 21 view .LVU285
+ 306:User/screenshot/screenshot.c ****                 }
+ 1262              		.loc 1 306 28 is_stmt 0 view .LVU286
+ 1263 00d6 A046     		mov	r8, r4
+ 1264 00d8 CCE7     		b	.L63
+ 1265              	.L75:
+ 1266 00da 00BF     		.align	2
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 32
+
+
+ 1267              	.L74:
+ 1268 00dc 00000000 		.word	.LC8
+ 1269 00e0 00000000 		.word	__func__.0
+ 1270 00e4 00000000 		.word	.LC0
+ 1271 00e8 00000000 		.word	.LC17
+ 1272 00ec 34000000 		.word	.LC12
+ 1273 00f0 24000000 		.word	.LC18
+ 1274 00f4 44000000 		.word	.LC19
+ 1275              	.LBE4:
+ 1276              		.cfi_endproc
+ 1277              	.LFE563:
+ 1279              		.section	.rodata.__func__.0,"a"
+ 1280              		.align	2
+ 1283              	__func__.0:
+ 1284 0000 44656C65 		.ascii	"DeleteFileByIndex\000"
+ 1284      74654669 
+ 1284      6C654279 
+ 1284      496E6465 
+ 1284      7800
+ 1285              		.section	.rodata.__func__.1,"a"
+ 1286              		.align	2
+ 1289              	__func__.1:
+ 1290 0000 4F70656E 		.ascii	"OpenFileByIndex\000"
+ 1290      46696C65 
+ 1290      4279496E 
+ 1290      64657800 
+ 1291              		.section	.rodata.__func__.2,"a"
+ 1292              		.align	2
+ 1295              	__func__.2:
+ 1296 0000 47657446 		.ascii	"GetFileCount\000"
+ 1296      696C6543 
+ 1296      6F756E74 
+ 1296      00
+ 1297              		.section	.rodata.__func__.3,"a"
+ 1298              		.align	2
+ 1301              	__func__.3:
+ 1302 0000 72656665 		.ascii	"refersh_lvgl_image\000"
+ 1302      7273685F 
+ 1302      6C76676C 
+ 1302      5F696D61 
+ 1302      676500
+ 1303              		.section	.rodata.__func__.4,"a"
+ 1304              		.align	2
+ 1307              	__func__.4:
+ 1308 0000 6C6F6164 		.ascii	"load_image_from_sd\000"
+ 1308      5F696D61 
+ 1308      67655F66 
+ 1308      726F6D5F 
+ 1308      736400
+ 1309              		.section	.rodata.__func__.5,"a"
+ 1310              		.align	2
+ 1313              	__func__.5:
+ 1314 0000 73617665 		.ascii	"save_snapshot_to_sd\000"
+ 1314      5F736E61 
+ 1314      7073686F 
+ 1314      745F746F 
+ 1314      5F736400 
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 33
+
+
+ 1315              		.section	.rodata.__func__.6,"a"
+ 1316              		.align	2
+ 1319              	__func__.6:
+ 1320 0000 74616B65 		.ascii	"take_snapshot_with_buffer\000"
+ 1320      5F736E61 
+ 1320      7073686F 
+ 1320      745F7769 
+ 1320      74685F62 
+ 1321              		.section	.bss.load_img_dsc,"aw",%nobits
+ 1322              		.align	2
+ 1325              	load_img_dsc:
+ 1326 0000 00000000 		.space	12
+ 1326      00000000 
+ 1326      00000000 
+ 1327              		.section	.bss.snapshot_dsc,"aw",%nobits
+ 1328              		.align	2
+ 1331              	snapshot_dsc:
+ 1332 0000 00000000 		.space	12
+ 1332      00000000 
+ 1332      00000000 
+ 1333              		.global	fr
+ 1334              		.section	.bss.fr,"aw",%nobits
+ 1337              	fr:
+ 1338 0000 00       		.space	1
+ 1339              		.global	cwd
+ 1340              		.section	.bss.cwd,"aw",%nobits
+ 1341              		.align	2
+ 1344              	cwd:
+ 1345 0000 00000000 		.space	256
+ 1345      00000000 
+ 1345      00000000 
+ 1345      00000000 
+ 1345      00000000 
+ 1346              		.global	snapshot_buf
+ 1347              		.section	.SDRAM,"aw"
+ 1348              		.align	5
+ 1351              	snapshot_buf:
+ 1352 0000 00000000 		.space	800000
+ 1352      00000000 
+ 1352      00000000 
+ 1352      00000000 
+ 1352      00000000 
+ 1353              		.text
+ 1354              	.Letext0:
+ 1355              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1356              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1357              		.file 4 "lvgl/src/misc/lv_types.h"
+ 1358              		.file 5 "lvgl/src/misc/lv_log.h"
+ 1359              		.file 6 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 1360              		.file 7 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 1361              		.file 8 "lvgl/src/hal/../draw/../misc/lv_color.h"
+ 1362              		.file 9 "lvgl/src/hal/../draw/../misc/lv_style.h"
+ 1363              		.file 10 "lvgl/src/hal/../draw/lv_img_buf.h"
+ 1364              		.file 11 "lvgl/src/core/lv_obj.h"
+ 1365              		.file 12 "lvgl/src/hal/../misc/lv_ll.h"
+ 1366              		.file 13 "lvgl/src/core/lv_group.h"
+ 1367              		.file 14 "lvgl/src/core/lv_obj_scroll.h"
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 34
+
+
+ 1368              		.file 15 "lvgl/src/core/lv_obj_style.h"
+ 1369              		.file 16 "lvgl/src/core/lv_obj_class.h"
+ 1370              		.file 17 "lvgl/src/core/lv_event.h"
+ 1371              		.file 18 "lvgl/src/widgets/lv_bar.h"
+ 1372              		.file 19 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 1373              		.file 20 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 1374              		.file 21 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 1375              		.file 22 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1376              		.file 23 "Middlewares/Third_Party/FatFs/src/integer.h"
+ 1377              		.file 24 "Middlewares/Third_Party/FatFs/src/ff.h"
+ 1378              		.file 25 "generated/gui_guider.h"
+ 1379              		.file 26 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/i
+ 1380              		.file 27 "lvgl/src/widgets/lv_label.h"
+ 1381              		.file 28 "lvgl/src/widgets/lv_img.h"
+ 1382              		.file 29 "lvgl/src/extra/others/snapshot/lv_snapshot.h"
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 35
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 screenshot.c
+C:\usertemp\ccopnxgq.s:20     .rodata.save_snapshot_to_sd.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:33     .text.save_snapshot_to_sd:00000000 $t
+C:\usertemp\ccopnxgq.s:39     .text.save_snapshot_to_sd:00000000 save_snapshot_to_sd
+C:\usertemp\ccopnxgq.s:198    .text.save_snapshot_to_sd:000000a0 $d
+C:\usertemp\ccopnxgq.s:1313   .rodata.__func__.5:00000000 __func__.5
+C:\usertemp\ccopnxgq.s:207    .rodata.take_snapshot_with_buffer.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:214    .text.take_snapshot_with_buffer:00000000 $t
+C:\usertemp\ccopnxgq.s:220    .text.take_snapshot_with_buffer:00000000 take_snapshot_with_buffer
+C:\usertemp\ccopnxgq.s:323    .text.take_snapshot_with_buffer:00000064 $d
+C:\usertemp\ccopnxgq.s:1351   .SDRAM:00000000 snapshot_buf
+C:\usertemp\ccopnxgq.s:1331   .bss.snapshot_dsc:00000000 snapshot_dsc
+C:\usertemp\ccopnxgq.s:1319   .rodata.__func__.6:00000000 __func__.6
+C:\usertemp\ccopnxgq.s:334    .rodata.load_image_from_sd.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:338    .text.load_image_from_sd:00000000 $t
+C:\usertemp\ccopnxgq.s:344    .text.load_image_from_sd:00000000 load_image_from_sd
+C:\usertemp\ccopnxgq.s:469    .text.load_image_from_sd:0000007c $d
+C:\usertemp\ccopnxgq.s:1307   .rodata.__func__.4:00000000 __func__.4
+C:\usertemp\ccopnxgq.s:479    .rodata.refersh_lvgl_image.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:483    .text.refersh_lvgl_image:00000000 $t
+C:\usertemp\ccopnxgq.s:489    .text.refersh_lvgl_image:00000000 refersh_lvgl_image
+C:\usertemp\ccopnxgq.s:559    .text.refersh_lvgl_image:00000054 $d
+C:\usertemp\ccopnxgq.s:1325   .bss.load_img_dsc:00000000 load_img_dsc
+C:\usertemp\ccopnxgq.s:1301   .rodata.__func__.3:00000000 __func__.3
+C:\usertemp\ccopnxgq.s:569    .rodata.GetFileCount.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:576    .text.GetFileCount:00000000 $t
+C:\usertemp\ccopnxgq.s:582    .text.GetFileCount:00000000 GetFileCount
+C:\usertemp\ccopnxgq.s:708    .text.GetFileCount:00000078 $d
+C:\usertemp\ccopnxgq.s:1295   .rodata.__func__.2:00000000 __func__.2
+C:\usertemp\ccopnxgq.s:716    .rodata.OpenFileByIndex.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:738    .text.OpenFileByIndex:00000000 $t
+C:\usertemp\ccopnxgq.s:744    .text.OpenFileByIndex:00000000 OpenFileByIndex
+C:\usertemp\ccopnxgq.s:1029   .text.OpenFileByIndex:00000140 $d
+C:\usertemp\ccopnxgq.s:1289   .rodata.__func__.1:00000000 __func__.1
+C:\usertemp\ccopnxgq.s:1048   .rodata.DeleteFileByIndex.str1.4:00000000 $d
+C:\usertemp\ccopnxgq.s:1058   .text.DeleteFileByIndex:00000000 $t
+C:\usertemp\ccopnxgq.s:1064   .text.DeleteFileByIndex:00000000 DeleteFileByIndex
+C:\usertemp\ccopnxgq.s:1268   .text.DeleteFileByIndex:000000dc $d
+C:\usertemp\ccopnxgq.s:1283   .rodata.__func__.0:00000000 __func__.0
+C:\usertemp\ccopnxgq.s:1280   .rodata.__func__.0:00000000 $d
+C:\usertemp\ccopnxgq.s:1286   .rodata.__func__.1:00000000 $d
+C:\usertemp\ccopnxgq.s:1292   .rodata.__func__.2:00000000 $d
+C:\usertemp\ccopnxgq.s:1298   .rodata.__func__.3:00000000 $d
+C:\usertemp\ccopnxgq.s:1304   .rodata.__func__.4:00000000 $d
+C:\usertemp\ccopnxgq.s:1310   .rodata.__func__.5:00000000 $d
+C:\usertemp\ccopnxgq.s:1316   .rodata.__func__.6:00000000 $d
+C:\usertemp\ccopnxgq.s:1322   .bss.load_img_dsc:00000000 $d
+C:\usertemp\ccopnxgq.s:1328   .bss.snapshot_dsc:00000000 $d
+C:\usertemp\ccopnxgq.s:1337   .bss.fr:00000000 fr
+C:\usertemp\ccopnxgq.s:1338   .bss.fr:00000000 $d
+C:\usertemp\ccopnxgq.s:1344   .bss.cwd:00000000 cwd
+C:\usertemp\ccopnxgq.s:1341   .bss.cwd:00000000 $d
+C:\usertemp\ccopnxgq.s:1348   .SDRAM:00000000 $d
+
+UNDEFINED SYMBOLS
+f_open
+ARM GAS  C:\usertemp\ccopnxgq.s 			page 36
+
+
+f_write
+_lv_log_add
+f_close
+lv_snapshot_buf_size_needed
+lv_snapshot_take_to_buf
+f_read
+lv_img_set_src
+f_opendir
+f_readdir
+f_closedir
+snprintf
+lv_label_set_text_fmt
+sd_count
+guider_ui
+f_unlink

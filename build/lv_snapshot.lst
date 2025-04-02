@@ -1,0 +1,1014 @@
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_snapshot.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/others/snapshot/lv_snapshot.c"
+  19              		.section	.text.lv_snapshot_buf_size_needed,"ax",%progbits
+  20              		.align	1
+  21              		.global	lv_snapshot_buf_size_needed
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	lv_snapshot_buf_size_needed:
+  27              	.LVL0:
+  28              	.LFB162:
+   1:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /**
+   2:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @file lv_snapshot.c
+   3:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+   4:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  */
+   5:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+   6:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /*********************
+   7:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *      INCLUDES
+   8:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *********************/
+   9:lvgl/src/extra/others/snapshot/lv_snapshot.c **** #include "lv_snapshot.h"
+  10:lvgl/src/extra/others/snapshot/lv_snapshot.c **** #if LV_USE_SNAPSHOT
+  11:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  12:lvgl/src/extra/others/snapshot/lv_snapshot.c **** #include <stdbool.h>
+  13:lvgl/src/extra/others/snapshot/lv_snapshot.c **** #include "../../../core/lv_disp.h"
+  14:lvgl/src/extra/others/snapshot/lv_snapshot.c **** #include "../../../core/lv_refr.h"
+  15:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /*********************
+  16:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *      DEFINES
+  17:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *********************/
+  18:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  19:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /**********************
+  20:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *      TYPEDEFS
+  21:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  **********************/
+  22:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  23:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /**********************
+  24:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *  STATIC PROTOTYPES
+  25:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  **********************/
+  26:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  27:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /**********************
+  28:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *  STATIC VARIABLES
+  29:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  **********************/
+  30:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 2
+
+
+  31:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /**********************
+  32:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *      MACROS
+  33:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  **********************/
+  34:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  35:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /**********************
+  36:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *   GLOBAL FUNCTIONS
+  37:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  **********************/
+  38:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  39:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /** Get the buffer needed for object snapshot image.
+  40:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+  41:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param obj    The object to generate snapshot.
+  42:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param cf     color format for generated image.
+  43:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+  44:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @return the buffer size needed in bytes
+  45:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  */
+  46:lvgl/src/extra/others/snapshot/lv_snapshot.c **** uint32_t lv_snapshot_buf_size_needed(lv_obj_t * obj, lv_img_cf_t cf)
+  47:lvgl/src/extra/others/snapshot/lv_snapshot.c **** {
+  29              		.loc 1 47 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 47 1 is_stmt 0 view .LVU1
+  34 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 24
+  37              		.cfi_offset 3, -24
+  38              		.cfi_offset 4, -20
+  39              		.cfi_offset 5, -16
+  40              		.cfi_offset 6, -12
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 0646     		mov	r6, r0
+  44 0004 0C46     		mov	r4, r1
+  48:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     switch(cf) {
+  45              		.loc 1 48 5 is_stmt 1 view .LVU2
+  46 0006 0529     		cmp	r1, #5
+  47 0008 07D0     		beq	.L2
+  48 000a 24D3     		bcc	.L4
+  49 000c A1F10B03 		sub	r3, r1, #11
+  50 0010 DBB2     		uxtb	r3, r3
+  51 0012 032B     		cmp	r3, #3
+  52 0014 01D9     		bls	.L2
+  53 0016 0020     		movs	r0, #0
+  54              	.LVL1:
+  55              	.L1:
+  49:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_TRUE_COLOR_ALPHA:
+  50:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_1BIT:
+  51:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_2BIT:
+  52:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_4BIT:
+  53:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_8BIT:
+  54:lvgl/src/extra/others/snapshot/lv_snapshot.c ****             break;
+  55:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         default:
+  56:lvgl/src/extra/others/snapshot/lv_snapshot.c ****             return 0;
+  57:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+  58:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  59:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_obj_update_layout(obj);
+  60:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 3
+
+
+  61:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     /*Width and height determine snapshot image size.*/
+  62:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t w = lv_obj_get_width(obj);
+  63:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t h = lv_obj_get_height(obj);
+  64:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t ext_size = _lv_obj_get_ext_draw_size(obj);
+  65:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     w += ext_size * 2;
+  66:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     h += ext_size * 2;
+  67:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  68:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     uint8_t px_size = lv_img_cf_get_px_size(cf);
+  69:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     return w * h * ((px_size + 7) >> 3);
+  70:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+  56              		.loc 1 70 1 is_stmt 0 view .LVU3
+  57 0018 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  58              	.LVL2:
+  59              	.L2:
+  54:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         default:
+  60              		.loc 1 54 13 is_stmt 1 view .LVU4
+  59:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  61              		.loc 1 59 5 view .LVU5
+  62 001a 3046     		mov	r0, r6
+  63              	.LVL3:
+  59:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  64              		.loc 1 59 5 is_stmt 0 view .LVU6
+  65 001c FFF7FEFF 		bl	lv_obj_update_layout
+  66              	.LVL4:
+  62:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t h = lv_obj_get_height(obj);
+  67              		.loc 1 62 5 is_stmt 1 view .LVU7
+  62:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t h = lv_obj_get_height(obj);
+  68              		.loc 1 62 20 is_stmt 0 view .LVU8
+  69 0020 3046     		mov	r0, r6
+  70 0022 FFF7FEFF 		bl	lv_obj_get_width
+  71              	.LVL5:
+  72 0026 0546     		mov	r5, r0
+  73              	.LVL6:
+  63:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t ext_size = _lv_obj_get_ext_draw_size(obj);
+  74              		.loc 1 63 5 is_stmt 1 view .LVU9
+  63:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t ext_size = _lv_obj_get_ext_draw_size(obj);
+  75              		.loc 1 63 20 is_stmt 0 view .LVU10
+  76 0028 3046     		mov	r0, r6
+  77 002a FFF7FEFF 		bl	lv_obj_get_height
+  78              	.LVL7:
+  79 002e 0746     		mov	r7, r0
+  80              	.LVL8:
+  64:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     w += ext_size * 2;
+  81              		.loc 1 64 5 is_stmt 1 view .LVU11
+  64:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     w += ext_size * 2;
+  82              		.loc 1 64 27 is_stmt 0 view .LVU12
+  83 0030 3046     		mov	r0, r6
+  84 0032 FFF7FEFF 		bl	_lv_obj_get_ext_draw_size
+  85              	.LVL9:
+  65:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     h += ext_size * 2;
+  86              		.loc 1 65 5 is_stmt 1 view .LVU13
+  65:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     h += ext_size * 2;
+  87              		.loc 1 65 19 is_stmt 0 view .LVU14
+  88 0036 4300     		lsls	r3, r0, #1
+  89 0038 9BB2     		uxth	r3, r3
+  65:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     h += ext_size * 2;
+  90              		.loc 1 65 7 view .LVU15
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 4
+
+
+  91 003a 1D44     		add	r5, r5, r3
+  92              	.LVL10:
+  65:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     h += ext_size * 2;
+  93              		.loc 1 65 7 view .LVU16
+  94 003c 2DB2     		sxth	r5, r5
+  95              	.LVL11:
+  66:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  96              		.loc 1 66 5 is_stmt 1 view .LVU17
+  66:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  97              		.loc 1 66 7 is_stmt 0 view .LVU18
+  98 003e 3B44     		add	r3, r3, r7
+  99 0040 1EB2     		sxth	r6, r3
+ 100              	.LVL12:
+  68:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     return w * h * ((px_size + 7) >> 3);
+ 101              		.loc 1 68 5 is_stmt 1 view .LVU19
+  68:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     return w * h * ((px_size + 7) >> 3);
+ 102              		.loc 1 68 23 is_stmt 0 view .LVU20
+ 103 0042 2046     		mov	r0, r4
+ 104              	.LVL13:
+  68:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     return w * h * ((px_size + 7) >> 3);
+ 105              		.loc 1 68 23 view .LVU21
+ 106 0044 FFF7FEFF 		bl	lv_img_cf_get_px_size
+ 107              	.LVL14:
+  69:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 108              		.loc 1 69 5 is_stmt 1 view .LVU22
+  69:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 109              		.loc 1 69 14 is_stmt 0 view .LVU23
+ 110 0048 06FB05F5 		mul	r5, r6, r5
+ 111              	.LVL15:
+  69:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 112              		.loc 1 69 30 view .LVU24
+ 113 004c 0730     		adds	r0, r0, #7
+ 114              	.LVL16:
+  69:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 115              		.loc 1 69 35 view .LVU25
+ 116 004e C010     		asrs	r0, r0, #3
+ 117              	.LVL17:
+  69:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 118              		.loc 1 69 18 view .LVU26
+ 119 0050 05FB00F0 		mul	r0, r5, r0
+ 120 0054 E0E7     		b	.L1
+ 121              	.LVL18:
+ 122              	.L4:
+  48:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_TRUE_COLOR_ALPHA:
+ 123              		.loc 1 48 5 view .LVU27
+ 124 0056 0020     		movs	r0, #0
+ 125              	.LVL19:
+  48:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_TRUE_COLOR_ALPHA:
+ 126              		.loc 1 48 5 view .LVU28
+ 127 0058 DEE7     		b	.L1
+ 128              		.cfi_endproc
+ 129              	.LFE162:
+ 131              		.section	.text.lv_snapshot_take_to_buf,"ax",%progbits
+ 132              		.align	1
+ 133              		.global	lv_snapshot_take_to_buf
+ 134              		.syntax unified
+ 135              		.thumb
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 5
+
+
+ 136              		.thumb_func
+ 138              	lv_snapshot_take_to_buf:
+ 139              	.LVL20:
+ 140              	.LFB163:
+  71:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  72:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /** Take snapshot for object with its children, save image info to provided buffer.
+  73:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+  74:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param obj    The object to generate snapshot.
+  75:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param cf     color format for generated image.
+  76:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param dsc    image descriptor to store the image result.
+  77:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param buf    the buffer to store image data.
+  78:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param buff_size provided buffer size in bytes.
+  79:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+  80:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @return LV_RES_OK on success, LV_RES_INV on error.
+  81:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  */
+  82:lvgl/src/extra/others/snapshot/lv_snapshot.c **** lv_res_t lv_snapshot_take_to_buf(lv_obj_t * obj, lv_img_cf_t cf, lv_img_dsc_t * dsc, void * buf, ui
+  83:lvgl/src/extra/others/snapshot/lv_snapshot.c **** {
+ 141              		.loc 1 83 1 is_stmt 1 view -0
+ 142              		.cfi_startproc
+ 143              		@ args = 4, pretend = 0, frame = 440
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+  84:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(dsc);
+ 145              		.loc 1 84 5 view .LVU30
+ 146              		.loc 1 84 5 view .LVU31
+ 147 0000 92B1     		cbz	r2, .L9
+  83:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(dsc);
+ 148              		.loc 1 83 1 is_stmt 0 view .LVU32
+ 149 0002 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 150              	.LCFI1:
+ 151              		.cfi_def_cfa_offset 36
+ 152              		.cfi_offset 4, -36
+ 153              		.cfi_offset 5, -32
+ 154              		.cfi_offset 6, -28
+ 155              		.cfi_offset 7, -24
+ 156              		.cfi_offset 8, -20
+ 157              		.cfi_offset 9, -16
+ 158              		.cfi_offset 10, -12
+ 159              		.cfi_offset 11, -8
+ 160              		.cfi_offset 14, -4
+ 161 0006 EFB0     		sub	sp, sp, #444
+ 162              	.LCFI2:
+ 163              		.cfi_def_cfa_offset 480
+ 164 0008 0646     		mov	r6, r0
+ 165 000a 0C46     		mov	r4, r1
+ 166 000c 1D46     		mov	r5, r3
+ 167 000e 1746     		mov	r7, r2
+ 168              		.loc 1 84 5 is_stmt 1 discriminator 2 view .LVU33
+  85:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 169              		.loc 1 85 5 view .LVU34
+ 170              		.loc 1 85 5 view .LVU35
+ 171 0010 5BB1     		cbz	r3, .L11
+ 172              		.loc 1 85 5 discriminator 2 view .LVU36
+  86:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  87:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     switch(cf) {
+ 173              		.loc 1 87 5 view .LVU37
+ 174 0012 0529     		cmp	r1, #5
+ 175 0014 0AD0     		beq	.L12
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 6
+
+
+ 176 0016 C0F09780 		bcc	.L16
+ 177 001a A1F10B03 		sub	r3, r1, #11
+ 178              	.LVL21:
+ 179              		.loc 1 87 5 is_stmt 0 view .LVU38
+ 180 001e DBB2     		uxtb	r3, r3
+ 181 0020 032B     		cmp	r3, #3
+ 182 0022 03D9     		bls	.L12
+ 183 0024 0020     		movs	r0, #0
+ 184              	.LVL22:
+ 185              		.loc 1 87 5 view .LVU39
+ 186 0026 90E0     		b	.L13
+ 187              	.LVL23:
+ 188              	.L9:
+ 189              	.LCFI3:
+ 190              		.cfi_def_cfa_offset 0
+ 191              		.cfi_restore 4
+ 192              		.cfi_restore 5
+ 193              		.cfi_restore 6
+ 194              		.cfi_restore 7
+ 195              		.cfi_restore 8
+ 196              		.cfi_restore 9
+ 197              		.cfi_restore 10
+ 198              		.cfi_restore 11
+ 199              		.cfi_restore 14
+  84:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 200              		.loc 1 84 5 is_stmt 1 discriminator 1 view .LVU40
+  84:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 201              		.loc 1 84 5 discriminator 1 view .LVU41
+  84:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 202              		.loc 1 84 5 discriminator 1 view .LVU42
+  84:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 203              		.loc 1 84 5 discriminator 1 view .LVU43
+  84:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 204              		.loc 1 84 5 discriminator 1 view .LVU44
+ 205 0028 FEE7     		b	.L9
+ 206              	.L11:
+ 207              	.LCFI4:
+ 208              		.cfi_def_cfa_offset 480
+ 209              		.cfi_offset 4, -36
+ 210              		.cfi_offset 5, -32
+ 211              		.cfi_offset 6, -28
+ 212              		.cfi_offset 7, -24
+ 213              		.cfi_offset 8, -20
+ 214              		.cfi_offset 9, -16
+ 215              		.cfi_offset 10, -12
+ 216              		.cfi_offset 11, -8
+ 217              		.cfi_offset 14, -4
+  85:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 218              		.loc 1 85 5 discriminator 1 view .LVU45
+  85:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 219              		.loc 1 85 5 discriminator 1 view .LVU46
+  85:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 220              		.loc 1 85 5 discriminator 1 view .LVU47
+  85:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 221              		.loc 1 85 5 discriminator 1 view .LVU48
+  85:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT(buf);
+ 222              		.loc 1 85 5 discriminator 1 view .LVU49
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 7
+
+
+ 223 002a FEE7     		b	.L11
+ 224              	.LVL24:
+ 225              	.L12:
+  88:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_TRUE_COLOR_ALPHA:
+  89:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_1BIT:
+  90:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_2BIT:
+  91:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_4BIT:
+  92:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_ALPHA_8BIT:
+  93:lvgl/src/extra/others/snapshot/lv_snapshot.c ****             break;
+ 226              		.loc 1 93 13 view .LVU50
+  94:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         default:
+  95:lvgl/src/extra/others/snapshot/lv_snapshot.c ****             return LV_RES_INV;
+  96:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+  97:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+  98:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(lv_snapshot_buf_size_needed(obj, cf) > buff_size)
+ 227              		.loc 1 98 5 view .LVU51
+ 228              		.loc 1 98 8 is_stmt 0 view .LVU52
+ 229 002c 2146     		mov	r1, r4
+ 230              	.LVL25:
+ 231              		.loc 1 98 8 view .LVU53
+ 232 002e 3046     		mov	r0, r6
+ 233              	.LVL26:
+ 234              		.loc 1 98 8 view .LVU54
+ 235 0030 FFF7FEFF 		bl	lv_snapshot_buf_size_needed
+ 236              	.LVL27:
+ 237              		.loc 1 98 7 discriminator 1 view .LVU55
+ 238 0034 789B     		ldr	r3, [sp, #480]
+ 239 0036 9842     		cmp	r0, r3
+ 240 0038 01D9     		bls	.L21
+  99:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return LV_RES_INV;
+ 241              		.loc 1 99 16 view .LVU56
+ 242 003a 0020     		movs	r0, #0
+ 243 003c 85E0     		b	.L13
+ 244              	.L21:
+ 100:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 101:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     /*Width and height determine snapshot image size.*/
+ 102:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t w = lv_obj_get_width(obj);
+ 245              		.loc 1 102 5 is_stmt 1 view .LVU57
+ 246              		.loc 1 102 20 is_stmt 0 view .LVU58
+ 247 003e 3046     		mov	r0, r6
+ 248 0040 FFF7FEFF 		bl	lv_obj_get_width
+ 249              	.LVL28:
+ 250 0044 8146     		mov	r9, r0
+ 251              	.LVL29:
+ 103:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t h = lv_obj_get_height(obj);
+ 252              		.loc 1 103 5 is_stmt 1 view .LVU59
+ 253              		.loc 1 103 20 is_stmt 0 view .LVU60
+ 254 0046 3046     		mov	r0, r6
+ 255 0048 FFF7FEFF 		bl	lv_obj_get_height
+ 256              	.LVL30:
+ 257 004c 8046     		mov	r8, r0
+ 258              	.LVL31:
+ 104:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_coord_t ext_size = _lv_obj_get_ext_draw_size(obj);
+ 259              		.loc 1 104 5 is_stmt 1 view .LVU61
+ 260              		.loc 1 104 27 is_stmt 0 view .LVU62
+ 261 004e 3046     		mov	r0, r6
+ 262 0050 FFF7FEFF 		bl	_lv_obj_get_ext_draw_size
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 8
+
+
+ 263              	.LVL32:
+ 264 0054 8246     		mov	r10, r0
+ 265              	.LVL33:
+ 105:lvgl/src/extra/others/snapshot/lv_snapshot.c ****    
+ 106:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     w += ext_size * 2;
+ 266              		.loc 1 106 5 is_stmt 1 view .LVU63
+ 267              		.loc 1 106 19 is_stmt 0 view .LVU64
+ 268 0056 4300     		lsls	r3, r0, #1
+ 269 0058 9BB2     		uxth	r3, r3
+ 270              		.loc 1 106 7 view .LVU65
+ 271 005a 9944     		add	r9, r9, r3
+ 272              	.LVL34:
+ 273              		.loc 1 106 7 view .LVU66
+ 274 005c 1FFA89F9 		uxth	r9, r9
+ 275              	.LVL35:
+ 107:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     h += ext_size * 2;
+ 276              		.loc 1 107 5 is_stmt 1 view .LVU67
+ 277              		.loc 1 107 7 is_stmt 0 view .LVU68
+ 278 0060 4344     		add	r3, r3, r8
+ 279 0062 1FFA83F8 		uxth	r8, r3
+ 280              	.LVL36:
+ 108:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 109:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_area_t snapshot_area;
+ 281              		.loc 1 109 5 is_stmt 1 view .LVU69
+ 110:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_obj_get_coords(obj, &snapshot_area);
+ 282              		.loc 1 110 5 view .LVU70
+ 283 0066 6CA9     		add	r1, sp, #432
+ 284 0068 3046     		mov	r0, r6
+ 285              	.LVL37:
+ 286              		.loc 1 110 5 is_stmt 0 view .LVU71
+ 287 006a FFF7FEFF 		bl	lv_obj_get_coords
+ 288              	.LVL38:
+ 111:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_area_increase(&snapshot_area, ext_size, ext_size);
+ 289              		.loc 1 111 5 is_stmt 1 view .LVU72
+ 290 006e 5246     		mov	r2, r10
+ 291 0070 5146     		mov	r1, r10
+ 292 0072 6CA8     		add	r0, sp, #432
+ 293 0074 FFF7FEFF 		bl	lv_area_increase
+ 294              	.LVL39:
+ 112:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 113:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_memset(buf, 0x00, buff_size);
+ 295              		.loc 1 113 5 view .LVU73
+ 296 0078 789A     		ldr	r2, [sp, #480]
+ 297 007a 0021     		movs	r1, #0
+ 298 007c 2846     		mov	r0, r5
+ 299 007e FFF7FEFF 		bl	lv_memset
+ 300              	.LVL40:
+ 114:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_memset_00(dsc, sizeof(lv_img_dsc_t));
+ 301              		.loc 1 114 5 view .LVU74
+ 302 0082 0C21     		movs	r1, #12
+ 303 0084 3846     		mov	r0, r7
+ 304 0086 FFF7FEFF 		bl	lv_memset_00
+ 305              	.LVL41:
+ 115:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 116:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_disp_t * obj_disp = lv_obj_get_disp(obj);
+ 306              		.loc 1 116 5 view .LVU75
+ 307              		.loc 1 116 28 is_stmt 0 view .LVU76
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 9
+
+
+ 308 008a 3046     		mov	r0, r6
+ 309 008c FFF7FEFF 		bl	lv_obj_get_disp
+ 310              	.LVL42:
+ 311 0090 8246     		mov	r10, r0
+ 312              	.LVL43:
+ 117:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_disp_drv_t driver;
+ 313              		.loc 1 117 5 is_stmt 1 view .LVU77
+ 118:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_disp_drv_init(&driver);
+ 314              		.loc 1 118 5 view .LVU78
+ 315 0092 0DF5B27B 		add	fp, sp, #356
+ 316 0096 5846     		mov	r0, fp
+ 317              	.LVL44:
+ 318              		.loc 1 118 5 is_stmt 0 view .LVU79
+ 319 0098 FFF7FEFF 		bl	lv_disp_drv_init
+ 320              	.LVL45:
+ 119:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     /*In lack of a better idea use the resolution of the object's display*/
+ 120:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     driver.hor_res = lv_disp_get_hor_res(obj_disp);
+ 321              		.loc 1 120 5 is_stmt 1 view .LVU80
+ 322              		.loc 1 120 22 is_stmt 0 view .LVU81
+ 323 009c 5046     		mov	r0, r10
+ 324 009e FFF7FEFF 		bl	lv_disp_get_hor_res
+ 325              	.LVL46:
+ 326              		.loc 1 120 20 discriminator 1 view .LVU82
+ 327 00a2 ADF86401 		strh	r0, [sp, #356]	@ movhi
+ 121:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     driver.ver_res = lv_disp_get_hor_res(obj_disp);
+ 328              		.loc 1 121 5 is_stmt 1 view .LVU83
+ 329              		.loc 1 121 22 is_stmt 0 view .LVU84
+ 330 00a6 5046     		mov	r0, r10
+ 331 00a8 FFF7FEFF 		bl	lv_disp_get_hor_res
+ 332              	.LVL47:
+ 333              		.loc 1 121 20 discriminator 1 view .LVU85
+ 334 00ac ADF86601 		strh	r0, [sp, #358]	@ movhi
+ 122:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_disp_drv_use_generic_set_px_cb(&driver, cf);
+ 335              		.loc 1 122 5 is_stmt 1 view .LVU86
+ 336 00b0 2146     		mov	r1, r4
+ 337 00b2 5846     		mov	r0, fp
+ 338 00b4 FFF7FEFF 		bl	lv_disp_drv_use_generic_set_px_cb
+ 339              	.LVL48:
+ 123:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 124:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_disp_t fake_disp;
+ 340              		.loc 1 124 5 view .LVU87
+ 125:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_memset_00(&fake_disp, sizeof(lv_disp_t));
+ 341              		.loc 1 125 5 view .LVU88
+ 342 00b8 4FF4AC71 		mov	r1, #344
+ 343 00bc 03A8     		add	r0, sp, #12
+ 344 00be FFF7FEFF 		bl	lv_memset_00
+ 345              	.LVL49:
+ 126:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     fake_disp.driver = &driver;
+ 346              		.loc 1 126 5 view .LVU89
+ 347              		.loc 1 126 22 is_stmt 0 view .LVU90
+ 348 00c2 CDF80CB0 		str	fp, [sp, #12]
+ 127:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 128:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 129:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_draw_ctx_t * draw_ctx = lv_mem_alloc(obj_disp->driver->draw_ctx_size);
+ 349              		.loc 1 129 5 is_stmt 1 view .LVU91
+ 350              		.loc 1 129 53 is_stmt 0 view .LVU92
+ 351 00c6 DAF80030 		ldr	r3, [r10]
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 10
+
+
+ 352              		.loc 1 129 32 view .LVU93
+ 353 00ca 586C     		ldr	r0, [r3, #68]
+ 354 00cc FFF7FEFF 		bl	lv_mem_alloc
+ 355              	.LVL50:
+ 130:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     LV_ASSERT_MALLOC(draw_ctx);
+ 356              		.loc 1 130 5 is_stmt 1 view .LVU94
+ 357              		.loc 1 130 5 view .LVU95
+ 358 00d0 8346     		mov	fp, r0
+ 359 00d2 0028     		cmp	r0, #0
+ 360 00d4 37D0     		beq	.L15
+ 361              		.loc 1 130 5 discriminator 2 view .LVU96
+ 362              		.loc 1 130 31 discriminator 2 view .LVU97
+ 131:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(draw_ctx == NULL) return LV_RES_INV;
+ 363              		.loc 1 131 5 view .LVU98
+ 132:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     obj_disp->driver->draw_ctx_init(fake_disp.driver, draw_ctx);
+ 364              		.loc 1 132 5 view .LVU99
+ 365              		.loc 1 132 13 is_stmt 0 view .LVU100
+ 366 00d6 DAF80030 		ldr	r3, [r10]
+ 367              		.loc 1 132 21 view .LVU101
+ 368 00da DB6B     		ldr	r3, [r3, #60]
+ 369              		.loc 1 132 5 view .LVU102
+ 370 00dc 0146     		mov	r1, r0
+ 371 00de 0398     		ldr	r0, [sp, #12]
+ 372              	.LVL51:
+ 373              		.loc 1 132 5 view .LVU103
+ 374 00e0 9847     		blx	r3
+ 375              	.LVL52:
+ 133:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     fake_disp.driver->draw_ctx = draw_ctx;
+ 376              		.loc 1 133 5 is_stmt 1 view .LVU104
+ 377              		.loc 1 133 14 is_stmt 0 view .LVU105
+ 378 00e2 039B     		ldr	r3, [sp, #12]
+ 379              		.loc 1 133 32 view .LVU106
+ 380 00e4 C3F838B0 		str	fp, [r3, #56]
+ 134:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     draw_ctx->clip_area = &snapshot_area;
+ 381              		.loc 1 134 5 is_stmt 1 view .LVU107
+ 382              		.loc 1 134 25 is_stmt 0 view .LVU108
+ 383 00e8 6CAB     		add	r3, sp, #432
+ 384 00ea CBF80830 		str	r3, [fp, #8]
+ 135:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     draw_ctx->buf_area = &snapshot_area;
+ 385              		.loc 1 135 5 is_stmt 1 view .LVU109
+ 386              		.loc 1 135 24 is_stmt 0 view .LVU110
+ 387 00ee CBF80430 		str	r3, [fp, #4]
+ 136:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     draw_ctx->buf = (void *)buf;
+ 388              		.loc 1 136 5 is_stmt 1 view .LVU111
+ 389              		.loc 1 136 19 is_stmt 0 view .LVU112
+ 390 00f2 CBF80050 		str	r5, [fp]
+ 137:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     driver.draw_ctx = draw_ctx;
+ 391              		.loc 1 137 5 is_stmt 1 view .LVU113
+ 392              		.loc 1 137 21 is_stmt 0 view .LVU114
+ 393 00f6 CDF89CB1 		str	fp, [sp, #412]
+ 138:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 139:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_disp_t * refr_ori = _lv_refr_get_disp_refreshing();
+ 394              		.loc 1 139 5 is_stmt 1 view .LVU115
+ 395              		.loc 1 139 28 is_stmt 0 view .LVU116
+ 396 00fa FFF7FEFF 		bl	_lv_refr_get_disp_refreshing
+ 397              	.LVL53:
+ 398 00fe 0190     		str	r0, [sp, #4]
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 11
+
+
+ 399              	.LVL54:
+ 140:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     _lv_refr_set_disp_refreshing(&fake_disp);
+ 400              		.loc 1 140 5 is_stmt 1 view .LVU117
+ 401 0100 03AB     		add	r3, sp, #12
+ 402 0102 1846     		mov	r0, r3
+ 403              	.LVL55:
+ 404              		.loc 1 140 5 is_stmt 0 view .LVU118
+ 405 0104 FFF7FEFF 		bl	_lv_refr_set_disp_refreshing
+ 406              	.LVL56:
+ 141:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 142:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_refr_obj(draw_ctx, obj);
+ 407              		.loc 1 142 5 is_stmt 1 view .LVU119
+ 408 0108 3146     		mov	r1, r6
+ 409 010a 5846     		mov	r0, fp
+ 410 010c FFF7FEFF 		bl	lv_refr_obj
+ 411              	.LVL57:
+ 143:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 144:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     _lv_refr_set_disp_refreshing(refr_ori);
+ 412              		.loc 1 144 5 view .LVU120
+ 413 0110 0198     		ldr	r0, [sp, #4]
+ 414 0112 FFF7FEFF 		bl	_lv_refr_set_disp_refreshing
+ 415              	.LVL58:
+ 145:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     obj_disp->driver->draw_ctx_deinit(fake_disp.driver, draw_ctx);
+ 416              		.loc 1 145 5 view .LVU121
+ 417              		.loc 1 145 13 is_stmt 0 view .LVU122
+ 418 0116 DAF80030 		ldr	r3, [r10]
+ 419              		.loc 1 145 21 view .LVU123
+ 420 011a 1B6C     		ldr	r3, [r3, #64]
+ 421              		.loc 1 145 5 view .LVU124
+ 422 011c 5946     		mov	r1, fp
+ 423 011e 0398     		ldr	r0, [sp, #12]
+ 424 0120 9847     		blx	r3
+ 425              	.LVL59:
+ 146:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_mem_free(draw_ctx);
+ 426              		.loc 1 146 5 is_stmt 1 view .LVU125
+ 427 0122 5846     		mov	r0, fp
+ 428 0124 FFF7FEFF 		bl	lv_mem_free
+ 429              	.LVL60:
+ 147:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 148:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     dsc->data = buf;
+ 430              		.loc 1 148 5 view .LVU126
+ 431              		.loc 1 148 15 is_stmt 0 view .LVU127
+ 432 0128 BD60     		str	r5, [r7, #8]
+ 149:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     dsc->header.w = w;
+ 433              		.loc 1 149 5 is_stmt 1 view .LVU128
+ 434              		.loc 1 149 19 is_stmt 0 view .LVU129
+ 435 012a 3B68     		ldr	r3, [r7]
+ 436 012c 69F39423 		bfi	r3, r9, #10, #11
+ 437 0130 3B60     		str	r3, [r7]
+ 438              	.LVL61:
+ 150:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     dsc->header.h = h;
+ 439              		.loc 1 150 5 is_stmt 1 view .LVU130
+ 440              		.loc 1 150 19 is_stmt 0 view .LVU131
+ 441 0132 7B88     		ldrh	r3, [r7, #2]
+ 442 0134 68F34F13 		bfi	r3, r8, #5, #11
+ 443 0138 7B80     		strh	r3, [r7, #2]	@ movhi
+ 151:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     dsc->header.cf = cf;
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 12
+
+
+ 444              		.loc 1 151 5 is_stmt 1 view .LVU132
+ 445              		.loc 1 151 20 is_stmt 0 view .LVU133
+ 446 013a 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 447 013c 64F30403 		bfi	r3, r4, #0, #5
+ 448 0140 3B70     		strb	r3, [r7]
+ 152:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     return LV_RES_OK;
+ 449              		.loc 1 152 5 is_stmt 1 view .LVU134
+ 450              		.loc 1 152 12 is_stmt 0 view .LVU135
+ 451 0142 0120     		movs	r0, #1
+ 452 0144 01E0     		b	.L13
+ 453              	.LVL62:
+ 454              	.L15:
+ 130:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(draw_ctx == NULL) return LV_RES_INV;
+ 455              		.loc 1 130 5 is_stmt 1 discriminator 1 view .LVU136
+ 130:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(draw_ctx == NULL) return LV_RES_INV;
+ 456              		.loc 1 130 5 discriminator 1 view .LVU137
+ 130:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(draw_ctx == NULL) return LV_RES_INV;
+ 457              		.loc 1 130 5 discriminator 1 view .LVU138
+ 130:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(draw_ctx == NULL) return LV_RES_INV;
+ 458              		.loc 1 130 5 discriminator 1 view .LVU139
+ 130:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(draw_ctx == NULL) return LV_RES_INV;
+ 459              		.loc 1 130 5 discriminator 1 view .LVU140
+ 460 0146 FEE7     		b	.L15
+ 461              	.LVL63:
+ 462              	.L16:
+  87:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         case LV_IMG_CF_TRUE_COLOR_ALPHA:
+ 463              		.loc 1 87 5 is_stmt 0 view .LVU141
+ 464 0148 0020     		movs	r0, #0
+ 465              	.LVL64:
+ 466              	.L13:
+ 153:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 467              		.loc 1 153 1 view .LVU142
+ 468 014a 6FB0     		add	sp, sp, #444
+ 469              	.LCFI5:
+ 470              		.cfi_def_cfa_offset 36
+ 471              		@ sp needed
+ 472 014c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 473              		.loc 1 153 1 view .LVU143
+ 474              		.cfi_endproc
+ 475              	.LFE163:
+ 477              		.section	.text.lv_snapshot_take,"ax",%progbits
+ 478              		.align	1
+ 479              		.global	lv_snapshot_take
+ 480              		.syntax unified
+ 481              		.thumb
+ 482              		.thumb_func
+ 484              	lv_snapshot_take:
+ 485              	.LVL65:
+ 486              	.LFB164:
+ 154:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 155:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /** Take snapshot for object with its children, alloc the memory needed.
+ 156:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+ 157:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param obj    The object to generate snapshot.
+ 158:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param cf     color format for generated image.
+ 159:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+ 160:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @return a pointer to an image descriptor, or NULL if failed.
+ 161:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  */
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 13
+
+
+ 162:lvgl/src/extra/others/snapshot/lv_snapshot.c **** lv_img_dsc_t * lv_snapshot_take(lv_obj_t * obj, lv_img_cf_t cf)
+ 163:lvgl/src/extra/others/snapshot/lv_snapshot.c **** {
+ 487              		.loc 1 163 1 is_stmt 1 view -0
+ 488              		.cfi_startproc
+ 489              		@ args = 0, pretend = 0, frame = 0
+ 490              		@ frame_needed = 0, uses_anonymous_args = 0
+ 491              		.loc 1 163 1 is_stmt 0 view .LVU145
+ 492 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 493              	.LCFI6:
+ 494              		.cfi_def_cfa_offset 24
+ 495              		.cfi_offset 4, -24
+ 496              		.cfi_offset 5, -20
+ 497              		.cfi_offset 6, -16
+ 498              		.cfi_offset 7, -12
+ 499              		.cfi_offset 8, -8
+ 500              		.cfi_offset 14, -4
+ 501 0004 82B0     		sub	sp, sp, #8
+ 502              	.LCFI7:
+ 503              		.cfi_def_cfa_offset 32
+ 504 0006 0646     		mov	r6, r0
+ 505 0008 0F46     		mov	r7, r1
+ 164:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     uint32_t buff_size = lv_snapshot_buf_size_needed(obj, cf);
+ 506              		.loc 1 164 5 is_stmt 1 view .LVU146
+ 507              		.loc 1 164 26 is_stmt 0 view .LVU147
+ 508 000a FFF7FEFF 		bl	lv_snapshot_buf_size_needed
+ 509              	.LVL66:
+ 510              		.loc 1 164 26 view .LVU148
+ 511 000e 0446     		mov	r4, r0
+ 512              	.LVL67:
+ 165:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 166:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     void * buf = lv_mem_alloc(buff_size);
+ 513              		.loc 1 166 5 is_stmt 1 view .LVU149
+ 514              		.loc 1 166 18 is_stmt 0 view .LVU150
+ 515 0010 FFF7FEFF 		bl	lv_mem_alloc
+ 516              	.LVL68:
+ 167:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(buf == NULL) {
+ 517              		.loc 1 167 5 is_stmt 1 view .LVU151
+ 518              		.loc 1 167 7 is_stmt 0 view .LVU152
+ 519 0014 8046     		mov	r8, r0
+ 520 0016 F8B1     		cbz	r0, .L25
+ 168:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return NULL;
+ 169:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 170:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 171:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_img_dsc_t * dsc = lv_mem_alloc(sizeof(lv_img_dsc_t));
+ 521              		.loc 1 171 5 is_stmt 1 view .LVU153
+ 522              		.loc 1 171 26 is_stmt 0 view .LVU154
+ 523 0018 0C20     		movs	r0, #12
+ 524              	.LVL69:
+ 525              		.loc 1 171 26 view .LVU155
+ 526 001a FFF7FEFF 		bl	lv_mem_alloc
+ 527              	.LVL70:
+ 172:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(dsc == NULL) {
+ 528              		.loc 1 172 5 is_stmt 1 view .LVU156
+ 529              		.loc 1 172 7 is_stmt 0 view .LVU157
+ 530 001e 0546     		mov	r5, r0
+ 531 0020 70B1     		cbz	r0, .L27
+ 173:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         lv_mem_free(buf);
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 14
+
+
+ 174:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return NULL;
+ 175:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 176:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     dsc->data=buf;
+ 532              		.loc 1 176 5 is_stmt 1 view .LVU158
+ 533              		.loc 1 176 14 is_stmt 0 view .LVU159
+ 534 0022 C0F80880 		str	r8, [r0, #8]
+ 177:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     dsc->data_size=buff_size;
+ 535              		.loc 1 177 5 is_stmt 1 view .LVU160
+ 536              		.loc 1 177 19 is_stmt 0 view .LVU161
+ 537 0026 4460     		str	r4, [r0, #4]
+ 178:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 179:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(lv_snapshot_take_to_buf(obj, cf, dsc, buf, buff_size) == LV_RES_INV) {
+ 538              		.loc 1 179 5 is_stmt 1 view .LVU162
+ 539              		.loc 1 179 8 is_stmt 0 view .LVU163
+ 540 0028 0094     		str	r4, [sp]
+ 541 002a 4346     		mov	r3, r8
+ 542 002c 0246     		mov	r2, r0
+ 543 002e 3946     		mov	r1, r7
+ 544 0030 3046     		mov	r0, r6
+ 545              	.LVL71:
+ 546              		.loc 1 179 8 view .LVU164
+ 547 0032 FFF7FEFF 		bl	lv_snapshot_take_to_buf
+ 548              	.LVL72:
+ 549              		.loc 1 179 7 discriminator 1 view .LVU165
+ 550 0036 38B1     		cbz	r0, .L28
+ 551              	.LVL73:
+ 552              	.L22:
+ 180:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         lv_mem_free(buf);
+ 181:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         lv_mem_free(dsc);
+ 182:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return NULL;
+ 183:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 184:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 185:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     return dsc;
+ 186:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 553              		.loc 1 186 1 view .LVU166
+ 554 0038 2846     		mov	r0, r5
+ 555 003a 02B0     		add	sp, sp, #8
+ 556              	.LCFI8:
+ 557              		.cfi_remember_state
+ 558              		.cfi_def_cfa_offset 24
+ 559              		@ sp needed
+ 560 003c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 561              	.LVL74:
+ 562              	.L27:
+ 563              	.LCFI9:
+ 564              		.cfi_restore_state
+ 173:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return NULL;
+ 565              		.loc 1 173 9 is_stmt 1 view .LVU167
+ 566 0040 4046     		mov	r0, r8
+ 567              	.LVL75:
+ 173:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return NULL;
+ 568              		.loc 1 173 9 is_stmt 0 view .LVU168
+ 569 0042 FFF7FEFF 		bl	lv_mem_free
+ 570              	.LVL76:
+ 174:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 571              		.loc 1 174 9 is_stmt 1 view .LVU169
+ 174:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 15
+
+
+ 572              		.loc 1 174 16 is_stmt 0 view .LVU170
+ 573 0046 F7E7     		b	.L22
+ 574              	.L28:
+ 180:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         lv_mem_free(buf);
+ 575              		.loc 1 180 9 is_stmt 1 view .LVU171
+ 576 0048 4046     		mov	r0, r8
+ 577 004a FFF7FEFF 		bl	lv_mem_free
+ 578              	.LVL77:
+ 181:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return NULL;
+ 579              		.loc 1 181 9 view .LVU172
+ 580 004e 2846     		mov	r0, r5
+ 581 0050 FFF7FEFF 		bl	lv_mem_free
+ 582              	.LVL78:
+ 182:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 583              		.loc 1 182 9 view .LVU173
+ 182:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 584              		.loc 1 182 16 is_stmt 0 view .LVU174
+ 585 0054 0025     		movs	r5, #0
+ 586              	.LVL79:
+ 182:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 587              		.loc 1 182 16 view .LVU175
+ 588 0056 EFE7     		b	.L22
+ 589              	.LVL80:
+ 590              	.L25:
+ 168:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     }
+ 591              		.loc 1 168 16 view .LVU176
+ 592 0058 0546     		mov	r5, r0
+ 593 005a EDE7     		b	.L22
+ 594              		.cfi_endproc
+ 595              	.LFE164:
+ 597              		.section	.text.lv_snapshot_free,"ax",%progbits
+ 598              		.align	1
+ 599              		.global	lv_snapshot_free
+ 600              		.syntax unified
+ 601              		.thumb
+ 602              		.thumb_func
+ 604              	lv_snapshot_free:
+ 605              	.LVL81:
+ 606              	.LFB165:
+ 187:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 188:lvgl/src/extra/others/snapshot/lv_snapshot.c **** /** Free the snapshot image returned by @ref lv_snapshot_take
+ 189:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+ 190:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * It will firstly free the data image takes, then the image descriptor.
+ 191:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+ 192:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  * @param dsc    The image descriptor generated by lv_snapshot_take.
+ 193:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  *
+ 194:lvgl/src/extra/others/snapshot/lv_snapshot.c ****  */
+ 195:lvgl/src/extra/others/snapshot/lv_snapshot.c **** void lv_snapshot_free(lv_img_dsc_t * dsc)
+ 196:lvgl/src/extra/others/snapshot/lv_snapshot.c **** {
+ 607              		.loc 1 196 1 is_stmt 1 view -0
+ 608              		.cfi_startproc
+ 609              		@ args = 0, pretend = 0, frame = 0
+ 610              		@ frame_needed = 0, uses_anonymous_args = 0
+ 197:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(!dsc)
+ 611              		.loc 1 197 5 view .LVU178
+ 612              		.loc 1 197 7 is_stmt 0 view .LVU179
+ 613 0000 48B1     		cbz	r0, .L33
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 16
+
+
+ 196:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(!dsc)
+ 614              		.loc 1 196 1 view .LVU180
+ 615 0002 10B5     		push	{r4, lr}
+ 616              	.LCFI10:
+ 617              		.cfi_def_cfa_offset 8
+ 618              		.cfi_offset 4, -8
+ 619              		.cfi_offset 14, -4
+ 620 0004 0446     		mov	r4, r0
+ 198:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         return;
+ 199:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 200:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     if(dsc->data)
+ 621              		.loc 1 200 5 is_stmt 1 view .LVU181
+ 622              		.loc 1 200 11 is_stmt 0 view .LVU182
+ 623 0006 8068     		ldr	r0, [r0, #8]
+ 624              	.LVL82:
+ 625              		.loc 1 200 7 view .LVU183
+ 626 0008 08B1     		cbz	r0, .L31
+ 201:lvgl/src/extra/others/snapshot/lv_snapshot.c ****         lv_mem_free((void *)dsc->data);
+ 627              		.loc 1 201 9 is_stmt 1 view .LVU184
+ 628 000a FFF7FEFF 		bl	lv_mem_free
+ 629              	.LVL83:
+ 630              	.L31:
+ 202:lvgl/src/extra/others/snapshot/lv_snapshot.c **** 
+ 203:lvgl/src/extra/others/snapshot/lv_snapshot.c ****     lv_mem_free(dsc);
+ 631              		.loc 1 203 5 view .LVU185
+ 632 000e 2046     		mov	r0, r4
+ 633 0010 FFF7FEFF 		bl	lv_mem_free
+ 634              	.LVL84:
+ 204:lvgl/src/extra/others/snapshot/lv_snapshot.c **** }
+ 635              		.loc 1 204 1 is_stmt 0 view .LVU186
+ 636 0014 10BD     		pop	{r4, pc}
+ 637              	.LVL85:
+ 638              	.L33:
+ 639              	.LCFI11:
+ 640              		.cfi_def_cfa_offset 0
+ 641              		.cfi_restore 4
+ 642              		.cfi_restore 14
+ 643              		.loc 1 204 1 view .LVU187
+ 644 0016 7047     		bx	lr
+ 645              		.cfi_endproc
+ 646              	.LFE165:
+ 648              		.text
+ 649              	.Letext0:
+ 650              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 651              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 652              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none
+ 653              		.file 5 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_area.h"
+ 654              		.file 6 "D:/update_2024EL/changeform/743zit6/lvgl/src/font/lv_font.h"
+ 655              		.file 7 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_types.h"
+ 656              		.file 8 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_color.h"
+ 657              		.file 9 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_txt.h"
+ 658              		.file 10 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_bidi.h"
+ 659              		.file 11 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_style.h"
+ 660              		.file 12 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_img_buf.h"
+ 661              		.file 13 "lvgl/src/extra/others/snapshot/../../../core/lv_obj.h"
+ 662              		.file 14 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_rect.h"
+ 663              		.file 15 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_label.h"
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 17
+
+
+ 664              		.file 16 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_img.h"
+ 665              		.file 17 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_line.h"
+ 666              		.file 18 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw_arc.h"
+ 667              		.file 19 "D:/update_2024EL/changeform/743zit6/lvgl/src/draw/lv_draw.h"
+ 668              		.file 20 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_ll.h"
+ 669              		.file 21 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_timer.h"
+ 670              		.file 22 "D:/update_2024EL/changeform/743zit6/lvgl/src/hal/lv_hal_disp.h"
+ 671              		.file 23 "lvgl/src/extra/others/snapshot/../../../core/lv_theme.h"
+ 672              		.file 24 "lvgl/src/extra/others/snapshot/../../../core/lv_group.h"
+ 673              		.file 25 "lvgl/src/extra/others/snapshot/../../../core/lv_obj_scroll.h"
+ 674              		.file 26 "lvgl/src/extra/others/snapshot/../../../core/lv_obj_style.h"
+ 675              		.file 27 "lvgl/src/extra/others/snapshot/../../../core/lv_obj_class.h"
+ 676              		.file 28 "lvgl/src/extra/others/snapshot/../../../core/lv_event.h"
+ 677              		.file 29 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_mem.h"
+ 678              		.file 30 "lvgl/src/extra/others/snapshot/../../../core/lv_refr.h"
+ 679              		.file 31 "lvgl/src/extra/others/snapshot/../../../core/lv_obj_tree.h"
+ 680              		.file 32 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_pos.h"
+ 681              		.file 33 "lvgl/src/extra/others/snapshot/../../../core/lv_obj_draw.h"
+ARM GAS  C:\usertemp\ccj7Ozwn.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_snapshot.c
+C:\usertemp\ccj7Ozwn.s:20     .text.lv_snapshot_buf_size_needed:00000000 $t
+C:\usertemp\ccj7Ozwn.s:26     .text.lv_snapshot_buf_size_needed:00000000 lv_snapshot_buf_size_needed
+C:\usertemp\ccj7Ozwn.s:132    .text.lv_snapshot_take_to_buf:00000000 $t
+C:\usertemp\ccj7Ozwn.s:138    .text.lv_snapshot_take_to_buf:00000000 lv_snapshot_take_to_buf
+C:\usertemp\ccj7Ozwn.s:478    .text.lv_snapshot_take:00000000 $t
+C:\usertemp\ccj7Ozwn.s:484    .text.lv_snapshot_take:00000000 lv_snapshot_take
+C:\usertemp\ccj7Ozwn.s:598    .text.lv_snapshot_free:00000000 $t
+C:\usertemp\ccj7Ozwn.s:604    .text.lv_snapshot_free:00000000 lv_snapshot_free
+
+UNDEFINED SYMBOLS
+lv_obj_update_layout
+lv_obj_get_width
+lv_obj_get_height
+_lv_obj_get_ext_draw_size
+lv_img_cf_get_px_size
+lv_obj_get_coords
+lv_area_increase
+lv_memset
+lv_memset_00
+lv_obj_get_disp
+lv_disp_drv_init
+lv_disp_get_hor_res
+lv_disp_drv_use_generic_set_px_cb
+lv_mem_alloc
+_lv_refr_get_disp_refreshing
+_lv_refr_set_disp_refreshing
+lv_refr_obj
+lv_mem_free

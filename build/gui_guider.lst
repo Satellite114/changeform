@@ -1,0 +1,400 @@
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"gui_guider.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "generated/gui_guider.c"
+  19              		.section	.text.ui_init_style,"ax",%progbits
+  20              		.align	1
+  21              		.global	ui_init_style
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	ui_init_style:
+  27              	.LVL0:
+  28              	.LFB196:
+   1:generated/gui_guider.c **** /*
+   2:generated/gui_guider.c **** * Copyright 2025 NXP
+   3:generated/gui_guider.c **** * NXP Confidential and Proprietary. This software is owned or controlled by NXP and may only be use
+   4:generated/gui_guider.c **** * accordance with the applicable license terms. By expressly accepting such terms or by downloading
+   5:generated/gui_guider.c **** * activating and/or otherwise using the software, you are agreeing that you have read, and that you
+   6:generated/gui_guider.c **** * comply with and are bound by, such license terms.  If you do not agree to be bound by the applica
+   7:generated/gui_guider.c **** * terms, then you may not retain, install, activate or otherwise use the software.
+   8:generated/gui_guider.c **** */
+   9:generated/gui_guider.c **** 
+  10:generated/gui_guider.c **** #include "lvgl.h"
+  11:generated/gui_guider.c **** #include <stdio.h>
+  12:generated/gui_guider.c **** #include "gui_guider.h"
+  13:generated/gui_guider.c **** 
+  14:generated/gui_guider.c **** 
+  15:generated/gui_guider.c **** void ui_init_style(lv_style_t * style)
+  16:generated/gui_guider.c **** {
+  29              		.loc 1 16 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 16 1 is_stmt 0 view .LVU1
+  34 0000 08B5     		push	{r3, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 3, -8
+  38              		.cfi_offset 14, -4
+  17:generated/gui_guider.c ****   if (style->prop_cnt > 1)
+  39              		.loc 1 17 3 is_stmt 1 view .LVU2
+  40              		.loc 1 17 12 is_stmt 0 view .LVU3
+  41 0002 C379     		ldrb	r3, [r0, #7]	@ zero_extendqisi2
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 2
+
+
+  42              		.loc 1 17 6 view .LVU4
+  43 0004 012B     		cmp	r3, #1
+  44 0006 02D9     		bls	.L2
+  18:generated/gui_guider.c ****     lv_style_reset(style);
+  45              		.loc 1 18 5 is_stmt 1 view .LVU5
+  46 0008 FFF7FEFF 		bl	lv_style_reset
+  47              	.LVL1:
+  48              	.L1:
+  19:generated/gui_guider.c ****   else
+  20:generated/gui_guider.c ****     lv_style_init(style);
+  21:generated/gui_guider.c **** }
+  49              		.loc 1 21 1 is_stmt 0 view .LVU6
+  50 000c 08BD     		pop	{r3, pc}
+  51              	.LVL2:
+  52              	.L2:
+  20:generated/gui_guider.c **** }
+  53              		.loc 1 20 5 is_stmt 1 view .LVU7
+  54 000e FFF7FEFF 		bl	lv_style_init
+  55              	.LVL3:
+  56              		.loc 1 21 1 is_stmt 0 view .LVU8
+  57 0012 FBE7     		b	.L1
+  58              		.cfi_endproc
+  59              	.LFE196:
+  61              		.section	.text.init_scr_del_flag,"ax",%progbits
+  62              		.align	1
+  63              		.global	init_scr_del_flag
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  68              	init_scr_del_flag:
+  69              	.LVL4:
+  70              	.LFB197:
+  22:generated/gui_guider.c **** 
+  23:generated/gui_guider.c **** void init_scr_del_flag(lv_ui *ui)
+  24:generated/gui_guider.c **** {
+  71              		.loc 1 24 1 is_stmt 1 view -0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  25:generated/gui_guider.c ****   
+  26:generated/gui_guider.c **** 	ui->wave_model_del = true;
+  76              		.loc 1 26 2 view .LVU10
+  77              		.loc 1 26 21 is_stmt 0 view .LVU11
+  78 0000 0123     		movs	r3, #1
+  79 0002 0371     		strb	r3, [r0, #4]
+  27:generated/gui_guider.c **** }
+  80              		.loc 1 27 1 view .LVU12
+  81 0004 7047     		bx	lr
+  82              		.cfi_endproc
+  83              	.LFE197:
+  85              		.section	.text.setup_ui,"ax",%progbits
+  86              		.align	1
+  87              		.global	setup_ui
+  88              		.syntax unified
+  89              		.thumb
+  90              		.thumb_func
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 3
+
+
+  92              	setup_ui:
+  93              	.LVL5:
+  94              	.LFB198:
+  28:generated/gui_guider.c **** 
+  29:generated/gui_guider.c **** void setup_ui(lv_ui *ui)
+  30:generated/gui_guider.c **** {
+  95              		.loc 1 30 1 is_stmt 1 view -0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              		.loc 1 30 1 is_stmt 0 view .LVU14
+ 100 0000 10B5     		push	{r4, lr}
+ 101              	.LCFI1:
+ 102              		.cfi_def_cfa_offset 8
+ 103              		.cfi_offset 4, -8
+ 104              		.cfi_offset 14, -4
+ 105 0002 0446     		mov	r4, r0
+  31:generated/gui_guider.c ****   init_scr_del_flag(ui);
+ 106              		.loc 1 31 3 is_stmt 1 view .LVU15
+ 107 0004 FFF7FEFF 		bl	init_scr_del_flag
+ 108              	.LVL6:
+  32:generated/gui_guider.c ****   setup_scr_wave_model(ui);
+ 109              		.loc 1 32 3 view .LVU16
+ 110 0008 2046     		mov	r0, r4
+ 111 000a FFF7FEFF 		bl	setup_scr_wave_model
+ 112              	.LVL7:
+  33:generated/gui_guider.c ****   lv_scr_load(ui->wave_model);
+ 113              		.loc 1 33 3 view .LVU17
+ 114              	.LBB4:
+ 115              	.LBI4:
+ 116              		.file 2 "lvgl/src/core/lv_disp.h"
+   1:lvgl/src/core/lv_disp.h **** /**
+   2:lvgl/src/core/lv_disp.h ****  * @file lv_disp.h
+   3:lvgl/src/core/lv_disp.h ****  *
+   4:lvgl/src/core/lv_disp.h ****  */
+   5:lvgl/src/core/lv_disp.h **** 
+   6:lvgl/src/core/lv_disp.h **** #ifndef LV_DISP_H
+   7:lvgl/src/core/lv_disp.h **** #define LV_DISP_H
+   8:lvgl/src/core/lv_disp.h **** 
+   9:lvgl/src/core/lv_disp.h **** #ifdef __cplusplus
+  10:lvgl/src/core/lv_disp.h **** extern "C" {
+  11:lvgl/src/core/lv_disp.h **** #endif
+  12:lvgl/src/core/lv_disp.h **** 
+  13:lvgl/src/core/lv_disp.h **** /*********************
+  14:lvgl/src/core/lv_disp.h ****  *      INCLUDES
+  15:lvgl/src/core/lv_disp.h ****  *********************/
+  16:lvgl/src/core/lv_disp.h **** #include "../hal/lv_hal.h"
+  17:lvgl/src/core/lv_disp.h **** #include "lv_obj.h"
+  18:lvgl/src/core/lv_disp.h **** #include "lv_theme.h"
+  19:lvgl/src/core/lv_disp.h **** 
+  20:lvgl/src/core/lv_disp.h **** /*********************
+  21:lvgl/src/core/lv_disp.h ****  *      DEFINES
+  22:lvgl/src/core/lv_disp.h ****  *********************/
+  23:lvgl/src/core/lv_disp.h **** 
+  24:lvgl/src/core/lv_disp.h **** /**********************
+  25:lvgl/src/core/lv_disp.h ****  *      TYPEDEFS
+  26:lvgl/src/core/lv_disp.h ****  **********************/
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 4
+
+
+  27:lvgl/src/core/lv_disp.h **** 
+  28:lvgl/src/core/lv_disp.h **** typedef enum {
+  29:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_NONE,
+  30:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_OVER_LEFT,
+  31:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_OVER_RIGHT,
+  32:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_OVER_TOP,
+  33:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_OVER_BOTTOM,
+  34:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_MOVE_LEFT,
+  35:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_MOVE_RIGHT,
+  36:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_MOVE_TOP,
+  37:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_MOVE_BOTTOM,
+  38:lvgl/src/core/lv_disp.h ****     LV_SCR_LOAD_ANIM_FADE_ON,
+  39:lvgl/src/core/lv_disp.h **** } lv_scr_load_anim_t;
+  40:lvgl/src/core/lv_disp.h **** 
+  41:lvgl/src/core/lv_disp.h **** /**********************
+  42:lvgl/src/core/lv_disp.h ****  * GLOBAL PROTOTYPES
+  43:lvgl/src/core/lv_disp.h ****  **********************/
+  44:lvgl/src/core/lv_disp.h **** 
+  45:lvgl/src/core/lv_disp.h **** /**
+  46:lvgl/src/core/lv_disp.h ****  * Return with a pointer to the active screen
+  47:lvgl/src/core/lv_disp.h ****  * @param disp pointer to display which active screen should be get. (NULL to use the default
+  48:lvgl/src/core/lv_disp.h ****  * screen)
+  49:lvgl/src/core/lv_disp.h ****  * @return pointer to the active screen object (loaded by 'lv_scr_load()')
+  50:lvgl/src/core/lv_disp.h ****  */
+  51:lvgl/src/core/lv_disp.h **** lv_obj_t * lv_disp_get_scr_act(lv_disp_t * disp);
+  52:lvgl/src/core/lv_disp.h **** 
+  53:lvgl/src/core/lv_disp.h **** /**
+  54:lvgl/src/core/lv_disp.h ****  * Return with a pointer to the previous screen. Only used during screen transitions.
+  55:lvgl/src/core/lv_disp.h ****  * @param disp pointer to display which previous screen should be get. (NULL to use the default
+  56:lvgl/src/core/lv_disp.h ****  * screen)
+  57:lvgl/src/core/lv_disp.h ****  * @return pointer to the previous screen object or NULL if not used now
+  58:lvgl/src/core/lv_disp.h ****  */
+  59:lvgl/src/core/lv_disp.h **** lv_obj_t * lv_disp_get_scr_prev(lv_disp_t * disp);
+  60:lvgl/src/core/lv_disp.h **** 
+  61:lvgl/src/core/lv_disp.h **** /**
+  62:lvgl/src/core/lv_disp.h ****  * Make a screen active
+  63:lvgl/src/core/lv_disp.h ****  * @param scr pointer to a screen
+  64:lvgl/src/core/lv_disp.h ****  */
+  65:lvgl/src/core/lv_disp.h **** void lv_disp_load_scr(lv_obj_t * scr);
+  66:lvgl/src/core/lv_disp.h **** 
+  67:lvgl/src/core/lv_disp.h **** /**
+  68:lvgl/src/core/lv_disp.h ****  * Return with the top layer. (Same on every screen and it is above the normal screen layer)
+  69:lvgl/src/core/lv_disp.h ****  * @param disp pointer to display which top layer should be get. (NULL to use the default screen)
+  70:lvgl/src/core/lv_disp.h ****  * @return pointer to the top layer object (transparent screen sized lv_obj)
+  71:lvgl/src/core/lv_disp.h ****  */
+  72:lvgl/src/core/lv_disp.h **** lv_obj_t * lv_disp_get_layer_top(lv_disp_t * disp);
+  73:lvgl/src/core/lv_disp.h **** 
+  74:lvgl/src/core/lv_disp.h **** /**
+  75:lvgl/src/core/lv_disp.h ****  * Return with the sys. layer. (Same on every screen and it is above the normal screen and the top
+  76:lvgl/src/core/lv_disp.h ****  * layer)
+  77:lvgl/src/core/lv_disp.h ****  * @param disp pointer to display which sys. layer should be retrieved. (NULL to use the default sc
+  78:lvgl/src/core/lv_disp.h ****  * @return pointer to the sys layer object (transparent screen sized lv_obj)
+  79:lvgl/src/core/lv_disp.h ****  */
+  80:lvgl/src/core/lv_disp.h **** lv_obj_t * lv_disp_get_layer_sys(lv_disp_t * disp);
+  81:lvgl/src/core/lv_disp.h **** 
+  82:lvgl/src/core/lv_disp.h **** /**
+  83:lvgl/src/core/lv_disp.h ****  * Set the theme of a display
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 5
+
+
+  84:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display
+  85:lvgl/src/core/lv_disp.h ****  */
+  86:lvgl/src/core/lv_disp.h **** void lv_disp_set_theme(lv_disp_t * disp, lv_theme_t * th);
+  87:lvgl/src/core/lv_disp.h **** 
+  88:lvgl/src/core/lv_disp.h **** /**
+  89:lvgl/src/core/lv_disp.h ****  * Get the theme of a display
+  90:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display
+  91:lvgl/src/core/lv_disp.h ****  * @return the display's theme (can be NULL)
+  92:lvgl/src/core/lv_disp.h ****  */
+  93:lvgl/src/core/lv_disp.h **** lv_theme_t * lv_disp_get_theme(lv_disp_t * disp);
+  94:lvgl/src/core/lv_disp.h **** 
+  95:lvgl/src/core/lv_disp.h **** /**
+  96:lvgl/src/core/lv_disp.h ****  * Set the background color of a display
+  97:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display
+  98:lvgl/src/core/lv_disp.h ****  * @param color color of the background
+  99:lvgl/src/core/lv_disp.h ****  */
+ 100:lvgl/src/core/lv_disp.h **** void lv_disp_set_bg_color(lv_disp_t * disp, lv_color_t color);
+ 101:lvgl/src/core/lv_disp.h **** 
+ 102:lvgl/src/core/lv_disp.h **** /**
+ 103:lvgl/src/core/lv_disp.h ****  * Set the background image of a display
+ 104:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display
+ 105:lvgl/src/core/lv_disp.h ****  * @param img_src path to file or pointer to an `lv_img_dsc_t` variable
+ 106:lvgl/src/core/lv_disp.h ****  */
+ 107:lvgl/src/core/lv_disp.h **** void lv_disp_set_bg_image(lv_disp_t * disp, const void  * img_src);
+ 108:lvgl/src/core/lv_disp.h **** 
+ 109:lvgl/src/core/lv_disp.h **** /**
+ 110:lvgl/src/core/lv_disp.h ****  * Set opacity of the background
+ 111:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display
+ 112:lvgl/src/core/lv_disp.h ****  * @param opa opacity (0..255)
+ 113:lvgl/src/core/lv_disp.h ****  */
+ 114:lvgl/src/core/lv_disp.h **** void lv_disp_set_bg_opa(lv_disp_t * disp, lv_opa_t opa);
+ 115:lvgl/src/core/lv_disp.h **** 
+ 116:lvgl/src/core/lv_disp.h **** /**
+ 117:lvgl/src/core/lv_disp.h ****  * Switch screen with animation
+ 118:lvgl/src/core/lv_disp.h ****  * @param scr pointer to the new screen to load
+ 119:lvgl/src/core/lv_disp.h ****  * @param anim_type type of the animation from `lv_scr_load_anim_t`. E.g.  `LV_SCR_LOAD_ANIM_MOVE_L
+ 120:lvgl/src/core/lv_disp.h ****  * @param time time of the animation
+ 121:lvgl/src/core/lv_disp.h ****  * @param delay delay before the transition
+ 122:lvgl/src/core/lv_disp.h ****  * @param auto_del true: automatically delete the old screen
+ 123:lvgl/src/core/lv_disp.h ****  */
+ 124:lvgl/src/core/lv_disp.h **** void lv_scr_load_anim(lv_obj_t * scr, lv_scr_load_anim_t anim_type, uint32_t time, uint32_t delay, 
+ 125:lvgl/src/core/lv_disp.h **** 
+ 126:lvgl/src/core/lv_disp.h **** /**
+ 127:lvgl/src/core/lv_disp.h ****  * Get elapsed time since last user activity on a display (e.g. click)
+ 128:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display (NULL to get the overall smallest inactivity)
+ 129:lvgl/src/core/lv_disp.h ****  * @return elapsed ticks (milliseconds) since the last activity
+ 130:lvgl/src/core/lv_disp.h ****  */
+ 131:lvgl/src/core/lv_disp.h **** uint32_t lv_disp_get_inactive_time(const lv_disp_t * disp);
+ 132:lvgl/src/core/lv_disp.h **** 
+ 133:lvgl/src/core/lv_disp.h **** /**
+ 134:lvgl/src/core/lv_disp.h ****  * Manually trigger an activity on a display
+ 135:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display (NULL to use the default display)
+ 136:lvgl/src/core/lv_disp.h ****  */
+ 137:lvgl/src/core/lv_disp.h **** void lv_disp_trig_activity(lv_disp_t * disp);
+ 138:lvgl/src/core/lv_disp.h **** 
+ 139:lvgl/src/core/lv_disp.h **** /**
+ 140:lvgl/src/core/lv_disp.h ****  * Clean any CPU cache that is related to the display.
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 6
+
+
+ 141:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display (NULL to use the default display)
+ 142:lvgl/src/core/lv_disp.h ****  */
+ 143:lvgl/src/core/lv_disp.h **** void lv_disp_clean_dcache(lv_disp_t * disp);
+ 144:lvgl/src/core/lv_disp.h **** 
+ 145:lvgl/src/core/lv_disp.h **** /**
+ 146:lvgl/src/core/lv_disp.h ****  * Get a pointer to the screen refresher timer to
+ 147:lvgl/src/core/lv_disp.h ****  * modify its parameters with `lv_timer_...` functions.
+ 148:lvgl/src/core/lv_disp.h ****  * @param disp pointer to a display
+ 149:lvgl/src/core/lv_disp.h ****  * @return pointer to the display refresher timer. (NULL on error)
+ 150:lvgl/src/core/lv_disp.h ****  */
+ 151:lvgl/src/core/lv_disp.h **** lv_timer_t * _lv_disp_get_refr_timer(lv_disp_t * disp);
+ 152:lvgl/src/core/lv_disp.h **** 
+ 153:lvgl/src/core/lv_disp.h **** /*------------------------------------------------
+ 154:lvgl/src/core/lv_disp.h ****  * To improve backward compatibility
+ 155:lvgl/src/core/lv_disp.h ****  * Recommended only if you have one display
+ 156:lvgl/src/core/lv_disp.h ****  *------------------------------------------------*/
+ 157:lvgl/src/core/lv_disp.h **** 
+ 158:lvgl/src/core/lv_disp.h **** /**
+ 159:lvgl/src/core/lv_disp.h ****  * Get the active screen of the default display
+ 160:lvgl/src/core/lv_disp.h ****  * @return pointer to the active screen
+ 161:lvgl/src/core/lv_disp.h ****  */
+ 162:lvgl/src/core/lv_disp.h **** static inline lv_obj_t * lv_scr_act(void)
+ 163:lvgl/src/core/lv_disp.h **** {
+ 164:lvgl/src/core/lv_disp.h ****     return lv_disp_get_scr_act(lv_disp_get_default());
+ 165:lvgl/src/core/lv_disp.h **** }
+ 166:lvgl/src/core/lv_disp.h **** 
+ 167:lvgl/src/core/lv_disp.h **** /**
+ 168:lvgl/src/core/lv_disp.h ****  * Get the top layer  of the default display
+ 169:lvgl/src/core/lv_disp.h ****  * @return pointer to the top layer
+ 170:lvgl/src/core/lv_disp.h ****  */
+ 171:lvgl/src/core/lv_disp.h **** static inline lv_obj_t * lv_layer_top(void)
+ 172:lvgl/src/core/lv_disp.h **** {
+ 173:lvgl/src/core/lv_disp.h ****     return lv_disp_get_layer_top(lv_disp_get_default());
+ 174:lvgl/src/core/lv_disp.h **** }
+ 175:lvgl/src/core/lv_disp.h **** 
+ 176:lvgl/src/core/lv_disp.h **** /**
+ 177:lvgl/src/core/lv_disp.h ****  * Get the active screen of the default display
+ 178:lvgl/src/core/lv_disp.h ****  * @return  pointer to the sys layer
+ 179:lvgl/src/core/lv_disp.h ****  */
+ 180:lvgl/src/core/lv_disp.h **** static inline lv_obj_t * lv_layer_sys(void)
+ 181:lvgl/src/core/lv_disp.h **** {
+ 182:lvgl/src/core/lv_disp.h ****     return lv_disp_get_layer_sys(lv_disp_get_default());
+ 183:lvgl/src/core/lv_disp.h **** }
+ 184:lvgl/src/core/lv_disp.h **** 
+ 185:lvgl/src/core/lv_disp.h **** static inline void lv_scr_load(lv_obj_t * scr)
+ 117              		.loc 2 185 20 view .LVU18
+ 118              	.LBB5:
+ 186:lvgl/src/core/lv_disp.h **** {
+ 187:lvgl/src/core/lv_disp.h ****     lv_disp_load_scr(scr);
+ 119              		.loc 2 187 5 view .LVU19
+ 120 000e 2068     		ldr	r0, [r4]
+ 121 0010 FFF7FEFF 		bl	lv_disp_load_scr
+ 122              	.LVL8:
+ 123              		.loc 2 187 5 is_stmt 0 view .LVU20
+ 124              	.LBE5:
+ 125              	.LBE4:
+  34:generated/gui_guider.c **** }
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 7
+
+
+ 126              		.loc 1 34 1 view .LVU21
+ 127 0014 10BD     		pop	{r4, pc}
+ 128              		.loc 1 34 1 view .LVU22
+ 129              		.cfi_endproc
+ 130              	.LFE198:
+ 132              		.text
+ 133              	.Letext0:
+ 134              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 135              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 136              		.file 5 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 137              		.file 6 "lvgl/src/hal/../draw/../misc/lv_color.h"
+ 138              		.file 7 "lvgl/src/hal/../draw/../misc/lv_style.h"
+ 139              		.file 8 "lvgl/src/core/lv_obj.h"
+ 140              		.file 9 "lvgl/src/hal/../misc/lv_ll.h"
+ 141              		.file 10 "lvgl/src/core/lv_group.h"
+ 142              		.file 11 "lvgl/src/core/lv_obj_scroll.h"
+ 143              		.file 12 "lvgl/src/core/lv_obj_style.h"
+ 144              		.file 13 "lvgl/src/core/lv_obj_class.h"
+ 145              		.file 14 "lvgl/src/core/lv_event.h"
+ 146              		.file 15 "generated/gui_guider.h"
+ARM GAS  C:\usertemp\ccT5RZjX.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 gui_guider.c
+C:\usertemp\ccT5RZjX.s:20     .text.ui_init_style:00000000 $t
+C:\usertemp\ccT5RZjX.s:26     .text.ui_init_style:00000000 ui_init_style
+C:\usertemp\ccT5RZjX.s:62     .text.init_scr_del_flag:00000000 $t
+C:\usertemp\ccT5RZjX.s:68     .text.init_scr_del_flag:00000000 init_scr_del_flag
+C:\usertemp\ccT5RZjX.s:86     .text.setup_ui:00000000 $t
+C:\usertemp\ccT5RZjX.s:92     .text.setup_ui:00000000 setup_ui
+
+UNDEFINED SYMBOLS
+lv_style_reset
+lv_style_init
+setup_scr_wave_model
+lv_disp_load_scr

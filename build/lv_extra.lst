@@ -1,0 +1,170 @@
+ARM GAS  C:\usertemp\ccG7HwW0.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_extra.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/lv_extra.c"
+  19              		.section	.text.lv_extra_init,"ax",%progbits
+  20              		.align	1
+  21              		.global	lv_extra_init
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	lv_extra_init:
+  27              	.LFB196:
+   1:lvgl/src/extra/lv_extra.c **** /**
+   2:lvgl/src/extra/lv_extra.c ****  * @file lv_extra.c
+   3:lvgl/src/extra/lv_extra.c ****  *
+   4:lvgl/src/extra/lv_extra.c ****  */
+   5:lvgl/src/extra/lv_extra.c **** 
+   6:lvgl/src/extra/lv_extra.c **** /*********************
+   7:lvgl/src/extra/lv_extra.c ****  *      INCLUDES
+   8:lvgl/src/extra/lv_extra.c ****  *********************/
+   9:lvgl/src/extra/lv_extra.c **** #include "../lvgl.h"
+  10:lvgl/src/extra/lv_extra.c **** 
+  11:lvgl/src/extra/lv_extra.c **** /*********************
+  12:lvgl/src/extra/lv_extra.c ****  *      DEFINES
+  13:lvgl/src/extra/lv_extra.c ****  *********************/
+  14:lvgl/src/extra/lv_extra.c **** 
+  15:lvgl/src/extra/lv_extra.c **** /**********************
+  16:lvgl/src/extra/lv_extra.c ****  *      TYPEDEFS
+  17:lvgl/src/extra/lv_extra.c ****  **********************/
+  18:lvgl/src/extra/lv_extra.c **** 
+  19:lvgl/src/extra/lv_extra.c **** /**********************
+  20:lvgl/src/extra/lv_extra.c ****  *  STATIC PROTOTYPES
+  21:lvgl/src/extra/lv_extra.c ****  **********************/
+  22:lvgl/src/extra/lv_extra.c **** 
+  23:lvgl/src/extra/lv_extra.c **** /**********************
+  24:lvgl/src/extra/lv_extra.c ****  *  STATIC VARIABLES
+  25:lvgl/src/extra/lv_extra.c ****  **********************/
+  26:lvgl/src/extra/lv_extra.c **** 
+  27:lvgl/src/extra/lv_extra.c **** /**********************
+  28:lvgl/src/extra/lv_extra.c ****  *      MACROS
+  29:lvgl/src/extra/lv_extra.c ****  **********************/
+  30:lvgl/src/extra/lv_extra.c **** 
+  31:lvgl/src/extra/lv_extra.c **** /**********************
+ARM GAS  C:\usertemp\ccG7HwW0.s 			page 2
+
+
+  32:lvgl/src/extra/lv_extra.c ****  *   GLOBAL FUNCTIONS
+  33:lvgl/src/extra/lv_extra.c ****  **********************/
+  34:lvgl/src/extra/lv_extra.c **** 
+  35:lvgl/src/extra/lv_extra.c **** void lv_extra_init(void)
+  36:lvgl/src/extra/lv_extra.c **** {
+  28              		.loc 1 36 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  37:lvgl/src/extra/lv_extra.c **** #if LV_USE_FLEX
+  38:lvgl/src/extra/lv_extra.c ****     lv_flex_init();
+  37              		.loc 1 38 5 view .LVU1
+  38 0002 FFF7FEFF 		bl	lv_flex_init
+  39              	.LVL0:
+  39:lvgl/src/extra/lv_extra.c **** #endif
+  40:lvgl/src/extra/lv_extra.c **** 
+  41:lvgl/src/extra/lv_extra.c **** #if LV_USE_GRID
+  42:lvgl/src/extra/lv_extra.c ****     lv_grid_init();
+  40              		.loc 1 42 5 view .LVU2
+  41 0006 FFF7FEFF 		bl	lv_grid_init
+  42              	.LVL1:
+  43:lvgl/src/extra/lv_extra.c **** #endif
+  44:lvgl/src/extra/lv_extra.c **** 
+  45:lvgl/src/extra/lv_extra.c **** #if LV_USE_FS_FATFS != '\0'
+  46:lvgl/src/extra/lv_extra.c ****     lv_fs_fatfs_init();
+  43              		.loc 1 46 5 view .LVU3
+  44 000a FFF7FEFF 		bl	lv_fs_fatfs_init
+  45              	.LVL2:
+  47:lvgl/src/extra/lv_extra.c **** #endif
+  48:lvgl/src/extra/lv_extra.c **** 
+  49:lvgl/src/extra/lv_extra.c **** #if LV_USE_FS_STDIO != '\0'
+  50:lvgl/src/extra/lv_extra.c ****     lv_fs_stdio_init();
+  51:lvgl/src/extra/lv_extra.c **** #endif
+  52:lvgl/src/extra/lv_extra.c **** 
+  53:lvgl/src/extra/lv_extra.c **** #if LV_USE_FS_POSIX != '\0'
+  54:lvgl/src/extra/lv_extra.c ****     lv_fs_posix_init();
+  55:lvgl/src/extra/lv_extra.c **** #endif
+  56:lvgl/src/extra/lv_extra.c **** 
+  57:lvgl/src/extra/lv_extra.c **** #if LV_USE_FS_WIN32 != '\0'
+  58:lvgl/src/extra/lv_extra.c ****     lv_fs_win32_init();
+  59:lvgl/src/extra/lv_extra.c **** #endif
+  60:lvgl/src/extra/lv_extra.c **** 
+  61:lvgl/src/extra/lv_extra.c **** #if LV_USE_PNG
+  62:lvgl/src/extra/lv_extra.c ****     lv_png_init();
+  46              		.loc 1 62 5 view .LVU4
+  47 000e FFF7FEFF 		bl	lv_png_init
+  48              	.LVL3:
+  63:lvgl/src/extra/lv_extra.c **** #endif
+  64:lvgl/src/extra/lv_extra.c **** 
+  65:lvgl/src/extra/lv_extra.c **** #if LV_USE_SJPG
+  66:lvgl/src/extra/lv_extra.c ****     lv_split_jpeg_init();
+  49              		.loc 1 66 5 view .LVU5
+ARM GAS  C:\usertemp\ccG7HwW0.s 			page 3
+
+
+  50 0012 FFF7FEFF 		bl	lv_split_jpeg_init
+  51              	.LVL4:
+  67:lvgl/src/extra/lv_extra.c **** #endif
+  68:lvgl/src/extra/lv_extra.c **** 
+  69:lvgl/src/extra/lv_extra.c **** #if LV_USE_BMP
+  70:lvgl/src/extra/lv_extra.c ****     lv_bmp_init();
+  52              		.loc 1 70 5 view .LVU6
+  53 0016 FFF7FEFF 		bl	lv_bmp_init
+  54              	.LVL5:
+  71:lvgl/src/extra/lv_extra.c **** #endif
+  72:lvgl/src/extra/lv_extra.c **** 
+  73:lvgl/src/extra/lv_extra.c **** #if LV_USE_FREETYPE
+  74:lvgl/src/extra/lv_extra.c ****     /*Init freetype library*/
+  75:lvgl/src/extra/lv_extra.c **** #  if LV_FREETYPE_CACHE_SIZE >= 0
+  76:lvgl/src/extra/lv_extra.c ****     lv_freetype_init(LV_FREETYPE_CACHE_FT_FACES, LV_FREETYPE_CACHE_FT_SIZES, LV_FREETYPE_CACHE_SIZE
+  77:lvgl/src/extra/lv_extra.c **** #  else
+  78:lvgl/src/extra/lv_extra.c ****     lv_freetype_init(0, 0, 0);
+  79:lvgl/src/extra/lv_extra.c **** #  endif
+  80:lvgl/src/extra/lv_extra.c **** #endif
+  81:lvgl/src/extra/lv_extra.c **** 
+  82:lvgl/src/extra/lv_extra.c **** #if LV_USE_FFMPEG
+  83:lvgl/src/extra/lv_extra.c ****     lv_ffmpeg_init();
+  84:lvgl/src/extra/lv_extra.c **** #endif
+  85:lvgl/src/extra/lv_extra.c **** }
+  55              		.loc 1 85 1 is_stmt 0 view .LVU7
+  56 001a 08BD     		pop	{r3, pc}
+  57              		.cfi_endproc
+  58              	.LFE196:
+  60              		.text
+  61              	.Letext0:
+  62              		.file 2 "lvgl/src/extra/../../src/extra/layouts/grid/lv_grid.h"
+  63              		.file 3 "lvgl/src/extra/../../src/extra/widgets/list/../../layouts/flex/lv_flex.h"
+ARM GAS  C:\usertemp\ccG7HwW0.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_extra.c
+C:\usertemp\ccG7HwW0.s:20     .text.lv_extra_init:00000000 $t
+C:\usertemp\ccG7HwW0.s:26     .text.lv_extra_init:00000000 lv_extra_init
+
+UNDEFINED SYMBOLS
+lv_flex_init
+lv_grid_init
+lv_fs_fatfs_init
+lv_png_init
+lv_split_jpeg_init
+lv_bmp_init

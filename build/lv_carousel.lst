@@ -1,0 +1,1466 @@
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lv_carousel.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "lvgl/src/extra/widgets/carousel/lv_carousel.c"
+  19              		.section	.text.carousel_event_cb,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	carousel_event_cb:
+  26              	.LVL0:
+  27              	.LFB164:
+   1:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**
+   2:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  * @file lv_carousel.c
+   3:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *
+   4:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  */
+   5:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+   6:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /*********************
+   7:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *      INCLUDES
+   8:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *********************/
+   9:lvgl/src/extra/widgets/carousel/lv_carousel.c **** #include "lv_carousel.h"
+  10:lvgl/src/extra/widgets/carousel/lv_carousel.c **** #if LV_USE_CAROUSEL
+  11:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  12:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /*********************
+  13:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *      DEFINES
+  14:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *********************/
+  15:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  16:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**********************
+  17:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *      TYPEDEFS
+  18:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  **********************/
+  19:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  20:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**********************
+  21:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *  STATIC PROTOTYPES
+  22:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  **********************/
+  23:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static void lv_carousel_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  24:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static void lv_carousel_element_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj);
+  25:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static void carousel_event_cb(lv_event_t * e);
+  26:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  27:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**********************
+  28:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *  STATIC VARIABLES
+  29:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  **********************/
+  30:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  31:lvgl/src/extra/widgets/carousel/lv_carousel.c **** const lv_obj_class_t lv_carousel_class = {.constructor_cb = lv_carousel_constructor,
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 2
+
+
+  32:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                                           .base_class = &lv_obj_class,
+  33:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                                           .instance_size = sizeof(lv_carousel_t)
+  34:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                                          };
+  35:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  36:lvgl/src/extra/widgets/carousel/lv_carousel.c **** const lv_obj_class_t lv_carousel_element_class = {.constructor_cb = lv_carousel_element_constructor
+  37:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                                                   .base_class = &lv_obj_class,
+  38:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                                                   .instance_size = sizeof(lv_carousel_element_t)
+  39:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                                                  };
+  40:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  41:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static uint32_t create_col_id;
+  42:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  43:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**********************
+  44:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *      MACROS
+  45:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  **********************/
+  46:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  47:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**********************
+  48:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *   GLOBAL FUNCTIONS
+  49:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  **********************/
+  50:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  51:lvgl/src/extra/widgets/carousel/lv_carousel.c **** lv_obj_t * lv_carousel_create(lv_obj_t * parent)
+  52:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+  53:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_INFO("begin");
+  54:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_carousel_class, parent);
+  55:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+  56:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(obj);
+  57:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->sentinel = lv_obj_create(obj);
+  58:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_remove_style_all(carousel->sentinel);
+  59:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     return obj;
+  60:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+  61:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  62:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /*======================
+  63:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  * Add/remove functions
+  64:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *=====================*/
+  65:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  66:lvgl/src/extra/widgets/carousel/lv_carousel.c **** lv_obj_t * lv_carousel_add_element(lv_obj_t * obj, uint8_t id)
+  67:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+  68:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_INFO("begin");
+  69:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     create_col_id = id;
+  70:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+  71:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  72:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * element_obj = lv_obj_class_create_obj(&lv_carousel_element_class, obj);
+  73:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(element_obj);
+  74:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     if(id == 0) {
+  75:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         carousel->element_act = element_obj;
+  76:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+  77:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     }
+  78:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_pos(carousel->sentinel, carousel->start_pos + ((carousel->element_width) * (create_c
+  80:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+  81:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(carousel->sentinel);
+  82:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_clear_flag(element_obj, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_CLICKABLE);
+  83:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  84:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("sentinel: x : %d, width: %d\n", lv_obj_get_x(carousel->sentinel), lv_obj_get_width(c
+  85:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  86:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     return element_obj;
+  87:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+  88:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 3
+
+
+  89:lvgl/src/extra/widgets/carousel/lv_carousel.c **** void lv_carousel_set_element_width(lv_obj_t * obj, lv_coord_t w)
+  90:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+  91:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+  92:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->element_width = w;
+  93:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+  94:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  95:lvgl/src/extra/widgets/carousel/lv_carousel.c **** void lv_obj_set_element(lv_obj_t * obj, lv_obj_t * element_obj, lv_anim_enable_t anim_en)
+  96:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+  97:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(element_obj);
+  98:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t tx = lv_obj_get_x(element_obj);
+  99:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t ty = lv_obj_get_y(element_obj);
+ 100:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 101:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_element_t * element = (lv_carousel_element_t *)element_obj;
+ 102:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 103:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * element_pre = carousel->element_act;
+ 104:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->element_act = (lv_obj_t *)element;
+ 105:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     tx -= carousel->start_pos;
+ 106:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 107:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_clear_state(element_pre, LV_STATE_FOCUSED);
+ 108:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+ 109:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     //lv_obj_set_scroll_dir(obj, element->dir);
+ 110:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_scroll_to(obj, tx, ty, anim_en);
+ 111:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 112:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 113:lvgl/src/extra/widgets/carousel/lv_carousel.c **** void lv_obj_set_element_id(lv_obj_t * obj, uint32_t id, lv_anim_enable_t anim_en)
+ 114:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+ 115:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(obj);
+ 116:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 117:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 118:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t tx = (carousel->element_width * id) + carousel->start_pos;
+ 119:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("===============tx: %d\n", tx);
+ 120:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 121:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     uint32_t i;
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     for(i = 0; i < lv_obj_get_child_cnt(obj); i++) {
+ 123:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 124:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_coord_t x = lv_obj_get_x(element_obj);
+ 125:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         // printf("===============i: %d, x: %d\n", i, x);
+ 126:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         if(x == tx) {
+ 127:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_set_element(obj, element_obj, anim_en);
+ 128:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             return;
+ 129:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         }
+ 130:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     }
+ 131:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 132:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_WARN("No element found with at (%d) index", (int)id);
+ 133:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 134:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 135:lvgl/src/extra/widgets/carousel/lv_carousel.c **** lv_obj_t * lv_carousel_get_element_act(lv_obj_t * obj)
+ 136:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+ 137:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 138:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     return carousel->element_act;
+ 139:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 140:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 141:lvgl/src/extra/widgets/carousel/lv_carousel.c **** /**********************
+ 142:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  *   STATIC FUNCTIONS
+ 143:lvgl/src/extra/widgets/carousel/lv_carousel.c ****  **********************/
+ 144:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 145:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static void lv_carousel_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 4
+
+
+ 146:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+ 147:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_UNUSED(class_p);
+ 148:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 149:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(obj, 300, 100);
+ 150:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_set_element_width(obj, 100);
+ 151:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_add_event_cb(obj, carousel_event_cb, LV_EVENT_ALL, NULL);
+ 152:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ONE);
+ 153:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_scroll_snap_x(obj, LV_SCROLL_SNAP_CENTER);
+ 154:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 155:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 156:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static void lv_carousel_element_constructor(const lv_obj_class_t * class_p, lv_obj_t * obj)
+ 157:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+ 158:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 159:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_UNUSED(class_p);
+ 160:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * parent = lv_obj_get_parent(obj);
+ 161:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) parent;
+ 162:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t carousel_width;
+ 163:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(obj, carousel->element_width, LV_PCT(100));
+ 164:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(obj);  /*Be sure the size is correct*/
+ 165:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 166:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel_width = lv_obj_get_content_width(parent);
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t startpos = (carousel_width - carousel->element_width) / 2;
+ 168:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 169:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_pos(obj, startpos + ((carousel->element_width) * create_col_id), 0);
+ 170:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 171:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 172:lvgl/src/extra/widgets/carousel/lv_carousel.c **** static void carousel_event_cb(lv_event_t * e)
+ 173:lvgl/src/extra/widgets/carousel/lv_carousel.c **** {
+  28              		.loc 1 173 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 173 1 is_stmt 0 view .LVU1
+  33 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 28
+  36              		.cfi_offset 4, -28
+  37              		.cfi_offset 5, -24
+  38              		.cfi_offset 6, -20
+  39              		.cfi_offset 7, -16
+  40              		.cfi_offset 8, -12
+  41              		.cfi_offset 9, -8
+  42              		.cfi_offset 14, -4
+  43 0004 83B0     		sub	sp, sp, #12
+  44              	.LCFI1:
+  45              		.cfi_def_cfa_offset 40
+  46 0006 0446     		mov	r4, r0
+ 174:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_event_code_t code = lv_event_get_code(e);
+  47              		.loc 1 174 5 is_stmt 1 view .LVU2
+  48              		.loc 1 174 28 is_stmt 0 view .LVU3
+  49 0008 FFF7FEFF 		bl	lv_event_get_code
+  50              	.LVL1:
+  51              		.loc 1 174 28 view .LVU4
+  52 000c 0546     		mov	r5, r0
+  53              	.LVL2:
+ 175:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * obj = lv_event_get_target(e);
+  54              		.loc 1 175 5 is_stmt 1 view .LVU5
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 5
+
+
+  55              		.loc 1 175 22 is_stmt 0 view .LVU6
+  56 000e 2046     		mov	r0, r4
+  57 0010 FFF7FEFF 		bl	lv_event_get_target
+  58              	.LVL3:
+ 176:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+  59              		.loc 1 176 5 is_stmt 1 view .LVU7
+ 177:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 178:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     if(code == LV_EVENT_SCROLL_END) {
+  60              		.loc 1 178 5 view .LVU8
+  61              		.loc 1 178 7 is_stmt 0 view .LVU9
+  62 0014 0A2D     		cmp	r5, #10
+  63 0016 02D0     		beq	.L10
+  64              	.LVL4:
+  65              	.L1:
+ 179:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_point_t scroll_end;
+ 180:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_get_scroll_end(obj, &scroll_end);
+ 181:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_coord_t left = scroll_end.x;
+ 182:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 183:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_dir_t dir = LV_DIR_HOR;
+ 184:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t child_count = lv_obj_get_child_cnt(obj);
+ 185:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t i;
+ 186:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_pre = carousel->element_act;
+ 187:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         for(i = 0; i < child_count; i++) {
+ 188:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_coord_t x = lv_obj_get_x(element_obj) - carousel->start_pos;
+ 190:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 191:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 lv_carousel_element_t * element = (lv_carousel_element_t *)element_obj;
+ 192:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 carousel->element_act = (lv_obj_t *)element;
+ 193:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+ 194:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 if(left == (lv_coord_t)((child_count - 2) * carousel->element_width)) {
+ 195:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_LEFT;
+ 196:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 }
+ 197:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 else if(left == 0) {
+ 198:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_RIGHT;
+ 199:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 }
+ 200:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 break;
+ 201:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             }
+ 202:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         }
+ 203:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_clear_state(element_pre, LV_STATE_FOCUSED);
+ 204:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+ 205:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_set_scroll_dir(obj, dir);
+ 206:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     }
+ 207:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+  66              		.loc 1 207 1 view .LVU10
+  67 0018 03B0     		add	sp, sp, #12
+  68              	.LCFI2:
+  69              		.cfi_remember_state
+  70              		.cfi_def_cfa_offset 28
+  71              		@ sp needed
+  72 001a BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+  73              	.LVL5:
+  74              	.L10:
+  75              	.LCFI3:
+  76              		.cfi_restore_state
+  77              		.loc 1 207 1 view .LVU11
+  78 001e 0446     		mov	r4, r0
+  79              	.LVL6:
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 6
+
+
+  80              	.LBB4:
+ 179:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_point_t scroll_end;
+  81              		.loc 1 179 9 is_stmt 1 view .LVU12
+ 180:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_coord_t left = scroll_end.x;
+  82              		.loc 1 180 9 view .LVU13
+  83 0020 01A9     		add	r1, sp, #4
+  84 0022 FFF7FEFF 		bl	lv_obj_get_scroll_end
+  85              	.LVL7:
+ 181:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  86              		.loc 1 181 9 view .LVU14
+ 181:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+  87              		.loc 1 181 20 is_stmt 0 view .LVU15
+  88 0026 BDF90480 		ldrsh	r8, [sp, #4]
+  89              	.LVL8:
+ 183:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t child_count = lv_obj_get_child_cnt(obj);
+  90              		.loc 1 183 9 is_stmt 1 view .LVU16
+ 184:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t i;
+  91              		.loc 1 184 9 view .LVU17
+ 184:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t i;
+  92              		.loc 1 184 32 is_stmt 0 view .LVU18
+  93 002a 2046     		mov	r0, r4
+  94 002c FFF7FEFF 		bl	lv_obj_get_child_cnt
+  95              	.LVL9:
+  96 0030 0746     		mov	r7, r0
+  97              	.LVL10:
+ 185:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_pre = carousel->element_act;
+  98              		.loc 1 185 9 is_stmt 1 view .LVU19
+ 186:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         for(i = 0; i < child_count; i++) {
+  99              		.loc 1 186 9 view .LVU20
+ 186:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         for(i = 0; i < child_count; i++) {
+ 100              		.loc 1 186 20 is_stmt 0 view .LVU21
+ 101 0032 D4F82490 		ldr	r9, [r4, #36]
+ 102              	.LVL11:
+ 187:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 103              		.loc 1 187 9 is_stmt 1 view .LVU22
+ 187:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 104              		.loc 1 187 15 is_stmt 0 view .LVU23
+ 105 0036 0025     		movs	r5, #0
+ 106              	.LVL12:
+ 107              	.L3:
+ 187:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 108              		.loc 1 187 22 is_stmt 1 discriminator 1 view .LVU24
+ 109 0038 BD42     		cmp	r5, r7
+ 110 003a 23D2     		bcs	.L11
+ 111              	.LBB5:
+ 188:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_coord_t x = lv_obj_get_x(element_obj) - carousel->start_pos;
+ 112              		.loc 1 188 13 view .LVU25
+ 188:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_coord_t x = lv_obj_get_x(element_obj) - carousel->start_pos;
+ 113              		.loc 1 188 38 is_stmt 0 view .LVU26
+ 114 003c 2946     		mov	r1, r5
+ 115 003e 2046     		mov	r0, r4
+ 116 0040 FFF7FEFF 		bl	lv_obj_get_child
+ 117              	.LVL13:
+ 118 0044 0646     		mov	r6, r0
+ 119              	.LVL14:
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 120              		.loc 1 189 13 is_stmt 1 view .LVU27
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 7
+
+
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 121              		.loc 1 189 28 is_stmt 0 view .LVU28
+ 122 0046 FFF7FEFF 		bl	lv_obj_get_x
+ 123              	.LVL15:
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 124              		.loc 1 189 28 discriminator 1 view .LVU29
+ 125 004a 83B2     		uxth	r3, r0
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 126              		.loc 1 189 64 discriminator 1 view .LVU30
+ 127 004c E28D     		ldrh	r2, [r4, #46]
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 128              		.loc 1 189 54 discriminator 1 view .LVU31
+ 129 004e 9B1A     		subs	r3, r3, r2
+ 189:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             if(x == left) {
+ 130              		.loc 1 189 24 discriminator 1 view .LVU32
+ 131 0050 1BB2     		sxth	r3, r3
+ 132              	.LVL16:
+ 190:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 lv_carousel_element_t * element = (lv_carousel_element_t *)element_obj;
+ 133              		.loc 1 190 13 is_stmt 1 view .LVU33
+ 190:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 lv_carousel_element_t * element = (lv_carousel_element_t *)element_obj;
+ 134              		.loc 1 190 15 is_stmt 0 view .LVU34
+ 135 0052 9845     		cmp	r8, r3
+ 136 0054 01D0     		beq	.L12
+ 137              	.LBE5:
+ 187:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 138              		.loc 1 187 38 is_stmt 1 discriminator 2 view .LVU35
+ 139 0056 0135     		adds	r5, r5, #1
+ 140              	.LVL17:
+ 187:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 141              		.loc 1 187 38 is_stmt 0 discriminator 2 view .LVU36
+ 142 0058 EEE7     		b	.L3
+ 143              	.L12:
+ 144              	.LBB8:
+ 145              	.LBB6:
+ 191:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 carousel->element_act = (lv_obj_t *)element;
+ 146              		.loc 1 191 17 is_stmt 1 view .LVU37
+ 147              	.LVL18:
+ 192:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+ 148              		.loc 1 192 17 view .LVU38
+ 192:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+ 149              		.loc 1 192 39 is_stmt 0 view .LVU39
+ 150 005a 6662     		str	r6, [r4, #36]
+ 193:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 if(left == (lv_coord_t)((child_count - 2) * carousel->element_width)) {
+ 151              		.loc 1 193 17 is_stmt 1 view .LVU40
+ 152 005c 0022     		movs	r2, #0
+ 153 005e 1C21     		movs	r1, #28
+ 154 0060 2046     		mov	r0, r4
+ 155 0062 FFF7FEFF 		bl	lv_event_send
+ 156              	.LVL19:
+ 194:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_LEFT;
+ 157              		.loc 1 194 17 view .LVU41
+ 194:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_LEFT;
+ 158              		.loc 1 194 54 is_stmt 0 view .LVU42
+ 159 0066 BB1E     		subs	r3, r7, #2
+ 194:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_LEFT;
+ 160              		.loc 1 194 69 view .LVU43
+ 161 0068 B4F92C20 		ldrsh	r2, [r4, #44]
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 8
+
+
+ 194:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_LEFT;
+ 162              		.loc 1 194 25 view .LVU44
+ 163 006c 13FB02F3 		smulbb	r3, r3, r2
+ 164 0070 9BB2     		uxth	r3, r3
+ 165 0072 1FFA88F2 		uxth	r2, r8
+ 194:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_LEFT;
+ 166              		.loc 1 194 19 view .LVU45
+ 167 0076 9342     		cmp	r3, r2
+ 168 0078 12D0     		beq	.L7
+ 197:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_RIGHT;
+ 169              		.loc 1 197 22 is_stmt 1 view .LVU46
+ 197:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                     dir = LV_DIR_RIGHT;
+ 170              		.loc 1 197 24 is_stmt 0 view .LVU47
+ 171 007a B8F1000F 		cmp	r8, #0
+ 172 007e 11D0     		beq	.L8
+ 173              	.LBE6:
+ 174              	.LBE8:
+ 183:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t child_count = lv_obj_get_child_cnt(obj);
+ 175              		.loc 1 183 18 view .LVU48
+ 176 0080 0325     		movs	r5, #3
+ 177              	.LVL20:
+ 183:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t child_count = lv_obj_get_child_cnt(obj);
+ 178              		.loc 1 183 18 view .LVU49
+ 179 0082 00E0     		b	.L5
+ 180              	.LVL21:
+ 181              	.L11:
+ 183:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         uint32_t child_count = lv_obj_get_child_cnt(obj);
+ 182              		.loc 1 183 18 view .LVU50
+ 183 0084 0325     		movs	r5, #3
+ 184              	.LVL22:
+ 185              	.L5:
+ 203:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+ 186              		.loc 1 203 9 is_stmt 1 view .LVU51
+ 187 0086 0221     		movs	r1, #2
+ 188 0088 4846     		mov	r0, r9
+ 189 008a FFF7FEFF 		bl	lv_obj_clear_state
+ 190              	.LVL23:
+ 204:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_set_scroll_dir(obj, dir);
+ 191              		.loc 1 204 9 view .LVU52
+ 192 008e 0221     		movs	r1, #2
+ 193 0090 606A     		ldr	r0, [r4, #36]
+ 194 0092 FFF7FEFF 		bl	lv_obj_add_state
+ 195              	.LVL24:
+ 205:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     }
+ 196              		.loc 1 205 9 view .LVU53
+ 197 0096 2946     		mov	r1, r5
+ 198 0098 2046     		mov	r0, r4
+ 199 009a FFF7FEFF 		bl	lv_obj_set_scroll_dir
+ 200              	.LVL25:
+ 201              	.LBE4:
+ 202              		.loc 1 207 1 is_stmt 0 view .LVU54
+ 203 009e BBE7     		b	.L1
+ 204              	.LVL26:
+ 205              	.L7:
+ 206              	.LBB10:
+ 207              	.LBB9:
+ 208              	.LBB7:
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 9
+
+
+ 195:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 }
+ 209              		.loc 1 195 25 view .LVU55
+ 210 00a0 0125     		movs	r5, #1
+ 211              	.LVL27:
+ 195:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 }
+ 212              		.loc 1 195 25 view .LVU56
+ 213 00a2 F0E7     		b	.L5
+ 214              	.LVL28:
+ 215              	.L8:
+ 198:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 }
+ 216              		.loc 1 198 25 view .LVU57
+ 217 00a4 0225     		movs	r5, #2
+ 218              	.LVL29:
+ 198:lvgl/src/extra/widgets/carousel/lv_carousel.c ****                 }
+ 219              		.loc 1 198 25 view .LVU58
+ 220 00a6 EEE7     		b	.L5
+ 221              	.LBE7:
+ 222              	.LBE9:
+ 223              	.LBE10:
+ 224              		.cfi_endproc
+ 225              	.LFE164:
+ 227              		.section	.text.lv_carousel_element_constructor,"ax",%progbits
+ 228              		.align	1
+ 229              		.syntax unified
+ 230              		.thumb
+ 231              		.thumb_func
+ 233              	lv_carousel_element_constructor:
+ 234              	.LVL30:
+ 235              	.LFB163:
+ 157:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 236              		.loc 1 157 1 is_stmt 1 view -0
+ 237              		.cfi_startproc
+ 238              		@ args = 0, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 240              		.loc 1 157 1 is_stmt 0 view .LVU60
+ 241 0000 38B5     		push	{r3, r4, r5, lr}
+ 242              	.LCFI4:
+ 243              		.cfi_def_cfa_offset 16
+ 244              		.cfi_offset 3, -16
+ 245              		.cfi_offset 4, -12
+ 246              		.cfi_offset 5, -8
+ 247              		.cfi_offset 14, -4
+ 248 0002 0C46     		mov	r4, r1
+ 159:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * parent = lv_obj_get_parent(obj);
+ 249              		.loc 1 159 5 is_stmt 1 view .LVU61
+ 160:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) parent;
+ 250              		.loc 1 160 5 view .LVU62
+ 160:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) parent;
+ 251              		.loc 1 160 25 is_stmt 0 view .LVU63
+ 252 0004 0846     		mov	r0, r1
+ 253              	.LVL31:
+ 160:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) parent;
+ 254              		.loc 1 160 25 view .LVU64
+ 255 0006 FFF7FEFF 		bl	lv_obj_get_parent
+ 256              	.LVL32:
+ 160:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) parent;
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 10
+
+
+ 257              		.loc 1 160 25 view .LVU65
+ 258 000a 0546     		mov	r5, r0
+ 259              	.LVL33:
+ 161:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t carousel_width;
+ 260              		.loc 1 161 5 is_stmt 1 view .LVU66
+ 162:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(obj, carousel->element_width, LV_PCT(100));
+ 261              		.loc 1 162 5 view .LVU67
+ 163:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(obj);  /*Be sure the size is correct*/
+ 262              		.loc 1 163 5 view .LVU68
+ 263 000c 42F26402 		movw	r2, #8292
+ 264 0010 B0F92C10 		ldrsh	r1, [r0, #44]
+ 265 0014 2046     		mov	r0, r4
+ 266              	.LVL34:
+ 163:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(obj);  /*Be sure the size is correct*/
+ 267              		.loc 1 163 5 is_stmt 0 view .LVU69
+ 268 0016 FFF7FEFF 		bl	lv_obj_set_size
+ 269              	.LVL35:
+ 164:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 270              		.loc 1 164 5 is_stmt 1 view .LVU70
+ 271 001a 2046     		mov	r0, r4
+ 272 001c FFF7FEFF 		bl	lv_obj_update_layout
+ 273              	.LVL36:
+ 166:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t startpos = (carousel_width - carousel->element_width) / 2;
+ 274              		.loc 1 166 5 view .LVU71
+ 166:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t startpos = (carousel_width - carousel->element_width) / 2;
+ 275              		.loc 1 166 22 is_stmt 0 view .LVU72
+ 276 0020 2846     		mov	r0, r5
+ 277 0022 FFF7FEFF 		bl	lv_obj_get_content_width
+ 278              	.LVL37:
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 279              		.loc 1 167 5 is_stmt 1 view .LVU73
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 280              		.loc 1 167 53 is_stmt 0 view .LVU74
+ 281 0026 B5F92C30 		ldrsh	r3, [r5, #44]
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 282              		.loc 1 167 70 view .LVU75
+ 283 002a C01A     		subs	r0, r0, r3
+ 284              	.LVL38:
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 285              		.loc 1 167 70 view .LVU76
+ 286 002c 0ED4     		bmi	.L16
+ 287              	.L14:
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 288              		.loc 1 167 16 view .LVU77
+ 289 002e 40F34F02 		sbfx	r2, r0, #1, #16
+ 290              	.LVL39:
+ 168:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_pos(obj, startpos + ((carousel->element_width) * create_col_id), 0);
+ 291              		.loc 1 168 5 is_stmt 1 view .LVU78
+ 168:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_pos(obj, startpos + ((carousel->element_width) * create_col_id), 0);
+ 292              		.loc 1 168 25 is_stmt 0 view .LVU79
+ 293 0032 EA85     		strh	r2, [r5, #46]	@ movhi
+ 169:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 294              		.loc 1 169 5 is_stmt 1 view .LVU80
+ 169:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 295              		.loc 1 169 34 is_stmt 0 view .LVU81
+ 296 0034 064A     		ldr	r2, .L17
+ 297              	.LVL40:
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 11
+
+
+ 169:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 298              		.loc 1 169 34 view .LVU82
+ 299 0036 1168     		ldr	r1, [r2]
+ 300 0038 11FB03F1 		smulbb	r1, r1, r3
+ 301 003c 01EB6001 		add	r1, r1, r0, asr #1
+ 169:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 302              		.loc 1 169 5 view .LVU83
+ 303 0040 0022     		movs	r2, #0
+ 304 0042 09B2     		sxth	r1, r1
+ 305 0044 2046     		mov	r0, r4
+ 306 0046 FFF7FEFF 		bl	lv_obj_set_pos
+ 307              	.LVL41:
+ 170:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 308              		.loc 1 170 1 view .LVU84
+ 309 004a 38BD     		pop	{r3, r4, r5, pc}
+ 310              	.LVL42:
+ 311              	.L16:
+ 167:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->start_pos = startpos;
+ 312              		.loc 1 167 70 view .LVU85
+ 313 004c 0130     		adds	r0, r0, #1
+ 314 004e EEE7     		b	.L14
+ 315              	.L18:
+ 316              		.align	2
+ 317              	.L17:
+ 318 0050 00000000 		.word	create_col_id
+ 319              		.cfi_endproc
+ 320              	.LFE163:
+ 322              		.section	.text.lv_carousel_create,"ax",%progbits
+ 323              		.align	1
+ 324              		.global	lv_carousel_create
+ 325              		.syntax unified
+ 326              		.thumb
+ 327              		.thumb_func
+ 329              	lv_carousel_create:
+ 330              	.LVL43:
+ 331              	.LFB156:
+  52:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_INFO("begin");
+ 332              		.loc 1 52 1 is_stmt 1 view -0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 0
+ 335              		@ frame_needed = 0, uses_anonymous_args = 0
+  52:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_INFO("begin");
+ 336              		.loc 1 52 1 is_stmt 0 view .LVU87
+ 337 0000 10B5     		push	{r4, lr}
+ 338              	.LCFI5:
+ 339              		.cfi_def_cfa_offset 8
+ 340              		.cfi_offset 4, -8
+ 341              		.cfi_offset 14, -4
+ 342 0002 0146     		mov	r1, r0
+  53:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_carousel_class, parent);
+ 343              		.loc 1 53 5 is_stmt 1 view .LVU88
+  53:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_carousel_class, parent);
+ 344              		.loc 1 53 5 view .LVU89
+  53:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * obj = lv_obj_class_create_obj(&lv_carousel_class, parent);
+ 345              		.loc 1 53 5 view .LVU90
+  54:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 346              		.loc 1 54 5 view .LVU91
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 12
+
+
+  54:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 347              		.loc 1 54 22 is_stmt 0 view .LVU92
+ 348 0004 0748     		ldr	r0, .L21
+ 349              	.LVL44:
+  54:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 350              		.loc 1 54 22 view .LVU93
+ 351 0006 FFF7FEFF 		bl	lv_obj_class_create_obj
+ 352              	.LVL45:
+  54:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 353              		.loc 1 54 22 view .LVU94
+ 354 000a 0446     		mov	r4, r0
+ 355              	.LVL46:
+  55:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(obj);
+ 356              		.loc 1 55 5 is_stmt 1 view .LVU95
+  56:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->sentinel = lv_obj_create(obj);
+ 357              		.loc 1 56 5 view .LVU96
+ 358 000c FFF7FEFF 		bl	lv_obj_class_init_obj
+ 359              	.LVL47:
+  57:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_remove_style_all(carousel->sentinel);
+ 360              		.loc 1 57 5 view .LVU97
+  57:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_remove_style_all(carousel->sentinel);
+ 361              		.loc 1 57 26 is_stmt 0 view .LVU98
+ 362 0010 2046     		mov	r0, r4
+ 363 0012 FFF7FEFF 		bl	lv_obj_create
+ 364              	.LVL48:
+  57:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_remove_style_all(carousel->sentinel);
+ 365              		.loc 1 57 24 discriminator 1 view .LVU99
+ 366 0016 A062     		str	r0, [r4, #40]
+  58:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     return obj;
+ 367              		.loc 1 58 5 is_stmt 1 view .LVU100
+ 368              	.LVL49:
+ 369              	.LBB11:
+ 370              	.LBI11:
+ 371              		.file 2 "lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h"
+   1:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**
+   2:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @file lv_obj_style.h
+   3:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  *
+   4:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  */
+   5:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+   6:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #ifndef LV_OBJ_STYLE_H
+   7:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #define LV_OBJ_STYLE_H
+   8:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+   9:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #ifdef __cplusplus
+  10:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** extern "C" {
+  11:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #endif
+  12:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  13:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /*********************
+  14:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  *      INCLUDES
+  15:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  *********************/
+  16:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #include <stdint.h>
+  17:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #include <stdbool.h>
+  18:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #include "../misc/lv_bidi.h"
+  19:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  20:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /*********************
+  21:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  *      DEFINES
+  22:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  *********************/
+  23:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 13
+
+
+  24:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**********************
+  25:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  *      TYPEDEFS
+  26:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  **********************/
+  27:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /*Can't include lv_obj.h because it includes this header file*/
+  28:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** struct _lv_obj_t;
+  29:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  30:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** typedef enum {
+  31:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     _LV_STYLE_STATE_CMP_SAME,           /*The style properties in the 2 states are identical*/
+  32:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     _LV_STYLE_STATE_CMP_DIFF_REDRAW,    /*The differences can be shown with a simple redraw*/
+  33:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     _LV_STYLE_STATE_CMP_DIFF_DRAW_PAD,  /*The differences can be shown with a simple redraw*/
+  34:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     _LV_STYLE_STATE_CMP_DIFF_LAYOUT,    /*The differences can be shown with a simple redraw*/
+  35:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** } _lv_style_state_cmp_t;
+  36:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  37:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** typedef uint32_t lv_style_selector_t;
+  38:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  39:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** typedef struct {
+  40:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     lv_style_t * style;
+  41:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     uint32_t selector : 24;
+  42:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     uint32_t is_local : 1;
+  43:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     uint32_t is_trans : 1;
+  44:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** } _lv_obj_style_t;
+  45:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  46:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** typedef struct {
+  47:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     uint16_t time;
+  48:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     uint16_t delay;
+  49:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     lv_style_selector_t selector;
+  50:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     lv_style_prop_t prop;
+  51:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     lv_anim_path_cb_t path_cb;
+  52:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #if LV_USE_USER_DATA
+  53:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     void * user_data;
+  54:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** #endif
+  55:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** } _lv_obj_style_transition_dsc_t;
+  56:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  57:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**********************
+  58:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * GLOBAL PROTOTYPES
+  59:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  **********************/
+  60:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  61:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**
+  62:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * Initialize the object related style manager module.
+  63:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * Called by LVGL in `lv_init()`
+  64:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  */
+  65:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** void _lv_obj_style_init(void);
+  66:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  67:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**
+  68:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * Add a style to an object.
+  69:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param obj       pointer to an object
+  70:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param style     pointer to a style to add
+  71:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param selector  OR-ed value of parts and state to which the style should be added
+  72:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @example         lv_obj_add_style(btn, &style_btn, 0); //Default button style
+  73:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @example         lv_obj_add_style(btn, &btn_red, LV_STATE_PRESSED); //Overwrite only some colors
+  74:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  */
+  75:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** void lv_obj_add_style(struct _lv_obj_t * obj, lv_style_t * style, lv_style_selector_t selector);
+  76:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  77:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**
+  78:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * Add a style to an object.
+  79:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param obj       pointer to an object
+  80:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param style     pointer to a style to remove. Can be NULL to check only the selector
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 14
+
+
+  81:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param selector  OR-ed values of states and a part to remove only styles with matching selectors
+  82:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @example lv_obj_remove_style(obj, &style, LV_PART_ANY | LV_STATE_ANY); //Remove a specific style
+  83:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @example lv_obj_remove_style(obj, NULL, LV_PART_MAIN | LV_STATE_ANY); //Remove all styles from t
+  84:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @example lv_obj_remove_style(obj, NULL, LV_PART_ANY | LV_STATE_ANY); //Remove all styles
+  85:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  */
+  86:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** void lv_obj_remove_style(struct _lv_obj_t * obj, lv_style_t * style, lv_style_selector_t selector);
+  87:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** 
+  88:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** /**
+  89:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * Remove all styles from an object
+  90:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  * @param obj       pointer to an object
+  91:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****  */
+  92:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** static inline void lv_obj_remove_style_all(struct _lv_obj_t * obj)
+ 372              		.loc 2 92 20 view .LVU101
+ 373              	.LBB12:
+  93:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h **** {
+  94:lvgl/src/extra/widgets/carousel/../../../core/lv_obj_style.h ****     lv_obj_remove_style(obj, NULL, LV_PART_ANY | LV_STATE_ANY);
+ 374              		.loc 2 94 5 view .LVU102
+ 375 0018 034A     		ldr	r2, .L21+4
+ 376 001a 0021     		movs	r1, #0
+ 377 001c FFF7FEFF 		bl	lv_obj_remove_style
+ 378              	.LVL50:
+ 379              		.loc 2 94 5 is_stmt 0 view .LVU103
+ 380              	.LBE12:
+ 381              	.LBE11:
+  59:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 382              		.loc 1 59 5 is_stmt 1 view .LVU104
+  60:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 383              		.loc 1 60 1 is_stmt 0 view .LVU105
+ 384 0020 2046     		mov	r0, r4
+ 385 0022 10BD     		pop	{r4, pc}
+ 386              	.LVL51:
+ 387              	.L22:
+  60:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 388              		.loc 1 60 1 view .LVU106
+ 389              		.align	2
+ 390              	.L21:
+ 391 0024 00000000 		.word	lv_carousel_class
+ 392 0028 FFFF0F00 		.word	1048575
+ 393              		.cfi_endproc
+ 394              	.LFE156:
+ 396              		.section	.text.lv_carousel_add_element,"ax",%progbits
+ 397              		.align	1
+ 398              		.global	lv_carousel_add_element
+ 399              		.syntax unified
+ 400              		.thumb
+ 401              		.thumb_func
+ 403              	lv_carousel_add_element:
+ 404              	.LVL52:
+ 405              	.LFB157:
+  67:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_INFO("begin");
+ 406              		.loc 1 67 1 is_stmt 1 view -0
+ 407              		.cfi_startproc
+ 408              		@ args = 0, pretend = 0, frame = 0
+ 409              		@ frame_needed = 0, uses_anonymous_args = 0
+  67:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_LOG_INFO("begin");
+ 410              		.loc 1 67 1 is_stmt 0 view .LVU108
+ 411 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 15
+
+
+ 412              	.LCFI6:
+ 413              		.cfi_def_cfa_offset 16
+ 414              		.cfi_offset 4, -16
+ 415              		.cfi_offset 5, -12
+ 416              		.cfi_offset 6, -8
+ 417              		.cfi_offset 14, -4
+ 418 0002 0446     		mov	r4, r0
+ 419 0004 0E46     		mov	r6, r1
+  68:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     create_col_id = id;
+ 420              		.loc 1 68 5 is_stmt 1 view .LVU109
+  68:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     create_col_id = id;
+ 421              		.loc 1 68 5 view .LVU110
+  68:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     create_col_id = id;
+ 422              		.loc 1 68 5 view .LVU111
+  69:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 423              		.loc 1 69 5 view .LVU112
+  69:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 424              		.loc 1 69 19 is_stmt 0 view .LVU113
+ 425 0006 174B     		ldr	r3, .L27
+ 426 0008 1960     		str	r1, [r3]
+  70:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 427              		.loc 1 70 5 is_stmt 1 view .LVU114
+ 428              	.LVL53:
+  72:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(element_obj);
+ 429              		.loc 1 72 5 view .LVU115
+  72:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(element_obj);
+ 430              		.loc 1 72 30 is_stmt 0 view .LVU116
+ 431 000a 0146     		mov	r1, r0
+ 432              	.LVL54:
+  72:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(element_obj);
+ 433              		.loc 1 72 30 view .LVU117
+ 434 000c 1648     		ldr	r0, .L27+4
+ 435              	.LVL55:
+  72:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(element_obj);
+ 436              		.loc 1 72 30 view .LVU118
+ 437 000e FFF7FEFF 		bl	lv_obj_class_create_obj
+ 438              	.LVL56:
+  72:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_class_init_obj(element_obj);
+ 439              		.loc 1 72 30 view .LVU119
+ 440 0012 0546     		mov	r5, r0
+ 441              	.LVL57:
+  73:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     if(id == 0) {
+ 442              		.loc 1 73 5 is_stmt 1 view .LVU120
+ 443 0014 FFF7FEFF 		bl	lv_obj_class_init_obj
+ 444              	.LVL58:
+  74:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         carousel->element_act = element_obj;
+ 445              		.loc 1 74 5 view .LVU121
+  74:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         carousel->element_act = element_obj;
+ 446              		.loc 1 74 7 is_stmt 0 view .LVU122
+ 447 0018 EEB1     		cbz	r6, .L26
+ 448              	.L24:
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+ 449              		.loc 1 79 5 is_stmt 1 view .LVU123
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+ 450              		.loc 1 79 48 is_stmt 0 view .LVU124
+ 451 001a E18D     		ldrh	r1, [r4, #46]
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 16
+
+
+ 452              		.loc 1 79 72 view .LVU125
+ 453 001c B4F92C30 		ldrsh	r3, [r4, #44]
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+ 454              		.loc 1 79 106 view .LVU126
+ 455 0020 104A     		ldr	r2, .L27
+ 456 0022 1268     		ldr	r2, [r2]
+ 457 0024 0132     		adds	r2, r2, #1
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+ 458              		.loc 1 79 60 view .LVU127
+ 459 0026 13FB02F3 		smulbb	r3, r3, r2
+ 460 002a 1944     		add	r1, r1, r3
+  79:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_size(carousel->sentinel, carousel->start_pos, LV_PCT(100));
+ 461              		.loc 1 79 5 view .LVU128
+ 462 002c 0022     		movs	r2, #0
+ 463 002e 09B2     		sxth	r1, r1
+ 464 0030 A06A     		ldr	r0, [r4, #40]
+ 465 0032 FFF7FEFF 		bl	lv_obj_set_pos
+ 466              	.LVL59:
+  80:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(carousel->sentinel);
+ 467              		.loc 1 80 5 is_stmt 1 view .LVU129
+ 468 0036 42F26402 		movw	r2, #8292
+ 469 003a B4F92E10 		ldrsh	r1, [r4, #46]
+ 470 003e A06A     		ldr	r0, [r4, #40]
+ 471 0040 FFF7FEFF 		bl	lv_obj_set_size
+ 472              	.LVL60:
+  81:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_clear_flag(element_obj, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_CLICKABLE);
+ 473              		.loc 1 81 5 view .LVU130
+ 474 0044 A06A     		ldr	r0, [r4, #40]
+ 475 0046 FFF7FEFF 		bl	lv_obj_update_layout
+ 476              	.LVL61:
+  82:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 477              		.loc 1 82 5 view .LVU131
+ 478 004a 1221     		movs	r1, #18
+ 479 004c 2846     		mov	r0, r5
+ 480 004e FFF7FEFF 		bl	lv_obj_clear_flag
+ 481              	.LVL62:
+  86:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 482              		.loc 1 86 5 view .LVU132
+  87:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 483              		.loc 1 87 1 is_stmt 0 view .LVU133
+ 484 0052 2846     		mov	r0, r5
+ 485 0054 70BD     		pop	{r4, r5, r6, pc}
+ 486              	.LVL63:
+ 487              	.L26:
+  75:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+ 488              		.loc 1 75 9 is_stmt 1 view .LVU134
+  75:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+ 489              		.loc 1 75 31 is_stmt 0 view .LVU135
+ 490 0056 6562     		str	r5, [r4, #36]
+  76:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     }
+ 491              		.loc 1 76 9 is_stmt 1 view .LVU136
+ 492 0058 0221     		movs	r1, #2
+ 493 005a 2846     		mov	r0, r5
+ 494 005c FFF7FEFF 		bl	lv_obj_add_state
+ 495              	.LVL64:
+ 496 0060 DBE7     		b	.L24
+ 497              	.L28:
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 17
+
+
+ 498 0062 00BF     		.align	2
+ 499              	.L27:
+ 500 0064 00000000 		.word	create_col_id
+ 501 0068 00000000 		.word	lv_carousel_element_class
+ 502              		.cfi_endproc
+ 503              	.LFE157:
+ 505              		.section	.text.lv_carousel_set_element_width,"ax",%progbits
+ 506              		.align	1
+ 507              		.global	lv_carousel_set_element_width
+ 508              		.syntax unified
+ 509              		.thumb
+ 510              		.thumb_func
+ 512              	lv_carousel_set_element_width:
+ 513              	.LVL65:
+ 514              	.LFB158:
+  90:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 515              		.loc 1 90 1 view -0
+ 516              		.cfi_startproc
+ 517              		@ args = 0, pretend = 0, frame = 0
+ 518              		@ frame_needed = 0, uses_anonymous_args = 0
+ 519              		@ link register save eliminated.
+  91:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->element_width = w;
+ 520              		.loc 1 91 5 view .LVU138
+  92:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 521              		.loc 1 92 5 view .LVU139
+  92:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 522              		.loc 1 92 29 is_stmt 0 view .LVU140
+ 523 0000 8185     		strh	r1, [r0, #44]	@ movhi
+  93:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 524              		.loc 1 93 1 view .LVU141
+ 525 0002 7047     		bx	lr
+ 526              		.cfi_endproc
+ 527              	.LFE158:
+ 529              		.section	.text.lv_carousel_constructor,"ax",%progbits
+ 530              		.align	1
+ 531              		.syntax unified
+ 532              		.thumb
+ 533              		.thumb_func
+ 535              	lv_carousel_constructor:
+ 536              	.LVL66:
+ 537              	.LFB162:
+ 146:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_UNUSED(class_p);
+ 538              		.loc 1 146 1 is_stmt 1 view -0
+ 539              		.cfi_startproc
+ 540              		@ args = 0, pretend = 0, frame = 0
+ 541              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     LV_UNUSED(class_p);
+ 542              		.loc 1 146 1 is_stmt 0 view .LVU143
+ 543 0000 10B5     		push	{r4, lr}
+ 544              	.LCFI7:
+ 545              		.cfi_def_cfa_offset 8
+ 546              		.cfi_offset 4, -8
+ 547              		.cfi_offset 14, -4
+ 548 0002 0C46     		mov	r4, r1
+ 147:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 549              		.loc 1 147 5 is_stmt 1 view .LVU144
+ 149:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_set_element_width(obj, 100);
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 18
+
+
+ 550              		.loc 1 149 5 view .LVU145
+ 551 0004 6422     		movs	r2, #100
+ 552 0006 4FF49671 		mov	r1, #300
+ 553              	.LVL67:
+ 149:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_set_element_width(obj, 100);
+ 554              		.loc 1 149 5 is_stmt 0 view .LVU146
+ 555 000a 2046     		mov	r0, r4
+ 556              	.LVL68:
+ 149:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_set_element_width(obj, 100);
+ 557              		.loc 1 149 5 view .LVU147
+ 558 000c FFF7FEFF 		bl	lv_obj_set_size
+ 559              	.LVL69:
+ 150:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_add_event_cb(obj, carousel_event_cb, LV_EVENT_ALL, NULL);
+ 560              		.loc 1 150 5 is_stmt 1 view .LVU148
+ 561 0010 6421     		movs	r1, #100
+ 562 0012 2046     		mov	r0, r4
+ 563 0014 FFF7FEFF 		bl	lv_carousel_set_element_width
+ 564              	.LVL70:
+ 151:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ONE);
+ 565              		.loc 1 151 5 view .LVU149
+ 566 0018 0023     		movs	r3, #0
+ 567 001a 1A46     		mov	r2, r3
+ 568 001c 0649     		ldr	r1, .L32
+ 569 001e 2046     		mov	r0, r4
+ 570 0020 FFF7FEFF 		bl	lv_obj_add_event_cb
+ 571              	.LVL71:
+ 152:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_set_scroll_snap_x(obj, LV_SCROLL_SNAP_CENTER);
+ 572              		.loc 1 152 5 view .LVU150
+ 573 0024 8021     		movs	r1, #128
+ 574 0026 2046     		mov	r0, r4
+ 575 0028 FFF7FEFF 		bl	lv_obj_add_flag
+ 576              	.LVL72:
+ 153:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 577              		.loc 1 153 5 view .LVU151
+ 578 002c 0321     		movs	r1, #3
+ 579 002e 2046     		mov	r0, r4
+ 580 0030 FFF7FEFF 		bl	lv_obj_set_scroll_snap_x
+ 581              	.LVL73:
+ 154:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 582              		.loc 1 154 1 is_stmt 0 view .LVU152
+ 583 0034 10BD     		pop	{r4, pc}
+ 584              	.LVL74:
+ 585              	.L33:
+ 154:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 586              		.loc 1 154 1 view .LVU153
+ 587 0036 00BF     		.align	2
+ 588              	.L32:
+ 589 0038 00000000 		.word	carousel_event_cb
+ 590              		.cfi_endproc
+ 591              	.LFE162:
+ 593              		.section	.text.lv_obj_set_element,"ax",%progbits
+ 594              		.align	1
+ 595              		.global	lv_obj_set_element
+ 596              		.syntax unified
+ 597              		.thumb
+ 598              		.thumb_func
+ 600              	lv_obj_set_element:
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 19
+
+
+ 601              	.LVL75:
+ 602              	.LFB159:
+  96:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(element_obj);
+ 603              		.loc 1 96 1 is_stmt 1 view -0
+ 604              		.cfi_startproc
+ 605              		@ args = 0, pretend = 0, frame = 0
+ 606              		@ frame_needed = 0, uses_anonymous_args = 0
+  96:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(element_obj);
+ 607              		.loc 1 96 1 is_stmt 0 view .LVU155
+ 608 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 609              	.LCFI8:
+ 610              		.cfi_def_cfa_offset 24
+ 611              		.cfi_offset 4, -24
+ 612              		.cfi_offset 5, -20
+ 613              		.cfi_offset 6, -16
+ 614              		.cfi_offset 7, -12
+ 615              		.cfi_offset 8, -8
+ 616              		.cfi_offset 14, -4
+ 617 0004 0446     		mov	r4, r0
+ 618 0006 0E46     		mov	r6, r1
+ 619 0008 9046     		mov	r8, r2
+  97:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t tx = lv_obj_get_x(element_obj);
+ 620              		.loc 1 97 5 is_stmt 1 view .LVU156
+ 621 000a 0846     		mov	r0, r1
+ 622              	.LVL76:
+  97:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t tx = lv_obj_get_x(element_obj);
+ 623              		.loc 1 97 5 is_stmt 0 view .LVU157
+ 624 000c FFF7FEFF 		bl	lv_obj_update_layout
+ 625              	.LVL77:
+  98:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t ty = lv_obj_get_y(element_obj);
+ 626              		.loc 1 98 5 is_stmt 1 view .LVU158
+  98:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t ty = lv_obj_get_y(element_obj);
+ 627              		.loc 1 98 21 is_stmt 0 view .LVU159
+ 628 0010 3046     		mov	r0, r6
+ 629 0012 FFF7FEFF 		bl	lv_obj_get_x
+ 630              	.LVL78:
+ 631 0016 0546     		mov	r5, r0
+ 632              	.LVL79:
+  99:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 633              		.loc 1 99 5 is_stmt 1 view .LVU160
+  99:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 634              		.loc 1 99 21 is_stmt 0 view .LVU161
+ 635 0018 3046     		mov	r0, r6
+ 636 001a FFF7FEFF 		bl	lv_obj_get_y
+ 637              	.LVL80:
+ 638 001e 0746     		mov	r7, r0
+ 639              	.LVL81:
+ 101:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 640              		.loc 1 101 5 is_stmt 1 view .LVU162
+ 102:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_t * element_pre = carousel->element_act;
+ 641              		.loc 1 102 5 view .LVU163
+ 103:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->element_act = (lv_obj_t *)element;
+ 642              		.loc 1 103 5 view .LVU164
+ 103:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     carousel->element_act = (lv_obj_t *)element;
+ 643              		.loc 1 103 16 is_stmt 0 view .LVU165
+ 644 0020 606A     		ldr	r0, [r4, #36]
+ 645              	.LVL82:
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 20
+
+
+ 104:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     tx -= carousel->start_pos;
+ 646              		.loc 1 104 5 is_stmt 1 view .LVU166
+ 104:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     tx -= carousel->start_pos;
+ 647              		.loc 1 104 27 is_stmt 0 view .LVU167
+ 648 0022 6662     		str	r6, [r4, #36]
+ 105:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 649              		.loc 1 105 5 is_stmt 1 view .LVU168
+ 105:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 650              		.loc 1 105 19 is_stmt 0 view .LVU169
+ 651 0024 E38D     		ldrh	r3, [r4, #46]
+ 105:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 652              		.loc 1 105 8 view .LVU170
+ 653 0026 ED1A     		subs	r5, r5, r3
+ 654              	.LVL83:
+ 105:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 655              		.loc 1 105 8 view .LVU171
+ 656 0028 2DB2     		sxth	r5, r5
+ 657              	.LVL84:
+ 107:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_add_state(carousel->element_act, LV_STATE_FOCUSED);
+ 658              		.loc 1 107 5 is_stmt 1 view .LVU172
+ 659 002a 0221     		movs	r1, #2
+ 660 002c FFF7FEFF 		bl	lv_obj_clear_state
+ 661              	.LVL85:
+ 108:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     //lv_obj_set_scroll_dir(obj, element->dir);
+ 662              		.loc 1 108 5 view .LVU173
+ 663 0030 0221     		movs	r1, #2
+ 664 0032 606A     		ldr	r0, [r4, #36]
+ 665 0034 FFF7FEFF 		bl	lv_obj_add_state
+ 666              	.LVL86:
+ 110:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 667              		.loc 1 110 5 view .LVU174
+ 668 0038 4346     		mov	r3, r8
+ 669 003a 3A46     		mov	r2, r7
+ 670 003c 2946     		mov	r1, r5
+ 671 003e 2046     		mov	r0, r4
+ 672 0040 FFF7FEFF 		bl	lv_obj_scroll_to
+ 673              	.LVL87:
+ 111:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 674              		.loc 1 111 1 is_stmt 0 view .LVU175
+ 675 0044 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 111:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 676              		.loc 1 111 1 view .LVU176
+ 677              		.cfi_endproc
+ 678              	.LFE159:
+ 680              		.section	.text.lv_obj_set_element_id,"ax",%progbits
+ 681              		.align	1
+ 682              		.global	lv_obj_set_element_id
+ 683              		.syntax unified
+ 684              		.thumb
+ 685              		.thumb_func
+ 687              	lv_obj_set_element_id:
+ 688              	.LVL88:
+ 689              	.LFB160:
+ 114:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(obj);
+ 690              		.loc 1 114 1 is_stmt 1 view -0
+ 691              		.cfi_startproc
+ 692              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 21
+
+
+ 693              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_obj_update_layout(obj);
+ 694              		.loc 1 114 1 is_stmt 0 view .LVU178
+ 695 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 696              	.LCFI9:
+ 697              		.cfi_def_cfa_offset 24
+ 698              		.cfi_offset 4, -24
+ 699              		.cfi_offset 5, -20
+ 700              		.cfi_offset 6, -16
+ 701              		.cfi_offset 7, -12
+ 702              		.cfi_offset 8, -8
+ 703              		.cfi_offset 14, -4
+ 704 0004 0646     		mov	r6, r0
+ 705 0006 0C46     		mov	r4, r1
+ 706 0008 9046     		mov	r8, r2
+ 115:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 707              		.loc 1 115 5 is_stmt 1 view .LVU179
+ 708 000a FFF7FEFF 		bl	lv_obj_update_layout
+ 709              	.LVL89:
+ 117:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_coord_t tx = (carousel->element_width * id) + carousel->start_pos;
+ 710              		.loc 1 117 5 view .LVU180
+ 118:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("===============tx: %d\n", tx);
+ 711              		.loc 1 118 5 view .LVU181
+ 118:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("===============tx: %d\n", tx);
+ 712              		.loc 1 118 30 is_stmt 0 view .LVU182
+ 713 000e B6F92C30 		ldrsh	r3, [r6, #44]
+ 118:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("===============tx: %d\n", tx);
+ 714              		.loc 1 118 62 view .LVU183
+ 715 0012 F78D     		ldrh	r7, [r6, #46]
+ 118:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("===============tx: %d\n", tx);
+ 716              		.loc 1 118 52 view .LVU184
+ 717 0014 13FB04F3 		smulbb	r3, r3, r4
+ 718 0018 1F44     		add	r7, r7, r3
+ 118:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     // printf("===============tx: %d\n", tx);
+ 719              		.loc 1 118 16 view .LVU185
+ 720 001a 3FB2     		sxth	r7, r7
+ 721              	.LVL90:
+ 121:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     for(i = 0; i < lv_obj_get_child_cnt(obj); i++) {
+ 722              		.loc 1 121 5 is_stmt 1 view .LVU186
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 723              		.loc 1 122 5 view .LVU187
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 724              		.loc 1 122 11 is_stmt 0 view .LVU188
+ 725 001c 0024     		movs	r4, #0
+ 726              	.LVL91:
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 727              		.loc 1 122 5 view .LVU189
+ 728 001e 00E0     		b	.L37
+ 729              	.LVL92:
+ 730              	.L38:
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 731              		.loc 1 122 48 is_stmt 1 discriminator 2 view .LVU190
+ 732 0020 0134     		adds	r4, r4, #1
+ 733              	.LVL93:
+ 734              	.L37:
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 735              		.loc 1 122 18 discriminator 1 view .LVU191
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 22
+
+
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 736              		.loc 1 122 20 is_stmt 0 discriminator 1 view .LVU192
+ 737 0022 3046     		mov	r0, r6
+ 738 0024 FFF7FEFF 		bl	lv_obj_get_child_cnt
+ 739              	.LVL94:
+ 122:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_obj_t * element_obj = lv_obj_get_child(obj, i);
+ 740              		.loc 1 122 18 discriminator 1 view .LVU193
+ 741 0028 A042     		cmp	r0, r4
+ 742 002a 0DD9     		bls	.L36
+ 743              	.LBB13:
+ 123:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_coord_t x = lv_obj_get_x(element_obj);
+ 744              		.loc 1 123 9 is_stmt 1 view .LVU194
+ 123:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         lv_coord_t x = lv_obj_get_x(element_obj);
+ 745              		.loc 1 123 34 is_stmt 0 view .LVU195
+ 746 002c 2146     		mov	r1, r4
+ 747 002e 3046     		mov	r0, r6
+ 748 0030 FFF7FEFF 		bl	lv_obj_get_child
+ 749              	.LVL95:
+ 750 0034 0546     		mov	r5, r0
+ 751              	.LVL96:
+ 124:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         // printf("===============i: %d, x: %d\n", i, x);
+ 752              		.loc 1 124 9 is_stmt 1 view .LVU196
+ 124:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         // printf("===============i: %d, x: %d\n", i, x);
+ 753              		.loc 1 124 24 is_stmt 0 view .LVU197
+ 754 0036 FFF7FEFF 		bl	lv_obj_get_x
+ 755              	.LVL97:
+ 126:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_set_element(obj, element_obj, anim_en);
+ 756              		.loc 1 126 9 is_stmt 1 view .LVU198
+ 126:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             lv_obj_set_element(obj, element_obj, anim_en);
+ 757              		.loc 1 126 11 is_stmt 0 view .LVU199
+ 758 003a 8742     		cmp	r7, r0
+ 759 003c F0D1     		bne	.L38
+ 127:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             return;
+ 760              		.loc 1 127 13 is_stmt 1 view .LVU200
+ 761 003e 4246     		mov	r2, r8
+ 762 0040 2946     		mov	r1, r5
+ 763 0042 3046     		mov	r0, r6
+ 764              	.LVL98:
+ 127:lvgl/src/extra/widgets/carousel/lv_carousel.c ****             return;
+ 765              		.loc 1 127 13 is_stmt 0 view .LVU201
+ 766 0044 FFF7FEFF 		bl	lv_obj_set_element
+ 767              	.LVL99:
+ 128:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         }
+ 768              		.loc 1 128 13 is_stmt 1 view .LVU202
+ 769              	.L36:
+ 128:lvgl/src/extra/widgets/carousel/lv_carousel.c ****         }
+ 770              		.loc 1 128 13 is_stmt 0 view .LVU203
+ 771              	.LBE13:
+ 133:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 772              		.loc 1 133 1 view .LVU204
+ 773 0048 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 133:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 774              		.loc 1 133 1 view .LVU205
+ 775              		.cfi_endproc
+ 776              	.LFE160:
+ 778              		.section	.text.lv_carousel_get_element_act,"ax",%progbits
+ 779              		.align	1
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 23
+
+
+ 780              		.global	lv_carousel_get_element_act
+ 781              		.syntax unified
+ 782              		.thumb
+ 783              		.thumb_func
+ 785              	lv_carousel_get_element_act:
+ 786              	.LVL100:
+ 787              	.LFB161:
+ 136:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     lv_carousel_t * carousel = (lv_carousel_t *) obj;
+ 788              		.loc 1 136 1 is_stmt 1 view -0
+ 789              		.cfi_startproc
+ 790              		@ args = 0, pretend = 0, frame = 0
+ 791              		@ frame_needed = 0, uses_anonymous_args = 0
+ 792              		@ link register save eliminated.
+ 137:lvgl/src/extra/widgets/carousel/lv_carousel.c ****     return carousel->element_act;
+ 793              		.loc 1 137 5 view .LVU207
+ 138:lvgl/src/extra/widgets/carousel/lv_carousel.c **** }
+ 794              		.loc 1 138 5 view .LVU208
+ 139:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 795              		.loc 1 139 1 is_stmt 0 view .LVU209
+ 796 0000 406A     		ldr	r0, [r0, #36]
+ 797              	.LVL101:
+ 139:lvgl/src/extra/widgets/carousel/lv_carousel.c **** 
+ 798              		.loc 1 139 1 view .LVU210
+ 799 0002 7047     		bx	lr
+ 800              		.cfi_endproc
+ 801              	.LFE161:
+ 803              		.section	.bss.create_col_id,"aw",%nobits
+ 804              		.align	2
+ 807              	create_col_id:
+ 808 0000 00000000 		.space	4
+ 809              		.global	lv_carousel_element_class
+ 810              		.section	.rodata.lv_carousel_element_class,"a"
+ 811              		.align	2
+ 814              	lv_carousel_element_class:
+ 815 0000 00000000 		.word	lv_obj_class
+ 816 0004 00000000 		.word	lv_carousel_element_constructor
+ 817 0008 00000000 		.space	16
+ 817      00000000 
+ 817      00000000 
+ 817      00000000 
+ 818 0018 80       		.byte	128
+ 819 0019 02       		.byte	2
+ 820 001a 00       		.byte	0
+ 821 001b 00       		.space	1
+ 822              		.global	lv_carousel_class
+ 823              		.section	.rodata.lv_carousel_class,"a"
+ 824              		.align	2
+ 827              	lv_carousel_class:
+ 828 0000 00000000 		.word	lv_obj_class
+ 829 0004 00000000 		.word	lv_carousel_constructor
+ 830 0008 00000000 		.space	16
+ 830      00000000 
+ 830      00000000 
+ 830      00000000 
+ 831 0018 00       		.byte	0
+ 832 0019 03       		.byte	3
+ 833 001a 00       		.byte	0
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 24
+
+
+ 834 001b 00       		.space	1
+ 835              		.text
+ 836              	.Letext0:
+ 837              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 838              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 839              		.file 5 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_area.h"
+ 840              		.file 6 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_types.h"
+ 841              		.file 7 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_color.h"
+ 842              		.file 8 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_anim.h"
+ 843              		.file 9 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_style.h"
+ 844              		.file 10 "lvgl/src/extra/widgets/carousel/../../../core/lv_obj.h"
+ 845              		.file 11 "D:/update_2024EL/changeform/743zit6/lvgl/src/misc/lv_ll.h"
+ 846              		.file 12 "lvgl/src/extra/widgets/carousel/../../../core/lv_group.h"
+ 847              		.file 13 "lvgl/src/extra/widgets/carousel/../../../core/lv_obj_scroll.h"
+ 848              		.file 14 "lvgl/src/extra/widgets/carousel/../../../core/lv_obj_class.h"
+ 849              		.file 15 "lvgl/src/extra/widgets/carousel/../../../core/lv_event.h"
+ 850              		.file 16 "lvgl/src/extra/widgets/carousel/lv_carousel.h"
+ 851              		.file 17 "D:/update_2024EL/changeform/743zit6/lvgl/src/core/lv_obj_pos.h"
+ 852              		.file 18 "lvgl/src/extra/widgets/carousel/../../../core/lv_obj_tree.h"
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_carousel.c
+C:\usertemp\ccA9Omox.s:20     .text.carousel_event_cb:00000000 $t
+C:\usertemp\ccA9Omox.s:25     .text.carousel_event_cb:00000000 carousel_event_cb
+C:\usertemp\ccA9Omox.s:228    .text.lv_carousel_element_constructor:00000000 $t
+C:\usertemp\ccA9Omox.s:233    .text.lv_carousel_element_constructor:00000000 lv_carousel_element_constructor
+C:\usertemp\ccA9Omox.s:318    .text.lv_carousel_element_constructor:00000050 $d
+C:\usertemp\ccA9Omox.s:807    .bss.create_col_id:00000000 create_col_id
+C:\usertemp\ccA9Omox.s:323    .text.lv_carousel_create:00000000 $t
+C:\usertemp\ccA9Omox.s:329    .text.lv_carousel_create:00000000 lv_carousel_create
+C:\usertemp\ccA9Omox.s:391    .text.lv_carousel_create:00000024 $d
+C:\usertemp\ccA9Omox.s:827    .rodata.lv_carousel_class:00000000 lv_carousel_class
+C:\usertemp\ccA9Omox.s:397    .text.lv_carousel_add_element:00000000 $t
+C:\usertemp\ccA9Omox.s:403    .text.lv_carousel_add_element:00000000 lv_carousel_add_element
+C:\usertemp\ccA9Omox.s:500    .text.lv_carousel_add_element:00000064 $d
+C:\usertemp\ccA9Omox.s:814    .rodata.lv_carousel_element_class:00000000 lv_carousel_element_class
+C:\usertemp\ccA9Omox.s:506    .text.lv_carousel_set_element_width:00000000 $t
+C:\usertemp\ccA9Omox.s:512    .text.lv_carousel_set_element_width:00000000 lv_carousel_set_element_width
+C:\usertemp\ccA9Omox.s:530    .text.lv_carousel_constructor:00000000 $t
+C:\usertemp\ccA9Omox.s:535    .text.lv_carousel_constructor:00000000 lv_carousel_constructor
+C:\usertemp\ccA9Omox.s:589    .text.lv_carousel_constructor:00000038 $d
+C:\usertemp\ccA9Omox.s:594    .text.lv_obj_set_element:00000000 $t
+C:\usertemp\ccA9Omox.s:600    .text.lv_obj_set_element:00000000 lv_obj_set_element
+C:\usertemp\ccA9Omox.s:681    .text.lv_obj_set_element_id:00000000 $t
+C:\usertemp\ccA9Omox.s:687    .text.lv_obj_set_element_id:00000000 lv_obj_set_element_id
+C:\usertemp\ccA9Omox.s:779    .text.lv_carousel_get_element_act:00000000 $t
+C:\usertemp\ccA9Omox.s:785    .text.lv_carousel_get_element_act:00000000 lv_carousel_get_element_act
+C:\usertemp\ccA9Omox.s:804    .bss.create_col_id:00000000 $d
+C:\usertemp\ccA9Omox.s:811    .rodata.lv_carousel_element_class:00000000 $d
+C:\usertemp\ccA9Omox.s:824    .rodata.lv_carousel_class:00000000 $d
+
+UNDEFINED SYMBOLS
+lv_event_get_code
+lv_event_get_target
+lv_obj_get_scroll_end
+lv_obj_get_child_cnt
+lv_obj_get_child
+lv_obj_get_x
+lv_event_send
+lv_obj_clear_state
+lv_obj_add_state
+lv_obj_set_scroll_dir
+lv_obj_get_parent
+lv_obj_set_size
+lv_obj_update_layout
+lv_obj_get_content_width
+lv_obj_set_pos
+lv_obj_class_create_obj
+lv_obj_class_init_obj
+lv_obj_create
+lv_obj_remove_style
+lv_obj_clear_flag
+lv_obj_add_event_cb
+lv_obj_add_flag
+lv_obj_set_scroll_snap_x
+lv_obj_get_y
+lv_obj_scroll_to
+ARM GAS  C:\usertemp\ccA9Omox.s 			page 26
+
+
+lv_obj_class
