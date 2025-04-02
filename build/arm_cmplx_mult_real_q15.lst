@@ -1,0 +1,339 @@
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"arm_cmplx_mult_real_q15.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c"
+  19              		.section	.text.arm_cmplx_mult_real_q15,"ax",%progbits
+  20              		.align	1
+  21              		.global	arm_cmplx_mult_real_q15
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	arm_cmplx_mult_real_q15:
+  27              	.LVL0:
+  28              	.LFB145:
+   1:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Title:        arm_cmplx_mult_real_q15.c
+   4:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Description:  Q15 complex by real multiplication
+   5:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  *
+   6:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * $Date:        18. March 2019
+   7:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * $Revision:    V1.6.0
+   8:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  *
+   9:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** /*
+  12:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  *
+  14:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  *
+  16:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  *
+  20:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  *
+  22:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  */
+  28:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  29:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #include "arm_math.h"
+  30:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 2
+
+
+  31:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** /**
+  32:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @ingroup groupCmplxMath
+  33:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  */
+  34:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  35:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** /**
+  36:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @addtogroup CmplxByRealMult
+  37:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @{
+  38:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  */
+  39:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  40:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** /**
+  41:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @brief         Q15 complex-by-real multiplication.
+  42:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @param[in]     pSrcCmplx   points to complex input vector
+  43:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @param[in]     pSrcReal    points to real input vector
+  44:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @param[out]    pCmplxDst   points to complex output vector
+  45:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @param[in]     numSamples  number of samples in each vector
+  46:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @return        none
+  47:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  48:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   @par           Scaling and Overflow Behavior
+  49:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****                    The function uses saturating arithmetic.
+  50:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****                    Results outside of the allowable Q15 range [0x8000 0x7FFF] are saturated.
+  51:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****  */
+  52:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  53:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** void arm_cmplx_mult_real_q15(
+  54:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   const q15_t * pSrcCmplx,
+  55:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   const q15_t * pSrcReal,
+  56:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         q15_t * pCmplxDst,
+  57:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         uint32_t numSamples)
+  58:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** {
+  29              		.loc 1 58 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  59:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         uint32_t blkCnt;                               /* Loop counter */
+  33              		.loc 1 59 9 view .LVU1
+  60:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         q15_t in;                                      /* Temporary variable */
+  34              		.loc 1 60 9 view .LVU2
+  61:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  62:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #if defined (ARM_MATH_LOOPUNROLL)
+  63:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  64:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #if defined (ARM_MATH_DSP)
+  65:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         q31_t inA1, inA2;                              /* Temporary variables to hold input data */
+  66:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         q31_t inB1;                                    /* Temporary variables to hold input data */
+  67:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         q15_t out1, out2, out3, out4;                  /* Temporary variables to hold output data *
+  68:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         q31_t mul1, mul2, mul3, mul4;                  /* Temporary variables to hold intermediate 
+  69:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #endif
+  70:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  71:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   /* Loop unrolling: Compute 4 outputs at a time */
+  72:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   blkCnt = numSamples >> 2U;
+  73:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  74:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   while (blkCnt > 0U)
+  75:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   {
+  76:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* C[2 * i    ] = A[2 * i    ] * B[i]. */
+  77:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* C[2 * i + 1] = A[2 * i + 1] * B[i]. */
+  78:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  79:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #if defined (ARM_MATH_DSP)
+  80:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* read 2 complex numbers both real and imaginary from complex input buffer */
+  81:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     inA1 = read_q15x2_ia ((q15_t **) &pSrcCmplx);
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 3
+
+
+  82:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     inA2 = read_q15x2_ia ((q15_t **) &pSrcCmplx);
+  83:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* read 2 real values at a time from real input buffer */
+  84:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     inB1 = read_q15x2_ia ((q15_t **) &pSrcReal);
+  85:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  86:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* multiply complex number with real numbers */
+  87:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #ifndef ARM_MATH_BIG_ENDIAN
+  88:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul1 = (q31_t) ((q15_t) (inA1)       * (q15_t) (inB1));
+  89:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul2 = (q31_t) ((q15_t) (inA1 >> 16) * (q15_t) (inB1));
+  90:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul3 = (q31_t) ((q15_t) (inA2)       * (q15_t) (inB1 >> 16));
+  91:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul4 = (q31_t) ((q15_t) (inA2 >> 16) * (q15_t) (inB1 >> 16));
+  92:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #else
+  93:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul2 = (q31_t) ((q15_t) (inA1 >> 16) * (q15_t) (inB1 >> 16));
+  94:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul1 = (q31_t) ((q15_t) inA1         * (q15_t) (inB1 >> 16));
+  95:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul4 = (q31_t) ((q15_t) (inA2 >> 16) * (q15_t) inB1);
+  96:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul3 = (q31_t) ((q15_t) inA2         * (q15_t) inB1);
+  97:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #endif /* #ifndef ARM_MATH_BIG_ENDIAN */
+  98:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+  99:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* saturate the result */
+ 100:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out1 = (q15_t) __SSAT(mul1 >> 15U, 16);
+ 101:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out2 = (q15_t) __SSAT(mul2 >> 15U, 16);
+ 102:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out3 = (q15_t) __SSAT(mul3 >> 15U, 16);
+ 103:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out4 = (q15_t) __SSAT(mul4 >> 15U, 16);
+ 104:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 105:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* pack real and imaginary outputs and store them to destination */
+ 106:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     write_q15x2_ia (&pCmplxDst, __PKHBT(out1, out2, 16));
+ 107:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     write_q15x2_ia (&pCmplxDst, __PKHBT(out3, out4, 16));
+ 108:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 109:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     inA1 = read_q15x2_ia ((q15_t **) &pSrcCmplx);
+ 110:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     inA2 = read_q15x2_ia ((q15_t **) &pSrcCmplx);
+ 111:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     inB1 = read_q15x2_ia ((q15_t **) &pSrcReal);
+ 112:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 113:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #ifndef ARM_MATH_BIG_ENDIAN
+ 114:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul1 = (q31_t) ((q15_t) (inA1)       * (q15_t) (inB1));
+ 115:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul2 = (q31_t) ((q15_t) (inA1 >> 16) * (q15_t) (inB1));
+ 116:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul3 = (q31_t) ((q15_t) (inA2)       * (q15_t) (inB1 >> 16));
+ 117:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul4 = (q31_t) ((q15_t) (inA2 >> 16) * (q15_t) (inB1 >> 16));
+ 118:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #else
+ 119:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul2 = (q31_t) ((q15_t) (inA1 >> 16) * (q15_t) (inB1 >> 16));
+ 120:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul1 = (q31_t) ((q15_t) inA1         * (q15_t) (inB1 >> 16));
+ 121:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul4 = (q31_t) ((q15_t) (inA2 >> 16) * (q15_t) inB1);
+ 122:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     mul3 = (q31_t) ((q15_t) inA2 * (q15_t) inB1);
+ 123:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #endif /* #ifndef ARM_MATH_BIG_ENDIAN */
+ 124:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 125:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out1 = (q15_t) __SSAT(mul1 >> 15U, 16);
+ 126:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out2 = (q15_t) __SSAT(mul2 >> 15U, 16);
+ 127:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out3 = (q15_t) __SSAT(mul3 >> 15U, 16);
+ 128:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     out4 = (q15_t) __SSAT(mul4 >> 15U, 16);
+ 129:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 130:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     write_q15x2_ia (&pCmplxDst, __PKHBT(out1, out2, 16));
+ 131:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     write_q15x2_ia (&pCmplxDst, __PKHBT(out3, out4, 16));
+ 132:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #else
+ 133:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     in = *pSrcReal++;
+ 134:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 135:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 136:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 137:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     in = *pSrcReal++;
+ 138:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 4
+
+
+ 139:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 140:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 141:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     in = *pSrcReal++;
+ 142:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 143:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 144:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 145:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     in = *pSrcReal++;
+ 146:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 147:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 148:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #endif
+ 149:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 150:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* Decrement loop counter */
+ 151:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     blkCnt--;
+ 152:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   }
+ 153:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 154:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   /* Loop unrolling: Compute remaining outputs */
+ 155:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   blkCnt = numSamples % 0x4U;
+ 156:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 157:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #else
+ 158:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 159:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   /* Initialize blkCnt with number of samples */
+ 160:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   blkCnt = numSamples;
+  35              		.loc 1 160 3 view .LVU3
+ 161:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 162:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 163:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 164:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   while (blkCnt > 0U)
+  36              		.loc 1 164 3 view .LVU4
+  37              		.loc 1 164 17 view .LVU5
+  38 0000 F3B1     		cbz	r3, .L7
+  58:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****         uint32_t blkCnt;                               /* Loop counter */
+  39              		.loc 1 58 1 is_stmt 0 view .LVU6
+  40 0002 30B5     		push	{r4, r5, lr}
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 12
+  43              		.cfi_offset 4, -12
+  44              		.cfi_offset 5, -8
+  45              		.cfi_offset 14, -4
+  46              	.LVL1:
+  47              	.L3:
+ 165:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   {
+ 166:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* C[2 * i    ] = A[2 * i    ] * B[i]. */
+ 167:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* C[2 * i + 1] = A[2 * i + 1] * B[i]. */
+ 168:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 169:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     in = *pSrcReal++;
+  48              		.loc 1 169 5 is_stmt 1 view .LVU7
+  49              		.loc 1 169 8 is_stmt 0 view .LVU8
+  50 0004 31F902CB 		ldrsh	ip, [r1], #2
+  51              	.LVL2:
+ 170:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* store the result in the destination buffer. */
+ 171:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+  52              		.loc 1 171 5 is_stmt 1 view .LVU9
+  53              	.LBB2:
+  54              		.loc 1 171 28 view .LVU10
+  55              		.loc 1 171 28 is_stmt 0 view .LVU11
+  56 0008 0446     		mov	r4, r0
+  57 000a 34F904EB 		ldrsh	lr, [r4], #4
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 5
+
+
+  58 000e 0CFB0EFE 		mul	lr, ip, lr
+  59 0012 4FEAEE3E 		asr	lr, lr, #15
+  60              	.LVL3:
+  61              		.loc 1 171 28 is_stmt 1 view .LVU12
+  62              		.syntax unified
+  63              	@ 171 "Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c" 1
+  64 0016 0EF30F0E 		ssat lr, #16, lr
+  65              	@ 0 "" 2
+  66              	.LVL4:
+  67              		.loc 1 171 28 view .LVU13
+  68              		.loc 1 171 28 is_stmt 0 view .LVU14
+  69              		.thumb
+  70              		.syntax unified
+  71              	.LBE2:
+  72              		.loc 1 171 18 view .LVU15
+  73 001a 1546     		mov	r5, r2
+  74 001c 25F804EB 		strh	lr, [r5], #4	@ movhi
+  75              	.LVL5:
+ 172:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+  76              		.loc 1 172 5 is_stmt 1 view .LVU16
+  77              	.LBB3:
+  78              		.loc 1 172 28 view .LVU17
+  79              		.loc 1 172 28 is_stmt 0 view .LVU18
+  80 0020 B0F90200 		ldrsh	r0, [r0, #2]
+  81 0024 00FB0CFC 		mul	ip, r0, ip
+  82              	.LVL6:
+  83              		.loc 1 172 28 view .LVU19
+  84 0028 4FEAEC3C 		asr	ip, ip, #15
+  85              	.LVL7:
+  86              		.loc 1 172 28 is_stmt 1 view .LVU20
+  87              		.syntax unified
+  88              	@ 172 "Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c" 1
+  89 002c 0CF30F0C 		ssat ip, #16, ip
+  90              	@ 0 "" 2
+  91              	.LVL8:
+  92              		.loc 1 172 28 view .LVU21
+  93              		.loc 1 172 28 is_stmt 0 view .LVU22
+  94              		.thumb
+  95              		.syntax unified
+  96              	.LBE3:
+  97              		.loc 1 172 18 view .LVU23
+  98 0030 A2F802C0 		strh	ip, [r2, #2]	@ movhi
+ 173:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 174:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     /* Decrement loop counter */
+ 175:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     blkCnt--;
+  99              		.loc 1 175 5 is_stmt 1 view .LVU24
+ 100              		.loc 1 175 11 is_stmt 0 view .LVU25
+ 101 0034 013B     		subs	r3, r3, #1
+ 102              	.LVL9:
+ 172:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 103              		.loc 1 172 15 view .LVU26
+ 104 0036 2A46     		mov	r2, r5
+ 105              	.LBB4:
+ 172:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ 106              		.loc 1 172 28 view .LVU27
+ 107 0038 2046     		mov	r0, r4
+ 172:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****     *pCmplxDst++ = (q15_t) __SSAT((((q31_t) *pSrcCmplx++ * in) >> 15), 16);
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 6
+
+
+ 108              		.loc 1 172 28 view .LVU28
+ 109              	.LBE4:
+ 164:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   {
+ 110              		.loc 1 164 17 is_stmt 1 view .LVU29
+ 111 003a 002B     		cmp	r3, #0
+ 112 003c E2D1     		bne	.L3
+ 176:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c ****   }
+ 177:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** 
+ 178:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c **** }
+ 113              		.loc 1 178 1 is_stmt 0 view .LVU30
+ 114 003e 30BD     		pop	{r4, r5, pc}
+ 115              	.LVL10:
+ 116              	.L7:
+ 117              	.LCFI1:
+ 118              		.cfi_def_cfa_offset 0
+ 119              		.cfi_restore 4
+ 120              		.cfi_restore 5
+ 121              		.cfi_restore 14
+ 122              		.loc 1 178 1 view .LVU31
+ 123 0040 7047     		bx	lr
+ 124              		.cfi_endproc
+ 125              	.LFE145:
+ 127              		.text
+ 128              	.Letext0:
+ 129              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 130              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 131              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\usertemp\ccBWQJ0l.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_cmplx_mult_real_q15.c
+C:\usertemp\ccBWQJ0l.s:20     .text.arm_cmplx_mult_real_q15:00000000 $t
+C:\usertemp\ccBWQJ0l.s:26     .text.arm_cmplx_mult_real_q15:00000000 arm_cmplx_mult_real_q15
+
+NO UNDEFINED SYMBOLS

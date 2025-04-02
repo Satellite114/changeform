@@ -1,0 +1,858 @@
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"arm_rfft_fast_f32.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c"
+  19              		.section	.text.stage_rfft_f32,"ax",%progbits
+  20              		.align	1
+  21              		.global	stage_rfft_f32
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	stage_rfft_f32:
+  27              	.LVL0:
+  28              	.LFB145:
+   1:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Title:        arm_rfft_f32.c
+   4:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Description:  RFFT & RIFFT Floating point process function
+   5:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  *
+   6:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * $Date:        18. March 2019
+   7:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * $Revision:    V1.6.0
+   8:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  *
+   9:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /*
+  12:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  *
+  14:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  *
+  16:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  *
+  20:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  *
+  22:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  */
+  28:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  29:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** #include "arm_math.h"
+  30:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 2
+
+
+  31:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** void stage_rfft_f32(
+  32:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   const arm_rfft_fast_instance_f32 * S,
+  33:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t * p,
+  34:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t * pOut)
+  35:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** {
+  29              		.loc 1 35 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 35 1 is_stmt 0 view .LVU1
+  34 0000 00B5     		push	{lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 14, -4
+  36:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         uint32_t  k;                                /* Loop Counter */
+  38              		.loc 1 36 9 is_stmt 1 view .LVU2
+  37:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t twR, twI;                         /* RFFT Twiddle coefficients */
+  39              		.loc 1 37 9 view .LVU3
+  38:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   const float32_t * pCoeff = S->pTwiddleRFFT;       /* Points to RFFT Twiddle factors */
+  40              		.loc 1 38 3 view .LVU4
+  41              		.loc 1 38 21 is_stmt 0 view .LVU5
+  42 0002 4369     		ldr	r3, [r0, #20]
+  43              	.LVL1:
+  39:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t *pA = p;                          /* increasing pointer */
+  44              		.loc 1 39 9 is_stmt 1 view .LVU6
+  40:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t *pB = p;                          /* decreasing pointer */
+  45              		.loc 1 40 9 view .LVU7
+  41:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t xAR, xAI, xBR, xBI;               /* temporary variables */
+  46              		.loc 1 41 9 view .LVU8
+  42:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t t1a, t1b;                         /* temporary variables */
+  47              		.loc 1 42 9 view .LVU9
+  43:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t p0, p1, p2, p3;                   /* temporary variables */
+  48              		.loc 1 43 9 view .LVU10
+  44:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  45:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  46:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    k = (S->Sint).fftLen - 1;
+  49              		.loc 1 46 4 view .LVU11
+  50              		.loc 1 46 17 is_stmt 0 view .LVU12
+  51 0004 B0F800C0 		ldrh	ip, [r0]
+  52              		.loc 1 46 25 view .LVU13
+  53 0008 0CF1FF3C 		add	ip, ip, #-1
+  54              	.LVL2:
+  47:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  48:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    /* Pack first and last sample of the frequency domain together */
+  49:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  50:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    xBR = pB[0];
+  55              		.loc 1 50 4 is_stmt 1 view .LVU14
+  56              		.loc 1 50 8 is_stmt 0 view .LVU15
+  57 000c D1ED007A 		vldr.32	s15, [r1]
+  58              	.LVL3:
+  51:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    xBI = pB[1];
+  59              		.loc 1 51 4 is_stmt 1 view .LVU16
+  60              		.loc 1 51 8 is_stmt 0 view .LVU17
+  61 0010 91ED017A 		vldr.32	s14, [r1, #4]
+  62              	.LVL4:
+  52:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    xAR = pA[0];
+  63              		.loc 1 52 4 is_stmt 1 view .LVU18
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 3
+
+
+  53:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    xAI = pA[1];
+  64              		.loc 1 53 4 view .LVU19
+  54:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  55:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    twR = *pCoeff++ ;
+  65              		.loc 1 55 4 view .LVU20
+  56:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    twI = *pCoeff++ ;
+  66              		.loc 1 56 4 view .LVU21
+  67              		.loc 1 56 17 is_stmt 0 view .LVU22
+  68 0014 03F10800 		add	r0, r3, #8
+  69              	.LVL5:
+  57:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  58:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    // U1 = XA(1) + XB(1); % It is real
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    t1a = xBR + xAR  ;
+  70              		.loc 1 59 4 is_stmt 1 view .LVU23
+  71              		.loc 1 59 8 is_stmt 0 view .LVU24
+  72 0018 77EEA77A 		vadd.f32	s15, s15, s15
+  73              	.LVL6:
+  60:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  61:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    // U2 = XB(1) - XA(1); % It is imaginary
+  62:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    t1b = xBI + xAI  ;
+  74              		.loc 1 62 4 is_stmt 1 view .LVU25
+  75              		.loc 1 62 8 is_stmt 0 view .LVU26
+  76 001c 37EE077A 		vadd.f32	s14, s14, s14
+  77              	.LVL7:
+  63:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  64:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    // real(tw * (xB - xA)) = twR * (xBR - xAR) - twI * (xBI - xAI);
+  65:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    // imag(tw * (xB - xA)) = twI * (xBR - xAR) + twR * (xBI - xAI);
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    *pOut++ = 0.5f * ( t1a + t1b );
+  78              		.loc 1 66 4 is_stmt 1 view .LVU27
+  79              		.loc 1 66 27 is_stmt 0 view .LVU28
+  80 0020 77EE876A 		vadd.f32	s13, s15, s14
+  81              	.LVL8:
+  82              		.loc 1 66 19 view .LVU29
+  83 0024 B6EE006A 		vmov.f32	s12, #5.0e-1
+  84 0028 66EE866A 		vmul.f32	s13, s13, s12
+  85              		.loc 1 66 12 view .LVU30
+  86 002c 1346     		mov	r3, r2
+  87              	.LVL9:
+  88              		.loc 1 66 12 view .LVU31
+  89 002e 0833     		adds	r3, r3, #8
+  90 0030 C2ED006A 		vstr.32	s13, [r2]
+  91              	.LVL10:
+  67:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    *pOut++ = 0.5f * ( t1a - t1b );
+  92              		.loc 1 67 4 is_stmt 1 view .LVU32
+  93              		.loc 1 67 27 is_stmt 0 view .LVU33
+  94 0034 77EEC77A 		vsub.f32	s15, s15, s14
+  95              	.LVL11:
+  96              		.loc 1 67 19 view .LVU34
+  97 0038 67EE867A 		vmul.f32	s15, s15, s12
+  98              		.loc 1 67 12 view .LVU35
+  99 003c C2ED017A 		vstr.32	s15, [r2, #4]
+  68:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  69:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    // XA(1) = 1/2*( U1 - imag(U2) +  i*( U1 +imag(U2) ));
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    pB  = p + 2*k;
+ 100              		.loc 1 70 4 is_stmt 1 view .LVU36
+ 101              		.loc 1 70 8 is_stmt 0 view .LVU37
+ 102 0040 01EBCC0E 		add	lr, r1, ip, lsl #3
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 4
+
+
+ 103              	.LVL12:
+  71:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    pA += 2;
+ 104              		.loc 1 71 4 is_stmt 1 view .LVU38
+ 105              		.loc 1 71 7 is_stmt 0 view .LVU39
+ 106 0044 0831     		adds	r1, r1, #8
+ 107              	.LVL13:
+ 108              	.L2:
+  72:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  73:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    do
+ 109              		.loc 1 73 4 is_stmt 1 view .LVU40
+  74:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    {
+  75:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       /*
+  76:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          function X = my_split_rfft(X, ifftFlag)
+  77:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          % X is a series of real numbers
+  78:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          L  = length(X);
+  79:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          XC = X(1:2:end) +i*X(2:2:end);
+  80:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          XA = fft(XC);
+  81:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          XB = conj(XA([1 end:-1:2]));
+  82:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          TW = i*exp(-2*pi*i*[0:L/2-1]/L).';
+  83:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          for l = 2:L/2
+  84:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****             XA(l) = 1/2 * (XA(l) + XB(l) + TW(l) * (XB(l) - XA(l)));
+  85:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          end
+  86:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          XA(1) = 1/2* (XA(1) + XB(1) + TW(1) * (XB(1) - XA(1))) + i*( 1/2*( XA(1) + XB(1) + i*( XA(
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****          X = XA;
+  88:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       */
+  89:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  90:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xBI = pB[1];
+ 110              		.loc 1 90 7 view .LVU41
+ 111              		.loc 1 90 11 is_stmt 0 view .LVU42
+ 112 0046 9EED015A 		vldr.32	s10, [lr, #4]
+ 113              	.LVL14:
+  91:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xBR = pB[0];
+ 114              		.loc 1 91 7 is_stmt 1 view .LVU43
+ 115              		.loc 1 91 11 is_stmt 0 view .LVU44
+ 116 004a 7246     		mov	r2, lr
+ 117 004c AEF1080E 		sub	lr, lr, #8
+ 118              	.LVL15:
+ 119              		.loc 1 91 11 view .LVU45
+ 120 0050 92ED007A 		vldr.32	s14, [r2]
+ 121              	.LVL16:
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xAR = pA[0];
+ 122              		.loc 1 92 7 is_stmt 1 view .LVU46
+ 123              		.loc 1 92 11 is_stmt 0 view .LVU47
+ 124 0054 D1ED004A 		vldr.32	s9, [r1]
+ 125              	.LVL17:
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xAI = pA[1];
+ 126              		.loc 1 93 7 is_stmt 1 view .LVU48
+ 127              		.loc 1 93 11 is_stmt 0 view .LVU49
+ 128 0058 D1ED017A 		vldr.32	s15, [r1, #4]
+ 129              	.LVL18:
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       twR = *pCoeff++;
+ 130              		.loc 1 95 7 is_stmt 1 view .LVU50
+ 131              		.loc 1 95 11 is_stmt 0 view .LVU51
+ 132 005c D0ED006A 		vldr.32	s13, [r0]
+ 133              	.LVL19:
+  96:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       twI = *pCoeff++;
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 5
+
+
+ 134              		.loc 1 96 7 is_stmt 1 view .LVU52
+ 135              		.loc 1 96 11 is_stmt 0 view .LVU53
+ 136 0060 D0ED015A 		vldr.32	s11, [r0, #4]
+ 137 0064 0830     		adds	r0, r0, #8
+ 138              	.LVL20:
+  97:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+  98:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       t1a = xBR - xAR ;
+ 139              		.loc 1 98 7 is_stmt 1 view .LVU54
+ 140              		.loc 1 98 11 is_stmt 0 view .LVU55
+ 141 0066 37EE646A 		vsub.f32	s12, s14, s9
+ 142              	.LVL21:
+  99:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       t1b = xBI + xAI ;
+ 143              		.loc 1 99 7 is_stmt 1 view .LVU56
+ 144              		.loc 1 99 11 is_stmt 0 view .LVU57
+ 145 006a 35EE274A 		vadd.f32	s8, s10, s15
+ 146              	.LVL22:
+ 100:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       // real(tw * (xB - xA)) = twR * (xBR - xAR) - twI * (xBI - xAI);
+ 102:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       // imag(tw * (xB - xA)) = twI * (xBR - xAR) + twR * (xBI - xAI);
+ 103:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       p0 = twR * t1a;
+ 147              		.loc 1 103 7 is_stmt 1 view .LVU58
+ 148              		.loc 1 103 10 is_stmt 0 view .LVU59
+ 149 006e 66EE863A 		vmul.f32	s7, s13, s12
+ 150              	.LVL23:
+ 104:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       p1 = twI * t1a;
+ 151              		.loc 1 104 7 is_stmt 1 view .LVU60
+ 152              		.loc 1 104 10 is_stmt 0 view .LVU61
+ 153 0072 25EE866A 		vmul.f32	s12, s11, s12
+ 154              	.LVL24:
+ 105:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       p2 = twR * t1b;
+ 155              		.loc 1 105 7 is_stmt 1 view .LVU62
+ 156              		.loc 1 105 10 is_stmt 0 view .LVU63
+ 157 0076 66EE846A 		vmul.f32	s13, s13, s8
+ 158              	.LVL25:
+ 106:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       p3 = twI * t1b;
+ 159              		.loc 1 106 7 is_stmt 1 view .LVU64
+ 160              		.loc 1 106 10 is_stmt 0 view .LVU65
+ 161 007a 65EE845A 		vmul.f32	s11, s11, s8
+ 162              	.LVL26:
+ 107:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 108:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       *pOut++ = 0.5f * (xAR + xBR + p0 + p3 ); //xAR
+ 163              		.loc 1 108 7 is_stmt 1 view .LVU66
+ 164              		.loc 1 108 29 is_stmt 0 view .LVU67
+ 165 007e 37EE247A 		vadd.f32	s14, s14, s9
+ 166              	.LVL27:
+ 167              		.loc 1 108 35 view .LVU68
+ 168 0082 37EE237A 		vadd.f32	s14, s14, s7
+ 169              		.loc 1 108 40 view .LVU69
+ 170 0086 37EE257A 		vadd.f32	s14, s14, s11
+ 171              	.LVL28:
+ 172              		.loc 1 108 22 view .LVU70
+ 173 008a F6EE005A 		vmov.f32	s11, #5.0e-1
+ 174              	.LVL29:
+ 175              		.loc 1 108 22 view .LVU71
+ 176 008e 27EE257A 		vmul.f32	s14, s14, s11
+ 177              		.loc 1 108 15 view .LVU72
+ 178 0092 83ED007A 		vstr.32	s14, [r3]
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 6
+
+
+ 179              	.LVL30:
+ 109:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       *pOut++ = 0.5f * (xAI - xBI + p1 - p2 ); //xAI
+ 180              		.loc 1 109 7 is_stmt 1 view .LVU73
+ 181              		.loc 1 109 29 is_stmt 0 view .LVU74
+ 182 0096 77EEC57A 		vsub.f32	s15, s15, s10
+ 183              	.LVL31:
+ 184              		.loc 1 109 35 view .LVU75
+ 185 009a 77EE867A 		vadd.f32	s15, s15, s12
+ 186              		.loc 1 109 40 view .LVU76
+ 187 009e 77EEE67A 		vsub.f32	s15, s15, s13
+ 188 00a2 1A46     		mov	r2, r3
+ 189              	.LVL32:
+ 190              		.loc 1 109 12 view .LVU77
+ 191 00a4 0833     		adds	r3, r3, #8
+ 192              	.LVL33:
+ 193              		.loc 1 109 22 view .LVU78
+ 194 00a6 67EEA57A 		vmul.f32	s15, s15, s11
+ 195              		.loc 1 109 15 view .LVU79
+ 196 00aa C2ED017A 		vstr.32	s15, [r2, #4]
+ 110:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 111:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       pA += 2;
+ 197              		.loc 1 111 7 is_stmt 1 view .LVU80
+ 198              		.loc 1 111 10 is_stmt 0 view .LVU81
+ 199 00ae 0831     		adds	r1, r1, #8
+ 200              	.LVL34:
+ 112:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       pB -= 2;
+ 201              		.loc 1 112 7 is_stmt 1 view .LVU82
+ 113:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       k--;
+ 202              		.loc 1 113 7 view .LVU83
+ 114:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    } while (k > 0U);
+ 203              		.loc 1 114 15 discriminator 1 view .LVU84
+ 204 00b0 BCF1010C 		subs	ip, ip, #1
+ 205              	.LVL35:
+ 206              		.loc 1 114 15 is_stmt 0 discriminator 1 view .LVU85
+ 207 00b4 C7D1     		bne	.L2
+ 115:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** }
+ 208              		.loc 1 115 1 view .LVU86
+ 209 00b6 5DF804FB 		ldr	pc, [sp], #4
+ 210              		.cfi_endproc
+ 211              	.LFE145:
+ 213              		.section	.text.merge_rfft_f32,"ax",%progbits
+ 214              		.align	1
+ 215              		.global	merge_rfft_f32
+ 216              		.syntax unified
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	merge_rfft_f32:
+ 221              	.LVL36:
+ 222              	.LFB146:
+ 116:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 117:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /* Prepares data for inverse cfft */
+ 118:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** void merge_rfft_f32(
+ 119:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   const arm_rfft_fast_instance_f32 * S,
+ 120:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t * p,
+ 121:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t * pOut)
+ 122:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** {
+ 223              		.loc 1 122 1 is_stmt 1 view -0
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 7
+
+
+ 224              		.cfi_startproc
+ 225              		@ args = 0, pretend = 0, frame = 0
+ 226              		@ frame_needed = 0, uses_anonymous_args = 0
+ 227              		.loc 1 122 1 is_stmt 0 view .LVU88
+ 228 0000 10B5     		push	{r4, lr}
+ 229              	.LCFI1:
+ 230              		.cfi_def_cfa_offset 8
+ 231              		.cfi_offset 4, -8
+ 232              		.cfi_offset 14, -4
+ 123:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         uint32_t  k;                                /* Loop Counter */
+ 233              		.loc 1 123 9 is_stmt 1 view .LVU89
+ 124:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t twR, twI;                         /* RFFT Twiddle coefficients */
+ 234              		.loc 1 124 9 view .LVU90
+ 125:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   const float32_t *pCoeff = S->pTwiddleRFFT;        /* Points to RFFT Twiddle factors */
+ 235              		.loc 1 125 3 view .LVU91
+ 236              		.loc 1 125 20 is_stmt 0 view .LVU92
+ 237 0002 4369     		ldr	r3, [r0, #20]
+ 238              	.LVL37:
+ 126:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t *pA = p;                          /* increasing pointer */
+ 239              		.loc 1 126 9 is_stmt 1 view .LVU93
+ 127:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t *pB = p;                          /* decreasing pointer */
+ 240              		.loc 1 127 9 view .LVU94
+ 128:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t xAR, xAI, xBR, xBI;               /* temporary variables */
+ 241              		.loc 1 128 9 view .LVU95
+ 129:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****         float32_t t1a, t1b, r, s, t, u;             /* temporary variables */
+ 242              		.loc 1 129 9 view .LVU96
+ 130:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 131:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    k = (S->Sint).fftLen - 1;
+ 243              		.loc 1 131 4 view .LVU97
+ 244              		.loc 1 131 17 is_stmt 0 view .LVU98
+ 245 0004 0088     		ldrh	r0, [r0]
+ 246              	.LVL38:
+ 247              		.loc 1 131 25 view .LVU99
+ 248 0006 0138     		subs	r0, r0, #1
+ 249              	.LVL39:
+ 132:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 133:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    xAR = pA[0];
+ 250              		.loc 1 133 4 is_stmt 1 view .LVU100
+ 251              		.loc 1 133 8 is_stmt 0 view .LVU101
+ 252 0008 D1ED007A 		vldr.32	s15, [r1]
+ 253              	.LVL40:
+ 134:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    xAI = pA[1];
+ 254              		.loc 1 134 4 is_stmt 1 view .LVU102
+ 255              		.loc 1 134 8 is_stmt 0 view .LVU103
+ 256 000c 91ED016A 		vldr.32	s12, [r1, #4]
+ 257              	.LVL41:
+ 135:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 136:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    pCoeff += 2 ;
+ 258              		.loc 1 136 4 is_stmt 1 view .LVU104
+ 259              		.loc 1 136 11 is_stmt 0 view .LVU105
+ 260 0010 03F1080E 		add	lr, r3, #8
+ 261              	.LVL42:
+ 137:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 138:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    *pOut++ = 0.5f * ( xAR + xAI );
+ 262              		.loc 1 138 4 is_stmt 1 view .LVU106
+ 263              		.loc 1 138 27 is_stmt 0 view .LVU107
+ 264 0014 37EE867A 		vadd.f32	s14, s15, s12
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 8
+
+
+ 265              	.LVL43:
+ 266              		.loc 1 138 19 view .LVU108
+ 267 0018 F6EE006A 		vmov.f32	s13, #5.0e-1
+ 268 001c 27EE267A 		vmul.f32	s14, s14, s13
+ 269              		.loc 1 138 12 view .LVU109
+ 270 0020 02F1080C 		add	ip, r2, #8
+ 271 0024 82ED007A 		vstr.32	s14, [r2]
+ 139:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    *pOut++ = 0.5f * ( xAR - xAI );
+ 272              		.loc 1 139 4 is_stmt 1 view .LVU110
+ 273              		.loc 1 139 27 is_stmt 0 view .LVU111
+ 274 0028 77EEC67A 		vsub.f32	s15, s15, s12
+ 275              	.LVL44:
+ 276              		.loc 1 139 19 view .LVU112
+ 277 002c 67EEA67A 		vmul.f32	s15, s15, s13
+ 278              		.loc 1 139 12 view .LVU113
+ 279 0030 C2ED017A 		vstr.32	s15, [r2, #4]
+ 140:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 141:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    pB  =  p + 2*k ;
+ 280              		.loc 1 141 4 is_stmt 1 view .LVU114
+ 281              		.loc 1 141 8 is_stmt 0 view .LVU115
+ 282 0034 01EBC004 		add	r4, r1, r0, lsl #3
+ 283              	.LVL45:
+ 142:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    pA +=  2	   ;
+ 284              		.loc 1 142 4 is_stmt 1 view .LVU116
+ 285              		.loc 1 142 7 is_stmt 0 view .LVU117
+ 286 0038 0831     		adds	r1, r1, #8
+ 287              	.LVL46:
+ 143:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 144:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    while (k > 0U)
+ 288              		.loc 1 144 4 is_stmt 1 view .LVU118
+ 289              		.loc 1 144 10 is_stmt 0 view .LVU119
+ 290 003a 37E0     		b	.L5
+ 291              	.LVL47:
+ 292              	.L6:
+ 145:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    {
+ 146:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       /* G is half of the frequency complex spectrum */
+ 147:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       //for k = 2:N
+ 148:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       //    Xk(k) = 1/2 * (G(k) + conj(G(N-k+2)) + Tw(k)*( G(k) - conj(G(N-k+2))));
+ 149:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xBI =   pB[1]    ;
+ 293              		.loc 1 149 7 is_stmt 1 view .LVU120
+ 294              		.loc 1 149 11 is_stmt 0 view .LVU121
+ 295 003c 94ED015A 		vldr.32	s10, [r4, #4]
+ 296              	.LVL48:
+ 150:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xBR =   pB[0]    ;
+ 297              		.loc 1 150 7 is_stmt 1 view .LVU122
+ 298              		.loc 1 150 11 is_stmt 0 view .LVU123
+ 299 0040 2346     		mov	r3, r4
+ 300 0042 083C     		subs	r4, r4, #8
+ 301              	.LVL49:
+ 302              		.loc 1 150 11 view .LVU124
+ 303 0044 93ED007A 		vldr.32	s14, [r3]
+ 304              	.LVL50:
+ 151:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xAR =  pA[0];
+ 305              		.loc 1 151 7 is_stmt 1 view .LVU125
+ 306              		.loc 1 151 11 is_stmt 0 view .LVU126
+ 307 0048 D1ED005A 		vldr.32	s11, [r1]
+ 308              	.LVL51:
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 9
+
+
+ 152:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       xAI =  pA[1];
+ 309              		.loc 1 152 7 is_stmt 1 view .LVU127
+ 310              		.loc 1 152 11 is_stmt 0 view .LVU128
+ 311 004c D1ED017A 		vldr.32	s15, [r1, #4]
+ 312              	.LVL52:
+ 153:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 154:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       twR = *pCoeff++;
+ 313              		.loc 1 154 7 is_stmt 1 view .LVU129
+ 314              		.loc 1 154 11 is_stmt 0 view .LVU130
+ 315 0050 7246     		mov	r2, lr
+ 316 0052 0832     		adds	r2, r2, #8
+ 317 0054 DEED006A 		vldr.32	s13, [lr]
+ 318              	.LVL53:
+ 155:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       twI = *pCoeff++;
+ 319              		.loc 1 155 7 is_stmt 1 view .LVU131
+ 320              		.loc 1 155 11 is_stmt 0 view .LVU132
+ 321 0058 9EED016A 		vldr.32	s12, [lr, #4]
+ 322              	.LVL54:
+ 156:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 157:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       t1a = xAR - xBR ;
+ 323              		.loc 1 157 7 is_stmt 1 view .LVU133
+ 324              		.loc 1 157 11 is_stmt 0 view .LVU134
+ 325 005c 35EEC74A 		vsub.f32	s8, s11, s14
+ 326              	.LVL55:
+ 158:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       t1b = xAI + xBI ;
+ 327              		.loc 1 158 7 is_stmt 1 view .LVU135
+ 328              		.loc 1 158 11 is_stmt 0 view .LVU136
+ 329 0060 75EE274A 		vadd.f32	s9, s10, s15
+ 330              	.LVL56:
+ 159:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 160:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       r = twR * t1a;
+ 331              		.loc 1 160 7 is_stmt 1 view .LVU137
+ 332              		.loc 1 160 9 is_stmt 0 view .LVU138
+ 333 0064 26EE843A 		vmul.f32	s6, s13, s8
+ 334              	.LVL57:
+ 161:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       s = twI * t1b;
+ 335              		.loc 1 161 7 is_stmt 1 view .LVU139
+ 336              		.loc 1 161 9 is_stmt 0 view .LVU140
+ 337 0068 66EE243A 		vmul.f32	s7, s12, s9
+ 338              	.LVL58:
+ 162:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       t = twI * t1a;
+ 339              		.loc 1 162 7 is_stmt 1 view .LVU141
+ 340              		.loc 1 162 9 is_stmt 0 view .LVU142
+ 341 006c 26EE046A 		vmul.f32	s12, s12, s8
+ 342              	.LVL59:
+ 163:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       u = twR * t1b;
+ 343              		.loc 1 163 7 is_stmt 1 view .LVU143
+ 344              		.loc 1 163 9 is_stmt 0 view .LVU144
+ 345 0070 66EEA46A 		vmul.f32	s13, s13, s9
+ 346              	.LVL60:
+ 164:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 165:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       // real(tw * (xA - xB)) = twR * (xAR - xBR) - twI * (xAI - xBI);
+ 166:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       // imag(tw * (xA - xB)) = twI * (xAR - xBR) + twR * (xAI - xBI);
+ 167:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       *pOut++ = 0.5f * (xAR + xBR - r - s ); //xAR
+ 347              		.loc 1 167 7 is_stmt 1 view .LVU145
+ 348              		.loc 1 167 29 is_stmt 0 view .LVU146
+ 349 0074 37EE257A 		vadd.f32	s14, s14, s11
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 10
+
+
+ 350              	.LVL61:
+ 351              		.loc 1 167 35 view .LVU147
+ 352 0078 37EE437A 		vsub.f32	s14, s14, s6
+ 353              		.loc 1 167 39 view .LVU148
+ 354 007c 37EE637A 		vsub.f32	s14, s14, s7
+ 355              	.LVL62:
+ 356              		.loc 1 167 22 view .LVU149
+ 357 0080 F6EE005A 		vmov.f32	s11, #5.0e-1
+ 358              	.LVL63:
+ 359              		.loc 1 167 22 view .LVU150
+ 360 0084 27EE257A 		vmul.f32	s14, s14, s11
+ 361              		.loc 1 167 15 view .LVU151
+ 362 0088 6346     		mov	r3, ip
+ 363              	.LVL64:
+ 364              		.loc 1 167 15 view .LVU152
+ 365 008a 0833     		adds	r3, r3, #8
+ 366 008c 8CED007A 		vstr.32	s14, [ip]
+ 367              	.LVL65:
+ 168:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       *pOut++ = 0.5f * (xAI - xBI + t - u ); //xAI
+ 368              		.loc 1 168 7 is_stmt 1 view .LVU153
+ 369              		.loc 1 168 29 is_stmt 0 view .LVU154
+ 370 0090 77EEC57A 		vsub.f32	s15, s15, s10
+ 371              	.LVL66:
+ 372              		.loc 1 168 35 view .LVU155
+ 373 0094 77EE867A 		vadd.f32	s15, s15, s12
+ 374              		.loc 1 168 39 view .LVU156
+ 375 0098 77EEE67A 		vsub.f32	s15, s15, s13
+ 376              	.LVL67:
+ 377              		.loc 1 168 22 view .LVU157
+ 378 009c 67EEA57A 		vmul.f32	s15, s15, s11
+ 379              		.loc 1 168 15 view .LVU158
+ 380 00a0 CCED017A 		vstr.32	s15, [ip, #4]
+ 169:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 170:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       pA += 2;
+ 381              		.loc 1 170 7 is_stmt 1 view .LVU159
+ 382              		.loc 1 170 10 is_stmt 0 view .LVU160
+ 383 00a4 0831     		adds	r1, r1, #8
+ 384              	.LVL68:
+ 171:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       pB -= 2;
+ 385              		.loc 1 171 7 is_stmt 1 view .LVU161
+ 172:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       k--;
+ 386              		.loc 1 172 7 view .LVU162
+ 387              		.loc 1 172 8 is_stmt 0 view .LVU163
+ 388 00a6 0138     		subs	r0, r0, #1
+ 389              	.LVL69:
+ 155:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 390              		.loc 1 155 20 view .LVU164
+ 391 00a8 9646     		mov	lr, r2
+ 168:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 392              		.loc 1 168 12 view .LVU165
+ 393 00aa 9C46     		mov	ip, r3
+ 394              	.LVL70:
+ 395              	.L5:
+ 144:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    {
+ 396              		.loc 1 144 13 is_stmt 1 view .LVU166
+ 397 00ac 0028     		cmp	r0, #0
+ 398 00ae C5D1     		bne	.L6
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 11
+
+
+ 173:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    }
+ 174:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 175:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** }
+ 399              		.loc 1 175 1 is_stmt 0 view .LVU167
+ 400 00b0 10BD     		pop	{r4, pc}
+ 401              		.loc 1 175 1 view .LVU168
+ 402              		.cfi_endproc
+ 403              	.LFE146:
+ 405              		.section	.text.arm_rfft_fast_f32,"ax",%progbits
+ 406              		.align	1
+ 407              		.global	arm_rfft_fast_f32
+ 408              		.syntax unified
+ 409              		.thumb
+ 410              		.thumb_func
+ 412              	arm_rfft_fast_f32:
+ 413              	.LVL71:
+ 414              	.LFB147:
+ 176:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 177:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /**
+ 178:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @ingroup groupTransforms
+ 179:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** */
+ 180:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 181:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /**
+ 182:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @defgroup RealFFT Real FFT Functions
+ 183:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  
+ 184:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 185:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The CMSIS DSP library includes specialized algorithms for computing the
+ 186:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    FFT of real data sequences.  The FFT is defined over complex data but
+ 187:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    in many applications the input is real.  Real FFT algorithms take advantage
+ 188:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    of the symmetry properties of the FFT and have a speed advantage over complex
+ 189:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    algorithms of the same length.
+ 190:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 191:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The Fast RFFT algorith relays on the mixed radix CFFT that save processor usage.
+ 192:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 193:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The real length N forward FFT of a sequence is computed using the steps shown be
+ 194:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 195:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    \image html RFFT.gif "Real Fast Fourier Transform"
+ 196:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 197:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The real sequence is initially treated as if it were complex to perform a CFFT.
+ 198:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    Later, a processing stage reshapes the data to obtain half of the frequency spec
+ 199:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    in complex format. Except the first complex number that contains the two real nu
+ 200:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    X[0] and X[N/2] all the data is complex. In other words, the first complex sampl
+ 201:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    contains two real values packed.
+ 202:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 203:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The input for the inverse RFFT should keep the same format as the output of the
+ 204:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    forward RFFT. A first processing stage pre-process the data to later perform an
+ 205:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    inverse CFFT.
+ 206:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 207:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    \image html RIFFT.gif "Real Inverse Fast Fourier Transform"
+ 208:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 209:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The algorithms for floating-point, Q15, and Q31 data are slightly different
+ 210:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    and we describe each algorithm in turn.
+ 211:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par           Floating-point
+ 212:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The main functions are \ref arm_rfft_fast_f32() and \ref arm_rfft_fast_init_f32(
+ 213:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The older functions \ref arm_rfft_f32() and \ref arm_rfft_init_f32() have been d
+ 214:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    but are still documented.
+ 215:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 12
+
+
+ 216:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The FFT of a real N-point sequence has even symmetry in the frequency domain. 
+ 217:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The second half of the data equals the conjugate of the first half flipped in fr
+ 218:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    Looking at the data, we see that we can uniquely represent the FFT using only N/
+ 219:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    These are packed into the output array in alternating real and imaginary compone
+ 220:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 221:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    X = { real[0], imag[0], real[1], imag[1], real[2], imag[2] ...
+ 222:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    real[(N/2)-1], imag[(N/2)-1 }
+ 223:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 224:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    It happens that the first complex number (real[0], imag[0]) is actually
+ 225:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    all real. real[0] represents the DC offset, and imag[0] should be 0.
+ 226:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    (real[1], imag[1]) is the fundamental frequency, (real[2], imag[2]) is
+ 227:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    the first harmonic and so on.
+ 228:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 229:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The real FFT functions pack the frequency domain data in this fashion.
+ 230:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The forward transform outputs the data in this form and the inverse
+ 231:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    transform expects input data in this form. The function always performs
+ 232:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    the needed bitreversal so that the input and output data is always in
+ 233:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    normal order. The functions support lengths of [32, 64, 128, ..., 4096]
+ 234:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    samples.
+ 235:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par           Q15 and Q31
+ 236:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The real algorithms are defined in a similar manner and utilize N/2 complex
+ 237:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    transforms behind the scenes.
+ 238:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 239:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The complex transforms used internally include scaling to prevent fixed-point
+ 240:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    overflows.  The overall scaling equals 1/(fftLen/2).
+ 241:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 242:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    A separate instance structure must be defined for each transform used but
+ 243:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    twiddle factor and bit reversal tables can be reused.
+ 244:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 245:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    There is also an associated initialization function for each data type.
+ 246:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The initialization function performs the following operations:
+ 247:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                     - Sets the values of the internal structure fields.
+ 248:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                     - Initializes twiddle factor table and bit reversal table pointers.
+ 249:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                     - Initializes the internal complex FFT data structure.
+ 250:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @par
+ 251:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    Use of the initialization function is optional.
+ 252:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    However, if the initialization function is used, then the instance structure
+ 253:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    cannot be placed into a const data section. To place an instance structure
+ 254:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    into a const data section, the instance structure should be manually
+ 255:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    initialized as follows:
+ 256:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   <pre>
+ 257:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       arm_rfft_instance_q31 S = {fftLenReal, fftLenBy2, ifftFlagR, bitReverseFlagR, twidCoefRModifi
+ 258:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       arm_rfft_instance_q15 S = {fftLenReal, fftLenBy2, ifftFlagR, bitReverseFlagR, twidCoefRModifi
+ 259:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   </pre>
+ 260:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    where <code>fftLenReal</code> is the length of the real transform;
+ 261:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>fftLenBy2</code> length of  the internal complex transform.
+ 262:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>ifftFlagR</code> Selects forward (=0) or inverse (=1) transform.
+ 263:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>bitReverseFlagR</code> Selects bit reversed output (=0) or normal order
+ 264:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    output (=1).
+ 265:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>twidCoefRModifier</code> stride modifier for the twiddle factor table.
+ 266:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    The value is based on the FFT length;
+ 267:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>pTwiddleAReal</code>points to the A array of twiddle coefficients;
+ 268:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>pTwiddleBReal</code>points to the B array of twiddle coefficients;
+ 269:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    <code>pCfft</code> points to the CFFT Instance structure. The CFFT structure
+ 270:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    must also be initialized.  Refer to arm_cfft_radix4_f32() for details regarding
+ 271:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    static initialization of the complex FFT instance structure.
+ 272:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****  */
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 13
+
+
+ 273:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 274:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /**
+ 275:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @addtogroup RealFFT
+ 276:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @{
+ 277:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** */
+ 278:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 279:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** /**
+ 280:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @brief         Processing function for the floating-point real FFT.
+ 281:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @param[in]     S         points to an arm_rfft_fast_instance_f32 structure
+ 282:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @param[in]     p         points to input buffer
+ 283:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @param[in]     pOut      points to output buffer
+ 284:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @param[in]     ifftFlag
+ 285:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    - value = 0: RFFT
+ 286:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****                    - value = 1: RIFFT
+ 287:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   @return        none
+ 288:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** */
+ 289:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 290:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** void arm_rfft_fast_f32(
+ 291:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   arm_rfft_fast_instance_f32 * S,
+ 292:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   float32_t * p,
+ 293:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   float32_t * pOut,
+ 294:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****   uint8_t ifftFlag)
+ 295:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** {
+ 415              		.loc 1 295 1 is_stmt 1 view -0
+ 416              		.cfi_startproc
+ 417              		@ args = 0, pretend = 0, frame = 0
+ 418              		@ frame_needed = 0, uses_anonymous_args = 0
+ 419              		.loc 1 295 1 is_stmt 0 view .LVU170
+ 420 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 421              	.LCFI2:
+ 422              		.cfi_def_cfa_offset 24
+ 423              		.cfi_offset 3, -24
+ 424              		.cfi_offset 4, -20
+ 425              		.cfi_offset 5, -16
+ 426              		.cfi_offset 6, -12
+ 427              		.cfi_offset 7, -8
+ 428              		.cfi_offset 14, -4
+ 429 0002 0446     		mov	r4, r0
+ 430 0004 0D46     		mov	r5, r1
+ 431 0006 1646     		mov	r6, r2
+ 296:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    arm_cfft_instance_f32 * Sint = &(S->Sint);
+ 432              		.loc 1 296 4 is_stmt 1 view .LVU171
+ 433              	.LVL72:
+ 297:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    Sint->fftLen = S->fftLenRFFT / 2;
+ 434              		.loc 1 297 4 view .LVU172
+ 435              		.loc 1 297 20 is_stmt 0 view .LVU173
+ 436 0008 028A     		ldrh	r2, [r0, #16]
+ 437              	.LVL73:
+ 438              		.loc 1 297 17 view .LVU174
+ 439 000a 5208     		lsrs	r2, r2, #1
+ 440 000c 0280     		strh	r2, [r0]	@ movhi
+ 298:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 299:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    /* Calculation of Real FFT */
+ 300:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    if (ifftFlag)
+ 441              		.loc 1 300 4 is_stmt 1 view .LVU175
+ 442              		.loc 1 300 7 is_stmt 0 view .LVU176
+ 443 000e 1F46     		mov	r7, r3
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 14
+
+
+ 444 0010 4BB1     		cbz	r3, .L9
+ 301:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    {
+ 302:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       /*  Real FFT compression */
+ 303:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       merge_rfft_f32(S, p, pOut);
+ 445              		.loc 1 303 7 is_stmt 1 view .LVU177
+ 446 0012 3246     		mov	r2, r6
+ 447 0014 FFF7FEFF 		bl	merge_rfft_f32
+ 448              	.LVL74:
+ 304:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 305:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       /* Complex radix-4 IFFT process */
+ 306:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       arm_cfft_f32( Sint, pOut, ifftFlag, 1);
+ 449              		.loc 1 306 7 view .LVU178
+ 450 0018 0123     		movs	r3, #1
+ 451 001a 3A46     		mov	r2, r7
+ 452 001c 3146     		mov	r1, r6
+ 453 001e 2046     		mov	r0, r4
+ 454 0020 FFF7FEFF 		bl	arm_cfft_f32
+ 455              	.LVL75:
+ 456              	.L8:
+ 307:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    }
+ 308:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    else
+ 309:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    {
+ 310:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       /* Calculation of RFFT of input */
+ 311:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       arm_cfft_f32( Sint, p, ifftFlag, 1);
+ 312:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 313:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       /*  Real FFT extraction */
+ 314:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****       stage_rfft_f32(S, p, pOut);
+ 315:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    }
+ 316:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** }
+ 457              		.loc 1 316 1 is_stmt 0 view .LVU179
+ 458 0024 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 459              	.LVL76:
+ 460              	.L9:
+ 311:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 461              		.loc 1 311 7 is_stmt 1 view .LVU180
+ 462 0026 0123     		movs	r3, #1
+ 463              	.LVL77:
+ 311:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c **** 
+ 464              		.loc 1 311 7 is_stmt 0 view .LVU181
+ 465 0028 3A46     		mov	r2, r7
+ 466 002a FFF7FEFF 		bl	arm_cfft_f32
+ 467              	.LVL78:
+ 314:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c ****    }
+ 468              		.loc 1 314 7 is_stmt 1 view .LVU182
+ 469 002e 3246     		mov	r2, r6
+ 470 0030 2946     		mov	r1, r5
+ 471 0032 2046     		mov	r0, r4
+ 472 0034 FFF7FEFF 		bl	stage_rfft_f32
+ 473              	.LVL79:
+ 474              		.loc 1 316 1 is_stmt 0 view .LVU183
+ 475 0038 F4E7     		b	.L8
+ 476              		.cfi_endproc
+ 477              	.LFE147:
+ 479              		.text
+ 480              	.Letext0:
+ 481              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 482              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 15
+
+
+ 483              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\usertemp\cc9Wjp3U.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_rfft_fast_f32.c
+C:\usertemp\cc9Wjp3U.s:20     .text.stage_rfft_f32:00000000 $t
+C:\usertemp\cc9Wjp3U.s:26     .text.stage_rfft_f32:00000000 stage_rfft_f32
+C:\usertemp\cc9Wjp3U.s:214    .text.merge_rfft_f32:00000000 $t
+C:\usertemp\cc9Wjp3U.s:220    .text.merge_rfft_f32:00000000 merge_rfft_f32
+C:\usertemp\cc9Wjp3U.s:406    .text.arm_rfft_fast_f32:00000000 $t
+C:\usertemp\cc9Wjp3U.s:412    .text.arm_rfft_fast_f32:00000000 arm_rfft_fast_f32
+
+UNDEFINED SYMBOLS
+arm_cfft_f32

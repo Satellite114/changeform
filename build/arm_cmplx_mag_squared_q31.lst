@@ -1,0 +1,262 @@
+ARM GAS  C:\usertemp\cc033XEb.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"arm_cmplx_mag_squared_q31.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c"
+  19              		.section	.text.arm_cmplx_mag_squared_q31,"ax",%progbits
+  20              		.align	1
+  21              		.global	arm_cmplx_mag_squared_q31
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	arm_cmplx_mag_squared_q31:
+  27              	.LVL0:
+  28              	.LFB145:
+   1:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Title:        arm_cmplx_mag_squared_q31.c
+   4:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Description:  Q31 complex magnitude squared
+   5:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * $Date:        18. March 2019
+   7:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * $Revision:    V1.6.0
+   8:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  29:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** #include "arm_math.h"
+  30:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ARM GAS  C:\usertemp\cc033XEb.s 			page 2
+
+
+  31:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** /**
+  32:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @ingroup groupCmplxMath
+  33:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  */
+  34:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  35:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** /**
+  36:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @addtogroup cmplx_mag_squared
+  37:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @{
+  38:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  */
+  39:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  40:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** /**
+  41:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @brief         Q31 complex magnitude squared.
+  42:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @param[in]     pSrc        points to input vector
+  43:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @param[out]    pDst        points to output vector
+  44:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @param[in]     numSamples  number of samples in each vector
+  45:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @return        none
+  46:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  47:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   @par           Scaling and Overflow Behavior
+  48:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****                    The function implements 1.31 by 1.31 multiplications and finally output is conve
+  49:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****                    Input down scaling is not required.
+  50:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****  */
+  51:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  52:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** void arm_cmplx_mag_squared_q31(
+  53:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   const q31_t * pSrc,
+  54:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****         q31_t * pDst,
+  55:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****         uint32_t numSamples)
+  56:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** {
+  29              		.loc 1 56 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  57:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****         uint32_t blkCnt;                               /* Loop counter */
+  33              		.loc 1 57 9 view .LVU1
+  58:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****         q31_t real, imag;                              /* Temporary input variables */
+  34              		.loc 1 58 9 view .LVU2
+  59:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****         q31_t acc0, acc1;                              /* Accumulators */
+  35              		.loc 1 59 9 view .LVU3
+  60:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  61:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** #if defined (ARM_MATH_LOOPUNROLL)
+  62:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  63:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   /* Loop unrolling: Compute 4 outputs at a time */
+  64:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   blkCnt = numSamples >> 2U;
+  65:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  66:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   while (blkCnt > 0U)
+  67:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   {
+  68:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     /* C[0] = (A[0] * A[0] + A[1] * A[1]) */
+  69:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  70:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     real = *pSrc++;
+  71:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     imag = *pSrc++;
+  72:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc0 = (q31_t) (((q63_t) real * real) >> 33);
+  73:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc1 = (q31_t) (((q63_t) imag * imag) >> 33);
+  74:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     /* store the result in 3.29 format in the destination buffer. */
+  75:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     *pDst++ = acc0 + acc1;
+  76:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  77:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     real = *pSrc++;
+  78:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     imag = *pSrc++;
+  79:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc0 = (q31_t) (((q63_t) real * real) >> 33);
+  80:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc1 = (q31_t) (((q63_t) imag * imag) >> 33);
+ARM GAS  C:\usertemp\cc033XEb.s 			page 3
+
+
+  81:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     *pDst++ = acc0 + acc1;
+  82:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  83:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     real = *pSrc++;
+  84:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     imag = *pSrc++;
+  85:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc0 = (q31_t) (((q63_t) real * real) >> 33);
+  86:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc1 = (q31_t) (((q63_t) imag * imag) >> 33);
+  87:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     *pDst++ = acc0 + acc1;
+  88:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  89:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     real = *pSrc++;
+  90:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     imag = *pSrc++;
+  91:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc0 = (q31_t) (((q63_t) real * real) >> 33);
+  92:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc1 = (q31_t) (((q63_t) imag * imag) >> 33);
+  93:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     *pDst++ = acc0 + acc1;
+  94:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  95:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     /* Decrement loop counter */
+  96:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     blkCnt--;
+  97:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   }
+  98:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+  99:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   /* Loop unrolling: Compute remaining outputs */
+ 100:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   blkCnt = numSamples % 0x4U;
+ 101:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 102:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** #else
+ 103:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 104:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   /* Initialize blkCnt with number of samples */
+ 105:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   blkCnt = numSamples;
+  36              		.loc 1 105 3 view .LVU4
+ 106:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 107:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 108:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 109:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   while (blkCnt > 0U)
+  37              		.loc 1 109 3 view .LVU5
+  38              		.loc 1 109 17 view .LVU6
+  39 0000 F2B1     		cbz	r2, .L7
+  56:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****         uint32_t blkCnt;                               /* Loop counter */
+  40              		.loc 1 56 1 is_stmt 0 view .LVU7
+  41 0002 10B5     		push	{r4, lr}
+  42              	.LCFI0:
+  43              		.cfi_def_cfa_offset 8
+  44              		.cfi_offset 4, -8
+  45              		.cfi_offset 14, -4
+  46              	.LVL1:
+  47              	.L3:
+ 110:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   {
+ 111:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     /* C[0] = (A[0] * A[0] + A[1] * A[1]) */
+ 112:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 113:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     real = *pSrc++;
+  48              		.loc 1 113 5 is_stmt 1 view .LVU8
+  49              		.loc 1 113 10 is_stmt 0 view .LVU9
+  50 0004 8446     		mov	ip, r0
+  51 0006 5CF8084B 		ldr	r4, [ip], #8
+  52              	.LVL2:
+ 114:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     imag = *pSrc++;
+  53              		.loc 1 114 5 is_stmt 1 view .LVU10
+  54              		.loc 1 114 10 is_stmt 0 view .LVU11
+  55 000a 4368     		ldr	r3, [r0, #4]
+  56              	.LVL3:
+ 115:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc0 = (q31_t) (((q63_t) real * real) >> 33);
+ARM GAS  C:\usertemp\cc033XEb.s 			page 4
+
+
+  57              		.loc 1 115 5 is_stmt 1 view .LVU12
+  58              		.loc 1 115 22 is_stmt 0 view .LVU13
+  59 000c 4FEAE47E 		asr	lr, r4, #31
+  60              		.loc 1 115 35 view .LVU14
+  61 0010 04FB0EFE 		mul	lr, r4, lr
+  62 0014 A4FB0440 		umull	r4, r0, r4, r4
+  63              	.LVL4:
+  64              		.loc 1 115 35 view .LVU15
+  65 0018 00EB4E04 		add	r4, r0, lr, lsl #1
+  66              	.LVL5:
+ 116:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc1 = (q31_t) (((q63_t) imag * imag) >> 33);
+  67              		.loc 1 116 5 is_stmt 1 view .LVU16
+  68              		.loc 1 116 22 is_stmt 0 view .LVU17
+  69 001c 4FEAE37E 		asr	lr, r3, #31
+  70              		.loc 1 116 35 view .LVU18
+  71 0020 03FB0EFE 		mul	lr, r3, lr
+  72 0024 A3FB0303 		umull	r0, r3, r3, r3
+  73              	.LVL6:
+  74              		.loc 1 116 35 view .LVU19
+  75 0028 03EB4E03 		add	r3, r3, lr, lsl #1
+  76              		.loc 1 116 43 view .LVU20
+  77 002c 5B10     		asrs	r3, r3, #1
+  78              	.LVL7:
+ 117:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 118:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     /* store result in 3.29 format in destination buffer. */
+ 119:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     *pDst++ = acc0 + acc1;
+  79              		.loc 1 119 5 is_stmt 1 view .LVU21
+  80              		.loc 1 119 20 is_stmt 0 view .LVU22
+  81 002e 03EB6403 		add	r3, r3, r4, asr #1
+  82              	.LVL8:
+  83              		.loc 1 119 13 view .LVU23
+  84 0032 41F8043B 		str	r3, [r1], #4
+  85              	.LVL9:
+ 120:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 121:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     /* Decrement loop counter */
+ 122:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     blkCnt--;
+  86              		.loc 1 122 5 is_stmt 1 view .LVU24
+  87              		.loc 1 122 11 is_stmt 0 view .LVU25
+  88 0036 013A     		subs	r2, r2, #1
+  89              	.LVL10:
+ 114:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****     acc0 = (q31_t) (((q63_t) real * real) >> 33);
+  90              		.loc 1 114 17 view .LVU26
+  91 0038 6046     		mov	r0, ip
+ 109:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   {
+  92              		.loc 1 109 17 is_stmt 1 view .LVU27
+  93 003a 002A     		cmp	r2, #0
+  94 003c E2D1     		bne	.L3
+ 123:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c ****   }
+ 124:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** 
+ 125:Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c **** }
+  95              		.loc 1 125 1 is_stmt 0 view .LVU28
+  96 003e 10BD     		pop	{r4, pc}
+  97              	.LVL11:
+  98              	.L7:
+  99              	.LCFI1:
+ 100              		.cfi_def_cfa_offset 0
+ 101              		.cfi_restore 4
+ARM GAS  C:\usertemp\cc033XEb.s 			page 5
+
+
+ 102              		.cfi_restore 14
+ 103              		.loc 1 125 1 view .LVU29
+ 104 0040 7047     		bx	lr
+ 105              		.cfi_endproc
+ 106              	.LFE145:
+ 108              		.text
+ 109              	.Letext0:
+ 110              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 111              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 112              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ARM GAS  C:\usertemp\cc033XEb.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_cmplx_mag_squared_q31.c
+C:\usertemp\cc033XEb.s:20     .text.arm_cmplx_mag_squared_q31:00000000 $t
+C:\usertemp\cc033XEb.s:26     .text.arm_cmplx_mag_squared_q31:00000000 arm_cmplx_mag_squared_q31
+
+NO UNDEFINED SYMBOLS

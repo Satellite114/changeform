@@ -200,7 +200,62 @@ Middlewares/Third_Party/LwIP/src/core/ipv6/ip6_frag.c \
 Middlewares/Third_Party/LwIP/src/core/ipv6/mld6.c \
 Middlewares/Third_Party/LwIP/src/core/ipv6/nd6.c \
 Middlewares/Third_Party/LwIP/system/OS/sys_arch.c \
-Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
+Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c \
+User/FFT/dsp_fft.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_bitreversal.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix2_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix2_init_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix2_init_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix2_init_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix2_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix2_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix4_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix4_init_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix4_init_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix4_init_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix4_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix4_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_cfft_radix8_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_init_f32.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_init_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_init_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_q15.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_rfft_q31.c \
+Drivers/CMSIS/DSP/Source/CommonTables/arm_common_tables.c \
+Drivers/CMSIS/DSP/Source/CommonTables/arm_const_structs.c \
+Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_conj_f32.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_conj_q15.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_conj_q31.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_f32.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q31.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_q15.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_f32.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_q31.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_f32.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q15.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_f32.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_q15.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_q31.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_f32.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c \
+Drivers/CMSIS/DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q31.c \
+Drivers/CMSIS/DSP/Source/TransformFunctions/arm_bitreversal2.c
+
 
 # ASM sources
 ASM_SOURCES =  \
@@ -246,6 +301,8 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 # AS defines
 AS_DEFS = 
 
+LDLIBS += -lm
+
 # C defines
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
@@ -286,7 +343,10 @@ C_INCLUDES =  \
 -IMiddlewares/Third_Party/LwIP/src/include/compat/posix/net \
 -IMiddlewares/Third_Party/LwIP/src/include/compat/posix/sys \
 -IMiddlewares/Third_Party/LwIP/src/include/compat/stdc \
--IMiddlewares/Third_Party/LwIP/system/arch
+-IMiddlewares/Third_Party/LwIP/system/arch \
+-IUser/FFT \
+-IDrivers/CMSIS/DSP/Include \
+-IDrivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/inc
 
 
 # compile gcc flags

@@ -1,0 +1,1809 @@
+ARM GAS  C:\usertemp\ccyQju61.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"dsp_fft.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "User/FFT/dsp_fft.c"
+  19              		.section	.text.THD,"ax",%progbits
+  20              		.align	1
+  21              		.global	THD
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	THD:
+  27              	.LVL0:
+  28              	.LFB383:
+   1:User/FFT/dsp_fft.c **** #include "dsp_fft.h"
+   2:User/FFT/dsp_fft.c **** #include <math.h>
+   3:User/FFT/dsp_fft.c **** #include <string.h>
+   4:User/FFT/dsp_fft.c **** #include "arm_math.h"
+   5:User/FFT/dsp_fft.c **** extern float32_t rat;
+   6:User/FFT/dsp_fft.c **** extern float32_t step;
+   7:User/FFT/dsp_fft.c **** extern float32_t level;
+   8:User/FFT/dsp_fft.c **** 
+   9:User/FFT/dsp_fft.c **** void fft_run(FFT *fft)
+  10:User/FFT/dsp_fft.c **** {
+  11:User/FFT/dsp_fft.c ****     // 归一化 ADC 数据并填充复数数组
+  12:User/FFT/dsp_fft.c ****     float32_t max_v = -INFINITY, min_v = INFINITY;
+  13:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
+  14:User/FFT/dsp_fft.c ****     // 谐波有效值： 频域幅值*2/采样点数
+  15:User/FFT/dsp_fft.c ****     for (int i = 0; i < fft->length; i++)
+  16:User/FFT/dsp_fft.c ****     {
+  17:User/FFT/dsp_fft.c ****         // fft->LVGL_wave[i] = fft->adcConvertValue[i] * 50;
+  18:User/FFT/dsp_fft.c ****         fft->FFT_IN[2 * i] = fft->adcConvertValue[i];
+  19:User/FFT/dsp_fft.c ****         fft->FFT_IN[2 * i + 1] = 0; // 虚部
+  20:User/FFT/dsp_fft.c **** 
+  21:User/FFT/dsp_fft.c ****         temp_RMS += fft->adcConvertValue[i] * fft->adcConvertValue[i] / (float)fft->length;
+  22:User/FFT/dsp_fft.c **** 
+  23:User/FFT/dsp_fft.c ****         if (fft->adcConvertValue[i] > max_v)
+  24:User/FFT/dsp_fft.c ****             max_v = fft->adcConvertValue[i];
+  25:User/FFT/dsp_fft.c ****         if (fft->adcConvertValue[i] < min_v)
+  26:User/FFT/dsp_fft.c ****             min_v = fft->adcConvertValue[i];
+  27:User/FFT/dsp_fft.c ****     }
+  28:User/FFT/dsp_fft.c ****     downsample_data(rat, fft->adcConvertValue, fft->length, fft->LVGL_wave, 256, step);
+  29:User/FFT/dsp_fft.c ****     fft->RMS = sqrt(temp_RMS);
+  30:User/FFT/dsp_fft.c **** 
+ARM GAS  C:\usertemp\ccyQju61.s 			page 2
+
+
+  31:User/FFT/dsp_fft.c ****     fft->max_v = max_v;
+  32:User/FFT/dsp_fft.c ****     fft->min_v = min_v;
+  33:User/FFT/dsp_fft.c **** 
+  34:User/FFT/dsp_fft.c ****     // 执行 FFT
+  35:User/FFT/dsp_fft.c ****     arm_cfft_f32(&arm_cfft_sR_f32_len2048, fft->FFT_IN, 0, 1);
+  36:User/FFT/dsp_fft.c **** 
+  37:User/FFT/dsp_fft.c ****     // 计算幅值并找最大值
+  38:User/FFT/dsp_fft.c ****     arm_cmplx_mag_f32(fft->FFT_IN, fft->FFT_OUT, fft->length);
+  39:User/FFT/dsp_fft.c **** 
+  40:User/FFT/dsp_fft.c ****     float32_t temp_max = INT32_MIN;
+  41:User/FFT/dsp_fft.c ****     uint16_t max_idx = 1;
+  42:User/FFT/dsp_fft.c **** 
+  43:User/FFT/dsp_fft.c ****     for (uint16_t i = 1; i < fft->length / 2; i++)
+  44:User/FFT/dsp_fft.c ****     {
+  45:User/FFT/dsp_fft.c ****         if (fft->FFT_OUT[i] > temp_max)
+  46:User/FFT/dsp_fft.c ****         {
+  47:User/FFT/dsp_fft.c ****             temp_max = fft->FFT_OUT[i];
+  48:User/FFT/dsp_fft.c ****             max_idx = i;
+  49:User/FFT/dsp_fft.c ****         }
+  50:User/FFT/dsp_fft.c ****     }
+  51:User/FFT/dsp_fft.c ****     fft->max_fft = temp_max;
+  52:User/FFT/dsp_fft.c ****     fft->index_ = max_idx;
+  53:User/FFT/dsp_fft.c **** 
+  54:User/FFT/dsp_fft.c ****     // uint16_t step; // 12800/2048=6.25
+  55:User/FFT/dsp_fft.c ****     // step = 50.0f / ((float32_t)(fft->Sampling) / (float32_t)(fft->length));
+  56:User/FFT/dsp_fft.c ****     // step = 8;
+  57:User/FFT/dsp_fft.c ****     for (uint16_t i = 0; i < 50; i++)
+  58:User/FFT/dsp_fft.c ****     {
+  59:User/FFT/dsp_fft.c ****         fft->LVGL_xb[i] = fft->FFT_OUT[8 * (i + 1)] * 50;
+  60:User/FFT/dsp_fft.c ****     }
+  61:User/FFT/dsp_fft.c **** 
+  62:User/FFT/dsp_fft.c ****     // 计算基波频率
+  63:User/FFT/dsp_fft.c ****     fft->freq = ((float)(fft->Sampling)) / ((float)fft->length) * fft->index_;
+  64:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+  65:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
+  66:User/FFT/dsp_fft.c ****     fft->THD_ = THD(fft->FFT_OUT, fft->length);
+  67:User/FFT/dsp_fft.c **** 
+  68:User/FFT/dsp_fft.c ****     // 计算相位
+  69:User/FFT/dsp_fft.c ****     calculatePhase(fft);
+  70:User/FFT/dsp_fft.c **** 
+  71:User/FFT/dsp_fft.c ****     // 触发事件
+  72:User/FFT/dsp_fft.c ****     // osEventFlagsSet(Event_allHandle, EVENT_FFT);
+  73:User/FFT/dsp_fft.c **** }
+  74:User/FFT/dsp_fft.c **** 
+  75:User/FFT/dsp_fft.c **** float THD(float *Mag, int len)
+  76:User/FFT/dsp_fft.c **** {
+  29              		.loc 1 76 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 76 1 is_stmt 0 view .LVU1
+  34 0000 08B5     		push	{r3, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 3, -8
+  38              		.cfi_offset 14, -4
+  77:User/FFT/dsp_fft.c ****     float ans = 0.0;
+ARM GAS  C:\usertemp\ccyQju61.s 			page 3
+
+
+  39              		.loc 1 77 5 is_stmt 1 view .LVU2
+  40              	.LVL1:
+  78:User/FFT/dsp_fft.c ****     uint16_t max_index = 1;
+  41              		.loc 1 78 5 view .LVU3
+  79:User/FFT/dsp_fft.c **** 
+  80:User/FFT/dsp_fft.c ****     // 查找基波索引
+  81:User/FFT/dsp_fft.c ****     for (uint16_t i = 2; i < len / 2; i++)
+  42              		.loc 1 81 5 view .LVU4
+  43              	.LBB2:
+  44              		.loc 1 81 10 view .LVU5
+  45              		.loc 1 81 19 is_stmt 0 view .LVU6
+  46 0002 0223     		movs	r3, #2
+  47              	.LBE2:
+  78:User/FFT/dsp_fft.c ****     uint16_t max_index = 1;
+  48              		.loc 1 78 14 view .LVU7
+  49 0004 4FF0010C 		mov	ip, #1
+  50              	.LBB3:
+  51              		.loc 1 81 5 view .LVU8
+  52 0008 01E0     		b	.L2
+  53              	.LVL2:
+  54              	.L3:
+  55              		.loc 1 81 40 is_stmt 1 discriminator 2 view .LVU9
+  56 000a 0133     		adds	r3, r3, #1
+  57              	.LVL3:
+  58              		.loc 1 81 40 is_stmt 0 discriminator 2 view .LVU10
+  59 000c 9BB2     		uxth	r3, r3
+  60              	.LVL4:
+  61              	.L2:
+  62              		.loc 1 81 28 is_stmt 1 discriminator 1 view .LVU11
+  63              		.loc 1 81 34 is_stmt 0 discriminator 1 view .LVU12
+  64 000e 0A46     		mov	r2, r1
+  65 0010 0029     		cmp	r1, #0
+  66 0012 13DB     		blt	.L10
+  67              	.L4:
+  68 0014 4FEA620E 		asr	lr, r2, #1
+  69              		.loc 1 81 28 discriminator 1 view .LVU13
+  70 0018 B3EB620F 		cmp	r3, r2, asr #1
+  71 001c 10DA     		bge	.L11
+  82:User/FFT/dsp_fft.c ****     {
+  83:User/FFT/dsp_fft.c ****         if (Mag[i] > Mag[max_index])
+  72              		.loc 1 83 9 is_stmt 1 view .LVU14
+  73              		.loc 1 83 16 is_stmt 0 view .LVU15
+  74 001e 00EB8302 		add	r2, r0, r3, lsl #2
+  75 0022 92ED007A 		vldr.32	s14, [r2]
+  76              		.loc 1 83 25 view .LVU16
+  77 0026 00EB8C02 		add	r2, r0, ip, lsl #2
+  78 002a D2ED007A 		vldr.32	s15, [r2]
+  79              		.loc 1 83 12 view .LVU17
+  80 002e B4EEE77A 		vcmpe.f32	s14, s15
+  81 0032 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  82 0036 E8DD     		ble	.L3
+  84:User/FFT/dsp_fft.c ****         {
+  85:User/FFT/dsp_fft.c ****             max_index = i;
+  83              		.loc 1 85 23 view .LVU18
+  84 0038 9C46     		mov	ip, r3
+  85              	.LVL5:
+  86              		.loc 1 85 23 view .LVU19
+ARM GAS  C:\usertemp\ccyQju61.s 			page 4
+
+
+  87 003a E6E7     		b	.L3
+  88              	.LVL6:
+  89              	.L10:
+  81:User/FFT/dsp_fft.c ****     {
+  90              		.loc 1 81 34 discriminator 1 view .LVU20
+  91 003c 4A1C     		adds	r2, r1, #1
+  92 003e E9E7     		b	.L4
+  93              	.L11:
+  81:User/FFT/dsp_fft.c ****     {
+  94              		.loc 1 81 34 discriminator 1 view .LVU21
+  95              	.LBE3:
+  86:User/FFT/dsp_fft.c ****         }
+  87:User/FFT/dsp_fft.c ****     }
+  88:User/FFT/dsp_fft.c **** 
+  89:User/FFT/dsp_fft.c ****     // 计算 THD
+  90:User/FFT/dsp_fft.c ****     float max_mag_sq = Mag[max_index] * Mag[max_index];
+  96              		.loc 1 90 5 is_stmt 1 view .LVU22
+  97              		.loc 1 90 27 is_stmt 0 view .LVU23
+  98 0040 00EB8C03 		add	r3, r0, ip, lsl #2
+  99              	.LVL7:
+ 100              		.loc 1 90 27 view .LVU24
+ 101 0044 93ED000A 		vldr.32	s0, [r3]
+ 102              		.loc 1 90 11 view .LVU25
+ 103 0048 20EE000A 		vmul.f32	s0, s0, s0
+ 104              	.LVL8:
+  91:User/FFT/dsp_fft.c ****     for (uint16_t i = 2 * max_index; i < len / 2; i += max_index)
+ 105              		.loc 1 91 5 is_stmt 1 view .LVU26
+ 106              	.LBB4:
+ 107              		.loc 1 91 10 view .LVU27
+ 108              		.loc 1 91 19 is_stmt 0 view .LVU28
+ 109 004c 4FEA4C03 		lsl	r3, ip, #1
+ 110 0050 9BB2     		uxth	r3, r3
+ 111              	.LVL9:
+ 112              		.loc 1 91 19 view .LVU29
+ 113              	.LBE4:
+  77:User/FFT/dsp_fft.c ****     uint16_t max_index = 1;
+ 114              		.loc 1 77 11 view .LVU30
+ 115 0052 9FED0A7A 		vldr.32	s14, .L12
+ 116              	.LBB5:
+ 117              		.loc 1 91 5 view .LVU31
+ 118 0056 09E0     		b	.L6
+ 119              	.LVL10:
+ 120              	.L7:
+  92:User/FFT/dsp_fft.c ****     {
+  93:User/FFT/dsp_fft.c ****         ans += Mag[i] * Mag[i];
+ 121              		.loc 1 93 9 is_stmt 1 view .LVU32
+ 122              		.loc 1 93 19 is_stmt 0 view .LVU33
+ 123 0058 00EB8302 		add	r2, r0, r3, lsl #2
+ 124 005c D2ED007A 		vldr.32	s15, [r2]
+ 125              		.loc 1 93 23 view .LVU34
+ 126 0060 67EEA77A 		vmul.f32	s15, s15, s15
+ 127              		.loc 1 93 13 view .LVU35
+ 128 0064 37EE277A 		vadd.f32	s14, s14, s15
+ 129              	.LVL11:
+  91:User/FFT/dsp_fft.c ****     {
+ 130              		.loc 1 91 53 is_stmt 1 discriminator 3 view .LVU36
+ 131 0068 6344     		add	r3, r3, ip
+ARM GAS  C:\usertemp\ccyQju61.s 			page 5
+
+
+ 132              	.LVL12:
+  91:User/FFT/dsp_fft.c ****     {
+ 133              		.loc 1 91 53 is_stmt 0 discriminator 3 view .LVU37
+ 134 006a 9BB2     		uxth	r3, r3
+ 135              	.LVL13:
+ 136              	.L6:
+  91:User/FFT/dsp_fft.c ****     {
+ 137              		.loc 1 91 40 is_stmt 1 discriminator 1 view .LVU38
+ 138 006c 9E45     		cmp	lr, r3
+ 139 006e F3DC     		bgt	.L7
+  91:User/FFT/dsp_fft.c ****     {
+ 140              		.loc 1 91 40 is_stmt 0 discriminator 1 view .LVU39
+ 141              	.LBE5:
+  94:User/FFT/dsp_fft.c ****     }
+  95:User/FFT/dsp_fft.c **** 
+  96:User/FFT/dsp_fft.c ****     return sqrtf(ans / max_mag_sq);
+ 142              		.loc 1 96 5 is_stmt 1 view .LVU40
+ 143              		.loc 1 96 12 is_stmt 0 view .LVU41
+ 144 0070 87EE000A 		vdiv.f32	s0, s14, s0
+ 145              	.LVL14:
+ 146              		.loc 1 96 12 view .LVU42
+ 147 0074 FFF7FEFF 		bl	sqrtf
+ 148              	.LVL15:
+  97:User/FFT/dsp_fft.c **** }
+ 149              		.loc 1 97 1 view .LVU43
+ 150 0078 08BD     		pop	{r3, pc}
+ 151              	.L13:
+ 152 007a 00BF     		.align	2
+ 153              	.L12:
+ 154 007c 00000000 		.word	0
+ 155              		.cfi_endproc
+ 156              	.LFE383:
+ 158              		.section	.text.fft_find_max,"ax",%progbits
+ 159              		.align	1
+ 160              		.global	fft_find_max
+ 161              		.syntax unified
+ 162              		.thumb
+ 163              		.thumb_func
+ 165              	fft_find_max:
+ 166              	.LVL16:
+ 167              	.LFB384:
+  98:User/FFT/dsp_fft.c **** 
+  99:User/FFT/dsp_fft.c **** void fft_find_max(uint16_t offset, float32_t *buffer, uint16_t find_len, float32_t *max_value, uint
+ 100:User/FFT/dsp_fft.c **** {
+ 168              		.loc 1 100 1 is_stmt 1 view -0
+ 169              		.cfi_startproc
+ 170              		@ args = 4, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172              		.loc 1 100 1 is_stmt 0 view .LVU45
+ 173 0000 10B5     		push	{r4, lr}
+ 174              	.LCFI1:
+ 175              		.cfi_def_cfa_offset 8
+ 176              		.cfi_offset 4, -8
+ 177              		.cfi_offset 14, -4
+ 101:User/FFT/dsp_fft.c ****     float32_t max_v = buffer[offset];
+ 178              		.loc 1 101 5 is_stmt 1 view .LVU46
+ 179              		.loc 1 101 29 is_stmt 0 view .LVU47
+ARM GAS  C:\usertemp\ccyQju61.s 			page 6
+
+
+ 180 0002 01EB8004 		add	r4, r1, r0, lsl #2
+ 181              		.loc 1 101 15 view .LVU48
+ 182 0006 94ED007A 		vldr.32	s14, [r4]
+ 183              	.LVL17:
+ 102:User/FFT/dsp_fft.c ****     uint16_t max_idx = offset;
+ 184              		.loc 1 102 5 is_stmt 1 view .LVU49
+ 103:User/FFT/dsp_fft.c **** 
+ 104:User/FFT/dsp_fft.c ****     for (uint16_t i = offset + 1; i < offset + find_len; i++)
+ 185              		.loc 1 104 5 view .LVU50
+ 186              	.LBB6:
+ 187              		.loc 1 104 10 view .LVU51
+ 188              		.loc 1 104 19 is_stmt 0 view .LVU52
+ 189 000a 00F1010C 		add	ip, r0, #1
+ 190 000e 1FFA8CFC 		uxth	ip, ip
+ 191              	.LVL18:
+ 192              		.loc 1 104 19 view .LVU53
+ 193              	.LBE6:
+ 102:User/FFT/dsp_fft.c ****     uint16_t max_idx = offset;
+ 194              		.loc 1 102 14 view .LVU54
+ 195 0012 0446     		mov	r4, r0
+ 196              	.LBB7:
+ 197              		.loc 1 104 5 view .LVU55
+ 198 0014 03E0     		b	.L15
+ 199              	.LVL19:
+ 200              	.L16:
+ 201              		.loc 1 104 59 is_stmt 1 discriminator 2 view .LVU56
+ 202 0016 0CF1010C 		add	ip, ip, #1
+ 203              	.LVL20:
+ 204              		.loc 1 104 59 is_stmt 0 discriminator 2 view .LVU57
+ 205 001a 1FFA8CFC 		uxth	ip, ip
+ 206              	.LVL21:
+ 207              	.L15:
+ 208              		.loc 1 104 37 is_stmt 1 discriminator 1 view .LVU58
+ 209              		.loc 1 104 46 is_stmt 0 discriminator 1 view .LVU59
+ 210 001e 00EB020E 		add	lr, r0, r2
+ 211              		.loc 1 104 37 discriminator 1 view .LVU60
+ 212 0022 F445     		cmp	ip, lr
+ 213 0024 0CDA     		bge	.L20
+ 105:User/FFT/dsp_fft.c ****     {
+ 106:User/FFT/dsp_fft.c ****         if (buffer[i] > max_v)
+ 214              		.loc 1 106 9 is_stmt 1 view .LVU61
+ 215              		.loc 1 106 19 is_stmt 0 view .LVU62
+ 216 0026 01EB8C0E 		add	lr, r1, ip, lsl #2
+ 217 002a DEED007A 		vldr.32	s15, [lr]
+ 218              		.loc 1 106 12 view .LVU63
+ 219 002e F4EEC77A 		vcmpe.f32	s15, s14
+ 220 0032 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 221 0036 EEDD     		ble	.L16
+ 107:User/FFT/dsp_fft.c ****         {
+ 108:User/FFT/dsp_fft.c ****             max_v = buffer[i];
+ 109:User/FFT/dsp_fft.c ****             max_idx = i;
+ 222              		.loc 1 109 21 view .LVU64
+ 223 0038 6446     		mov	r4, ip
+ 224              	.LVL22:
+ 108:User/FFT/dsp_fft.c ****             max_idx = i;
+ 225              		.loc 1 108 19 view .LVU65
+ 226 003a B0EE677A 		vmov.f32	s14, s15
+ARM GAS  C:\usertemp\ccyQju61.s 			page 7
+
+
+ 227              	.LVL23:
+ 108:User/FFT/dsp_fft.c ****             max_idx = i;
+ 228              		.loc 1 108 19 view .LVU66
+ 229 003e EAE7     		b	.L16
+ 230              	.LVL24:
+ 231              	.L20:
+ 108:User/FFT/dsp_fft.c ****             max_idx = i;
+ 232              		.loc 1 108 19 view .LVU67
+ 233              	.LBE7:
+ 110:User/FFT/dsp_fft.c ****         }
+ 111:User/FFT/dsp_fft.c ****     }
+ 112:User/FFT/dsp_fft.c ****     *max_value = max_v;
+ 234              		.loc 1 112 5 is_stmt 1 view .LVU68
+ 235              		.loc 1 112 16 is_stmt 0 view .LVU69
+ 236 0040 83ED007A 		vstr.32	s14, [r3]
+ 113:User/FFT/dsp_fft.c ****     *max_index = max_idx;
+ 237              		.loc 1 113 5 is_stmt 1 view .LVU70
+ 238              		.loc 1 113 16 is_stmt 0 view .LVU71
+ 239 0044 029B     		ldr	r3, [sp, #8]
+ 240              	.LVL25:
+ 241              		.loc 1 113 16 view .LVU72
+ 242 0046 1C80     		strh	r4, [r3]	@ movhi
+ 114:User/FFT/dsp_fft.c **** }
+ 243              		.loc 1 114 1 view .LVU73
+ 244 0048 10BD     		pop	{r4, pc}
+ 245              		.loc 1 114 1 view .LVU74
+ 246              		.cfi_endproc
+ 247              	.LFE384:
+ 249              		.section	.text.calculatePhase,"ax",%progbits
+ 250              		.align	1
+ 251              		.global	calculatePhase
+ 252              		.syntax unified
+ 253              		.thumb
+ 254              		.thumb_func
+ 256              	calculatePhase:
+ 257              	.LVL26:
+ 258              	.LFB385:
+ 115:User/FFT/dsp_fft.c **** 
+ 116:User/FFT/dsp_fft.c **** void calculatePhase(FFT *fft)
+ 117:User/FFT/dsp_fft.c **** {
+ 259              		.loc 1 117 1 is_stmt 1 view -0
+ 260              		.cfi_startproc
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		.loc 1 117 1 is_stmt 0 view .LVU76
+ 264 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 265              	.LCFI2:
+ 266              		.cfi_def_cfa_offset 24
+ 267              		.cfi_offset 3, -24
+ 268              		.cfi_offset 4, -20
+ 269              		.cfi_offset 5, -16
+ 270              		.cfi_offset 6, -12
+ 271              		.cfi_offset 7, -8
+ 272              		.cfi_offset 14, -4
+ 273 0002 0646     		mov	r6, r0
+ 118:User/FFT/dsp_fft.c **** 
+ 119:User/FFT/dsp_fft.c ****     uint16_t temp = fft->index_;
+ARM GAS  C:\usertemp\ccyQju61.s 			page 8
+
+
+ 274              		.loc 1 119 5 is_stmt 1 view .LVU77
+ 275              		.loc 1 119 14 is_stmt 0 view .LVU78
+ 276 0004 00F51043 		add	r3, r0, #36864
+ 277 0008 B3F81452 		ldrh	r5, [r3, #532]
+ 278              	.LVL27:
+ 120:User/FFT/dsp_fft.c ****     uint16_t step; // 12800/2048=6.25
+ 279              		.loc 1 120 5 is_stmt 1 view .LVU79
+ 121:User/FFT/dsp_fft.c ****     step = 50.0f / ((float32_t)(fft->Sampling) / (float32_t)(fft->length));
+ 280              		.loc 1 121 5 view .LVU80
+ 281              		.loc 1 121 36 is_stmt 0 view .LVU81
+ 282 000c 0388     		ldrh	r3, [r0]
+ 283 000e 07EE103A 		vmov	s14, r3	@ int
+ 284              		.loc 1 121 21 view .LVU82
+ 285 0012 B8EE477A 		vcvt.f32.u32	s14, s14
+ 286              		.loc 1 121 50 view .LVU83
+ 287 0016 D0ED017A 		vldr.32	s15, [r0, #4]	@ int
+ 288 001a F8EE677A 		vcvt.f32.u32	s15, s15
+ 289              		.loc 1 121 48 view .LVU84
+ 290 001e C7EE276A 		vdiv.f32	s13, s14, s15
+ 291              		.loc 1 121 18 view .LVU85
+ 292 0022 9FED1B7A 		vldr.32	s14, .L25+8
+ 293 0026 C7EE267A 		vdiv.f32	s15, s14, s13
+ 294              		.loc 1 121 10 view .LVU86
+ 295 002a FCEEE77A 		vcvt.u32.f32	s15, s15
+ 296 002e 17EE903A 		vmov	r3, s15	@ int
+ 297 0032 9FB2     		uxth	r7, r3
+ 298              	.LVL28:
+ 122:User/FFT/dsp_fft.c ****     for (uint8_t i = 0; i < 50; i++)
+ 299              		.loc 1 122 5 is_stmt 1 view .LVU87
+ 300              	.LBB8:
+ 301              		.loc 1 122 10 view .LVU88
+ 302              		.loc 1 122 18 is_stmt 0 view .LVU89
+ 303 0034 0024     		movs	r4, #0
+ 304              		.loc 1 122 5 view .LVU90
+ 305 0036 23E0     		b	.L22
+ 306              	.LVL29:
+ 307              	.L23:
+ 308              	.LBB9:
+ 123:User/FFT/dsp_fft.c ****     {
+ 124:User/FFT/dsp_fft.c ****         float real = fft->FFT_IN[2 * temp];
+ 309              		.loc 1 124 9 is_stmt 1 view .LVU91
+ 310              		.loc 1 124 36 is_stmt 0 view .LVU92
+ 311 0038 6B00     		lsls	r3, r5, #1
+ 312              		.loc 1 124 15 view .LVU93
+ 313 003a 41F28241 		movw	r1, #5250
+ 314 003e 01EB4502 		add	r2, r1, r5, lsl #1
+ 315 0042 06EB8202 		add	r2, r6, r2, lsl #2
+ 316              	.LVL30:
+ 125:User/FFT/dsp_fft.c ****         float imag = fft->FFT_IN[2 * temp + 1];
+ 317              		.loc 1 125 9 is_stmt 1 view .LVU94
+ 318              		.loc 1 125 43 is_stmt 0 view .LVU95
+ 319 0046 0133     		adds	r3, r3, #1
+ 320              		.loc 1 125 15 view .LVU96
+ 321 0048 0B44     		add	r3, r3, r1
+ 322 004a 06EB8303 		add	r3, r6, r3, lsl #2
+ 323              	.LVL31:
+ 126:User/FFT/dsp_fft.c **** 
+ARM GAS  C:\usertemp\ccyQju61.s 			page 9
+
+
+ 127:User/FFT/dsp_fft.c ****         fft->FFT_PHASE[i] = atan2f(imag, real) * (180.0f / M_PI);
+ 324              		.loc 1 127 9 is_stmt 1 view .LVU97
+ 325              		.loc 1 127 29 is_stmt 0 view .LVU98
+ 326 004e D2ED000A 		vldr.32	s1, [r2]
+ 327 0052 93ED000A 		vldr.32	s0, [r3]
+ 328 0056 FFF7FEFF 		bl	atan2f
+ 329              	.LVL32:
+ 330              		.loc 1 127 29 discriminator 1 view .LVU99
+ 331 005a B7EEC00A 		vcvt.f64.f32	d0, s0
+ 332              		.loc 1 127 48 discriminator 1 view .LVU100
+ 333 005e 9FED0A7B 		vldr.64	d7, .L25
+ 334 0062 20EE070B 		vmul.f64	d0, d0, d7
+ 335 0066 B7EEC00B 		vcvt.f32.f64	s0, d0
+ 336              		.loc 1 127 27 discriminator 1 view .LVU101
+ 337 006a 42F28843 		movw	r3, #9352
+ 338 006e 2344     		add	r3, r3, r4
+ 339 0070 06EB8303 		add	r3, r6, r3, lsl #2
+ 340 0074 83ED000A 		vstr.32	s0, [r3]
+ 128:User/FFT/dsp_fft.c ****         temp += step;
+ 341              		.loc 1 128 9 is_stmt 1 view .LVU102
+ 342              		.loc 1 128 14 is_stmt 0 view .LVU103
+ 343 0078 3D44     		add	r5, r5, r7
+ 344              	.LVL33:
+ 345              		.loc 1 128 14 view .LVU104
+ 346 007a ADB2     		uxth	r5, r5
+ 347              	.LVL34:
+ 348              		.loc 1 128 14 view .LVU105
+ 349              	.LBE9:
+ 122:User/FFT/dsp_fft.c ****     {
+ 350              		.loc 1 122 34 is_stmt 1 discriminator 3 view .LVU106
+ 351 007c 0134     		adds	r4, r4, #1
+ 352              	.LVL35:
+ 122:User/FFT/dsp_fft.c ****     {
+ 353              		.loc 1 122 34 is_stmt 0 discriminator 3 view .LVU107
+ 354 007e E4B2     		uxtb	r4, r4
+ 355              	.LVL36:
+ 356              	.L22:
+ 122:User/FFT/dsp_fft.c ****     {
+ 357              		.loc 1 122 27 is_stmt 1 discriminator 1 view .LVU108
+ 358 0080 312C     		cmp	r4, #49
+ 359 0082 D9D9     		bls	.L23
+ 122:User/FFT/dsp_fft.c ****     {
+ 360              		.loc 1 122 27 is_stmt 0 discriminator 1 view .LVU109
+ 361              	.LBE8:
+ 129:User/FFT/dsp_fft.c ****     } // PHASE[0]为基波相位角
+ 130:User/FFT/dsp_fft.c **** }
+ 362              		.loc 1 130 1 view .LVU110
+ 363 0084 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 364              	.LVL37:
+ 365              	.L26:
+ 366              		.loc 1 130 1 view .LVU111
+ 367 0086 00BF     		.align	3
+ 368              	.L25:
+ 369 0088 775AF01A 		.word	451959415
+ 370 008c DCA54C40 		.word	1078765020
+ 371 0090 00004842 		.word	1112014848
+ 372              		.cfi_endproc
+ARM GAS  C:\usertemp\ccyQju61.s 			page 10
+
+
+ 373              	.LFE385:
+ 375              		.section	.text.FFT_Init,"ax",%progbits
+ 376              		.align	1
+ 377              		.global	FFT_Init
+ 378              		.syntax unified
+ 379              		.thumb
+ 380              		.thumb_func
+ 382              	FFT_Init:
+ 383              	.LVL38:
+ 384              	.LFB386:
+ 131:User/FFT/dsp_fft.c **** 
+ 132:User/FFT/dsp_fft.c **** void FFT_Init(FFT *fft, uint16_t Sampling, uint16_t legth, uint8_t flag_V)
+ 133:User/FFT/dsp_fft.c **** 
+ 134:User/FFT/dsp_fft.c **** {
+ 385              		.loc 1 134 1 is_stmt 1 view -0
+ 386              		.cfi_startproc
+ 387              		@ args = 0, pretend = 0, frame = 0
+ 388              		@ frame_needed = 0, uses_anonymous_args = 0
+ 389              		@ link register save eliminated.
+ 135:User/FFT/dsp_fft.c **** 
+ 136:User/FFT/dsp_fft.c ****     fft->Sampling = Sampling;
+ 390              		.loc 1 136 5 view .LVU113
+ 391              		.loc 1 136 19 is_stmt 0 view .LVU114
+ 392 0000 0180     		strh	r1, [r0]	@ movhi
+ 137:User/FFT/dsp_fft.c ****     fft->length = legth;
+ 393              		.loc 1 137 5 is_stmt 1 view .LVU115
+ 394              		.loc 1 137 17 is_stmt 0 view .LVU116
+ 395 0002 4260     		str	r2, [r0, #4]
+ 138:User/FFT/dsp_fft.c **** 
+ 139:User/FFT/dsp_fft.c ****     // 初始化默认值
+ 140:User/FFT/dsp_fft.c ****     fft->max_v = 0.0f;
+ 396              		.loc 1 140 5 is_stmt 1 view .LVU117
+ 397              		.loc 1 140 16 is_stmt 0 view .LVU118
+ 398 0004 00F51040 		add	r0, r0, #36864
+ 399              	.LVL39:
+ 400              		.loc 1 140 16 view .LVU119
+ 401 0008 0022     		movs	r2, #0
+ 402              	.LVL40:
+ 403              		.loc 1 140 16 view .LVU120
+ 404 000a C0F80822 		str	r2, [r0, #520]	@ float
+ 141:User/FFT/dsp_fft.c ****     fft->min_v = 0.0f;
+ 405              		.loc 1 141 5 is_stmt 1 view .LVU121
+ 406              		.loc 1 141 16 is_stmt 0 view .LVU122
+ 407 000e C0F80C22 		str	r2, [r0, #524]	@ float
+ 142:User/FFT/dsp_fft.c ****     fft->freq = 0.0f;
+ 408              		.loc 1 142 5 is_stmt 1 view .LVU123
+ 409              		.loc 1 142 15 is_stmt 0 view .LVU124
+ 410 0012 C0F81022 		str	r2, [r0, #528]	@ float
+ 143:User/FFT/dsp_fft.c ****     fft->index_ = 0;
+ 411              		.loc 1 143 5 is_stmt 1 view .LVU125
+ 412              		.loc 1 143 17 is_stmt 0 view .LVU126
+ 413 0016 0021     		movs	r1, #0
+ 414              	.LVL41:
+ 415              		.loc 1 143 17 view .LVU127
+ 416 0018 A0F81412 		strh	r1, [r0, #532]	@ movhi
+ 144:User/FFT/dsp_fft.c ****     fft->max_fft = 0.0f;
+ 417              		.loc 1 144 5 is_stmt 1 view .LVU128
+ARM GAS  C:\usertemp\ccyQju61.s 			page 11
+
+
+ 418              		.loc 1 144 18 is_stmt 0 view .LVU129
+ 419 001c C0F81822 		str	r2, [r0, #536]	@ float
+ 145:User/FFT/dsp_fft.c ****     fft->THD_ = 0.0f;
+ 420              		.loc 1 145 5 is_stmt 1 view .LVU130
+ 421              		.loc 1 145 15 is_stmt 0 view .LVU131
+ 422 0020 C0F81C22 		str	r2, [r0, #540]	@ float
+ 146:User/FFT/dsp_fft.c ****     // fft->FFT_PHASE = 0.0f;
+ 147:User/FFT/dsp_fft.c ****     fft->flag_V = flag_V;
+ 423              		.loc 1 147 5 is_stmt 1 view .LVU132
+ 424              		.loc 1 147 17 is_stmt 0 view .LVU133
+ 425 0024 80F8B833 		strb	r3, [r0, #952]
+ 148:User/FFT/dsp_fft.c **** }
+ 426              		.loc 1 148 1 view .LVU134
+ 427 0028 7047     		bx	lr
+ 428              		.cfi_endproc
+ 429              	.LFE386:
+ 431              		.section	.text.FFT_Free,"ax",%progbits
+ 432              		.align	1
+ 433              		.global	FFT_Free
+ 434              		.syntax unified
+ 435              		.thumb
+ 436              		.thumb_func
+ 438              	FFT_Free:
+ 439              	.LVL42:
+ 440              	.LFB387:
+ 149:User/FFT/dsp_fft.c **** 
+ 150:User/FFT/dsp_fft.c **** void FFT_Free(FFT *fft)
+ 151:User/FFT/dsp_fft.c **** {
+ 441              		.loc 1 151 1 is_stmt 1 view -0
+ 442              		.cfi_startproc
+ 443              		@ args = 0, pretend = 0, frame = 0
+ 444              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152:User/FFT/dsp_fft.c ****     if (fft)
+ 445              		.loc 1 152 5 view .LVU136
+ 446              		.loc 1 152 8 is_stmt 0 view .LVU137
+ 447 0000 E0B1     		cbz	r0, .L31
+ 151:User/FFT/dsp_fft.c ****     if (fft)
+ 448              		.loc 1 151 1 view .LVU138
+ 449 0002 10B5     		push	{r4, lr}
+ 450              	.LCFI3:
+ 451              		.cfi_def_cfa_offset 8
+ 452              		.cfi_offset 4, -8
+ 453              		.cfi_offset 14, -4
+ 454 0004 0446     		mov	r4, r0
+ 153:User/FFT/dsp_fft.c ****     {
+ 154:User/FFT/dsp_fft.c ****         free(fft->adcConvertValue);
+ 455              		.loc 1 154 9 is_stmt 1 view .LVU139
+ 456 0006 0830     		adds	r0, r0, #8
+ 457              	.LVL43:
+ 458              		.loc 1 154 9 is_stmt 0 view .LVU140
+ 459 0008 FFF7FEFF 		bl	free
+ 460              	.LVL44:
+ 155:User/FFT/dsp_fft.c ****         free(fft->FFT_OUT);
+ 461              		.loc 1 155 9 is_stmt 1 view .LVU141
+ 462 000c 43F20820 		movw	r0, #12808
+ 463 0010 2044     		add	r0, r0, r4
+ 464 0012 FFF7FEFF 		bl	free
+ARM GAS  C:\usertemp\ccyQju61.s 			page 12
+
+
+ 465              	.LVL45:
+ 156:User/FFT/dsp_fft.c ****         free(fft->FFT_IN);
+ 466              		.loc 1 156 9 view .LVU142
+ 467 0016 45F20820 		movw	r0, #21000
+ 468 001a 2044     		add	r0, r0, r4
+ 469 001c FFF7FEFF 		bl	free
+ 470              	.LVL46:
+ 157:User/FFT/dsp_fft.c ****         free(fft->LVGL_wave);
+ 471              		.loc 1 157 9 view .LVU143
+ 472 0020 42F20800 		movw	r0, #8200
+ 473 0024 2044     		add	r0, r0, r4
+ 474 0026 FFF7FEFF 		bl	free
+ 475              	.LVL47:
+ 158:User/FFT/dsp_fft.c ****         free(fft->LVGL_xb);
+ 476              		.loc 1 158 9 view .LVU144
+ 477 002a 42F20820 		movw	r0, #8712
+ 478 002e 2044     		add	r0, r0, r4
+ 479 0030 FFF7FEFF 		bl	free
+ 480              	.LVL48:
+ 159:User/FFT/dsp_fft.c ****         free(fft);
+ 481              		.loc 1 159 9 view .LVU145
+ 482 0034 2046     		mov	r0, r4
+ 483 0036 FFF7FEFF 		bl	free
+ 484              	.LVL49:
+ 160:User/FFT/dsp_fft.c ****     }
+ 161:User/FFT/dsp_fft.c **** }
+ 485              		.loc 1 161 1 is_stmt 0 view .LVU146
+ 486 003a 10BD     		pop	{r4, pc}
+ 487              	.LVL50:
+ 488              	.L31:
+ 489              	.LCFI4:
+ 490              		.cfi_def_cfa_offset 0
+ 491              		.cfi_restore 4
+ 492              		.cfi_restore 14
+ 493              		.loc 1 161 1 view .LVU147
+ 494 003c 7047     		bx	lr
+ 495              		.cfi_endproc
+ 496              	.LFE387:
+ 498              		.section	.text.PHASE_Init,"ax",%progbits
+ 499              		.align	1
+ 500              		.global	PHASE_Init
+ 501              		.syntax unified
+ 502              		.thumb
+ 503              		.thumb_func
+ 505              	PHASE_Init:
+ 506              	.LVL51:
+ 507              	.LFB388:
+ 162:User/FFT/dsp_fft.c **** void PHASE_Init(phase *P, FFT *fft_V, FFT *fft_I)
+ 163:User/FFT/dsp_fft.c **** {
+ 508              		.loc 1 163 1 is_stmt 1 view -0
+ 509              		.cfi_startproc
+ 510              		@ args = 0, pretend = 0, frame = 0
+ 511              		@ frame_needed = 0, uses_anonymous_args = 0
+ 512              		@ link register save eliminated.
+ 164:User/FFT/dsp_fft.c ****     P->P = 0;
+ 513              		.loc 1 164 5 view .LVU149
+ 514              		.loc 1 164 10 is_stmt 0 view .LVU150
+ARM GAS  C:\usertemp\ccyQju61.s 			page 13
+
+
+ 515 0000 9FED097B 		vldr.64	d7, .L35
+ 516 0004 80ED027B 		vstr.64	d7, [r0, #8]
+ 165:User/FFT/dsp_fft.c ****     P->Q = 0;
+ 517              		.loc 1 165 5 is_stmt 1 view .LVU151
+ 518              		.loc 1 165 10 is_stmt 0 view .LVU152
+ 519 0008 80ED047B 		vstr.64	d7, [r0, #16]
+ 166:User/FFT/dsp_fft.c ****     P->S = 0;
+ 520              		.loc 1 166 5 is_stmt 1 view .LVU153
+ 521              		.loc 1 166 10 is_stmt 0 view .LVU154
+ 522 000c 80ED007B 		vstr.64	d7, [r0]
+ 167:User/FFT/dsp_fft.c ****     P->fft_I = fft_I;
+ 523              		.loc 1 167 5 is_stmt 1 view .LVU155
+ 524              		.loc 1 167 14 is_stmt 0 view .LVU156
+ 525 0010 C261     		str	r2, [r0, #28]
+ 168:User/FFT/dsp_fft.c ****     P->fft_V = fft_V;
+ 526              		.loc 1 168 5 is_stmt 1 view .LVU157
+ 527              		.loc 1 168 14 is_stmt 0 view .LVU158
+ 528 0012 8161     		str	r1, [r0, #24]
+ 169:User/FFT/dsp_fft.c ****     P->Power_p = 0;
+ 529              		.loc 1 169 5 is_stmt 1 view .LVU159
+ 530              		.loc 1 169 16 is_stmt 0 view .LVU160
+ 531 0014 80ED0A7B 		vstr.64	d7, [r0, #40]
+ 170:User/FFT/dsp_fft.c ****     P->Power_q = 0;
+ 532              		.loc 1 170 5 is_stmt 1 view .LVU161
+ 533              		.loc 1 170 16 is_stmt 0 view .LVU162
+ 534 0018 80ED0C7B 		vstr.64	d7, [r0, #48]
+ 171:User/FFT/dsp_fft.c ****     P->Power_s = 0;
+ 535              		.loc 1 171 5 is_stmt 1 view .LVU163
+ 536              		.loc 1 171 16 is_stmt 0 view .LVU164
+ 537 001c 80ED087B 		vstr.64	d7, [r0, #32]
+ 172:User/FFT/dsp_fft.c **** }
+ 538              		.loc 1 172 1 view .LVU165
+ 539 0020 7047     		bx	lr
+ 540              	.L36:
+ 541 0022 00BFAFF3 		.align	3
+ 541      0080
+ 542              	.L35:
+ 543 0028 00000000 		.word	0
+ 544 002c 00000000 		.word	0
+ 545              		.cfi_endproc
+ 546              	.LFE388:
+ 548              		.section	.text.PHASE_run,"ax",%progbits
+ 549              		.align	1
+ 550              		.global	PHASE_run
+ 551              		.syntax unified
+ 552              		.thumb
+ 553              		.thumb_func
+ 555              	PHASE_run:
+ 556              	.LVL52:
+ 557              	.LFB389:
+ 173:User/FFT/dsp_fft.c **** void PHASE_run(phase *p)
+ 174:User/FFT/dsp_fft.c **** {
+ 558              		.loc 1 174 1 is_stmt 1 view -0
+ 559              		.cfi_startproc
+ 560              		@ args = 0, pretend = 0, frame = 0
+ 561              		@ frame_needed = 0, uses_anonymous_args = 0
+ 562              		.loc 1 174 1 is_stmt 0 view .LVU167
+ARM GAS  C:\usertemp\ccyQju61.s 			page 14
+
+
+ 563 0000 70B5     		push	{r4, r5, r6, lr}
+ 564              	.LCFI5:
+ 565              		.cfi_def_cfa_offset 16
+ 566              		.cfi_offset 4, -16
+ 567              		.cfi_offset 5, -12
+ 568              		.cfi_offset 6, -8
+ 569              		.cfi_offset 14, -4
+ 570 0002 2DED068B 		vpush.64	{d8, d9, d10}
+ 571              	.LCFI6:
+ 572              		.cfi_def_cfa_offset 40
+ 573              		.cfi_offset 80, -40
+ 574              		.cfi_offset 81, -36
+ 575              		.cfi_offset 82, -32
+ 576              		.cfi_offset 83, -28
+ 577              		.cfi_offset 84, -24
+ 578              		.cfi_offset 85, -20
+ 579 0006 0446     		mov	r4, r0
+ 175:User/FFT/dsp_fft.c ****     double temp = 0;
+ 580              		.loc 1 175 5 is_stmt 1 view .LVU168
+ 581              	.LVL53:
+ 176:User/FFT/dsp_fft.c ****     double time = (1 / (float32_t)(p->fft_I->Sampling)) * (float32_t)(p->fft_I->length);
+ 582              		.loc 1 176 5 view .LVU169
+ 583              		.loc 1 176 37 is_stmt 0 view .LVU170
+ 584 0008 C069     		ldr	r0, [r0, #28]
+ 585              	.LVL54:
+ 586              		.loc 1 176 44 view .LVU171
+ 587 000a 0388     		ldrh	r3, [r0]
+ 588 000c 07EE903A 		vmov	s15, r3	@ int
+ 589              		.loc 1 176 24 view .LVU172
+ 590 0010 F8EE677A 		vcvt.f32.u32	s15, s15
+ 591              		.loc 1 176 22 view .LVU173
+ 592 0014 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 593 0018 87EE278A 		vdiv.f32	s16, s14, s15
+ 594              		.loc 1 176 79 view .LVU174
+ 595 001c 4568     		ldr	r5, [r0, #4]
+ 596              		.loc 1 176 59 view .LVU175
+ 597 001e 07EE905A 		vmov	s15, r5	@ int
+ 598 0022 F8EE677A 		vcvt.f32.u32	s15, s15
+ 599              		.loc 1 176 57 view .LVU176
+ 600 0026 28EE278A 		vmul.f32	s16, s16, s15
+ 601              		.loc 1 176 12 view .LVU177
+ 602 002a B7EEC88A 		vcvt.f64.f32	d8, s16
+ 603              	.LVL55:
+ 177:User/FFT/dsp_fft.c ****     for (uint16_t i = 0; i < p->fft_I->length; i++)
+ 604              		.loc 1 177 5 is_stmt 1 view .LVU178
+ 605              	.LBB10:
+ 606              		.loc 1 177 10 view .LVU179
+ 607              		.loc 1 177 19 is_stmt 0 view .LVU180
+ 608 002e 0023     		movs	r3, #0
+ 609              	.LBE10:
+ 175:User/FFT/dsp_fft.c ****     double temp = 0;
+ 610              		.loc 1 175 12 view .LVU181
+ 611 0030 9FED2F6B 		vldr.64	d6, .L41
+ 612              	.LBB11:
+ 613              		.loc 1 177 5 view .LVU182
+ 614 0034 11E0     		b	.L38
+ 615              	.LVL56:
+ARM GAS  C:\usertemp\ccyQju61.s 			page 15
+
+
+ 616              	.L39:
+ 178:User/FFT/dsp_fft.c ****     {
+ 179:User/FFT/dsp_fft.c ****         temp += p->fft_I->adcConvertValue[i] * p->fft_V->adcConvertValue[i];
+ 617              		.loc 1 179 9 is_stmt 1 view .LVU183
+ 618              		.loc 1 179 42 is_stmt 0 view .LVU184
+ 619 0036 991C     		adds	r1, r3, #2
+ 620 0038 00EB8102 		add	r2, r0, r1, lsl #2
+ 621 003c 92ED007A 		vldr.32	s14, [r2]
+ 622              		.loc 1 179 49 view .LVU185
+ 623 0040 A269     		ldr	r2, [r4, #24]
+ 624              		.loc 1 179 73 view .LVU186
+ 625 0042 02EB8102 		add	r2, r2, r1, lsl #2
+ 626 0046 D2ED007A 		vldr.32	s15, [r2]
+ 627              		.loc 1 179 46 view .LVU187
+ 628 004a 27EE277A 		vmul.f32	s14, s14, s15
+ 629 004e B7EEC77A 		vcvt.f64.f32	d7, s14
+ 630              		.loc 1 179 14 view .LVU188
+ 631 0052 36EE076B 		vadd.f64	d6, d6, d7
+ 632              	.LVL57:
+ 177:User/FFT/dsp_fft.c ****     for (uint16_t i = 0; i < p->fft_I->length; i++)
+ 633              		.loc 1 177 49 is_stmt 1 discriminator 3 view .LVU189
+ 634 0056 0133     		adds	r3, r3, #1
+ 635              	.LVL58:
+ 177:User/FFT/dsp_fft.c ****     for (uint16_t i = 0; i < p->fft_I->length; i++)
+ 636              		.loc 1 177 49 is_stmt 0 discriminator 3 view .LVU190
+ 637 0058 9BB2     		uxth	r3, r3
+ 638              	.LVL59:
+ 639              	.L38:
+ 177:User/FFT/dsp_fft.c ****     for (uint16_t i = 0; i < p->fft_I->length; i++)
+ 640              		.loc 1 177 28 is_stmt 1 discriminator 1 view .LVU191
+ 641 005a 9D42     		cmp	r5, r3
+ 642 005c EBD8     		bhi	.L39
+ 643              	.LBE11:
+ 180:User/FFT/dsp_fft.c ****     }
+ 181:User/FFT/dsp_fft.c **** 
+ 182:User/FFT/dsp_fft.c ****     p->P = temp / p->fft_I->length;
+ 644              		.loc 1 182 5 view .LVU192
+ 645              		.loc 1 182 17 is_stmt 0 view .LVU193
+ 646 005e 07EE905A 		vmov	s15, r5	@ int
+ 647 0062 B8EE677B 		vcvt.f64.u32	d7, s15
+ 648 0066 86EE07AB 		vdiv.f64	d10, d6, d7
+ 649              		.loc 1 182 10 view .LVU194
+ 650 006a 84ED02AB 		vstr.64	d10, [r4, #8]
+ 183:User/FFT/dsp_fft.c ****     p->Power_p += p->P * time; /*  double S; // 视在功率（S）
+ 651              		.loc 1 183 5 is_stmt 1 view .LVU195
+ 652              		.loc 1 183 6 is_stmt 0 view .LVU196
+ 653 006e 94ED0A7B 		vldr.64	d7, [r4, #40]
+ 654              		.loc 1 183 16 view .LVU197
+ 655 0072 0AEE087B 		vmla.f64	d7, d10, d8
+ 656 0076 84ED0A7B 		vstr.64	d7, [r4, #40]
+ 184:User/FFT/dsp_fft.c ****      double P; // 有功功率（P）
+ 185:User/FFT/dsp_fft.c ****      double Q; // 无功功率（Q）//待修改*/
+ 186:User/FFT/dsp_fft.c ****     // double dert_ph = (p->fft_V->FFT_PHASE) - (p->fft_I->FFT_PHASE); // cosΦ=P/S
+ 187:User/FFT/dsp_fft.c ****     p->S = p->fft_I->RMS * p->fft_V->RMS;
+ 657              		.loc 1 187 5 is_stmt 1 view .LVU198
+ 658              		.loc 1 187 20 is_stmt 0 view .LVU199
+ 659 007a 00F51045 		add	r5, r0, #36864
+ARM GAS  C:\usertemp\ccyQju61.s 			page 16
+
+
+ 660 007e 95EDBA9A 		vldr.32	s18, [r5, #744]
+ 661              		.loc 1 187 29 view .LVU200
+ 662 0082 A669     		ldr	r6, [r4, #24]
+ 663              		.loc 1 187 36 view .LVU201
+ 664 0084 06F51046 		add	r6, r6, #36864
+ 665 0088 D6EDBA7A 		vldr.32	s15, [r6, #744]
+ 666              		.loc 1 187 26 view .LVU202
+ 667 008c 29EE279A 		vmul.f32	s18, s18, s15
+ 668 0090 B7EEC99A 		vcvt.f64.f32	d9, s18
+ 669              		.loc 1 187 10 view .LVU203
+ 670 0094 84ED009B 		vstr.64	d9, [r4]
+ 188:User/FFT/dsp_fft.c ****     p->Power_s += p->S * time;
+ 671              		.loc 1 188 5 is_stmt 1 view .LVU204
+ 672              		.loc 1 188 6 is_stmt 0 view .LVU205
+ 673 0098 94ED087B 		vldr.64	d7, [r4, #32]
+ 674              		.loc 1 188 16 view .LVU206
+ 675 009c 09EE087B 		vmla.f64	d7, d9, d8
+ 676 00a0 84ED087B 		vstr.64	d7, [r4, #32]
+ 189:User/FFT/dsp_fft.c ****     p->Q = sqrt((p->S) * (p->S) + (p->P) * (p->P));
+ 677              		.loc 1 189 5 is_stmt 1 view .LVU207
+ 678              		.loc 1 189 42 is_stmt 0 view .LVU208
+ 679 00a4 2AEE0A0B 		vmul.f64	d0, d10, d10
+ 680              		.loc 1 189 12 view .LVU209
+ 681 00a8 09EE090B 		vmla.f64	d0, d9, d9
+ 682 00ac FFF7FEFF 		bl	sqrt
+ 683              	.LVL60:
+ 684              		.loc 1 189 10 discriminator 1 view .LVU210
+ 685 00b0 84ED040B 		vstr.64	d0, [r4, #16]
+ 190:User/FFT/dsp_fft.c ****     p->Power_q += p->Q * time;
+ 686              		.loc 1 190 5 is_stmt 1 view .LVU211
+ 687              		.loc 1 190 6 is_stmt 0 view .LVU212
+ 688 00b4 94ED0C7B 		vldr.64	d7, [r4, #48]
+ 689              		.loc 1 190 16 view .LVU213
+ 690 00b8 00EE087B 		vmla.f64	d7, d0, d8
+ 691 00bc 84ED0C7B 		vstr.64	d7, [r4, #48]
+ 191:User/FFT/dsp_fft.c ****     // double K; // 变压器K系数
+ 192:User/FFT/dsp_fft.c ****     // for (uint16_t i = 0; i < 50; i++)
+ 193:User/FFT/dsp_fft.c ****     // {
+ 194:User/FFT/dsp_fft.c ****     //     K += pow((i + 1), 2) * pow((p->fft_I->LVGL_xb[i] * 2 / p->fft_I->length), 2) / pow((p->f
+ 195:User/FFT/dsp_fft.c ****     // }
+ 196:User/FFT/dsp_fft.c ****     // p->K = K;
+ 197:User/FFT/dsp_fft.c ****     p->ph = (p->fft_V->FFT_PHASE[0]) - (p->fft_I->FFT_PHASE[0]);
+ 692              		.loc 1 197 5 is_stmt 1 view .LVU214
+ 693              		.loc 1 197 33 is_stmt 0 view .LVU215
+ 694 00c0 96ED880A 		vldr.32	s0, [r6, #544]
+ 695              		.loc 1 197 60 view .LVU216
+ 696 00c4 D5ED887A 		vldr.32	s15, [r5, #544]
+ 697              		.loc 1 197 38 view .LVU217
+ 698 00c8 30EE670A 		vsub.f32	s0, s0, s15
+ 699 00cc B7EEC00A 		vcvt.f64.f32	d0, s0
+ 700              		.loc 1 197 11 view .LVU218
+ 701 00d0 84ED120B 		vstr.64	d0, [r4, #72]
+ 198:User/FFT/dsp_fft.c ****     p->DPF = cos(p->ph);
+ 702              		.loc 1 198 5 is_stmt 1 view .LVU219
+ 703              		.loc 1 198 14 is_stmt 0 view .LVU220
+ 704 00d4 FFF7FEFF 		bl	cos
+ 705              	.LVL61:
+ARM GAS  C:\usertemp\ccyQju61.s 			page 17
+
+
+ 706              		.loc 1 198 12 discriminator 1 view .LVU221
+ 707 00d8 84ED100B 		vstr.64	d0, [r4, #64]
+ 199:User/FFT/dsp_fft.c ****     p->PF = p->P / p->S;
+ 708              		.loc 1 199 5 is_stmt 1 view .LVU222
+ 709              		.loc 1 199 18 is_stmt 0 view .LVU223
+ 710 00dc 8AEE097B 		vdiv.f64	d7, d10, d9
+ 711              		.loc 1 199 11 view .LVU224
+ 712 00e0 84ED0E7B 		vstr.64	d7, [r4, #56]
+ 200:User/FFT/dsp_fft.c **** }
+ 713              		.loc 1 200 1 view .LVU225
+ 714 00e4 BDEC068B 		vldm	sp!, {d8-d10}
+ 715              	.LCFI7:
+ 716              		.cfi_restore 84
+ 717              		.cfi_restore 85
+ 718              		.cfi_restore 82
+ 719              		.cfi_restore 83
+ 720              		.cfi_restore 80
+ 721              		.cfi_restore 81
+ 722              		.cfi_def_cfa_offset 16
+ 723              	.LVL62:
+ 724              		.loc 1 200 1 view .LVU226
+ 725 00e8 70BD     		pop	{r4, r5, r6, pc}
+ 726              	.LVL63:
+ 727              	.L42:
+ 728              		.loc 1 200 1 view .LVU227
+ 729 00ea 00BFAFF3 		.align	3
+ 729      0080
+ 730              	.L41:
+ 731 00f0 00000000 		.word	0
+ 732 00f4 00000000 		.word	0
+ 733              		.cfi_endproc
+ 734              	.LFE389:
+ 736              		.section	.text.Voltage_three_Init,"ax",%progbits
+ 737              		.align	1
+ 738              		.global	Voltage_three_Init
+ 739              		.syntax unified
+ 740              		.thumb
+ 741              		.thumb_func
+ 743              	Voltage_three_Init:
+ 744              	.LVL64:
+ 745              	.LFB390:
+ 201:User/FFT/dsp_fft.c **** void Voltage_three_Init(Voltage_three *v, phase *p1, phase *p2, phase *p3)
+ 202:User/FFT/dsp_fft.c **** {
+ 746              		.loc 1 202 1 is_stmt 1 view -0
+ 747              		.cfi_startproc
+ 748              		@ args = 0, pretend = 0, frame = 0
+ 749              		@ frame_needed = 0, uses_anonymous_args = 0
+ 750              		@ link register save eliminated.
+ 203:User/FFT/dsp_fft.c ****     v->current_Unbalance = 0;
+ 751              		.loc 1 203 5 view .LVU229
+ 752              		.loc 1 203 26 is_stmt 0 view .LVU230
+ 753 0000 4FF0000C 		mov	ip, #0
+ 754 0004 C0F804C0 		str	ip, [r0, #4]	@ float
+ 204:User/FFT/dsp_fft.c ****     v->K = 0;
+ 755              		.loc 1 204 5 is_stmt 1 view .LVU231
+ 756              		.loc 1 204 10 is_stmt 0 view .LVU232
+ 757 0008 9FED057B 		vldr.64	d7, .L44
+ARM GAS  C:\usertemp\ccyQju61.s 			page 18
+
+
+ 758 000c 80ED067B 		vstr.64	d7, [r0, #24]
+ 205:User/FFT/dsp_fft.c ****     v->p1 = p1;
+ 759              		.loc 1 205 5 is_stmt 1 view .LVU233
+ 760              		.loc 1 205 11 is_stmt 0 view .LVU234
+ 761 0010 8160     		str	r1, [r0, #8]
+ 206:User/FFT/dsp_fft.c ****     v->p2 = p2;
+ 762              		.loc 1 206 5 is_stmt 1 view .LVU235
+ 763              		.loc 1 206 11 is_stmt 0 view .LVU236
+ 764 0012 C260     		str	r2, [r0, #12]
+ 207:User/FFT/dsp_fft.c ****     v->p3 = p3;
+ 765              		.loc 1 207 5 is_stmt 1 view .LVU237
+ 766              		.loc 1 207 11 is_stmt 0 view .LVU238
+ 767 0014 0361     		str	r3, [r0, #16]
+ 208:User/FFT/dsp_fft.c ****     v->Voltage_Unbalance = 0;
+ 768              		.loc 1 208 5 is_stmt 1 view .LVU239
+ 769              		.loc 1 208 26 is_stmt 0 view .LVU240
+ 770 0016 C0F800C0 		str	ip, [r0]	@ float
+ 209:User/FFT/dsp_fft.c **** }
+ 771              		.loc 1 209 1 view .LVU241
+ 772 001a 7047     		bx	lr
+ 773              	.L45:
+ 774 001c AFF30080 		.align	3
+ 775              	.L44:
+ 776 0020 00000000 		.word	0
+ 777 0024 00000000 		.word	0
+ 778              		.cfi_endproc
+ 779              	.LFE390:
+ 781              		.section	.text.Voltage_three_run,"ax",%progbits
+ 782              		.align	1
+ 783              		.global	Voltage_three_run
+ 784              		.syntax unified
+ 785              		.thumb
+ 786              		.thumb_func
+ 788              	Voltage_three_run:
+ 789              	.LVL65:
+ 790              	.LFB391:
+ 210:User/FFT/dsp_fft.c **** void Voltage_three_run(Voltage_three *v)
+ 211:User/FFT/dsp_fft.c **** {
+ 791              		.loc 1 211 1 is_stmt 1 view -0
+ 792              		.cfi_startproc
+ 793              		@ args = 0, pretend = 0, frame = 0
+ 794              		@ frame_needed = 0, uses_anonymous_args = 0
+ 795              		@ link register save eliminated.
+ 212:User/FFT/dsp_fft.c **** 
+ 213:User/FFT/dsp_fft.c ****     // double K; // 变压器K系数
+ 214:User/FFT/dsp_fft.c ****     // for (uint16_t i = 0; i < 50; i++)
+ 215:User/FFT/dsp_fft.c ****     // {
+ 216:User/FFT/dsp_fft.c ****     //     K += pow((i + 1), 2) * pow((v->p1->fft_I->LVGL_xb[i] * 2 / v->p1->fft_I->length), 2) / p
+ 217:User/FFT/dsp_fft.c ****     // }
+ 218:User/FFT/dsp_fft.c ****     // v->K = K;
+ 219:User/FFT/dsp_fft.c ****     // v->current_Unbalance = calculate_unbalance(v->p1->fft_I->RMS, v->p2->fft_I->RMS, v->p3->fft_
+ 220:User/FFT/dsp_fft.c ****     // v->Voltage_Unbalance = calculate_unbalance(v->p1->fft_V->RMS, v->p2->fft_V->RMS, v->p3->fft_
+ 221:User/FFT/dsp_fft.c **** }
+ 796              		.loc 1 221 1 view .LVU243
+ 797 0000 7047     		bx	lr
+ 798              		.cfi_endproc
+ 799              	.LFE391:
+ARM GAS  C:\usertemp\ccyQju61.s 			page 19
+
+
+ 801              		.section	.text.calculate_unbalance,"ax",%progbits
+ 802              		.align	1
+ 803              		.global	calculate_unbalance
+ 804              		.syntax unified
+ 805              		.thumb
+ 806              		.thumb_func
+ 808              	calculate_unbalance:
+ 809              	.LVL66:
+ 810              	.LFB392:
+ 222:User/FFT/dsp_fft.c **** double calculate_unbalance(double a, double b, double c)
+ 223:User/FFT/dsp_fft.c **** {
+ 811              		.loc 1 223 1 view -0
+ 812              		.cfi_startproc
+ 813              		@ args = 0, pretend = 0, frame = 0
+ 814              		@ frame_needed = 0, uses_anonymous_args = 0
+ 815              		@ link register save eliminated.
+ 224:User/FFT/dsp_fft.c ****     double avg = (a + b + c) / 3.0;
+ 816              		.loc 1 224 5 view .LVU245
+ 817              		.loc 1 224 21 is_stmt 0 view .LVU246
+ 818 0000 30EE017B 		vadd.f64	d7, d0, d1
+ 819              		.loc 1 224 25 view .LVU247
+ 820 0004 37EE027B 		vadd.f64	d7, d7, d2
+ 821              		.loc 1 224 12 view .LVU248
+ 822 0008 B0EE085B 		vmov.f64	d5, #3.0e+0
+ 823 000c 87EE056B 		vdiv.f64	d6, d7, d5
+ 824              	.LVL67:
+ 225:User/FFT/dsp_fft.c ****     double max_dev = fmax(fabs(a - avg), fmax(fabs(b - avg), fabs(c - avg)));
+ 825              		.loc 1 225 5 is_stmt 1 view .LVU249
+ 826              		.loc 1 225 34 is_stmt 0 view .LVU250
+ 827 0010 30EE467B 		vsub.f64	d7, d0, d6
+ 828              		.loc 1 225 54 view .LVU251
+ 829 0014 31EE461B 		vsub.f64	d1, d1, d6
+ 830              	.LVL68:
+ 831              		.loc 1 225 69 view .LVU252
+ 832 0018 32EE462B 		vsub.f64	d2, d2, d6
+ 833              	.LVL69:
+ 834              		.loc 1 225 22 view .LVU253
+ 835 001c B0EEC11B 		vabs.f64	d1, d1
+ 836 0020 B0EEC22B 		vabs.f64	d2, d2
+ 837 0024 81FE021B 		vmaxnm.f64	d1, d1, d2
+ 838 0028 B0EEC77B 		vabs.f64	d7, d7
+ 839              		.loc 1 225 22 discriminator 1 view .LVU254
+ 840 002c 87FE017B 		vmaxnm.f64	d7, d7, d1
+ 841              	.LVL70:
+ 226:User/FFT/dsp_fft.c ****     return (max_dev / avg) * 100.0; // 以百分比表示
+ 842              		.loc 1 226 5 is_stmt 1 view .LVU255
+ 843              		.loc 1 226 21 is_stmt 0 view .LVU256
+ 844 0030 87EE060B 		vdiv.f64	d0, d7, d6
+ 845              	.LVL71:
+ 227:User/FFT/dsp_fft.c **** }
+ 846              		.loc 1 227 1 view .LVU257
+ 847 0034 9FED027B 		vldr.64	d7, .L48
+ 848              	.LVL72:
+ 849              		.loc 1 227 1 view .LVU258
+ 850 0038 20EE070B 		vmul.f64	d0, d0, d7
+ 851 003c 7047     		bx	lr
+ 852              	.L49:
+ARM GAS  C:\usertemp\ccyQju61.s 			page 20
+
+
+ 853 003e 00BF     		.align	3
+ 854              	.L48:
+ 855 0040 00000000 		.word	0
+ 856 0044 00005940 		.word	1079574528
+ 857              		.cfi_endproc
+ 858              	.LFE392:
+ 860              		.section	.text.downsample_data,"ax",%progbits
+ 861              		.align	1
+ 862              		.global	downsample_data
+ 863              		.syntax unified
+ 864              		.thumb
+ 865              		.thumb_func
+ 867              	downsample_data:
+ 868              	.LVL73:
+ 869              	.LFB393:
+ 228:User/FFT/dsp_fft.c **** void downsample_data(float32_t rat, float32_t *input_array, uint16_t input_len, int16_t *output_arr
+ 229:User/FFT/dsp_fft.c **** {
+ 870              		.loc 1 229 1 is_stmt 1 view -0
+ 871              		.cfi_startproc
+ 872              		@ args = 4, pretend = 0, frame = 0
+ 873              		@ frame_needed = 0, uses_anonymous_args = 0
+ 874              		.loc 1 229 1 is_stmt 0 view .LVU260
+ 875 0000 30B5     		push	{r4, r5, lr}
+ 876              	.LCFI8:
+ 877              		.cfi_def_cfa_offset 12
+ 878              		.cfi_offset 4, -12
+ 879              		.cfi_offset 5, -8
+ 880              		.cfi_offset 14, -4
+ 881 0002 1546     		mov	r5, r2
+ 882 0004 9DF80CE0 		ldrb	lr, [sp, #12]	@ zero_extendqisi2
+ 230:User/FFT/dsp_fft.c ****     if (input_len < output_len || output_len <= 0)
+ 883              		.loc 1 230 5 is_stmt 1 view .LVU261
+ 884              		.loc 1 230 8 is_stmt 0 view .LVU262
+ 885 0008 5A1E     		subs	r2, r3, #1
+ 886              	.LVL74:
+ 887              		.loc 1 230 8 view .LVU263
+ 888 000a 92B2     		uxth	r2, r2
+ 889 000c 9142     		cmp	r1, r2
+ 890 000e 29D9     		bls	.L50
+ 891 0010 0446     		mov	r4, r0
+ 892              	.LBB12:
+ 231:User/FFT/dsp_fft.c ****         return; // 避免数组越界
+ 232:User/FFT/dsp_fft.c **** 
+ 233:User/FFT/dsp_fft.c ****     for (int i = 0; i < output_len; i++)
+ 893              		.loc 1 233 14 view .LVU264
+ 894 0012 0020     		movs	r0, #0
+ 895              	.LVL75:
+ 896              		.loc 1 233 14 view .LVU265
+ 897 0014 20E0     		b	.L52
+ 898              	.LVL76:
+ 899              	.L53:
+ 900              	.LBB13:
+ 901              	.LBB14:
+ 234:User/FFT/dsp_fft.c ****     {
+ 235:User/FFT/dsp_fft.c ****         double sum = 0;
+ 236:User/FFT/dsp_fft.c ****         for (int j = 0; j < step; j++)
+ 237:User/FFT/dsp_fft.c ****         {
+ARM GAS  C:\usertemp\ccyQju61.s 			page 21
+
+
+ 238:User/FFT/dsp_fft.c ****             sum += (input_array[i * step + j]) * rat + level;
+ 902              		.loc 1 238 13 is_stmt 1 view .LVU266
+ 903              		.loc 1 238 42 is_stmt 0 view .LVU267
+ 904 0016 00FB0E1C 		mla	ip, r0, lr, r1
+ 905              		.loc 1 238 32 view .LVU268
+ 906 001a 04EB8C0C 		add	ip, r4, ip, lsl #2
+ 907 001e 9CED007A 		vldr.32	s14, [ip]
+ 908              		.loc 1 238 48 view .LVU269
+ 909 0022 27EE007A 		vmul.f32	s14, s14, s0
+ 910              		.loc 1 238 54 view .LVU270
+ 911 0026 124A     		ldr	r2, .L57+8
+ 912 0028 D2ED007A 		vldr.32	s15, [r2]
+ 913 002c 37EE277A 		vadd.f32	s14, s14, s15
+ 914 0030 B7EEC77A 		vcvt.f64.f32	d7, s14
+ 915              		.loc 1 238 17 view .LVU271
+ 916 0034 36EE076B 		vadd.f64	d6, d6, d7
+ 917              	.LVL77:
+ 236:User/FFT/dsp_fft.c ****         {
+ 918              		.loc 1 236 36 is_stmt 1 discriminator 3 view .LVU272
+ 919 0038 0131     		adds	r1, r1, #1
+ 920              	.LVL78:
+ 921              	.L54:
+ 236:User/FFT/dsp_fft.c ****         {
+ 922              		.loc 1 236 27 discriminator 1 view .LVU273
+ 923 003a 8E45     		cmp	lr, r1
+ 924 003c EBDC     		bgt	.L53
+ 925              	.LBE14:
+ 239:User/FFT/dsp_fft.c ****         }
+ 240:User/FFT/dsp_fft.c ****         output_array[i] = sum / step; // 取平均值
+ 926              		.loc 1 240 9 view .LVU274
+ 927              		.loc 1 240 31 is_stmt 0 view .LVU275
+ 928 003e 07EE90EA 		vmov	s15, lr	@ int
+ 929 0042 B8EEE75B 		vcvt.f64.s32	d5, s15
+ 930 0046 86EE057B 		vdiv.f64	d7, d6, d5
+ 931              		.loc 1 240 25 view .LVU276
+ 932 004a BDEEC77B 		vcvt.s32.f64	s14, d7
+ 933 004e 17EE102A 		vmov	r2, s14	@ int
+ 934 0052 25F81020 		strh	r2, [r5, r0, lsl #1]	@ movhi
+ 935              	.LBE13:
+ 233:User/FFT/dsp_fft.c ****     {
+ 936              		.loc 1 233 38 is_stmt 1 discriminator 2 view .LVU277
+ 937 0056 0130     		adds	r0, r0, #1
+ 938              	.LVL79:
+ 939              	.L52:
+ 233:User/FFT/dsp_fft.c ****     {
+ 940              		.loc 1 233 23 discriminator 1 view .LVU278
+ 941 0058 8342     		cmp	r3, r0
+ 942 005a 03DD     		ble	.L50
+ 943              	.LBB16:
+ 944              	.LBB15:
+ 236:User/FFT/dsp_fft.c ****         {
+ 945              		.loc 1 236 18 is_stmt 0 view .LVU279
+ 946 005c 0021     		movs	r1, #0
+ 947              	.LBE15:
+ 235:User/FFT/dsp_fft.c ****         for (int j = 0; j < step; j++)
+ 948              		.loc 1 235 16 view .LVU280
+ 949 005e 9FED026B 		vldr.64	d6, .L57
+ARM GAS  C:\usertemp\ccyQju61.s 			page 22
+
+
+ 950 0062 EAE7     		b	.L54
+ 951              	.LVL80:
+ 952              	.L50:
+ 235:User/FFT/dsp_fft.c ****         for (int j = 0; j < step; j++)
+ 953              		.loc 1 235 16 view .LVU281
+ 954              	.LBE16:
+ 955              	.LBE12:
+ 241:User/FFT/dsp_fft.c ****     }
+ 242:User/FFT/dsp_fft.c **** }
+ 956              		.loc 1 242 1 view .LVU282
+ 957 0064 30BD     		pop	{r4, r5, pc}
+ 958              	.LVL81:
+ 959              	.L58:
+ 960              		.loc 1 242 1 view .LVU283
+ 961 0066 00BF     		.align	3
+ 962              	.L57:
+ 963 0068 00000000 		.word	0
+ 964 006c 00000000 		.word	0
+ 965 0070 00000000 		.word	level
+ 966              		.cfi_endproc
+ 967              	.LFE393:
+ 969              		.section	.text.fft_run,"ax",%progbits
+ 970              		.align	1
+ 971              		.global	fft_run
+ 972              		.syntax unified
+ 973              		.thumb
+ 974              		.thumb_func
+ 976              	fft_run:
+ 977              	.LVL82:
+ 978              	.LFB382:
+  10:User/FFT/dsp_fft.c ****     // 归一化 ADC 数据并填充复数数组
+ 979              		.loc 1 10 1 is_stmt 1 view -0
+ 980              		.cfi_startproc
+ 981              		@ args = 0, pretend = 0, frame = 8
+ 982              		@ frame_needed = 0, uses_anonymous_args = 0
+  10:User/FFT/dsp_fft.c ****     // 归一化 ADC 数据并填充复数数组
+ 983              		.loc 1 10 1 is_stmt 0 view .LVU285
+ 984 0000 70B5     		push	{r4, r5, r6, lr}
+ 985              	.LCFI9:
+ 986              		.cfi_def_cfa_offset 16
+ 987              		.cfi_offset 4, -16
+ 988              		.cfi_offset 5, -12
+ 989              		.cfi_offset 6, -8
+ 990              		.cfi_offset 14, -4
+ 991 0002 2DED048B 		vpush.64	{d8, d9}
+ 992              	.LCFI10:
+ 993              		.cfi_def_cfa_offset 32
+ 994              		.cfi_offset 80, -32
+ 995              		.cfi_offset 81, -28
+ 996              		.cfi_offset 82, -24
+ 997              		.cfi_offset 83, -20
+ 998 0006 84B0     		sub	sp, sp, #16
+ 999              	.LCFI11:
+ 1000              		.cfi_def_cfa_offset 48
+ 1001 0008 0446     		mov	r4, r0
+  12:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
+ 1002              		.loc 1 12 5 is_stmt 1 view .LVU286
+ARM GAS  C:\usertemp\ccyQju61.s 			page 23
+
+
+ 1003              	.LVL83:
+  13:User/FFT/dsp_fft.c ****     // 谐波有效值： 频域幅值*2/采样点数
+ 1004              		.loc 1 13 5 view .LVU287
+  15:User/FFT/dsp_fft.c ****     {
+ 1005              		.loc 1 15 5 view .LVU288
+ 1006              	.LBB17:
+  15:User/FFT/dsp_fft.c ****     {
+ 1007              		.loc 1 15 10 view .LVU289
+  15:User/FFT/dsp_fft.c ****     {
+ 1008              		.loc 1 15 14 is_stmt 0 view .LVU290
+ 1009 000a 0022     		movs	r2, #0
+ 1010              	.LBE17:
+  13:User/FFT/dsp_fft.c ****     // 谐波有效值： 频域幅值*2/采样点数
+ 1011              		.loc 1 13 15 view .LVU291
+ 1012 000c 9FED678A 		vldr.32	s16, .L75
+  12:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
+ 1013              		.loc 1 12 34 view .LVU292
+ 1014 0010 DFED678A 		vldr.32	s17, .L75+4
+  12:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
+ 1015              		.loc 1 12 15 view .LVU293
+ 1016 0014 9FED679A 		vldr.32	s18, .L75+8
+ 1017              	.LBB18:
+  15:User/FFT/dsp_fft.c ****     {
+ 1018              		.loc 1 15 5 view .LVU294
+ 1019 0018 00E0     		b	.L60
+ 1020              	.LVL84:
+ 1021              	.L62:
+  15:User/FFT/dsp_fft.c ****     {
+ 1022              		.loc 1 15 39 is_stmt 1 discriminator 2 view .LVU295
+ 1023 001a 0132     		adds	r2, r2, #1
+ 1024              	.LVL85:
+ 1025              	.L60:
+  15:User/FFT/dsp_fft.c ****     {
+ 1026              		.loc 1 15 23 discriminator 1 view .LVU296
+  15:User/FFT/dsp_fft.c ****     {
+ 1027              		.loc 1 15 28 is_stmt 0 discriminator 1 view .LVU297
+ 1028 001c 6168     		ldr	r1, [r4, #4]
+  15:User/FFT/dsp_fft.c ****     {
+ 1029              		.loc 1 15 23 discriminator 1 view .LVU298
+ 1030 001e 9142     		cmp	r1, r2
+ 1031 0020 2CD9     		bls	.L73
+  18:User/FFT/dsp_fft.c ****         fft->FFT_IN[2 * i + 1] = 0; // 虚部
+ 1032              		.loc 1 18 9 is_stmt 1 view .LVU299
+  18:User/FFT/dsp_fft.c ****         fft->FFT_IN[2 * i + 1] = 0; // 虚部
+ 1033              		.loc 1 18 23 is_stmt 0 view .LVU300
+ 1034 0022 5300     		lsls	r3, r2, #1
+  18:User/FFT/dsp_fft.c ****         fft->FFT_IN[2 * i + 1] = 0; // 虚部
+ 1035              		.loc 1 18 50 view .LVU301
+ 1036 0024 901C     		adds	r0, r2, #2
+ 1037 0026 04EB8000 		add	r0, r4, r0, lsl #2
+ 1038 002a D0ED007A 		vldr.32	s15, [r0]
+  18:User/FFT/dsp_fft.c ****         fft->FFT_IN[2 * i + 1] = 0; // 虚部
+ 1039              		.loc 1 18 28 view .LVU302
+ 1040 002e 41F28245 		movw	r5, #5250
+ 1041 0032 05EB4200 		add	r0, r5, r2, lsl #1
+ 1042 0036 04EB8000 		add	r0, r4, r0, lsl #2
+ 1043 003a C0ED007A 		vstr.32	s15, [r0]
+ARM GAS  C:\usertemp\ccyQju61.s 			page 24
+
+
+  19:User/FFT/dsp_fft.c **** 
+ 1044              		.loc 1 19 9 is_stmt 1 view .LVU303
+  19:User/FFT/dsp_fft.c **** 
+ 1045              		.loc 1 19 27 is_stmt 0 view .LVU304
+ 1046 003e 0133     		adds	r3, r3, #1
+  19:User/FFT/dsp_fft.c **** 
+ 1047              		.loc 1 19 32 view .LVU305
+ 1048 0040 2B44     		add	r3, r3, r5
+ 1049 0042 04EB8303 		add	r3, r4, r3, lsl #2
+ 1050 0046 0020     		movs	r0, #0
+ 1051 0048 1860     		str	r0, [r3]	@ float
+  21:User/FFT/dsp_fft.c **** 
+ 1052              		.loc 1 21 9 is_stmt 1 view .LVU306
+  21:User/FFT/dsp_fft.c **** 
+ 1053              		.loc 1 21 45 is_stmt 0 view .LVU307
+ 1054 004a 27EEA76A 		vmul.f32	s12, s15, s15
+  21:User/FFT/dsp_fft.c **** 
+ 1055              		.loc 1 21 73 view .LVU308
+ 1056 004e 07EE101A 		vmov	s14, r1	@ int
+ 1057 0052 F8EE476A 		vcvt.f32.u32	s13, s14
+  21:User/FFT/dsp_fft.c **** 
+ 1058              		.loc 1 21 71 view .LVU309
+ 1059 0056 86EE267A 		vdiv.f32	s14, s12, s13
+  21:User/FFT/dsp_fft.c **** 
+ 1060              		.loc 1 21 18 view .LVU310
+ 1061 005a 38EE078A 		vadd.f32	s16, s16, s14
+ 1062              	.LVL86:
+  23:User/FFT/dsp_fft.c ****             max_v = fft->adcConvertValue[i];
+ 1063              		.loc 1 23 9 is_stmt 1 view .LVU311
+  23:User/FFT/dsp_fft.c ****             max_v = fft->adcConvertValue[i];
+ 1064              		.loc 1 23 12 is_stmt 0 view .LVU312
+ 1065 005e F4EEC97A 		vcmpe.f32	s15, s18
+ 1066 0062 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1067 0066 01DD     		ble	.L61
+  24:User/FFT/dsp_fft.c ****         if (fft->adcConvertValue[i] < min_v)
+ 1068              		.loc 1 24 19 view .LVU313
+ 1069 0068 B0EE679A 		vmov.f32	s18, s15
+ 1070              	.LVL87:
+ 1071              	.L61:
+  25:User/FFT/dsp_fft.c ****             min_v = fft->adcConvertValue[i];
+ 1072              		.loc 1 25 9 is_stmt 1 view .LVU314
+  25:User/FFT/dsp_fft.c ****             min_v = fft->adcConvertValue[i];
+ 1073              		.loc 1 25 12 is_stmt 0 view .LVU315
+ 1074 006c F4EEE87A 		vcmpe.f32	s15, s17
+ 1075 0070 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1076 0074 D1D5     		bpl	.L62
+  26:User/FFT/dsp_fft.c ****     }
+ 1077              		.loc 1 26 19 view .LVU316
+ 1078 0076 F0EE678A 		vmov.f32	s17, s15
+ 1079              	.LVL88:
+  26:User/FFT/dsp_fft.c ****     }
+ 1080              		.loc 1 26 19 view .LVU317
+ 1081 007a CEE7     		b	.L62
+ 1082              	.LVL89:
+ 1083              	.L73:
+  26:User/FFT/dsp_fft.c ****     }
+ 1084              		.loc 1 26 19 view .LVU318
+ARM GAS  C:\usertemp\ccyQju61.s 			page 25
+
+
+ 1085              	.LBE18:
+  28:User/FFT/dsp_fft.c ****     fft->RMS = sqrt(temp_RMS);
+ 1086              		.loc 1 28 5 is_stmt 1 view .LVU319
+ 1087 007c 4E4B     		ldr	r3, .L75+12
+ 1088 007e D3ED007A 		vldr.32	s15, [r3]
+ 1089 0082 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 1090 0086 CDED037A 		vstr.32	s15, [sp, #12]	@ int
+ 1091 008a 9DF80C30 		ldrb	r3, [sp, #12]	@ zero_extendqisi2
+ 1092 008e 0093     		str	r3, [sp]
+ 1093 0090 4FF48073 		mov	r3, #256
+ 1094 0094 42F20802 		movw	r2, #8200
+ 1095              	.LVL90:
+  28:User/FFT/dsp_fft.c ****     fft->RMS = sqrt(temp_RMS);
+ 1096              		.loc 1 28 5 is_stmt 0 view .LVU320
+ 1097 0098 2244     		add	r2, r2, r4
+ 1098 009a 89B2     		uxth	r1, r1
+ 1099 009c 04F10800 		add	r0, r4, #8
+ 1100 00a0 464D     		ldr	r5, .L75+16
+ 1101 00a2 95ED000A 		vldr.32	s0, [r5]
+ 1102 00a6 FFF7FEFF 		bl	downsample_data
+ 1103              	.LVL91:
+  29:User/FFT/dsp_fft.c **** 
+ 1104              		.loc 1 29 5 is_stmt 1 view .LVU321
+  29:User/FFT/dsp_fft.c **** 
+ 1105              		.loc 1 29 16 is_stmt 0 view .LVU322
+ 1106 00aa B7EEC80A 		vcvt.f64.f32	d0, s16
+ 1107 00ae FFF7FEFF 		bl	sqrt
+ 1108              	.LVL92:
+  29:User/FFT/dsp_fft.c **** 
+ 1109              		.loc 1 29 16 discriminator 1 view .LVU323
+ 1110 00b2 B7EEC00B 		vcvt.f32.f64	s0, d0
+  29:User/FFT/dsp_fft.c **** 
+ 1111              		.loc 1 29 14 discriminator 1 view .LVU324
+ 1112 00b6 04F51043 		add	r3, r4, #36864
+ 1113 00ba 83EDBA0A 		vstr.32	s0, [r3, #744]
+  31:User/FFT/dsp_fft.c ****     fft->min_v = min_v;
+ 1114              		.loc 1 31 5 is_stmt 1 view .LVU325
+  31:User/FFT/dsp_fft.c ****     fft->min_v = min_v;
+ 1115              		.loc 1 31 16 is_stmt 0 view .LVU326
+ 1116 00be 83ED829A 		vstr.32	s18, [r3, #520]
+  32:User/FFT/dsp_fft.c **** 
+ 1117              		.loc 1 32 5 is_stmt 1 view .LVU327
+  32:User/FFT/dsp_fft.c **** 
+ 1118              		.loc 1 32 16 is_stmt 0 view .LVU328
+ 1119 00c2 C3ED838A 		vstr.32	s17, [r3, #524]
+  35:User/FFT/dsp_fft.c **** 
+ 1120              		.loc 1 35 5 is_stmt 1 view .LVU329
+  35:User/FFT/dsp_fft.c **** 
+ 1121              		.loc 1 35 47 is_stmt 0 view .LVU330
+ 1122 00c6 45F20826 		movw	r6, #21000
+  35:User/FFT/dsp_fft.c **** 
+ 1123              		.loc 1 35 5 view .LVU331
+ 1124 00ca 0123     		movs	r3, #1
+ 1125 00cc 0022     		movs	r2, #0
+ 1126 00ce 3119     		adds	r1, r6, r4
+ 1127 00d0 3B48     		ldr	r0, .L75+20
+ 1128 00d2 FFF7FEFF 		bl	arm_cfft_f32
+ARM GAS  C:\usertemp\ccyQju61.s 			page 26
+
+
+ 1129              	.LVL93:
+  38:User/FFT/dsp_fft.c **** 
+ 1130              		.loc 1 38 5 is_stmt 1 view .LVU332
+  38:User/FFT/dsp_fft.c **** 
+ 1131              		.loc 1 38 39 is_stmt 0 view .LVU333
+ 1132 00d6 43F20825 		movw	r5, #12808
+ 1133 00da 2544     		add	r5, r5, r4
+  38:User/FFT/dsp_fft.c **** 
+ 1134              		.loc 1 38 5 view .LVU334
+ 1135 00dc 6268     		ldr	r2, [r4, #4]
+ 1136 00de 2946     		mov	r1, r5
+ 1137 00e0 3019     		adds	r0, r6, r4
+ 1138 00e2 FFF7FEFF 		bl	arm_cmplx_mag_f32
+ 1139              	.LVL94:
+  40:User/FFT/dsp_fft.c ****     uint16_t max_idx = 1;
+ 1140              		.loc 1 40 5 is_stmt 1 view .LVU335
+  41:User/FFT/dsp_fft.c **** 
+ 1141              		.loc 1 41 5 view .LVU336
+  43:User/FFT/dsp_fft.c ****     {
+ 1142              		.loc 1 43 5 view .LVU337
+ 1143              	.LBB19:
+  43:User/FFT/dsp_fft.c ****     {
+ 1144              		.loc 1 43 10 view .LVU338
+  43:User/FFT/dsp_fft.c ****     {
+ 1145              		.loc 1 43 19 is_stmt 0 view .LVU339
+ 1146 00e6 0123     		movs	r3, #1
+ 1147              	.LBE19:
+  41:User/FFT/dsp_fft.c **** 
+ 1148              		.loc 1 41 14 view .LVU340
+ 1149 00e8 9C46     		mov	ip, r3
+  40:User/FFT/dsp_fft.c ****     uint16_t max_idx = 1;
+ 1150              		.loc 1 40 15 view .LVU341
+ 1151 00ea 9FED367A 		vldr.32	s14, .L75+24
+ 1152              	.LBB20:
+  43:User/FFT/dsp_fft.c ****     {
+ 1153              		.loc 1 43 5 view .LVU342
+ 1154 00ee 01E0     		b	.L64
+ 1155              	.LVL95:
+ 1156              	.L65:
+  43:User/FFT/dsp_fft.c ****     {
+ 1157              		.loc 1 43 48 is_stmt 1 discriminator 2 view .LVU343
+ 1158 00f0 0133     		adds	r3, r3, #1
+ 1159              	.LVL96:
+  43:User/FFT/dsp_fft.c ****     {
+ 1160              		.loc 1 43 48 is_stmt 0 discriminator 2 view .LVU344
+ 1161 00f2 9BB2     		uxth	r3, r3
+ 1162              	.LVL97:
+ 1163              	.L64:
+  43:User/FFT/dsp_fft.c ****     {
+ 1164              		.loc 1 43 28 is_stmt 1 discriminator 1 view .LVU345
+  43:User/FFT/dsp_fft.c ****     {
+ 1165              		.loc 1 43 33 is_stmt 0 discriminator 1 view .LVU346
+ 1166 00f4 6168     		ldr	r1, [r4, #4]
+  43:User/FFT/dsp_fft.c ****     {
+ 1167              		.loc 1 43 28 discriminator 1 view .LVU347
+ 1168 00f6 B3EB510F 		cmp	r3, r1, lsr #1
+ 1169 00fa 0ED2     		bcs	.L74
+ARM GAS  C:\usertemp\ccyQju61.s 			page 27
+
+
+  45:User/FFT/dsp_fft.c ****         {
+ 1170              		.loc 1 45 9 is_stmt 1 view .LVU348
+  45:User/FFT/dsp_fft.c ****         {
+ 1171              		.loc 1 45 25 is_stmt 0 view .LVU349
+ 1172 00fc 03F68242 		addw	r2, r3, #3202
+ 1173 0100 04EB8202 		add	r2, r4, r2, lsl #2
+ 1174 0104 D2ED007A 		vldr.32	s15, [r2]
+  45:User/FFT/dsp_fft.c ****         {
+ 1175              		.loc 1 45 12 view .LVU350
+ 1176 0108 F4EEC77A 		vcmpe.f32	s15, s14
+ 1177 010c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1178 0110 EEDD     		ble	.L65
+  48:User/FFT/dsp_fft.c ****         }
+ 1179              		.loc 1 48 21 view .LVU351
+ 1180 0112 9C46     		mov	ip, r3
+ 1181              	.LVL98:
+  47:User/FFT/dsp_fft.c ****             max_idx = i;
+ 1182              		.loc 1 47 22 view .LVU352
+ 1183 0114 B0EE677A 		vmov.f32	s14, s15
+ 1184              	.LVL99:
+  47:User/FFT/dsp_fft.c ****             max_idx = i;
+ 1185              		.loc 1 47 22 view .LVU353
+ 1186 0118 EAE7     		b	.L65
+ 1187              	.LVL100:
+ 1188              	.L74:
+  47:User/FFT/dsp_fft.c ****             max_idx = i;
+ 1189              		.loc 1 47 22 view .LVU354
+ 1190              	.LBE20:
+  51:User/FFT/dsp_fft.c ****     fft->index_ = max_idx;
+ 1191              		.loc 1 51 5 is_stmt 1 view .LVU355
+  51:User/FFT/dsp_fft.c ****     fft->index_ = max_idx;
+ 1192              		.loc 1 51 18 is_stmt 0 view .LVU356
+ 1193 011a 04F51043 		add	r3, r4, #36864
+ 1194              	.LVL101:
+  51:User/FFT/dsp_fft.c ****     fft->index_ = max_idx;
+ 1195              		.loc 1 51 18 view .LVU357
+ 1196 011e 83ED867A 		vstr.32	s14, [r3, #536]
+  52:User/FFT/dsp_fft.c **** 
+ 1197              		.loc 1 52 5 is_stmt 1 view .LVU358
+  52:User/FFT/dsp_fft.c **** 
+ 1198              		.loc 1 52 17 is_stmt 0 view .LVU359
+ 1199 0122 A3F814C2 		strh	ip, [r3, #532]	@ movhi
+  57:User/FFT/dsp_fft.c ****     {
+ 1200              		.loc 1 57 5 is_stmt 1 view .LVU360
+ 1201              	.LBB21:
+  57:User/FFT/dsp_fft.c ****     {
+ 1202              		.loc 1 57 10 view .LVU361
+ 1203              	.LVL102:
+  57:User/FFT/dsp_fft.c ****     {
+ 1204              		.loc 1 57 19 is_stmt 0 view .LVU362
+ 1205 0126 0022     		movs	r2, #0
+  57:User/FFT/dsp_fft.c ****     {
+ 1206              		.loc 1 57 5 view .LVU363
+ 1207 0128 15E0     		b	.L67
+ 1208              	.LVL103:
+ 1209              	.L68:
+  59:User/FFT/dsp_fft.c ****     }
+ARM GAS  C:\usertemp\ccyQju61.s 			page 28
+
+
+ 1210              		.loc 1 59 9 is_stmt 1 view .LVU364
+  59:User/FFT/dsp_fft.c ****     }
+ 1211              		.loc 1 59 47 is_stmt 0 view .LVU365
+ 1212 012a 501C     		adds	r0, r2, #1
+  59:User/FFT/dsp_fft.c ****     }
+ 1213              		.loc 1 59 42 view .LVU366
+ 1214 012c C300     		lsls	r3, r0, #3
+  59:User/FFT/dsp_fft.c ****     }
+ 1215              		.loc 1 59 39 view .LVU367
+ 1216 012e 03F68243 		addw	r3, r3, #3202
+ 1217 0132 04EB8303 		add	r3, r4, r3, lsl #2
+ 1218 0136 D3ED007A 		vldr.32	s15, [r3]
+  59:User/FFT/dsp_fft.c ****     }
+ 1219              		.loc 1 59 53 view .LVU368
+ 1220 013a 9FED237A 		vldr.32	s14, .L75+28
+ 1221 013e 67EE877A 		vmul.f32	s15, s15, s14
+  59:User/FFT/dsp_fft.c ****     }
+ 1222              		.loc 1 59 25 view .LVU369
+ 1223 0142 41F20413 		movw	r3, #4356
+ 1224 0146 1344     		add	r3, r3, r2
+ 1225 0148 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 1226 014c 17EE902A 		vmov	r2, s15	@ int
+ 1227              	.LVL104:
+  59:User/FFT/dsp_fft.c ****     }
+ 1228              		.loc 1 59 25 view .LVU370
+ 1229 0150 24F81320 		strh	r2, [r4, r3, lsl #1]	@ movhi
+  57:User/FFT/dsp_fft.c ****     {
+ 1230              		.loc 1 57 35 is_stmt 1 discriminator 3 view .LVU371
+ 1231 0154 82B2     		uxth	r2, r0
+ 1232              	.LVL105:
+ 1233              	.L67:
+  57:User/FFT/dsp_fft.c ****     {
+ 1234              		.loc 1 57 28 discriminator 1 view .LVU372
+ 1235 0156 312A     		cmp	r2, #49
+ 1236 0158 E7D9     		bls	.L68
+ 1237              	.LBE21:
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1238              		.loc 1 63 5 view .LVU373
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1239              		.loc 1 63 29 is_stmt 0 view .LVU374
+ 1240 015a 2388     		ldrh	r3, [r4]
+ 1241 015c 07EE903A 		vmov	s15, r3	@ int
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1242              		.loc 1 63 18 view .LVU375
+ 1243 0160 F8EE677A 		vcvt.f32.u32	s15, s15
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1244              		.loc 1 63 45 view .LVU376
+ 1245 0164 07EE101A 		vmov	s14, r1	@ int
+ 1246 0168 B8EE477A 		vcvt.f32.u32	s14, s14
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1247              		.loc 1 63 42 view .LVU377
+ 1248 016c C7EE876A 		vdiv.f32	s13, s15, s14
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1249              		.loc 1 63 65 view .LVU378
+ 1250 0170 07EE90CA 		vmov	s15, ip	@ int
+ 1251 0174 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1252 0178 67EEA67A 		vmul.f32	s15, s15, s13
+ARM GAS  C:\usertemp\ccyQju61.s 			page 29
+
+
+  63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
+ 1253              		.loc 1 63 15 view .LVU379
+ 1254 017c 04F51046 		add	r6, r4, #36864
+ 1255 0180 C6ED847A 		vstr.32	s15, [r6, #528]
+  64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
+ 1256              		.loc 1 64 5 is_stmt 1 view .LVU380
+  64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
+ 1257              		.loc 1 64 27 is_stmt 0 view .LVU381
+ 1258 0184 04F54053 		add	r3, r4, #12288
+ 1259 0188 D3ED826A 		vldr.32	s13, [r3, #520]
+  64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
+ 1260              		.loc 1 64 31 view .LVU382
+ 1261 018c C6EE877A 		vdiv.f32	s15, s13, s14
+  64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
+ 1262              		.loc 1 64 13 view .LVU383
+ 1263 0190 C6EDED7A 		vstr.32	s15, [r6, #948]
+  66:User/FFT/dsp_fft.c **** 
+ 1264              		.loc 1 66 5 is_stmt 1 view .LVU384
+  66:User/FFT/dsp_fft.c **** 
+ 1265              		.loc 1 66 17 is_stmt 0 view .LVU385
+ 1266 0194 2846     		mov	r0, r5
+ 1267 0196 FFF7FEFF 		bl	THD
+ 1268              	.LVL106:
+  66:User/FFT/dsp_fft.c **** 
+ 1269              		.loc 1 66 15 discriminator 1 view .LVU386
+ 1270 019a 86ED870A 		vstr.32	s0, [r6, #540]
+  69:User/FFT/dsp_fft.c **** 
+ 1271              		.loc 1 69 5 is_stmt 1 view .LVU387
+ 1272 019e 2046     		mov	r0, r4
+ 1273 01a0 FFF7FEFF 		bl	calculatePhase
+ 1274              	.LVL107:
+  73:User/FFT/dsp_fft.c **** 
+ 1275              		.loc 1 73 1 is_stmt 0 view .LVU388
+ 1276 01a4 04B0     		add	sp, sp, #16
+ 1277              	.LCFI12:
+ 1278              		.cfi_def_cfa_offset 32
+ 1279              		@ sp needed
+ 1280 01a6 BDEC048B 		vldm	sp!, {d8-d9}
+ 1281              	.LCFI13:
+ 1282              		.cfi_restore 82
+ 1283              		.cfi_restore 83
+ 1284              		.cfi_restore 80
+ 1285              		.cfi_restore 81
+ 1286              		.cfi_def_cfa_offset 16
+ 1287              	.LVL108:
+  73:User/FFT/dsp_fft.c **** 
+ 1288              		.loc 1 73 1 view .LVU389
+ 1289 01aa 70BD     		pop	{r4, r5, r6, pc}
+ 1290              	.LVL109:
+ 1291              	.L76:
+  73:User/FFT/dsp_fft.c **** 
+ 1292              		.loc 1 73 1 view .LVU390
+ 1293              		.align	2
+ 1294              	.L75:
+ 1295 01ac 00000000 		.word	0
+ 1296 01b0 0000807F 		.word	2139095040
+ 1297 01b4 000080FF 		.word	-8388608
+ARM GAS  C:\usertemp\ccyQju61.s 			page 30
+
+
+ 1298 01b8 00000000 		.word	step
+ 1299 01bc 00000000 		.word	rat
+ 1300 01c0 00000000 		.word	arm_cfft_sR_f32_len2048
+ 1301 01c4 000000CF 		.word	-822083584
+ 1302 01c8 00004842 		.word	1112014848
+ 1303              		.cfi_endproc
+ 1304              	.LFE382:
+ 1306              		.text
+ 1307              	.Letext0:
+ 1308              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1309              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1310              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 1311              		.file 5 "User/FFT/dsp_fft.h"
+ 1312              		.file 6 "Drivers/CMSIS/DSP/Include/arm_const_structs.h"
+ 1313              		.file 7 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1314              		.file 8 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ARM GAS  C:\usertemp\ccyQju61.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 dsp_fft.c
+C:\usertemp\ccyQju61.s:20     .text.THD:00000000 $t
+C:\usertemp\ccyQju61.s:26     .text.THD:00000000 THD
+C:\usertemp\ccyQju61.s:154    .text.THD:0000007c $d
+C:\usertemp\ccyQju61.s:159    .text.fft_find_max:00000000 $t
+C:\usertemp\ccyQju61.s:165    .text.fft_find_max:00000000 fft_find_max
+C:\usertemp\ccyQju61.s:250    .text.calculatePhase:00000000 $t
+C:\usertemp\ccyQju61.s:256    .text.calculatePhase:00000000 calculatePhase
+C:\usertemp\ccyQju61.s:369    .text.calculatePhase:00000088 $d
+C:\usertemp\ccyQju61.s:376    .text.FFT_Init:00000000 $t
+C:\usertemp\ccyQju61.s:382    .text.FFT_Init:00000000 FFT_Init
+C:\usertemp\ccyQju61.s:432    .text.FFT_Free:00000000 $t
+C:\usertemp\ccyQju61.s:438    .text.FFT_Free:00000000 FFT_Free
+C:\usertemp\ccyQju61.s:499    .text.PHASE_Init:00000000 $t
+C:\usertemp\ccyQju61.s:505    .text.PHASE_Init:00000000 PHASE_Init
+C:\usertemp\ccyQju61.s:543    .text.PHASE_Init:00000028 $d
+C:\usertemp\ccyQju61.s:549    .text.PHASE_run:00000000 $t
+C:\usertemp\ccyQju61.s:555    .text.PHASE_run:00000000 PHASE_run
+C:\usertemp\ccyQju61.s:731    .text.PHASE_run:000000f0 $d
+C:\usertemp\ccyQju61.s:737    .text.Voltage_three_Init:00000000 $t
+C:\usertemp\ccyQju61.s:743    .text.Voltage_three_Init:00000000 Voltage_three_Init
+C:\usertemp\ccyQju61.s:776    .text.Voltage_three_Init:00000020 $d
+C:\usertemp\ccyQju61.s:782    .text.Voltage_three_run:00000000 $t
+C:\usertemp\ccyQju61.s:788    .text.Voltage_three_run:00000000 Voltage_three_run
+C:\usertemp\ccyQju61.s:802    .text.calculate_unbalance:00000000 $t
+C:\usertemp\ccyQju61.s:808    .text.calculate_unbalance:00000000 calculate_unbalance
+C:\usertemp\ccyQju61.s:855    .text.calculate_unbalance:00000040 $d
+C:\usertemp\ccyQju61.s:861    .text.downsample_data:00000000 $t
+C:\usertemp\ccyQju61.s:867    .text.downsample_data:00000000 downsample_data
+C:\usertemp\ccyQju61.s:963    .text.downsample_data:00000068 $d
+C:\usertemp\ccyQju61.s:970    .text.fft_run:00000000 $t
+C:\usertemp\ccyQju61.s:976    .text.fft_run:00000000 fft_run
+C:\usertemp\ccyQju61.s:1295   .text.fft_run:000001ac $d
+
+UNDEFINED SYMBOLS
+sqrtf
+atan2f
+free
+sqrt
+cos
+level
+arm_cfft_f32
+arm_cmplx_mag_f32
+step
+rat
+arm_cfft_sR_f32_len2048

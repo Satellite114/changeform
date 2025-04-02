@@ -1,0 +1,165 @@
+ARM GAS  C:\usertemp\cco08ofm.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"bitreversal.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c"
+  19              		.section	.text.ref_arm_bitreversal_32,"ax",%progbits
+  20              		.align	1
+  21              		.global	ref_arm_bitreversal_32
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	ref_arm_bitreversal_32:
+  27              	.LVL0:
+  28              	.LFB145:
+   1:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** #include "ref.h"
+   2:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 
+   3:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 
+   4:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;/*    
+   5:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;* @brief  In-place bit reversal function.   
+   6:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;* @param[in, out] *pSrc        points to the in-place buffer of unknown 32-bit data type. 
+   7:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;* @param[in]      bitRevLen    bit reversal table length
+   8:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;* @param[in]      *pBitRevTab  points to bit reversal table.   
+   9:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;* @return none.   
+  10:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** ;*/
+  11:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** void ref_arm_bitreversal_32(uint32_t *pSrc, uint32_t bitRevLen, uint32_t *pBitRevTab)
+  12:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** {
+  29              		.loc 1 12 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  13:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	uint32_t a,b,i,tmp;
+  34              		.loc 1 13 2 view .LVU1
+  14:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	
+  15:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	for(i=0; i<bitRevLen; i++) 
+  35              		.loc 1 15 2 view .LVU2
+  36              		.loc 1 15 7 is_stmt 0 view .LVU3
+  37 0000 4FF0000C 		mov	ip, #0
+  38              	.LVL1:
+  39              		.loc 1 15 12 is_stmt 1 discriminator 1 view .LVU4
+  40 0004 8C45     		cmp	ip, r1
+  41 0006 1ED2     		bcs	.L7
+  12:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	uint32_t a,b,i,tmp;
+  42              		.loc 1 12 1 is_stmt 0 view .LVU5
+ARM GAS  C:\usertemp\cco08ofm.s 			page 2
+
+
+  43 0008 70B4     		push	{r4, r5, r6}
+  44              	.LCFI0:
+  45              		.cfi_def_cfa_offset 12
+  46              		.cfi_offset 4, -12
+  47              		.cfi_offset 5, -8
+  48              		.cfi_offset 6, -4
+  49              	.L3:
+  16:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	{
+  17:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 a = pBitRevTab[2*i];
+  50              		.loc 1 17 4 is_stmt 1 view .LVU6
+  51              		.loc 1 17 18 is_stmt 0 view .LVU7
+  52 000a 4FEACC03 		lsl	r3, ip, #3
+  53              		.loc 1 17 6 view .LVU8
+  54 000e 52F83C40 		ldr	r4, [r2, ip, lsl #3]
+  55              	.LVL2:
+  18:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 b = pBitRevTab[2*i + 1];
+  56              		.loc 1 18 4 is_stmt 1 view .LVU9
+  57              		.loc 1 18 18 is_stmt 0 view .LVU10
+  58 0012 0433     		adds	r3, r3, #4
+  59              		.loc 1 18 6 view .LVU11
+  60 0014 D358     		ldr	r3, [r2, r3]
+  61              	.LVL3:
+  19:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 
+  20:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	//real
+  21:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 tmp = pSrc[a];
+  62              		.loc 1 21 4 is_stmt 1 view .LVU12
+  63              		.loc 1 21 8 is_stmt 0 view .LVU13
+  64 0016 50F82450 		ldr	r5, [r0, r4, lsl #2]
+  65              	.LVL4:
+  22:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 pSrc[a] = pSrc[b];
+  66              		.loc 1 22 4 is_stmt 1 view .LVU14
+  67              		.loc 1 22 12 is_stmt 0 view .LVU15
+  68 001a 50F82360 		ldr	r6, [r0, r3, lsl #2]
+  69 001e 40F82460 		str	r6, [r0, r4, lsl #2]
+  23:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 pSrc[b] = tmp;
+  70              		.loc 1 23 4 is_stmt 1 view .LVU16
+  71              		.loc 1 23 12 is_stmt 0 view .LVU17
+  72 0022 40F82350 		str	r5, [r0, r3, lsl #2]
+  24:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 
+  25:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	//complex
+  26:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 tmp = pSrc[a+1];
+  73              		.loc 1 26 4 is_stmt 1 view .LVU18
+  74              		.loc 1 26 14 is_stmt 0 view .LVU19
+  75 0026 0134     		adds	r4, r4, #1
+  76              	.LVL5:
+  77              		.loc 1 26 8 view .LVU20
+  78 0028 50F82450 		ldr	r5, [r0, r4, lsl #2]
+  79              	.LVL6:
+  27:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 pSrc[a+1] = pSrc[b+1];
+  80              		.loc 1 27 4 is_stmt 1 view .LVU21
+  81              		.loc 1 27 20 is_stmt 0 view .LVU22
+  82 002c 0133     		adds	r3, r3, #1
+  83              	.LVL7:
+  84              		.loc 1 27 14 view .LVU23
+  85 002e 50F82360 		ldr	r6, [r0, r3, lsl #2]
+  86 0032 40F82460 		str	r6, [r0, r4, lsl #2]
+  28:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 		 pSrc[b+1] = tmp;
+ARM GAS  C:\usertemp\cco08ofm.s 			page 3
+
+
+  87              		.loc 1 28 4 is_stmt 1 view .LVU24
+  88              		.loc 1 28 14 is_stmt 0 view .LVU25
+  89 0036 40F82350 		str	r5, [r0, r3, lsl #2]
+  15:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	{
+  90              		.loc 1 15 25 is_stmt 1 discriminator 3 view .LVU26
+  91 003a 0CF1010C 		add	ip, ip, #1
+  92              	.LVL8:
+  15:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	{
+  93              		.loc 1 15 12 discriminator 1 view .LVU27
+  94 003e 8C45     		cmp	ip, r1
+  95 0040 E3D3     		bcc	.L3
+  29:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** 	}
+  30:Drivers/CMSIS/DSP/DSP_Lib_TestSuite/RefLibs/src/TransformFunctions/bitreversal.c **** }
+  96              		.loc 1 30 1 is_stmt 0 view .LVU28
+  97 0042 70BC     		pop	{r4, r5, r6}
+  98              	.LCFI1:
+  99              		.cfi_restore 6
+ 100              		.cfi_restore 5
+ 101              		.cfi_restore 4
+ 102              		.cfi_def_cfa_offset 0
+ 103              	.LVL9:
+ 104              		.loc 1 30 1 view .LVU29
+ 105 0044 7047     		bx	lr
+ 106              	.LVL10:
+ 107              	.L7:
+ 108              		.loc 1 30 1 view .LVU30
+ 109 0046 7047     		bx	lr
+ 110              		.cfi_endproc
+ 111              	.LFE145:
+ 113              		.text
+ 114              	.Letext0:
+ 115              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 116              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ARM GAS  C:\usertemp\cco08ofm.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 bitreversal.c
+C:\usertemp\cco08ofm.s:20     .text.ref_arm_bitreversal_32:00000000 $t
+C:\usertemp\cco08ofm.s:26     .text.ref_arm_bitreversal_32:00000000 ref_arm_bitreversal_32
+
+NO UNDEFINED SYMBOLS

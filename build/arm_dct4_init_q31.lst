@@ -1,0 +1,353 @@
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"arm_dct4_init_q31.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c"
+  19              		.section	.text.arm_dct4_init_q31,"ax",%progbits
+  20              		.align	1
+  21              		.global	arm_dct4_init_q31
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	arm_dct4_init_q31:
+  27              	.LVL0:
+  28              	.LFB145:
+   1:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** /* ----------------------------------------------------------------------
+   2:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Project:      CMSIS DSP Library
+   3:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Title:        arm_dct4_init_q31.c
+   4:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Description:  Initialization function of DCT-4 & IDCT4 Q31
+   5:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  *
+   6:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * $Date:        18. March 2019
+   7:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * $Revision:    V1.6.0
+   8:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  *
+   9:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Target Processor: Cortex-M cores
+  10:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * -------------------------------------------------------------------- */
+  11:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** /*
+  12:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  *
+  14:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  *
+  16:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * not use this file except in compliance with the License.
+  18:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * You may obtain a copy of the License at
+  19:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  *
+  20:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  *
+  22:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * See the License for the specific language governing permissions and
+  26:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  * limitations under the License.
+  27:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  */
+  28:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  29:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** #include "arm_math.h"
+  30:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** #include "arm_common_tables.h"
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 2
+
+
+  31:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  32:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** /**
+  33:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @ingroup DCT4_IDCT4
+  34:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  */
+  35:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  36:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  37:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** /**
+  38:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @addtogroup DCT4_IDCT4
+  39:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @{
+  40:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  */
+  41:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  42:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** /**
+  43:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @brief  Initialization function for the Q31 DCT4/IDCT4.
+  44:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @param[in,out] S          points to an instance of Q31 DCT4/IDCT4 structure.
+  45:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @param[in]     S_RFFT     points to an instance of Q31 RFFT/RIFFT structure
+  46:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @param[in]     S_CFFT     points to an instance of Q31 CFFT/CIFFT structure
+  47:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @param[in]     N          length of the DCT4.
+  48:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @param[in]     Nby2       half of the length of the DCT4.
+  49:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @param[in]     normalize  normalizing factor.
+  50:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @return        execution status
+  51:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+  52:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : <code>N</code> is not a supported transform len
+  53:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  54:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   @par           Normalizing factor:
+  55:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****                    The normalizing factor is <code>sqrt(2/N)</code>, which depends on the size of t
+  56:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****                    Normalizing factors in 1.31 format are mentioned in the table below for differen
+  57:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  58:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****                    \image html dct4NormalizingQ31Table.gif
+  59:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****  */
+  60:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  61:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** arm_status arm_dct4_init_q31(
+  62:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   arm_dct4_instance_q31 * S,
+  63:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   arm_rfft_instance_q31 * S_RFFT,
+  64:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   arm_cfft_radix4_instance_q31 * S_CFFT,
+  65:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   uint16_t N,
+  66:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   uint16_t Nby2,
+  67:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   q31_t normalize)
+  68:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** {
+  29              		.loc 1 68 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 8, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 68 1 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 8446     		mov	ip, r0
+  40 0004 0846     		mov	r0, r1
+  41              	.LVL1:
+  42              		.loc 1 68 1 view .LVU2
+  43 0006 1946     		mov	r1, r3
+  44              	.LVL2:
+  69:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize the default arm status */
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   arm_status status = ARM_MATH_SUCCESS;
+  45              		.loc 1 70 3 is_stmt 1 view .LVU3
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 3
+
+
+  71:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  72:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize the DCT4 length */
+  73:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   S->N = N;
+  46              		.loc 1 73 3 view .LVU4
+  47              		.loc 1 73 8 is_stmt 0 view .LVU5
+  48 0008 ACF80030 		strh	r3, [ip]	@ movhi
+  74:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  75:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize the half of DCT4 length */
+  76:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   S->Nby2 = Nby2;
+  49              		.loc 1 76 3 is_stmt 1 view .LVU6
+  50              		.loc 1 76 11 is_stmt 0 view .LVU7
+  51 000c BDF80830 		ldrh	r3, [sp, #8]
+  52              	.LVL3:
+  53              		.loc 1 76 11 view .LVU8
+  54 0010 ACF80230 		strh	r3, [ip, #2]	@ movhi
+  77:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  78:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize the DCT4 Normalizing factor */
+  79:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   S->normalize = normalize;
+  55              		.loc 1 79 3 is_stmt 1 view .LVU9
+  56              		.loc 1 79 16 is_stmt 0 view .LVU10
+  57 0014 039B     		ldr	r3, [sp, #12]
+  58 0016 CCF80430 		str	r3, [ip, #4]
+  80:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  81:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize Real FFT Instance */
+  82:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   S->pRfft = S_RFFT;
+  59              		.loc 1 82 3 is_stmt 1 view .LVU11
+  60              		.loc 1 82 12 is_stmt 0 view .LVU12
+  61 001a CCF81000 		str	r0, [ip, #16]
+  83:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  84:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize Complex FFT Instance */
+  85:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   S->pCfft = S_CFFT;
+  62              		.loc 1 85 3 is_stmt 1 view .LVU13
+  63              		.loc 1 85 12 is_stmt 0 view .LVU14
+  64 001e CCF81420 		str	r2, [ip, #20]
+  86:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   switch (N)
+  65              		.loc 1 87 3 is_stmt 1 view .LVU15
+  66 0022 B1F5006F 		cmp	r1, #2048
+  67 0026 20D0     		beq	.L2
+  68 0028 0FD8     		bhi	.L3
+  69 002a 8029     		cmp	r1, #128
+  70 002c 25D0     		beq	.L4
+  71 002e B1F5007F 		cmp	r1, #512
+  72 0032 07D1     		bne	.L9
+  88:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   {
+  89:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_
+  90:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     /* Initialize the table modifier values */
+  91:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   case 8192U:
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pTwiddle = WeightsQ31_8192;
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_8192;
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+  95:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif
+  96:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  97:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_
+  98:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   case 2048U:
+  99:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pTwiddle = WeightsQ31_2048;
+ 100:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_2048;
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 4
+
+
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+ 102:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif 
+ 103:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 104:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_
+ 105:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   case 512U:
+ 106:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pTwiddle = WeightsQ31_512;
+  73              		.loc 1 106 5 view .LVU16
+  74              		.loc 1 106 17 is_stmt 0 view .LVU17
+  75 0034 164B     		ldr	r3, .L10
+  76 0036 CCF80830 		str	r3, [ip, #8]
+ 107:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_512;
+  77              		.loc 1 107 5 is_stmt 1 view .LVU18
+  78              		.loc 1 107 19 is_stmt 0 view .LVU19
+  79 003a 164B     		ldr	r3, .L10+4
+  80 003c CCF80C30 		str	r3, [ip, #12]
+ 108:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+  81              		.loc 1 108 5 is_stmt 1 view .LVU20
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+  82              		.loc 1 70 14 is_stmt 0 view .LVU21
+  83 0040 0024     		movs	r4, #0
+  84              		.loc 1 108 5 view .LVU22
+  85 0042 0CE0     		b	.L6
+  86              	.L9:
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   {
+  87              		.loc 1 87 3 view .LVU23
+  88 0044 4FF0FF34 		mov	r4, #-1
+  89 0048 09E0     		b	.L6
+  90              	.L3:
+  91 004a B1F5005F 		cmp	r1, #8192
+  92 004e 1CD1     		bne	.L7
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_8192;
+  93              		.loc 1 92 5 is_stmt 1 view .LVU24
+  92:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_8192;
+  94              		.loc 1 92 17 is_stmt 0 view .LVU25
+  95 0050 114B     		ldr	r3, .L10+8
+  96 0052 CCF80830 		str	r3, [ip, #8]
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+  97              		.loc 1 93 5 is_stmt 1 view .LVU26
+  93:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+  98              		.loc 1 93 19 is_stmt 0 view .LVU27
+  99 0056 114B     		ldr	r3, .L10+12
+ 100 0058 CCF80C30 		str	r3, [ip, #12]
+  94:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif
+ 101              		.loc 1 94 5 is_stmt 1 view .LVU28
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 102              		.loc 1 70 14 is_stmt 0 view .LVU29
+ 103 005c 0024     		movs	r4, #0
+ 104              	.L6:
+ 105              	.LVL4:
+ 109:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif 
+ 110:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 111:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_
+ 112:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   case 128U:
+ 113:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pTwiddle = WeightsQ31_128;
+ 114:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_128;
+ 115:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+ 116:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 5
+
+
+ 117:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   default:
+ 118:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     status = ARM_MATH_ARGUMENT_ERROR;
+ 119:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   }
+ 120:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 121:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* Initialize the RFFT/RIFFT Function */
+ 122:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   arm_rfft_init_q31(S->pRfft,  S->N, 0U, 1U);
+ 106              		.loc 1 122 3 is_stmt 1 view .LVU30
+ 107 005e 0123     		movs	r3, #1
+ 108 0060 0022     		movs	r2, #0
+ 109              	.LVL5:
+ 110              		.loc 1 122 3 is_stmt 0 view .LVU31
+ 111 0062 FFF7FEFF 		bl	arm_rfft_init_q31
+ 112              	.LVL6:
+ 123:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 124:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   /* return the status of DCT4 Init function */
+ 125:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   return (status);
+ 113              		.loc 1 125 3 is_stmt 1 view .LVU32
+ 126:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** }
+ 114              		.loc 1 126 1 is_stmt 0 view .LVU33
+ 115 0066 2046     		mov	r0, r4
+ 116 0068 10BD     		pop	{r4, pc}
+ 117              	.LVL7:
+ 118              	.L2:
+  99:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_2048;
+ 119              		.loc 1 99 5 is_stmt 1 view .LVU34
+  99:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_2048;
+ 120              		.loc 1 99 17 is_stmt 0 view .LVU35
+ 121 006a 0D4B     		ldr	r3, .L10+16
+ 122 006c CCF80830 		str	r3, [ip, #8]
+ 100:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+ 123              		.loc 1 100 5 is_stmt 1 view .LVU36
+ 100:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+ 124              		.loc 1 100 19 is_stmt 0 view .LVU37
+ 125 0070 0C4B     		ldr	r3, .L10+20
+ 126 0072 CCF80C30 		str	r3, [ip, #12]
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif 
+ 127              		.loc 1 101 5 is_stmt 1 view .LVU38
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 128              		.loc 1 70 14 is_stmt 0 view .LVU39
+ 129 0076 0024     		movs	r4, #0
+ 101:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif 
+ 130              		.loc 1 101 5 view .LVU40
+ 131 0078 F1E7     		b	.L6
+ 132              	.L4:
+ 113:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_128;
+ 133              		.loc 1 113 5 is_stmt 1 view .LVU41
+ 113:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     S->pCosFactor = cos_factorsQ31_128;
+ 134              		.loc 1 113 17 is_stmt 0 view .LVU42
+ 135 007a 0B4B     		ldr	r3, .L10+24
+ 136 007c CCF80830 		str	r3, [ip, #8]
+ 114:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+ 137              		.loc 1 114 5 is_stmt 1 view .LVU43
+ 114:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****     break;
+ 138              		.loc 1 114 19 is_stmt 0 view .LVU44
+ 139 0080 0A4B     		ldr	r3, .L10+28
+ 140 0082 CCF80C30 		str	r3, [ip, #12]
+ 115:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 6
+
+
+ 141              		.loc 1 115 5 is_stmt 1 view .LVU45
+  70:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c **** 
+ 142              		.loc 1 70 14 is_stmt 0 view .LVU46
+ 143 0086 0024     		movs	r4, #0
+ 115:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   #endif
+ 144              		.loc 1 115 5 view .LVU47
+ 145 0088 E9E7     		b	.L6
+ 146              	.L7:
+  87:Drivers/CMSIS/DSP/Source/TransformFunctions/arm_dct4_init_q31.c ****   {
+ 147              		.loc 1 87 3 view .LVU48
+ 148 008a 4FF0FF34 		mov	r4, #-1
+ 149 008e E6E7     		b	.L6
+ 150              	.L11:
+ 151              		.align	2
+ 152              	.L10:
+ 153 0090 00000000 		.word	WeightsQ31_512
+ 154 0094 00000000 		.word	cos_factorsQ31_512
+ 155 0098 00000000 		.word	WeightsQ31_8192
+ 156 009c 00000000 		.word	cos_factorsQ31_8192
+ 157 00a0 00000000 		.word	WeightsQ31_2048
+ 158 00a4 00000000 		.word	cos_factorsQ31_2048
+ 159 00a8 00000000 		.word	WeightsQ31_128
+ 160 00ac 00000000 		.word	cos_factorsQ31_128
+ 161              		.cfi_endproc
+ 162              	.LFE145:
+ 164              		.text
+ 165              	.Letext0:
+ 166              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 167              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 168              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 169              		.file 5 "Drivers/CMSIS/DSP/Include/arm_common_tables.h"
+ARM GAS  C:\usertemp\ccRTE4BN.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_dct4_init_q31.c
+C:\usertemp\ccRTE4BN.s:20     .text.arm_dct4_init_q31:00000000 $t
+C:\usertemp\ccRTE4BN.s:26     .text.arm_dct4_init_q31:00000000 arm_dct4_init_q31
+C:\usertemp\ccRTE4BN.s:153    .text.arm_dct4_init_q31:00000090 $d
+
+UNDEFINED SYMBOLS
+arm_rfft_init_q31
+WeightsQ31_512
+cos_factorsQ31_512
+WeightsQ31_8192
+cos_factorsQ31_8192
+WeightsQ31_2048
+cos_factorsQ31_2048
+WeightsQ31_128
+cos_factorsQ31_128
