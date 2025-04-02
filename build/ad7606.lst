@@ -1,0 +1,436 @@
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"ad7606.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.ini7606Paras,"ax",%progbits
+  19              		.align	1
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	ini7606Paras:
+  25              	.LVL0:
+  26              	.LFB336:
+  27              		.file 1 "Core/Src/ad7606.c"
+   1:Core/Src/ad7606.c **** #include "ad7606.h"
+   2:Core/Src/ad7606.c **** #include "usart.h"
+   3:Core/Src/ad7606.c **** 
+   4:Core/Src/ad7606.c **** 
+   5:Core/Src/ad7606.c **** /*******************************************************
+   6:Core/Src/ad7606.c ****  * 
+   7:Core/Src/ad7606.c ****  * Declare a struct variable in ur app_code.c as bellow
+   8:Core/Src/ad7606.c ****  * AD7606Dev ad7606dev;
+   9:Core/Src/ad7606.c ****  * and initialize it.
+  10:Core/Src/ad7606.c ****  * 
+  11:Core/Src/ad7606.c **** ********************************************************/
+  12:Core/Src/ad7606.c **** 
+  13:Core/Src/ad7606.c **** short testAdc[testCHs];   // just for test .
+  14:Core/Src/ad7606.c **** 
+  15:Core/Src/ad7606.c **** 
+  16:Core/Src/ad7606.c **** static void ini7606Paras(AD7606Dev * dev)
+  17:Core/Src/ad7606.c **** { 
+  28              		.loc 1 17 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  18:Core/Src/ad7606.c ****     dev->baseaddr=0x60000000;
+  33              		.loc 1 18 5 view .LVU1
+  34              		.loc 1 18 18 is_stmt 0 view .LVU2
+  35 0000 4FF0C043 		mov	r3, #1610612736
+  36 0004 0360     		str	r3, [r0]
+  19:Core/Src/ad7606.c ****     dev->interface=AD7606_PARALLEL;
+  37              		.loc 1 19 5 is_stmt 1 view .LVU3
+  38              		.loc 1 19 19 is_stmt 0 view .LVU4
+  39 0006 0123     		movs	r3, #1
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 2
+
+
+  40 0008 80F80438 		strb	r3, [r0, #2052]
+  20:Core/Src/ad7606.c ****     dev->range=AD7606_10V;
+  41              		.loc 1 20 5 is_stmt 1 view .LVU5
+  42              		.loc 1 20 15 is_stmt 0 view .LVU6
+  43 000c 0223     		movs	r3, #2
+  44 000e 80F80538 		strb	r3, [r0, #2053]
+  21:Core/Src/ad7606.c ****     dev->osr=AD7606_OSR_64;
+  45              		.loc 1 21 5 is_stmt 1 view .LVU7
+  46              		.loc 1 21 13 is_stmt 0 view .LVU8
+  47 0012 0623     		movs	r3, #6
+  48 0014 80F80638 		strb	r3, [r0, #2054]
+  22:Core/Src/ad7606.c **** 
+  23:Core/Src/ad7606.c **** }
+  49              		.loc 1 23 1 view .LVU9
+  50 0018 7047     		bx	lr
+  51              		.cfi_endproc
+  52              	.LFE336:
+  54              		.section	.text.ad7606ini,"ax",%progbits
+  55              		.align	1
+  56              		.global	ad7606ini
+  57              		.syntax unified
+  58              		.thumb
+  59              		.thumb_func
+  61              	ad7606ini:
+  62              	.LVL1:
+  63              	.LFB337:
+  24:Core/Src/ad7606.c **** 
+  25:Core/Src/ad7606.c **** void ad7606ini(AD7606Dev * dev)
+  26:Core/Src/ad7606.c **** {
+  64              		.loc 1 26 1 is_stmt 1 view -0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 0
+  67              		@ frame_needed = 0, uses_anonymous_args = 0
+  68              		.loc 1 26 1 is_stmt 0 view .LVU11
+  69 0000 10B5     		push	{r4, lr}
+  70              	.LCFI0:
+  71              		.cfi_def_cfa_offset 8
+  72              		.cfi_offset 4, -8
+  73              		.cfi_offset 14, -4
+  74 0002 0446     		mov	r4, r0
+  27:Core/Src/ad7606.c **** 
+  28:Core/Src/ad7606.c ****     int i;
+  75              		.loc 1 28 5 is_stmt 1 view .LVU12
+  29:Core/Src/ad7606.c **** 
+  30:Core/Src/ad7606.c ****     ini7606Paras(dev);
+  76              		.loc 1 30 5 view .LVU13
+  77 0004 FFF7FEFF 		bl	ini7606Paras
+  78              	.LVL2:
+  31:Core/Src/ad7606.c ****     
+  32:Core/Src/ad7606.c ****     /// set rang 
+  33:Core/Src/ad7606.c **** 
+  34:Core/Src/ad7606.c ****     /// clear bufs.
+  35:Core/Src/ad7606.c ****     for(i=0;i<DataBufLen;i++)
+  79              		.loc 1 35 5 view .LVU14
+  80              		.loc 1 35 10 is_stmt 0 view .LVU15
+  81 0008 0023     		movs	r3, #0
+  82              		.loc 1 35 5 view .LVU16
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 3
+
+
+  83 000a 04E0     		b	.L3
+  84              	.LVL3:
+  85              	.L4:
+  36:Core/Src/ad7606.c ****     {
+  37:Core/Src/ad7606.c ****         dev->dataBuf[i]=0;
+  86              		.loc 1 37 9 is_stmt 1 discriminator 3 view .LVU17
+  87              		.loc 1 37 24 is_stmt 0 discriminator 3 view .LVU18
+  88 000c 04EB4302 		add	r2, r4, r3, lsl #1
+  89 0010 0021     		movs	r1, #0
+  90 0012 9180     		strh	r1, [r2, #4]	@ movhi
+  35:Core/Src/ad7606.c ****     {
+  91              		.loc 1 35 26 is_stmt 1 discriminator 3 view .LVU19
+  35:Core/Src/ad7606.c ****     {
+  92              		.loc 1 35 27 is_stmt 0 discriminator 3 view .LVU20
+  93 0014 0133     		adds	r3, r3, #1
+  94              	.LVL4:
+  95              	.L3:
+  35:Core/Src/ad7606.c ****     {
+  96              		.loc 1 35 13 is_stmt 1 discriminator 1 view .LVU21
+  35:Core/Src/ad7606.c ****     {
+  97              		.loc 1 35 5 is_stmt 0 discriminator 1 view .LVU22
+  98 0016 B3F5806F 		cmp	r3, #1024
+  99 001a F7DB     		blt	.L4
+  38:Core/Src/ad7606.c ****     }
+  39:Core/Src/ad7606.c **** 
+  40:Core/Src/ad7606.c **** 	HAL_GPIO_WritePin(ADC_STBY_GPIO_Port,ADC_STBY_Pin,GPIO_PIN_SET);
+ 100              		.loc 1 40 2 is_stmt 1 view .LVU23
+ 101 001c 0C4C     		ldr	r4, .L6
+ 102              	.LVL5:
+ 103              		.loc 1 40 2 is_stmt 0 view .LVU24
+ 104 001e 0122     		movs	r2, #1
+ 105 0020 8021     		movs	r1, #128
+ 106 0022 2046     		mov	r0, r4
+ 107 0024 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 108              	.LVL6:
+  41:Core/Src/ad7606.c **** 	HAL_Delay(2);
+ 109              		.loc 1 41 2 is_stmt 1 view .LVU25
+ 110 0028 0220     		movs	r0, #2
+ 111 002a FFF7FEFF 		bl	HAL_Delay
+ 112              	.LVL7:
+  42:Core/Src/ad7606.c **** 	HAL_GPIO_WritePin(ADC_RST_GPIO_Port,ADC_RST_Pin,GPIO_PIN_SET);
+ 113              		.loc 1 42 2 view .LVU26
+ 114 002e 0122     		movs	r2, #1
+ 115 0030 4FF48061 		mov	r1, #1024
+ 116 0034 2046     		mov	r0, r4
+ 117 0036 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 118              	.LVL8:
+  43:Core/Src/ad7606.c **** 	HAL_Delay(20);
+ 119              		.loc 1 43 2 view .LVU27
+ 120 003a 1420     		movs	r0, #20
+ 121 003c FFF7FEFF 		bl	HAL_Delay
+ 122              	.LVL9:
+  44:Core/Src/ad7606.c **** 	HAL_GPIO_WritePin(ADC_RST_GPIO_Port,ADC_RST_Pin,GPIO_PIN_RESET);
+ 123              		.loc 1 44 2 view .LVU28
+ 124 0040 0022     		movs	r2, #0
+ 125 0042 4FF48061 		mov	r1, #1024
+ 126 0046 2046     		mov	r0, r4
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 4
+
+
+ 127 0048 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 128              	.LVL10:
+  45:Core/Src/ad7606.c **** 	
+  46:Core/Src/ad7606.c **** }
+ 129              		.loc 1 46 1 is_stmt 0 view .LVU29
+ 130 004c 10BD     		pop	{r4, pc}
+ 131              	.L7:
+ 132 004e 00BF     		.align	2
+ 133              	.L6:
+ 134 0050 00180258 		.word	1476532224
+ 135              		.cfi_endproc
+ 136              	.LFE337:
+ 138              		.section	.text.get_AD7606,"ax",%progbits
+ 139              		.align	1
+ 140              		.global	get_AD7606
+ 141              		.syntax unified
+ 142              		.thumb
+ 143              		.thumb_func
+ 145              	get_AD7606:
+ 146              	.LFB338:
+  47:Core/Src/ad7606.c **** 
+  48:Core/Src/ad7606.c **** 
+  49:Core/Src/ad7606.c **** void get_AD7606(void)
+  50:Core/Src/ad7606.c **** {
+ 147              		.loc 1 50 1 is_stmt 1 view -0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151              		@ link register save eliminated.
+  51:Core/Src/ad7606.c **** 		// for(i=0;i<8;i++)
+  52:Core/Src/ad7606.c **** 		// {
+  53:Core/Src/ad7606.c **** 		// 	testAdc[i]=AD7606Addr;
+  54:Core/Src/ad7606.c **** 		// }
+  55:Core/Src/ad7606.c **** }
+ 152              		.loc 1 55 1 view .LVU31
+ 153 0000 7047     		bx	lr
+ 154              		.cfi_endproc
+ 155              	.LFE338:
+ 157              		.section	.text.test_AD7606,"ax",%progbits
+ 158              		.align	1
+ 159              		.global	test_AD7606
+ 160              		.syntax unified
+ 161              		.thumb
+ 162              		.thumb_func
+ 164              	test_AD7606:
+ 165              	.LFB339:
+  56:Core/Src/ad7606.c **** 
+  57:Core/Src/ad7606.c **** void test_AD7606(void)
+  58:Core/Src/ad7606.c **** {
+ 166              		.loc 1 58 1 view -0
+ 167              		.cfi_startproc
+ 168              		@ args = 0, pretend = 0, frame = 0
+ 169              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170              		@ link register save eliminated.
+  59:Core/Src/ad7606.c ****     int i;
+ 171              		.loc 1 59 5 view .LVU33
+  60:Core/Src/ad7606.c **** 
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 5
+
+
+  61:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
+ 172              		.loc 1 61 5 view .LVU34
+ 173              	.LVL11:
+ 174              		.loc 1 61 10 is_stmt 0 view .LVU35
+ 175 0000 0023     		movs	r3, #0
+ 176              		.loc 1 61 5 view .LVU36
+ 177 0002 06E0     		b	.L10
+ 178              	.LVL12:
+ 179              	.L11:
+  62:Core/Src/ad7606.c ****     {
+  63:Core/Src/ad7606.c ****     	testAdc[i]=AD7606Addr;
+ 180              		.loc 1 63 6 is_stmt 1 discriminator 3 view .LVU37
+ 181              		.loc 1 63 17 is_stmt 0 discriminator 3 view .LVU38
+ 182 0004 4FF0C042 		mov	r2, #1610612736
+ 183 0008 1188     		ldrh	r1, [r2]
+ 184              		.loc 1 63 16 discriminator 3 view .LVU39
+ 185 000a 034A     		ldr	r2, .L12
+ 186 000c 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 187              		.loc 1 63 27 is_stmt 1 discriminator 3 view .LVU40
+  61:Core/Src/ad7606.c ****     {
+ 188              		.loc 1 61 23 discriminator 3 view .LVU41
+  61:Core/Src/ad7606.c ****     {
+ 189              		.loc 1 61 24 is_stmt 0 discriminator 3 view .LVU42
+ 190 0010 0133     		adds	r3, r3, #1
+ 191              	.LVL13:
+ 192              	.L10:
+  61:Core/Src/ad7606.c ****     {
+ 193              		.loc 1 61 13 is_stmt 1 discriminator 1 view .LVU43
+  61:Core/Src/ad7606.c ****     {
+ 194              		.loc 1 61 5 is_stmt 0 discriminator 1 view .LVU44
+ 195 0012 072B     		cmp	r3, #7
+ 196 0014 F6DD     		ble	.L11
+  64:Core/Src/ad7606.c ****     }
+  65:Core/Src/ad7606.c **** }
+ 197              		.loc 1 65 1 view .LVU45
+ 198 0016 7047     		bx	lr
+ 199              	.L13:
+ 200              		.align	2
+ 201              	.L12:
+ 202 0018 00000000 		.word	.LANCHOR0
+ 203              		.cfi_endproc
+ 204              	.LFE339:
+ 206              		.section	.rodata.print_AD7606.str1.4,"aMS",%progbits,1
+ 207              		.align	2
+ 208              	.LC0:
+ 209 0000 0D0A2041 		.ascii	"\015\012 AD7606 DATAs:\015\000"
+ 209      44373630 
+ 209      36204441 
+ 209      5441733A 
+ 209      0D00
+ 210 0012 0000     		.align	2
+ 211              	.LC1:
+ 212 0014 0D0A2044 		.ascii	"\015\012 DATA at CH%d:\011%.3f\015\012\000"
+ 212      41544120 
+ 212      61742043 
+ 212      4825643A 
+ 212      09252E33 
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 6
+
+
+ 213              		.section	.text.print_AD7606,"ax",%progbits
+ 214              		.align	1
+ 215              		.global	print_AD7606
+ 216              		.syntax unified
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	print_AD7606:
+ 221              	.LFB340:
+  66:Core/Src/ad7606.c **** 
+  67:Core/Src/ad7606.c **** 
+  68:Core/Src/ad7606.c **** void print_AD7606(void)
+  69:Core/Src/ad7606.c **** {
+ 222              		.loc 1 69 1 is_stmt 1 view -0
+ 223              		.cfi_startproc
+ 224              		@ args = 0, pretend = 0, frame = 0
+ 225              		@ frame_needed = 0, uses_anonymous_args = 0
+ 226 0000 10B5     		push	{r4, lr}
+ 227              	.LCFI1:
+ 228              		.cfi_def_cfa_offset 8
+ 229              		.cfi_offset 4, -8
+ 230              		.cfi_offset 14, -4
+  70:Core/Src/ad7606.c ****     int i;
+ 231              		.loc 1 70 5 view .LVU47
+  71:Core/Src/ad7606.c ****     printf("\r\n AD7606 DATAs:\r\n");
+ 232              		.loc 1 71 5 view .LVU48
+ 233 0002 1148     		ldr	r0, .L18+8
+ 234 0004 FFF7FEFF 		bl	puts
+ 235              	.LVL14:
+  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
+ 236              		.loc 1 72 5 view .LVU49
+ 237              		.loc 1 72 10 is_stmt 0 view .LVU50
+ 238 0008 0024     		movs	r4, #0
+ 239              		.loc 1 72 5 view .LVU51
+ 240 000a 15E0     		b	.L15
+ 241              	.LVL15:
+ 242              	.L16:
+  73:Core/Src/ad7606.c ****     {
+  74:Core/Src/ad7606.c ****         printf("\r\n DATA at CH%d:\t%.3f\r\n",i,testAdc[i]/32768.0*10);
+ 243              		.loc 1 74 9 is_stmt 1 discriminator 3 view .LVU52
+ 244              		.loc 1 74 56 is_stmt 0 discriminator 3 view .LVU53
+ 245 000c 0F4B     		ldr	r3, .L18+12
+ 246 000e 33F91430 		ldrsh	r3, [r3, r4, lsl #1]
+ 247 0012 07EE103A 		vmov	s14, r3	@ int
+ 248              		.loc 1 74 59 discriminator 3 view .LVU54
+ 249 0016 B8EEC77B 		vcvt.f64.s32	d7, s14
+ 250 001a 9FED096B 		vldr.64	d6, .L18
+ 251 001e 27EE067B 		vmul.f64	d7, d7, d6
+ 252              		.loc 1 74 9 discriminator 3 view .LVU55
+ 253 0022 B2EE046B 		vmov.f64	d6, #1.0e+1
+ 254 0026 27EE067B 		vmul.f64	d7, d7, d6
+ 255 002a 53EC172B 		vmov	r2, r3, d7
+ 256 002e 2146     		mov	r1, r4
+ 257 0030 0748     		ldr	r0, .L18+16
+ 258 0032 FFF7FEFF 		bl	printf
+ 259              	.LVL16:
+  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
+ 260              		.loc 1 72 23 is_stmt 1 discriminator 3 view .LVU56
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 7
+
+
+  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
+ 261              		.loc 1 72 24 is_stmt 0 discriminator 3 view .LVU57
+ 262 0036 0134     		adds	r4, r4, #1
+ 263              	.LVL17:
+ 264              	.L15:
+  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
+ 265              		.loc 1 72 13 is_stmt 1 discriminator 1 view .LVU58
+  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
+ 266              		.loc 1 72 5 is_stmt 0 discriminator 1 view .LVU59
+ 267 0038 072C     		cmp	r4, #7
+ 268 003a E7DD     		ble	.L16
+  75:Core/Src/ad7606.c ****     }
+  76:Core/Src/ad7606.c **** }...
+ 269              		.loc 1 76 1 view .LVU60
+ 270 003c 10BD     		pop	{r4, pc}
+ 271              	.LVL18:
+ 272              	.L19:
+ 273              		.loc 1 76 1 view .LVU61
+ 274 003e 00BF     		.align	3
+ 275              	.L18:
+ 276 0040 00000000 		.word	0
+ 277 0044 0000003F 		.word	1056964608
+ 278 0048 00000000 		.word	.LC0
+ 279 004c 00000000 		.word	.LANCHOR0
+ 280 0050 14000000 		.word	.LC1
+ 281              		.cfi_endproc
+ 282              	.LFE340:
+ 284              		.global	testAdc
+ 285              		.section	.bss.testAdc,"aw",%nobits
+ 286              		.align	2
+ 287              		.set	.LANCHOR0,. + 0
+ 290              	testAdc:
+ 291 0000 00000000 		.space	16
+ 291      00000000 
+ 291      00000000 
+ 291      00000000 
+ 292              		.text
+ 293              	.Letext0:
+ 294              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 295              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 296              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 297              		.file 5 "Core/Inc/ad7606.h"
+ 298              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 299              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 300              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ 301              		.file 9 "<built-in>"
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ad7606.c
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:19     .text.ini7606Paras:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:24     .text.ini7606Paras:00000000 ini7606Paras
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:55     .text.ad7606ini:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:61     .text.ad7606ini:00000000 ad7606ini
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:134    .text.ad7606ini:00000050 $d
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:139    .text.get_AD7606:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:145    .text.get_AD7606:00000000 get_AD7606
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:158    .text.test_AD7606:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:164    .text.test_AD7606:00000000 test_AD7606
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:202    .text.test_AD7606:00000018 $d
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:207    .rodata.print_AD7606.str1.4:00000000 $d
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:214    .text.print_AD7606:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:220    .text.print_AD7606:00000000 print_AD7606
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:276    .text.print_AD7606:00000040 $d
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:290    .bss.testAdc:00000000 testAdc
+C:\Users\zdy\AppData\Local\Temp\cct8RHaw.s:286    .bss.testAdc:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_Delay
+puts
+printf

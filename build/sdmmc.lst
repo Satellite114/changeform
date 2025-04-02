@@ -1,0 +1,571 @@
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"sdmmc.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.MX_SDMMC1_SD_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	MX_SDMMC1_SD_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	MX_SDMMC1_SD_Init:
+  26              	.LFB333:
+  27              		.file 1 "Core/Src/sdmmc.c"
+   1:Core/Src/sdmmc.c **** /**
+   2:Core/Src/sdmmc.c ****   ******************************************************************************
+   3:Core/Src/sdmmc.c ****   * @file    sdmmc.c
+   4:Core/Src/sdmmc.c ****   * @brief   This file provides code for the configuration
+   5:Core/Src/sdmmc.c ****   *          of the SDMMC instances.
+   6:Core/Src/sdmmc.c ****   ******************************************************************************
+   7:Core/Src/sdmmc.c ****   * @attention
+   8:Core/Src/sdmmc.c ****   *
+   9:Core/Src/sdmmc.c ****   * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
+  10:Core/Src/sdmmc.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/sdmmc.c ****   *
+  12:Core/Src/sdmmc.c ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Core/Src/sdmmc.c ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Core/Src/sdmmc.c ****   * the License. You may obtain a copy of the License at:
+  15:Core/Src/sdmmc.c ****   *                             www.st.com/SLA0044
+  16:Core/Src/sdmmc.c ****   *
+  17:Core/Src/sdmmc.c ****   ******************************************************************************
+  18:Core/Src/sdmmc.c ****   */
+  19:Core/Src/sdmmc.c **** 
+  20:Core/Src/sdmmc.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/sdmmc.c **** #include "sdmmc.h"
+  22:Core/Src/sdmmc.c **** 
+  23:Core/Src/sdmmc.c **** /* USER CODE BEGIN 0 */
+  24:Core/Src/sdmmc.c **** 
+  25:Core/Src/sdmmc.c **** /* USER CODE END 0 */
+  26:Core/Src/sdmmc.c **** 
+  27:Core/Src/sdmmc.c **** SD_HandleTypeDef hsd1;
+  28:Core/Src/sdmmc.c **** 
+  29:Core/Src/sdmmc.c **** /* SDMMC1 init function */
+  30:Core/Src/sdmmc.c **** 
+  31:Core/Src/sdmmc.c **** void MX_SDMMC1_SD_Init(void)
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 2
+
+
+  32:Core/Src/sdmmc.c **** {
+  28              		.loc 1 32 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33:Core/Src/sdmmc.c **** 
+  34:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_Init 0 */
+  35:Core/Src/sdmmc.c **** 
+  36:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_Init 0 */
+  37:Core/Src/sdmmc.c **** 
+  38:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_Init 1 */
+  39:Core/Src/sdmmc.c **** 
+  40:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_Init 1 */
+  41:Core/Src/sdmmc.c ****   hsd1.Instance = SDMMC1;
+  33              		.loc 1 41 3 view .LVU1
+  34              		.loc 1 41 17 is_stmt 0 view .LVU2
+  35 0000 054B     		ldr	r3, .L2
+  36 0002 064A     		ldr	r2, .L2+4
+  37 0004 1A60     		str	r2, [r3]
+  42:Core/Src/sdmmc.c ****   hsd1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+  38              		.loc 1 42 3 is_stmt 1 view .LVU3
+  39              		.loc 1 42 23 is_stmt 0 view .LVU4
+  40 0006 0022     		movs	r2, #0
+  41 0008 5A60     		str	r2, [r3, #4]
+  43:Core/Src/sdmmc.c ****   hsd1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+  42              		.loc 1 43 3 is_stmt 1 view .LVU5
+  43              		.loc 1 43 28 is_stmt 0 view .LVU6
+  44 000a 9A60     		str	r2, [r3, #8]
+  44:Core/Src/sdmmc.c ****   hsd1.Init.BusWide = SDMMC_BUS_WIDE_4B;
+  45              		.loc 1 44 3 is_stmt 1 view .LVU7
+  46              		.loc 1 44 21 is_stmt 0 view .LVU8
+  47 000c 4FF48041 		mov	r1, #16384
+  48 0010 D960     		str	r1, [r3, #12]
+  45:Core/Src/sdmmc.c ****   hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  49              		.loc 1 45 3 is_stmt 1 view .LVU9
+  50              		.loc 1 45 33 is_stmt 0 view .LVU10
+  51 0012 1A61     		str	r2, [r3, #16]
+  46:Core/Src/sdmmc.c ****   hsd1.Init.ClockDiv = 0;
+  52              		.loc 1 46 3 is_stmt 1 view .LVU11
+  53              		.loc 1 46 22 is_stmt 0 view .LVU12
+  54 0014 5A61     		str	r2, [r3, #20]
+  47:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_Init 2 */
+  48:Core/Src/sdmmc.c **** 
+  49:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_Init 2 */
+  50:Core/Src/sdmmc.c **** 
+  51:Core/Src/sdmmc.c **** }
+  55              		.loc 1 51 1 view .LVU13
+  56 0016 7047     		bx	lr
+  57              	.L3:
+  58              		.align	2
+  59              	.L2:
+  60 0018 00000000 		.word	.LANCHOR0
+  61 001c 00700052 		.word	1375760384
+  62              		.cfi_endproc
+  63              	.LFE333:
+  65              		.section	.text.HAL_SD_MspInit,"ax",%progbits
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 3
+
+
+  66              		.align	1
+  67              		.global	HAL_SD_MspInit
+  68              		.syntax unified
+  69              		.thumb
+  70              		.thumb_func
+  72              	HAL_SD_MspInit:
+  73              	.LVL0:
+  74              	.LFB334:
+  52:Core/Src/sdmmc.c **** 
+  53:Core/Src/sdmmc.c **** void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
+  54:Core/Src/sdmmc.c **** {
+  75              		.loc 1 54 1 is_stmt 1 view -0
+  76              		.cfi_startproc
+  77              		@ args = 0, pretend = 0, frame = 224
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              		.loc 1 54 1 is_stmt 0 view .LVU15
+  80 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  81              	.LCFI0:
+  82              		.cfi_def_cfa_offset 20
+  83              		.cfi_offset 4, -20
+  84              		.cfi_offset 5, -16
+  85              		.cfi_offset 6, -12
+  86              		.cfi_offset 7, -8
+  87              		.cfi_offset 14, -4
+  88 0002 B9B0     		sub	sp, sp, #228
+  89              	.LCFI1:
+  90              		.cfi_def_cfa_offset 248
+  91 0004 0446     		mov	r4, r0
+  55:Core/Src/sdmmc.c **** 
+  56:Core/Src/sdmmc.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  92              		.loc 1 56 3 is_stmt 1 view .LVU16
+  93              		.loc 1 56 20 is_stmt 0 view .LVU17
+  94 0006 0021     		movs	r1, #0
+  95 0008 3391     		str	r1, [sp, #204]
+  96 000a 3491     		str	r1, [sp, #208]
+  97 000c 3591     		str	r1, [sp, #212]
+  98 000e 3691     		str	r1, [sp, #216]
+  99 0010 3791     		str	r1, [sp, #220]
+  57:Core/Src/sdmmc.c ****   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+ 100              		.loc 1 57 3 is_stmt 1 view .LVU18
+ 101              		.loc 1 57 28 is_stmt 0 view .LVU19
+ 102 0012 BC22     		movs	r2, #188
+ 103 0014 04A8     		add	r0, sp, #16
+ 104              	.LVL1:
+ 105              		.loc 1 57 28 view .LVU20
+ 106 0016 FFF7FEFF 		bl	memset
+ 107              	.LVL2:
+  58:Core/Src/sdmmc.c ****   if(sdHandle->Instance==SDMMC1)
+ 108              		.loc 1 58 3 is_stmt 1 view .LVU21
+ 109              		.loc 1 58 14 is_stmt 0 view .LVU22
+ 110 001a 2268     		ldr	r2, [r4]
+ 111              		.loc 1 58 5 view .LVU23
+ 112 001c 274B     		ldr	r3, .L10
+ 113 001e 9A42     		cmp	r2, r3
+ 114 0020 01D0     		beq	.L8
+ 115              	.LVL3:
+ 116              	.L4:
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 4
+
+
+  59:Core/Src/sdmmc.c ****   {
+  60:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_MspInit 0 */
+  61:Core/Src/sdmmc.c **** 
+  62:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_MspInit 0 */
+  63:Core/Src/sdmmc.c ****   /** Initializes the peripherals clock
+  64:Core/Src/sdmmc.c ****   */
+  65:Core/Src/sdmmc.c ****     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SDMMC;
+  66:Core/Src/sdmmc.c ****     PeriphClkInitStruct.SdmmcClockSelection = RCC_SDMMCCLKSOURCE_PLL;
+  67:Core/Src/sdmmc.c ****     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+  68:Core/Src/sdmmc.c ****     {
+  69:Core/Src/sdmmc.c ****       Error_Handler();
+  70:Core/Src/sdmmc.c ****     }
+  71:Core/Src/sdmmc.c **** 
+  72:Core/Src/sdmmc.c ****     /* SDMMC1 clock enable */
+  73:Core/Src/sdmmc.c ****     __HAL_RCC_SDMMC1_CLK_ENABLE();
+  74:Core/Src/sdmmc.c **** 
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOC_CLK_ENABLE();
+  76:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+  77:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+  78:Core/Src/sdmmc.c ****     PC8     ------> SDMMC1_D0
+  79:Core/Src/sdmmc.c ****     PC9     ------> SDMMC1_D1
+  80:Core/Src/sdmmc.c ****     PC10     ------> SDMMC1_D2
+  81:Core/Src/sdmmc.c ****     PC11     ------> SDMMC1_D3
+  82:Core/Src/sdmmc.c ****     PC12     ------> SDMMC1_CK
+  83:Core/Src/sdmmc.c ****     PD2     ------> SDMMC1_CMD
+  84:Core/Src/sdmmc.c ****     */
+  85:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11
+  86:Core/Src/sdmmc.c ****                           |GPIO_PIN_12;
+  87:Core/Src/sdmmc.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  88:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  89:Core/Src/sdmmc.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  90:Core/Src/sdmmc.c ****     GPIO_InitStruct.Alternate = GPIO_AF12_SDIO1;
+  91:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  92:Core/Src/sdmmc.c **** 
+  93:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pin = GPIO_PIN_2;
+  94:Core/Src/sdmmc.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  95:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  96:Core/Src/sdmmc.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  97:Core/Src/sdmmc.c ****     GPIO_InitStruct.Alternate = GPIO_AF12_SDIO1;
+  98:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  99:Core/Src/sdmmc.c **** 
+ 100:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_MspInit 1 */
+ 101:Core/Src/sdmmc.c **** 
+ 102:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_MspInit 1 */
+ 103:Core/Src/sdmmc.c ****   }
+ 104:Core/Src/sdmmc.c **** }
+ 117              		.loc 1 104 1 view .LVU24
+ 118 0022 39B0     		add	sp, sp, #228
+ 119              	.LCFI2:
+ 120              		.cfi_remember_state
+ 121              		.cfi_def_cfa_offset 20
+ 122              		@ sp needed
+ 123 0024 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 124              	.LVL4:
+ 125              	.L8:
+ 126              	.LCFI3:
+ 127              		.cfi_restore_state
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 5
+
+
+  65:Core/Src/sdmmc.c ****     PeriphClkInitStruct.SdmmcClockSelection = RCC_SDMMCCLKSOURCE_PLL;
+ 128              		.loc 1 65 5 is_stmt 1 view .LVU25
+  65:Core/Src/sdmmc.c ****     PeriphClkInitStruct.SdmmcClockSelection = RCC_SDMMCCLKSOURCE_PLL;
+ 129              		.loc 1 65 46 is_stmt 0 view .LVU26
+ 130 0026 4FF48033 		mov	r3, #65536
+ 131 002a 0493     		str	r3, [sp, #16]
+  66:Core/Src/sdmmc.c ****     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+ 132              		.loc 1 66 5 is_stmt 1 view .LVU27
+  67:Core/Src/sdmmc.c ****     {
+ 133              		.loc 1 67 5 view .LVU28
+  67:Core/Src/sdmmc.c ****     {
+ 134              		.loc 1 67 9 is_stmt 0 view .LVU29
+ 135 002c 04A8     		add	r0, sp, #16
+ 136 002e FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
+ 137              	.LVL5:
+  67:Core/Src/sdmmc.c ****     {
+ 138              		.loc 1 67 8 view .LVU30
+ 139 0032 0028     		cmp	r0, #0
+ 140 0034 3ED1     		bne	.L9
+ 141              	.L6:
+  73:Core/Src/sdmmc.c **** 
+ 142              		.loc 1 73 5 is_stmt 1 view .LVU31
+ 143              	.LBB2:
+  73:Core/Src/sdmmc.c **** 
+ 144              		.loc 1 73 5 view .LVU32
+  73:Core/Src/sdmmc.c **** 
+ 145              		.loc 1 73 5 view .LVU33
+ 146 0036 224B     		ldr	r3, .L10+4
+ 147 0038 D3F8D420 		ldr	r2, [r3, #212]
+ 148 003c 42F48032 		orr	r2, r2, #65536
+ 149 0040 C3F8D420 		str	r2, [r3, #212]
+  73:Core/Src/sdmmc.c **** 
+ 150              		.loc 1 73 5 view .LVU34
+ 151 0044 D3F8D420 		ldr	r2, [r3, #212]
+ 152 0048 02F48032 		and	r2, r2, #65536
+ 153 004c 0192     		str	r2, [sp, #4]
+  73:Core/Src/sdmmc.c **** 
+ 154              		.loc 1 73 5 view .LVU35
+ 155 004e 019A     		ldr	r2, [sp, #4]
+ 156              	.LBE2:
+  73:Core/Src/sdmmc.c **** 
+ 157              		.loc 1 73 5 view .LVU36
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+ 158              		.loc 1 75 5 view .LVU37
+ 159              	.LBB3:
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+ 160              		.loc 1 75 5 view .LVU38
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+ 161              		.loc 1 75 5 view .LVU39
+ 162 0050 D3F8E020 		ldr	r2, [r3, #224]
+ 163 0054 42F00402 		orr	r2, r2, #4
+ 164 0058 C3F8E020 		str	r2, [r3, #224]
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+ 165              		.loc 1 75 5 view .LVU40
+ 166 005c D3F8E020 		ldr	r2, [r3, #224]
+ 167 0060 02F00402 		and	r2, r2, #4
+ 168 0064 0292     		str	r2, [sp, #8]
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 6
+
+
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+ 169              		.loc 1 75 5 view .LVU41
+ 170 0066 029A     		ldr	r2, [sp, #8]
+ 171              	.LBE3:
+  75:Core/Src/sdmmc.c ****     __HAL_RCC_GPIOD_CLK_ENABLE();
+ 172              		.loc 1 75 5 view .LVU42
+  76:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 173              		.loc 1 76 5 view .LVU43
+ 174              	.LBB4:
+  76:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 175              		.loc 1 76 5 view .LVU44
+  76:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 176              		.loc 1 76 5 view .LVU45
+ 177 0068 D3F8E020 		ldr	r2, [r3, #224]
+ 178 006c 42F00802 		orr	r2, r2, #8
+ 179 0070 C3F8E020 		str	r2, [r3, #224]
+  76:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 180              		.loc 1 76 5 view .LVU46
+ 181 0074 D3F8E030 		ldr	r3, [r3, #224]
+ 182 0078 03F00803 		and	r3, r3, #8
+ 183 007c 0393     		str	r3, [sp, #12]
+  76:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 184              		.loc 1 76 5 view .LVU47
+ 185 007e 039B     		ldr	r3, [sp, #12]
+ 186              	.LBE4:
+  76:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 187              		.loc 1 76 5 view .LVU48
+  85:Core/Src/sdmmc.c ****                           |GPIO_PIN_12;
+ 188              		.loc 1 85 5 view .LVU49
+  85:Core/Src/sdmmc.c ****                           |GPIO_PIN_12;
+ 189              		.loc 1 85 25 is_stmt 0 view .LVU50
+ 190 0080 4FF4F853 		mov	r3, #7936
+ 191 0084 3393     		str	r3, [sp, #204]
+  87:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 192              		.loc 1 87 5 is_stmt 1 view .LVU51
+  87:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 193              		.loc 1 87 26 is_stmt 0 view .LVU52
+ 194 0086 0227     		movs	r7, #2
+ 195 0088 3497     		str	r7, [sp, #208]
+  88:Core/Src/sdmmc.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 196              		.loc 1 88 5 is_stmt 1 view .LVU53
+  88:Core/Src/sdmmc.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 197              		.loc 1 88 26 is_stmt 0 view .LVU54
+ 198 008a 0026     		movs	r6, #0
+ 199 008c 3596     		str	r6, [sp, #212]
+  89:Core/Src/sdmmc.c ****     GPIO_InitStruct.Alternate = GPIO_AF12_SDIO1;
+ 200              		.loc 1 89 5 is_stmt 1 view .LVU55
+  89:Core/Src/sdmmc.c ****     GPIO_InitStruct.Alternate = GPIO_AF12_SDIO1;
+ 201              		.loc 1 89 27 is_stmt 0 view .LVU56
+ 202 008e 0325     		movs	r5, #3
+ 203 0090 3695     		str	r5, [sp, #216]
+  90:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+ 204              		.loc 1 90 5 is_stmt 1 view .LVU57
+  90:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+ 205              		.loc 1 90 31 is_stmt 0 view .LVU58
+ 206 0092 0C24     		movs	r4, #12
+ 207              	.LVL6:
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 7
+
+
+  90:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+ 208              		.loc 1 90 31 view .LVU59
+ 209 0094 3794     		str	r4, [sp, #220]
+  91:Core/Src/sdmmc.c **** 
+ 210              		.loc 1 91 5 is_stmt 1 view .LVU60
+ 211 0096 33A9     		add	r1, sp, #204
+ 212 0098 0A48     		ldr	r0, .L10+8
+ 213 009a FFF7FEFF 		bl	HAL_GPIO_Init
+ 214              	.LVL7:
+  93:Core/Src/sdmmc.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 215              		.loc 1 93 5 view .LVU61
+  93:Core/Src/sdmmc.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 216              		.loc 1 93 25 is_stmt 0 view .LVU62
+ 217 009e 0423     		movs	r3, #4
+ 218 00a0 3393     		str	r3, [sp, #204]
+  94:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 219              		.loc 1 94 5 is_stmt 1 view .LVU63
+  94:Core/Src/sdmmc.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 220              		.loc 1 94 26 is_stmt 0 view .LVU64
+ 221 00a2 3497     		str	r7, [sp, #208]
+  95:Core/Src/sdmmc.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 222              		.loc 1 95 5 is_stmt 1 view .LVU65
+  95:Core/Src/sdmmc.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+ 223              		.loc 1 95 26 is_stmt 0 view .LVU66
+ 224 00a4 3596     		str	r6, [sp, #212]
+  96:Core/Src/sdmmc.c ****     GPIO_InitStruct.Alternate = GPIO_AF12_SDIO1;
+ 225              		.loc 1 96 5 is_stmt 1 view .LVU67
+  96:Core/Src/sdmmc.c ****     GPIO_InitStruct.Alternate = GPIO_AF12_SDIO1;
+ 226              		.loc 1 96 27 is_stmt 0 view .LVU68
+ 227 00a6 3695     		str	r5, [sp, #216]
+  97:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 228              		.loc 1 97 5 is_stmt 1 view .LVU69
+  97:Core/Src/sdmmc.c ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ 229              		.loc 1 97 31 is_stmt 0 view .LVU70
+ 230 00a8 3794     		str	r4, [sp, #220]
+  98:Core/Src/sdmmc.c **** 
+ 231              		.loc 1 98 5 is_stmt 1 view .LVU71
+ 232 00aa 33A9     		add	r1, sp, #204
+ 233 00ac 0648     		ldr	r0, .L10+12
+ 234 00ae FFF7FEFF 		bl	HAL_GPIO_Init
+ 235              	.LVL8:
+ 236              		.loc 1 104 1 is_stmt 0 view .LVU72
+ 237 00b2 B6E7     		b	.L4
+ 238              	.LVL9:
+ 239              	.L9:
+  69:Core/Src/sdmmc.c ****     }
+ 240              		.loc 1 69 7 is_stmt 1 view .LVU73
+ 241 00b4 FFF7FEFF 		bl	Error_Handler
+ 242              	.LVL10:
+ 243 00b8 BDE7     		b	.L6
+ 244              	.L11:
+ 245 00ba 00BF     		.align	2
+ 246              	.L10:
+ 247 00bc 00700052 		.word	1375760384
+ 248 00c0 00440258 		.word	1476543488
+ 249 00c4 00080258 		.word	1476528128
+ 250 00c8 000C0258 		.word	1476529152
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 8
+
+
+ 251              		.cfi_endproc
+ 252              	.LFE334:
+ 254              		.section	.text.HAL_SD_MspDeInit,"ax",%progbits
+ 255              		.align	1
+ 256              		.global	HAL_SD_MspDeInit
+ 257              		.syntax unified
+ 258              		.thumb
+ 259              		.thumb_func
+ 261              	HAL_SD_MspDeInit:
+ 262              	.LVL11:
+ 263              	.LFB335:
+ 105:Core/Src/sdmmc.c **** 
+ 106:Core/Src/sdmmc.c **** void HAL_SD_MspDeInit(SD_HandleTypeDef* sdHandle)
+ 107:Core/Src/sdmmc.c **** {
+ 264              		.loc 1 107 1 view -0
+ 265              		.cfi_startproc
+ 266              		@ args = 0, pretend = 0, frame = 0
+ 267              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268              		.loc 1 107 1 is_stmt 0 view .LVU75
+ 269 0000 08B5     		push	{r3, lr}
+ 270              	.LCFI4:
+ 271              		.cfi_def_cfa_offset 8
+ 272              		.cfi_offset 3, -8
+ 273              		.cfi_offset 14, -4
+ 108:Core/Src/sdmmc.c **** 
+ 109:Core/Src/sdmmc.c ****   if(sdHandle->Instance==SDMMC1)
+ 274              		.loc 1 109 3 is_stmt 1 view .LVU76
+ 275              		.loc 1 109 14 is_stmt 0 view .LVU77
+ 276 0002 0268     		ldr	r2, [r0]
+ 277              		.loc 1 109 5 view .LVU78
+ 278 0004 0A4B     		ldr	r3, .L16
+ 279 0006 9A42     		cmp	r2, r3
+ 280 0008 00D0     		beq	.L15
+ 281              	.LVL12:
+ 282              	.L12:
+ 110:Core/Src/sdmmc.c ****   {
+ 111:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_MspDeInit 0 */
+ 112:Core/Src/sdmmc.c **** 
+ 113:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_MspDeInit 0 */
+ 114:Core/Src/sdmmc.c ****     /* Peripheral clock disable */
+ 115:Core/Src/sdmmc.c ****     __HAL_RCC_SDMMC1_CLK_DISABLE();
+ 116:Core/Src/sdmmc.c **** 
+ 117:Core/Src/sdmmc.c ****     /**SDMMC1 GPIO Configuration
+ 118:Core/Src/sdmmc.c ****     PC8     ------> SDMMC1_D0
+ 119:Core/Src/sdmmc.c ****     PC9     ------> SDMMC1_D1
+ 120:Core/Src/sdmmc.c ****     PC10     ------> SDMMC1_D2
+ 121:Core/Src/sdmmc.c ****     PC11     ------> SDMMC1_D3
+ 122:Core/Src/sdmmc.c ****     PC12     ------> SDMMC1_CK
+ 123:Core/Src/sdmmc.c ****     PD2     ------> SDMMC1_CMD
+ 124:Core/Src/sdmmc.c ****     */
+ 125:Core/Src/sdmmc.c ****     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11
+ 126:Core/Src/sdmmc.c ****                           |GPIO_PIN_12);
+ 127:Core/Src/sdmmc.c **** 
+ 128:Core/Src/sdmmc.c ****     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_2);
+ 129:Core/Src/sdmmc.c **** 
+ 130:Core/Src/sdmmc.c ****   /* USER CODE BEGIN SDMMC1_MspDeInit 1 */
+ 131:Core/Src/sdmmc.c **** 
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 9
+
+
+ 132:Core/Src/sdmmc.c ****   /* USER CODE END SDMMC1_MspDeInit 1 */
+ 133:Core/Src/sdmmc.c ****   }
+ 134:Core/Src/sdmmc.c **** }
+ 283              		.loc 1 134 1 view .LVU79
+ 284 000a 08BD     		pop	{r3, pc}
+ 285              	.LVL13:
+ 286              	.L15:
+ 115:Core/Src/sdmmc.c **** 
+ 287              		.loc 1 115 5 is_stmt 1 view .LVU80
+ 288 000c 094A     		ldr	r2, .L16+4
+ 289 000e D2F8D430 		ldr	r3, [r2, #212]
+ 290 0012 23F48033 		bic	r3, r3, #65536
+ 291 0016 C2F8D430 		str	r3, [r2, #212]
+ 125:Core/Src/sdmmc.c ****                           |GPIO_PIN_12);
+ 292              		.loc 1 125 5 view .LVU81
+ 293 001a 4FF4F851 		mov	r1, #7936
+ 294 001e 0648     		ldr	r0, .L16+8
+ 295              	.LVL14:
+ 125:Core/Src/sdmmc.c ****                           |GPIO_PIN_12);
+ 296              		.loc 1 125 5 is_stmt 0 view .LVU82
+ 297 0020 FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 298              	.LVL15:
+ 128:Core/Src/sdmmc.c **** 
+ 299              		.loc 1 128 5 is_stmt 1 view .LVU83
+ 300 0024 0421     		movs	r1, #4
+ 301 0026 0548     		ldr	r0, .L16+12
+ 302 0028 FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 303              	.LVL16:
+ 304              		.loc 1 134 1 is_stmt 0 view .LVU84
+ 305 002c EDE7     		b	.L12
+ 306              	.L17:
+ 307 002e 00BF     		.align	2
+ 308              	.L16:
+ 309 0030 00700052 		.word	1375760384
+ 310 0034 00440258 		.word	1476543488
+ 311 0038 00080258 		.word	1476528128
+ 312 003c 000C0258 		.word	1476529152
+ 313              		.cfi_endproc
+ 314              	.LFE335:
+ 316              		.global	hsd1
+ 317              		.section	.bss.hsd1,"aw",%nobits
+ 318              		.align	2
+ 319              		.set	.LANCHOR0,. + 0
+ 322              	hsd1:
+ 323 0000 00000000 		.space	124
+ 323      00000000 
+ 323      00000000 
+ 323      00000000 
+ 323      00000000 
+ 324              		.text
+ 325              	.Letext0:
+ 326              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 327              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 328              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 329              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 330              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h"
+ 331              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 10
+
+
+ 332              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_sdmmc.h"
+ 333              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd.h"
+ 334              		.file 10 "Core/Inc/main.h"
+ 335              		.file 11 "Core/Inc/sdmmc.h"
+ 336              		.file 12 "<built-in>"
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 sdmmc.c
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:19     .text.MX_SDMMC1_SD_Init:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:25     .text.MX_SDMMC1_SD_Init:00000000 MX_SDMMC1_SD_Init
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:60     .text.MX_SDMMC1_SD_Init:00000018 $d
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:66     .text.HAL_SD_MspInit:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:72     .text.HAL_SD_MspInit:00000000 HAL_SD_MspInit
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:247    .text.HAL_SD_MspInit:000000bc $d
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:255    .text.HAL_SD_MspDeInit:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:261    .text.HAL_SD_MspDeInit:00000000 HAL_SD_MspDeInit
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:309    .text.HAL_SD_MspDeInit:00000030 $d
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:322    .bss.hsd1:00000000 hsd1
+C:\Users\zdy\AppData\Local\Temp\ccto2Q9B.s:318    .bss.hsd1:00000000 $d
+
+UNDEFINED SYMBOLS
+memset
+HAL_RCCEx_PeriphCLKConfig
+HAL_GPIO_Init
+Error_Handler
+HAL_GPIO_DeInit

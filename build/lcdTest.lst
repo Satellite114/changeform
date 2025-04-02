@@ -1,0 +1,1147 @@
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"lcdTest.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.testlines,"ax",%progbits
+  19              		.align	1
+  20              		.global	testlines
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	testlines:
+  26              	.LFB339:
+  27              		.file 1 "Drivers/LCD_FMC/src/lcdTest.c"
+   1:Drivers/LCD_FMC/src/lcdTest.c **** //
+   2:Drivers/LCD_FMC/src/lcdTest.c **** // Created by Alex-Hua on 2024/7/26.
+   3:Drivers/LCD_FMC/src/lcdTest.c **** //
+   4:Drivers/LCD_FMC/src/lcdTest.c **** 
+   5:Drivers/LCD_FMC/src/lcdTest.c **** #include "lcdTest.h"
+   6:Drivers/LCD_FMC/src/lcdTest.c **** #include "cmsis_os.h"
+   7:Drivers/LCD_FMC/src/lcdTest.c **** 
+   8:Drivers/LCD_FMC/src/lcdTest.c **** /*LCD测试函数*/
+   9:Drivers/LCD_FMC/src/lcdTest.c **** void LCD_TEST(void)
+  10:Drivers/LCD_FMC/src/lcdTest.c **** {
+  11:Drivers/LCD_FMC/src/lcdTest.c ****     // LCD_RST_CLR();
+  12:Drivers/LCD_FMC/src/lcdTest.c ****     // HAL_Delay(50);
+  13:Drivers/LCD_FMC/src/lcdTest.c ****     // LCD_RST_SET();
+  14:Drivers/LCD_FMC/src/lcdTest.c ****     // HAL_Delay(50);
+  15:Drivers/LCD_FMC/src/lcdTest.c ****     /*画线测试*/
+  16:Drivers/LCD_FMC/src/lcdTest.c ****     testlines();
+  17:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1000);
+  18:Drivers/LCD_FMC/src/lcdTest.c ****     /*画正方形测试*/
+  19:Drivers/LCD_FMC/src/lcdTest.c ****     testdrawrects();
+  20:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1000);
+  21:Drivers/LCD_FMC/src/lcdTest.c ****     /*画圆测试*/
+  22:Drivers/LCD_FMC/src/lcdTest.c ****     testfillcircles(15);
+  23:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1000);
+  24:Drivers/LCD_FMC/src/lcdTest.c ****     /*字体测试*/
+  25:Drivers/LCD_FMC/src/lcdTest.c ****     tftPrintTest();
+  26:Drivers/LCD_FMC/src/lcdTest.c **** }
+  27:Drivers/LCD_FMC/src/lcdTest.c **** 
+  28:Drivers/LCD_FMC/src/lcdTest.c **** /*画线测试*/
+  29:Drivers/LCD_FMC/src/lcdTest.c **** void testlines(void)
+  30:Drivers/LCD_FMC/src/lcdTest.c **** {
+  28              		.loc 1 30 1 view -0
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 2
+
+
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  31:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(GREEN);
+  37              		.loc 1 31 5 view .LVU1
+  38 0002 4FF4FC60 		mov	r0, #2016
+  39 0006 FFF7FEFF 		bl	LCD_Clear
+  40              	.LVL0:
+  32:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=BLACK;
+  41              		.loc 1 32 5 view .LVU2
+  42              		.loc 1 32 16 is_stmt 0 view .LVU3
+  43 000a 0022     		movs	r2, #0
+  44 000c 564B     		ldr	r3, .L19
+  45 000e 1A60     		str	r2, [r3]
+  33:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+  46              		.loc 1 33 5 is_stmt 1 view .LVU4
+  47              	.LBB2:
+  48              		.loc 1 33 10 view .LVU5
+  49              	.LVL1:
+  50              		.loc 1 33 5 is_stmt 0 view .LVU6
+  51 0010 0CE0     		b	.L2
+  52              	.LVL2:
+  53              	.L3:
+  34:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  35:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(0, 0, x, SSD_HOR_RESOLUTION-1);
+  54              		.loc 1 35 9 is_stmt 1 discriminator 3 view .LVU7
+  55 0012 94B2     		uxth	r4, r2
+  56 0014 40F21F33 		movw	r3, #799
+  57 0018 2246     		mov	r2, r4
+  58              		.loc 1 35 9 is_stmt 0 discriminator 3 view .LVU8
+  59 001a 0021     		movs	r1, #0
+  60 001c 0846     		mov	r0, r1
+  61 001e FFF7FEFF 		bl	LCD_DrawLine
+  62              	.LVL3:
+  36:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+  63              		.loc 1 36 9 is_stmt 1 discriminator 3 view .LVU9
+  64 0022 0320     		movs	r0, #3
+  65 0024 FFF7FEFF 		bl	osDelay
+  66              	.LVL4:
+  33:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+  67              		.loc 1 33 47 discriminator 3 view .LVU10
+  33:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+  68              		.loc 1 33 48 is_stmt 0 discriminator 3 view .LVU11
+  69 0028 A21D     		adds	r2, r4, #6
+  70 002a 12B2     		sxth	r2, r2
+  71              	.LVL5:
+  72              	.L2:
+  33:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+  73              		.loc 1 33 23 is_stmt 1 discriminator 1 view .LVU12
+  33:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+  74              		.loc 1 33 5 is_stmt 0 discriminator 1 view .LVU13
+  75 002c B2F5F07F 		cmp	r2, #480
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 3
+
+
+  76 0030 EFDB     		blt	.L3
+  77              	.LBE2:
+  78              	.LBB3:
+  37:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  38:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+  79              		.loc 1 38 18 view .LVU14
+  80 0032 0023     		movs	r3, #0
+  81 0034 0CE0     		b	.L4
+  82              	.LVL6:
+  83              	.L5:
+  39:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  40:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(0, 0, SSD_VER_RESOLUTION-1, y);
+  84              		.loc 1 40 9 is_stmt 1 discriminator 3 view .LVU15
+  85 0036 9CB2     		uxth	r4, r3
+  86 0038 2346     		mov	r3, r4
+  87              		.loc 1 40 9 is_stmt 0 discriminator 3 view .LVU16
+  88 003a 40F2DF12 		movw	r2, #479
+  89 003e 0021     		movs	r1, #0
+  90 0040 0846     		mov	r0, r1
+  91 0042 FFF7FEFF 		bl	LCD_DrawLine
+  92              	.LVL7:
+  41:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+  93              		.loc 1 41 9 is_stmt 1 discriminator 3 view .LVU17
+  94 0046 0320     		movs	r0, #3
+  95 0048 FFF7FEFF 		bl	osDelay
+  96              	.LVL8:
+  38:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  97              		.loc 1 38 47 discriminator 3 view .LVU18
+  38:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  98              		.loc 1 38 48 is_stmt 0 discriminator 3 view .LVU19
+  99 004c A31D     		adds	r3, r4, #6
+ 100 004e 1BB2     		sxth	r3, r3
+ 101              	.LVL9:
+ 102              	.L4:
+  38:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 103              		.loc 1 38 23 is_stmt 1 discriminator 1 view .LVU20
+  38:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 104              		.loc 1 38 5 is_stmt 0 discriminator 1 view .LVU21
+ 105 0050 B3F5487F 		cmp	r3, #800
+ 106 0054 EFDB     		blt	.L5
+ 107              	.LBE3:
+  42:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  43:Drivers/LCD_FMC/src/lcdTest.c **** 
+  44:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(GREEN);
+ 108              		.loc 1 44 5 is_stmt 1 view .LVU22
+ 109 0056 4FF4FC60 		mov	r0, #2016
+ 110 005a FFF7FEFF 		bl	LCD_Clear
+ 111              	.LVL10:
+  45:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=BLUE;
+ 112              		.loc 1 45 5 view .LVU23
+ 113              		.loc 1 45 16 is_stmt 0 view .LVU24
+ 114 005e 424B     		ldr	r3, .L19
+ 115 0060 1F22     		movs	r2, #31
+ 116 0062 1A60     		str	r2, [r3]
+  46:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 117              		.loc 1 46 5 is_stmt 1 view .LVU25
+ 118              	.LBB4:
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 4
+
+
+ 119              		.loc 1 46 10 view .LVU26
+ 120              	.LVL11:
+ 121              		.loc 1 46 18 is_stmt 0 view .LVU27
+ 122 0064 0022     		movs	r2, #0
+ 123              		.loc 1 46 5 view .LVU28
+ 124 0066 0DE0     		b	.L6
+ 125              	.LVL12:
+ 126              	.L7:
+  47:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  48:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(SSD_VER_RESOLUTION-1, 0, x, SSD_HOR_RESOLUTION-1);
+ 127              		.loc 1 48 9 is_stmt 1 discriminator 3 view .LVU29
+ 128 0068 94B2     		uxth	r4, r2
+ 129 006a 40F21F33 		movw	r3, #799
+ 130 006e 2246     		mov	r2, r4
+ 131              		.loc 1 48 9 is_stmt 0 discriminator 3 view .LVU30
+ 132 0070 0021     		movs	r1, #0
+ 133 0072 40F2DF10 		movw	r0, #479
+ 134 0076 FFF7FEFF 		bl	LCD_DrawLine
+ 135              	.LVL13:
+  49:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+ 136              		.loc 1 49 9 is_stmt 1 discriminator 3 view .LVU31
+ 137 007a 0320     		movs	r0, #3
+ 138 007c FFF7FEFF 		bl	osDelay
+ 139              	.LVL14:
+  46:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 140              		.loc 1 46 47 discriminator 3 view .LVU32
+  46:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 141              		.loc 1 46 48 is_stmt 0 discriminator 3 view .LVU33
+ 142 0080 A21D     		adds	r2, r4, #6
+ 143 0082 12B2     		sxth	r2, r2
+ 144              	.LVL15:
+ 145              	.L6:
+  46:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 146              		.loc 1 46 23 is_stmt 1 discriminator 1 view .LVU34
+  46:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 147              		.loc 1 46 5 is_stmt 0 discriminator 1 view .LVU35
+ 148 0084 B2F5F07F 		cmp	r2, #480
+ 149 0088 EEDB     		blt	.L7
+ 150              	.LBE4:
+ 151              	.LBB5:
+  50:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  51:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 152              		.loc 1 51 18 view .LVU36
+ 153 008a 0023     		movs	r3, #0
+ 154 008c 0CE0     		b	.L8
+ 155              	.LVL16:
+ 156              	.L9:
+  52:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  53:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(SSD_VER_RESOLUTION-1, 0, 0, y);
+ 157              		.loc 1 53 9 is_stmt 1 discriminator 3 view .LVU37
+ 158 008e 9CB2     		uxth	r4, r3
+ 159 0090 2346     		mov	r3, r4
+ 160              		.loc 1 53 9 is_stmt 0 discriminator 3 view .LVU38
+ 161 0092 0022     		movs	r2, #0
+ 162 0094 1146     		mov	r1, r2
+ 163 0096 40F2DF10 		movw	r0, #479
+ 164 009a FFF7FEFF 		bl	LCD_DrawLine
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 5
+
+
+ 165              	.LVL17:
+  54:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+ 166              		.loc 1 54 9 is_stmt 1 discriminator 3 view .LVU39
+ 167 009e 0320     		movs	r0, #3
+ 168 00a0 FFF7FEFF 		bl	osDelay
+ 169              	.LVL18:
+  51:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 170              		.loc 1 51 47 discriminator 3 view .LVU40
+  51:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 171              		.loc 1 51 48 is_stmt 0 discriminator 3 view .LVU41
+ 172 00a4 A31D     		adds	r3, r4, #6
+ 173 00a6 1BB2     		sxth	r3, r3
+ 174              	.LVL19:
+ 175              	.L8:
+  51:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 176              		.loc 1 51 23 is_stmt 1 discriminator 1 view .LVU42
+  51:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 177              		.loc 1 51 5 is_stmt 0 discriminator 1 view .LVU43
+ 178 00a8 B3F5487F 		cmp	r3, #800
+ 179 00ac EFDB     		blt	.L9
+ 180              	.LBE5:
+  55:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  56:Drivers/LCD_FMC/src/lcdTest.c **** 
+  57:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(WHITE);
+ 181              		.loc 1 57 5 is_stmt 1 view .LVU44
+ 182 00ae 4FF6FF70 		movw	r0, #65535
+ 183 00b2 FFF7FEFF 		bl	LCD_Clear
+ 184              	.LVL20:
+  58:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=RED;
+ 185              		.loc 1 58 5 view .LVU45
+ 186              		.loc 1 58 16 is_stmt 0 view .LVU46
+ 187 00b6 2C4B     		ldr	r3, .L19
+ 188 00b8 4FF47842 		mov	r2, #63488
+ 189 00bc 1A60     		str	r2, [r3]
+  59:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 190              		.loc 1 59 5 is_stmt 1 view .LVU47
+ 191              	.LBB6:
+ 192              		.loc 1 59 10 view .LVU48
+ 193              	.LVL21:
+ 194              		.loc 1 59 18 is_stmt 0 view .LVU49
+ 195 00be 0023     		movs	r3, #0
+ 196              		.loc 1 59 5 view .LVU50
+ 197 00c0 0DE0     		b	.L10
+ 198              	.LVL22:
+ 199              	.L11:
+  60:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  61:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(0, SSD_HOR_RESOLUTION-1, SSD_VER_RESOLUTION-1, y);
+ 200              		.loc 1 61 9 is_stmt 1 discriminator 3 view .LVU51
+ 201 00c2 9CB2     		uxth	r4, r3
+ 202 00c4 2346     		mov	r3, r4
+ 203              		.loc 1 61 9 is_stmt 0 discriminator 3 view .LVU52
+ 204 00c6 40F2DF12 		movw	r2, #479
+ 205 00ca 40F21F31 		movw	r1, #799
+ 206 00ce 0020     		movs	r0, #0
+ 207 00d0 FFF7FEFF 		bl	LCD_DrawLine
+ 208              	.LVL23:
+  62:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 6
+
+
+ 209              		.loc 1 62 9 is_stmt 1 discriminator 3 view .LVU53
+ 210 00d4 0320     		movs	r0, #3
+ 211 00d6 FFF7FEFF 		bl	osDelay
+ 212              	.LVL24:
+  59:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 213              		.loc 1 59 47 discriminator 3 view .LVU54
+  59:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 214              		.loc 1 59 48 is_stmt 0 discriminator 3 view .LVU55
+ 215 00da A31D     		adds	r3, r4, #6
+ 216 00dc 1BB2     		sxth	r3, r3
+ 217              	.LVL25:
+ 218              	.L10:
+  59:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 219              		.loc 1 59 23 is_stmt 1 discriminator 1 view .LVU56
+  59:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 220              		.loc 1 59 5 is_stmt 0 discriminator 1 view .LVU57
+ 221 00de B3F5487F 		cmp	r3, #800
+ 222 00e2 EEDB     		blt	.L11
+ 223              	.LBE6:
+ 224              	.LBB7:
+  63:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  64:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 225              		.loc 1 64 18 view .LVU58
+ 226 00e4 0022     		movs	r2, #0
+ 227 00e6 0CE0     		b	.L12
+ 228              	.LVL26:
+ 229              	.L13:
+  65:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  66:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(0, SSD_HOR_RESOLUTION-1, x, 0);
+ 230              		.loc 1 66 9 is_stmt 1 discriminator 3 view .LVU59
+ 231 00e8 94B2     		uxth	r4, r2
+ 232 00ea 0023     		movs	r3, #0
+ 233 00ec 2246     		mov	r2, r4
+ 234              		.loc 1 66 9 is_stmt 0 discriminator 3 view .LVU60
+ 235 00ee 40F21F31 		movw	r1, #799
+ 236 00f2 1846     		mov	r0, r3
+ 237 00f4 FFF7FEFF 		bl	LCD_DrawLine
+ 238              	.LVL27:
+  67:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+ 239              		.loc 1 67 9 is_stmt 1 discriminator 3 view .LVU61
+ 240 00f8 0320     		movs	r0, #3
+ 241 00fa FFF7FEFF 		bl	osDelay
+ 242              	.LVL28:
+  64:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 243              		.loc 1 64 47 discriminator 3 view .LVU62
+  64:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 244              		.loc 1 64 48 is_stmt 0 discriminator 3 view .LVU63
+ 245 00fe A21D     		adds	r2, r4, #6
+ 246 0100 12B2     		sxth	r2, r2
+ 247              	.LVL29:
+ 248              	.L12:
+  64:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 249              		.loc 1 64 23 is_stmt 1 discriminator 1 view .LVU64
+  64:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 250              		.loc 1 64 5 is_stmt 0 discriminator 1 view .LVU65
+ 251 0102 B2F5F07F 		cmp	r2, #480
+ 252 0106 EFDB     		blt	.L13
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 7
+
+
+ 253              	.LBE7:
+  68:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  69:Drivers/LCD_FMC/src/lcdTest.c **** 
+  70:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(WHITE);
+ 254              		.loc 1 70 5 is_stmt 1 view .LVU66
+ 255 0108 4FF6FF70 		movw	r0, #65535
+ 256 010c FFF7FEFF 		bl	LCD_Clear
+ 257              	.LVL30:
+  71:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=MAGENTA;
+ 258              		.loc 1 71 5 view .LVU67
+ 259              		.loc 1 71 16 is_stmt 0 view .LVU68
+ 260 0110 154B     		ldr	r3, .L19
+ 261 0112 4FF61F02 		movw	r2, #63519
+ 262 0116 1A60     		str	r2, [r3]
+  72:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 263              		.loc 1 72 5 is_stmt 1 view .LVU69
+ 264              	.LBB8:
+ 265              		.loc 1 72 10 view .LVU70
+ 266              	.LVL31:
+ 267              		.loc 1 72 18 is_stmt 0 view .LVU71
+ 268 0118 0022     		movs	r2, #0
+ 269              		.loc 1 72 5 view .LVU72
+ 270 011a 0DE0     		b	.L14
+ 271              	.LVL32:
+ 272              	.L15:
+  73:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  74:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(SSD_VER_RESOLUTION-1, SSD_HOR_RESOLUTION-1, x, 0);
+ 273              		.loc 1 74 9 is_stmt 1 discriminator 3 view .LVU73
+ 274 011c 94B2     		uxth	r4, r2
+ 275 011e 0023     		movs	r3, #0
+ 276 0120 2246     		mov	r2, r4
+ 277              		.loc 1 74 9 is_stmt 0 discriminator 3 view .LVU74
+ 278 0122 40F21F31 		movw	r1, #799
+ 279 0126 40F2DF10 		movw	r0, #479
+ 280 012a FFF7FEFF 		bl	LCD_DrawLine
+ 281              	.LVL33:
+  75:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+ 282              		.loc 1 75 9 is_stmt 1 discriminator 3 view .LVU75
+ 283 012e 0320     		movs	r0, #3
+ 284 0130 FFF7FEFF 		bl	osDelay
+ 285              	.LVL34:
+  72:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 286              		.loc 1 72 47 discriminator 3 view .LVU76
+  72:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 287              		.loc 1 72 48 is_stmt 0 discriminator 3 view .LVU77
+ 288 0134 A21D     		adds	r2, r4, #6
+ 289 0136 12B2     		sxth	r2, r2
+ 290              	.LVL35:
+ 291              	.L14:
+  72:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 292              		.loc 1 72 23 is_stmt 1 discriminator 1 view .LVU78
+  72:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 293              		.loc 1 72 5 is_stmt 0 discriminator 1 view .LVU79
+ 294 0138 B2F5F07F 		cmp	r2, #480
+ 295 013c EEDB     		blt	.L15
+ 296              	.LBE8:
+ 297              	.LBB9:
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 8
+
+
+  76:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  77:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t y=0; y < SSD_HOR_RESOLUTION; y+=6)
+ 298              		.loc 1 77 18 view .LVU80
+ 299 013e 0023     		movs	r3, #0
+ 300 0140 0DE0     		b	.L16
+ 301              	.LVL36:
+ 302              	.L17:
+  78:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  79:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawLine(SSD_VER_RESOLUTION-1, SSD_HOR_RESOLUTION-1, 0, y);
+ 303              		.loc 1 79 9 is_stmt 1 discriminator 3 view .LVU81
+ 304 0142 9CB2     		uxth	r4, r3
+ 305 0144 2346     		mov	r3, r4
+ 306              		.loc 1 79 9 is_stmt 0 discriminator 3 view .LVU82
+ 307 0146 0022     		movs	r2, #0
+ 308 0148 40F21F31 		movw	r1, #799
+ 309 014c 40F2DF10 		movw	r0, #479
+ 310 0150 FFF7FEFF 		bl	LCD_DrawLine
+ 311              	.LVL37:
+  80:Drivers/LCD_FMC/src/lcdTest.c ****         osDelay(3);
+ 312              		.loc 1 80 9 is_stmt 1 discriminator 3 view .LVU83
+ 313 0154 0320     		movs	r0, #3
+ 314 0156 FFF7FEFF 		bl	osDelay
+ 315              	.LVL38:
+  77:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 316              		.loc 1 77 47 discriminator 3 view .LVU84
+  77:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 317              		.loc 1 77 48 is_stmt 0 discriminator 3 view .LVU85
+ 318 015a A31D     		adds	r3, r4, #6
+ 319 015c 1BB2     		sxth	r3, r3
+ 320              	.LVL39:
+ 321              	.L16:
+  77:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 322              		.loc 1 77 23 is_stmt 1 discriminator 1 view .LVU86
+  77:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 323              		.loc 1 77 5 is_stmt 0 discriminator 1 view .LVU87
+ 324 015e B3F5487F 		cmp	r3, #800
+ 325 0162 EEDB     		blt	.L17
+ 326              	.LBE9:
+  81:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  82:Drivers/LCD_FMC/src/lcdTest.c **** }
+ 327              		.loc 1 82 1 view .LVU88
+ 328 0164 10BD     		pop	{r4, pc}
+ 329              	.L20:
+ 330 0166 00BF     		.align	2
+ 331              	.L19:
+ 332 0168 00000000 		.word	POINT_COLOR
+ 333              		.cfi_endproc
+ 334              	.LFE339:
+ 336              		.section	.text.testdrawrects,"ax",%progbits
+ 337              		.align	1
+ 338              		.global	testdrawrects
+ 339              		.syntax unified
+ 340              		.thumb
+ 341              		.thumb_func
+ 343              	testdrawrects:
+ 344              	.LFB340:
+  83:Drivers/LCD_FMC/src/lcdTest.c **** 
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 9
+
+
+  84:Drivers/LCD_FMC/src/lcdTest.c **** /*画正方形测试*/
+  85:Drivers/LCD_FMC/src/lcdTest.c **** void testdrawrects(void)
+  86:Drivers/LCD_FMC/src/lcdTest.c **** {
+ 345              		.loc 1 86 1 is_stmt 1 view -0
+ 346              		.cfi_startproc
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349 0000 10B5     		push	{r4, lr}
+ 350              	.LCFI1:
+ 351              		.cfi_def_cfa_offset 8
+ 352              		.cfi_offset 4, -8
+ 353              		.cfi_offset 14, -4
+  87:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(WHITE);
+ 354              		.loc 1 87 5 view .LVU90
+ 355 0002 4FF6FF70 		movw	r0, #65535
+ 356 0006 FFF7FEFF 		bl	LCD_Clear
+ 357              	.LVL40:
+  88:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=BLACK;
+ 358              		.loc 1 88 5 view .LVU91
+ 359              		.loc 1 88 16 is_stmt 0 view .LVU92
+ 360 000a 0023     		movs	r3, #0
+ 361 000c 0D4A     		ldr	r2, .L27
+ 362 000e 1360     		str	r3, [r2]
+  89:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 363              		.loc 1 89 5 is_stmt 1 view .LVU93
+ 364              	.LBB10:
+ 365              		.loc 1 89 10 view .LVU94
+ 366              	.LVL41:
+ 367              		.loc 1 89 5 is_stmt 0 view .LVU95
+ 368 0010 0EE0     		b	.L22
+ 369              	.LVL42:
+ 370              	.L23:
+  90:Drivers/LCD_FMC/src/lcdTest.c ****     {
+  91:Drivers/LCD_FMC/src/lcdTest.c ****         LCD_DrawRectangle(SSD_VER_RESOLUTION/2 -x/2, SSD_HOR_RESOLUTION/2 -x/2 , x, x);
+ 371              		.loc 1 91 9 discriminator 3 view .LVU96
+ 372 0012 C0F34F00 		ubfx	r0, r0, #1, #16
+ 373 0016 9CB2     		uxth	r4, r3
+ 374 0018 C0F5C871 		rsb	r1, r0, #400
+ 375 001c C0F1F000 		rsb	r0, r0, #240
+ 376 0020 2346     		mov	r3, r4
+ 377              		.loc 1 91 9 discriminator 3 view .LVU97
+ 378 0022 2246     		mov	r2, r4
+ 379 0024 89B2     		uxth	r1, r1
+ 380 0026 80B2     		uxth	r0, r0
+ 381 0028 FFF7FEFF 		bl	LCD_DrawRectangle
+ 382              	.LVL43:
+  89:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 383              		.loc 1 89 47 is_stmt 1 discriminator 3 view .LVU98
+  89:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 384              		.loc 1 89 48 is_stmt 0 discriminator 3 view .LVU99
+ 385 002c A31D     		adds	r3, r4, #6
+ 386 002e 1BB2     		sxth	r3, r3
+ 387              	.LVL44:
+ 388              	.L22:
+  89:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ 389              		.loc 1 89 23 is_stmt 1 discriminator 1 view .LVU100
+  89:Drivers/LCD_FMC/src/lcdTest.c ****     for (int16_t x=0; x < SSD_VER_RESOLUTION; x+=6)
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 10
+
+
+ 390              		.loc 1 89 5 is_stmt 0 discriminator 1 view .LVU101
+ 391 0030 B3F5F07F 		cmp	r3, #480
+ 392 0034 04DA     		bge	.L26
+ 393              		.loc 1 91 9 is_stmt 1 discriminator 3 view .LVU102
+ 394 0036 1846     		mov	r0, r3
+ 395 0038 002B     		cmp	r3, #0
+ 396 003a EADA     		bge	.L23
+ 397 003c 581C     		adds	r0, r3, #1
+ 398 003e E8E7     		b	.L23
+ 399              	.L26:
+ 400              	.LBE10:
+  92:Drivers/LCD_FMC/src/lcdTest.c ****     }
+  93:Drivers/LCD_FMC/src/lcdTest.c **** }
+ 401              		.loc 1 93 1 is_stmt 0 view .LVU103
+ 402 0040 10BD     		pop	{r4, pc}
+ 403              	.L28:
+ 404 0042 00BF     		.align	2
+ 405              	.L27:
+ 406 0044 00000000 		.word	POINT_COLOR
+ 407              		.cfi_endproc
+ 408              	.LFE340:
+ 410              		.section	.text.testfillcircles,"ax",%progbits
+ 411              		.align	1
+ 412              		.global	testfillcircles
+ 413              		.syntax unified
+ 414              		.thumb
+ 415              		.thumb_func
+ 417              	testfillcircles:
+ 418              	.LVL45:
+ 419              	.LFB341:
+  94:Drivers/LCD_FMC/src/lcdTest.c **** 
+  95:Drivers/LCD_FMC/src/lcdTest.c **** /*画圆测试*/
+  96:Drivers/LCD_FMC/src/lcdTest.c **** void testfillcircles(uint8_t radius)
+  97:Drivers/LCD_FMC/src/lcdTest.c **** {
+ 420              		.loc 1 97 1 is_stmt 1 view -0
+ 421              		.cfi_startproc
+ 422              		@ args = 0, pretend = 0, frame = 0
+ 423              		@ frame_needed = 0, uses_anonymous_args = 0
+ 424              		.loc 1 97 1 is_stmt 0 view .LVU105
+ 425 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 426              	.LCFI2:
+ 427              		.cfi_def_cfa_offset 24
+ 428              		.cfi_offset 3, -24
+ 429              		.cfi_offset 4, -20
+ 430              		.cfi_offset 5, -16
+ 431              		.cfi_offset 6, -12
+ 432              		.cfi_offset 7, -8
+ 433              		.cfi_offset 14, -4
+ 434 0002 0546     		mov	r5, r0
+  98:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(WHITE);
+ 435              		.loc 1 98 5 is_stmt 1 view .LVU106
+ 436 0004 4FF6FF70 		movw	r0, #65535
+ 437              	.LVL46:
+ 438              		.loc 1 98 5 is_stmt 0 view .LVU107
+ 439 0008 FFF7FEFF 		bl	LCD_Clear
+ 440              	.LVL47:
+  99:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=BLUE;
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 11
+
+
+ 441              		.loc 1 99 5 is_stmt 1 view .LVU108
+ 442              		.loc 1 99 16 is_stmt 0 view .LVU109
+ 443 000c 1F4B     		ldr	r3, .L41
+ 444 000e 1F22     		movs	r2, #31
+ 445 0010 1A60     		str	r2, [r3]
+ 100:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 446              		.loc 1 100 5 is_stmt 1 view .LVU110
+ 447              	.LBB11:
+ 448              		.loc 1 100 9 view .LVU111
+ 449              		.loc 1 100 17 is_stmt 0 view .LVU112
+ 450 0012 2FB2     		sxth	r7, r5
+ 451              	.LVL48:
+ 452              		.loc 1 100 17 view .LVU113
+ 453 0014 3E46     		mov	r6, r7
+ 454              		.loc 1 100 5 view .LVU114
+ 455 0016 0EE0     		b	.L30
+ 456              	.LVL49:
+ 457              	.L31:
+ 458              	.LBB12:
+ 101:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 102:Drivers/LCD_FMC/src/lcdTest.c ****         for(int16_t y=radius; y < SSD_HOR_RESOLUTION; y+=radius*2)
+ 103:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 104:Drivers/LCD_FMC/src/lcdTest.c ****             LCD_Draw_Circle(x, y, radius);
+ 459              		.loc 1 104 13 is_stmt 1 discriminator 3 view .LVU115
+ 460 0018 8CB2     		uxth	r4, r1
+ 461 001a 2A46     		mov	r2, r5
+ 462 001c 2146     		mov	r1, r4
+ 463              		.loc 1 104 13 is_stmt 0 discriminator 3 view .LVU116
+ 464 001e B0B2     		uxth	r0, r6
+ 465 0020 FFF7FEFF 		bl	LCD_Draw_Circle
+ 466              	.LVL50:
+ 102:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 467              		.loc 1 102 55 is_stmt 1 discriminator 3 view .LVU117
+ 102:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 468              		.loc 1 102 56 is_stmt 0 discriminator 3 view .LVU118
+ 469 0024 04EB4501 		add	r1, r4, r5, lsl #1
+ 470 0028 09B2     		sxth	r1, r1
+ 471              	.LVL51:
+ 472              	.L32:
+ 102:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 473              		.loc 1 102 31 is_stmt 1 discriminator 1 view .LVU119
+ 102:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 474              		.loc 1 102 9 is_stmt 0 discriminator 1 view .LVU120
+ 475 002a B1F5487F 		cmp	r1, #800
+ 476 002e F3DB     		blt	.L31
+ 477              	.LBE12:
+ 100:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 478              		.loc 1 100 51 is_stmt 1 discriminator 2 view .LVU121
+ 100:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 479              		.loc 1 100 52 is_stmt 0 discriminator 2 view .LVU122
+ 480 0030 06EB4506 		add	r6, r6, r5, lsl #1
+ 481              	.LVL52:
+ 100:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 482              		.loc 1 100 52 discriminator 2 view .LVU123
+ 483 0034 36B2     		sxth	r6, r6
+ 484              	.LVL53:
+ 485              	.L30:
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 12
+
+
+ 100:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 486              		.loc 1 100 27 is_stmt 1 discriminator 1 view .LVU124
+ 100:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 487              		.loc 1 100 5 is_stmt 0 discriminator 1 view .LVU125
+ 488 0036 B6F5F07F 		cmp	r6, #480
+ 489 003a 01DA     		bge	.L39
+ 490              	.LBB13:
+ 102:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 491              		.loc 1 102 21 view .LVU126
+ 492 003c 3946     		mov	r1, r7
+ 493 003e F4E7     		b	.L32
+ 494              	.L39:
+ 495              	.LBE13:
+ 496              	.LBE11:
+ 105:Drivers/LCD_FMC/src/lcdTest.c ****         }
+ 106:Drivers/LCD_FMC/src/lcdTest.c ****     }
+ 107:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1500);
+ 497              		.loc 1 107 5 is_stmt 1 view .LVU127
+ 498 0040 40F2DC50 		movw	r0, #1500
+ 499 0044 FFF7FEFF 		bl	osDelay
+ 500              	.LVL54:
+ 108:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(WHITE);
+ 501              		.loc 1 108 5 view .LVU128
+ 502 0048 4FF6FF70 		movw	r0, #65535
+ 503 004c FFF7FEFF 		bl	LCD_Clear
+ 504              	.LVL55:
+ 109:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=MAGENTA;
+ 505              		.loc 1 109 5 view .LVU129
+ 506              		.loc 1 109 16 is_stmt 0 view .LVU130
+ 507 0050 0E4B     		ldr	r3, .L41
+ 508 0052 4FF61F02 		movw	r2, #63519
+ 509 0056 1A60     		str	r2, [r3]
+ 110:Drivers/LCD_FMC/src/lcdTest.c ****     radius = radius / 2;
+ 510              		.loc 1 110 5 is_stmt 1 view .LVU131
+ 511              		.loc 1 110 12 is_stmt 0 view .LVU132
+ 512 0058 6E08     		lsrs	r6, r5, #1
+ 513              	.LVL56:
+ 111:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 514              		.loc 1 111 5 is_stmt 1 view .LVU133
+ 515              	.LBB14:
+ 516              		.loc 1 111 9 view .LVU134
+ 517              		.loc 1 111 17 is_stmt 0 view .LVU135
+ 518 005a 3546     		mov	r5, r6
+ 519              	.LVL57:
+ 520              		.loc 1 111 17 view .LVU136
+ 521 005c 3746     		mov	r7, r6
+ 522              		.loc 1 111 5 view .LVU137
+ 523 005e 0EE0     		b	.L33
+ 524              	.LVL58:
+ 525              	.L34:
+ 526              	.LBB15:
+ 112:Drivers/LCD_FMC/src/lcdTest.c ****     {
+ 113:Drivers/LCD_FMC/src/lcdTest.c ****         for(int16_t y=radius; y < SSD_HOR_RESOLUTION; y+=radius*2)
+ 114:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 115:Drivers/LCD_FMC/src/lcdTest.c ****             LCD_Draw_Circle(x, y, radius);
+ 527              		.loc 1 115 13 is_stmt 1 discriminator 3 view .LVU138
+ 528 0060 8CB2     		uxth	r4, r1
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 13
+
+
+ 529 0062 3246     		mov	r2, r6
+ 530 0064 2146     		mov	r1, r4
+ 531              		.loc 1 115 13 is_stmt 0 discriminator 3 view .LVU139
+ 532 0066 B8B2     		uxth	r0, r7
+ 533 0068 FFF7FEFF 		bl	LCD_Draw_Circle
+ 534              	.LVL59:
+ 113:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 535              		.loc 1 113 55 is_stmt 1 discriminator 3 view .LVU140
+ 113:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 536              		.loc 1 113 56 is_stmt 0 discriminator 3 view .LVU141
+ 537 006c 04EB4601 		add	r1, r4, r6, lsl #1
+ 538 0070 09B2     		sxth	r1, r1
+ 539              	.LVL60:
+ 540              	.L35:
+ 113:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 541              		.loc 1 113 31 is_stmt 1 discriminator 1 view .LVU142
+ 113:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 542              		.loc 1 113 9 is_stmt 0 discriminator 1 view .LVU143
+ 543 0072 B1F5487F 		cmp	r1, #800
+ 544 0076 F3DB     		blt	.L34
+ 545              	.LBE15:
+ 111:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 546              		.loc 1 111 51 is_stmt 1 discriminator 2 view .LVU144
+ 111:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 547              		.loc 1 111 52 is_stmt 0 discriminator 2 view .LVU145
+ 548 0078 07EB4607 		add	r7, r7, r6, lsl #1
+ 549              	.LVL61:
+ 111:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 550              		.loc 1 111 52 discriminator 2 view .LVU146
+ 551 007c 3FB2     		sxth	r7, r7
+ 552              	.LVL62:
+ 553              	.L33:
+ 111:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 554              		.loc 1 111 27 is_stmt 1 discriminator 1 view .LVU147
+ 111:Drivers/LCD_FMC/src/lcdTest.c ****     for(int16_t x=radius; x < SSD_VER_RESOLUTION; x+=radius*2)
+ 555              		.loc 1 111 5 is_stmt 0 discriminator 1 view .LVU148
+ 556 007e B7F5F07F 		cmp	r7, #480
+ 557 0082 01DA     		bge	.L40
+ 558              	.LBB16:
+ 113:Drivers/LCD_FMC/src/lcdTest.c ****         {
+ 559              		.loc 1 113 21 view .LVU149
+ 560 0084 2946     		mov	r1, r5
+ 561 0086 F4E7     		b	.L35
+ 562              	.L40:
+ 563              	.LBE16:
+ 564              	.LBE14:
+ 116:Drivers/LCD_FMC/src/lcdTest.c ****         }
+ 117:Drivers/LCD_FMC/src/lcdTest.c ****     }
+ 118:Drivers/LCD_FMC/src/lcdTest.c **** }
+ 565              		.loc 1 118 1 view .LVU150
+ 566 0088 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 567              	.LVL63:
+ 568              	.L42:
+ 569              		.loc 1 118 1 view .LVU151
+ 570 008a 00BF     		.align	2
+ 571              	.L41:
+ 572 008c 00000000 		.word	POINT_COLOR
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 14
+
+
+ 573              		.cfi_endproc
+ 574              	.LFE341:
+ 576              		.section	.rodata.tftPrintTest.str1.4,"aMS",%progbits,1
+ 577              		.align	2
+ 578              	.LC0:
+ 579 0000 48656C6C 		.ascii	"Hello World!\000"
+ 579      6F20576F 
+ 579      726C6421 
+ 579      00
+ 580 000d 000000   		.align	2
+ 581              	.LC1:
+ 582 0010 2057616E 		.ascii	" Want pi?\000"
+ 582      74207069 
+ 582      3F00
+ 583 001a 0000     		.align	2
+ 584              	.LC2:
+ 585 001c 20507269 		.ascii	" Print HEX! ZJX ZDY\000"
+ 585      6E742048 
+ 585      45582120 
+ 585      5A4A5820 
+ 585      5A445900 
+ 586              		.align	2
+ 587              	.LC3:
+ 588 0030 536B6574 		.ascii	"Sketch has been\000"
+ 588      63682068 
+ 588      61732062 
+ 588      65656E00 
+ 589              		.align	2
+ 590              	.LC4:
+ 591 0040 72756E6E 		.ascii	"running for: \000"
+ 591      696E6720 
+ 591      666F723A 
+ 591      2000
+ 592 004e 0000     		.align	2
+ 593              	.LC5:
+ 594 0050 20736563 		.ascii	" seconds.\000"
+ 594      6F6E6473 
+ 594      2E00
+ 595              		.section	.text.tftPrintTest,"ax",%progbits
+ 596              		.align	1
+ 597              		.global	tftPrintTest
+ 598              		.syntax unified
+ 599              		.thumb
+ 600              		.thumb_func
+ 602              	tftPrintTest:
+ 603              	.LFB342:
+ 119:Drivers/LCD_FMC/src/lcdTest.c **** 
+ 120:Drivers/LCD_FMC/src/lcdTest.c **** /*字体测试*/
+ 121:Drivers/LCD_FMC/src/lcdTest.c **** void tftPrintTest(void)
+ 122:Drivers/LCD_FMC/src/lcdTest.c **** {
+ 604              		.loc 1 122 1 is_stmt 1 view -0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 0
+ 607              		@ frame_needed = 0, uses_anonymous_args = 0
+ 608 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 609              	.LCFI3:
+ 610              		.cfi_def_cfa_offset 36
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 15
+
+
+ 611              		.cfi_offset 4, -36
+ 612              		.cfi_offset 5, -32
+ 613              		.cfi_offset 6, -28
+ 614              		.cfi_offset 7, -24
+ 615              		.cfi_offset 8, -20
+ 616              		.cfi_offset 9, -16
+ 617              		.cfi_offset 10, -12
+ 618              		.cfi_offset 11, -8
+ 619              		.cfi_offset 14, -4
+ 620 0004 83B0     		sub	sp, sp, #12
+ 621              	.LCFI4:
+ 622              		.cfi_def_cfa_offset 48
+ 123:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_Clear(WHITE);
+ 623              		.loc 1 123 5 view .LVU153
+ 624 0006 4FF6FF70 		movw	r0, #65535
+ 625 000a FFF7FEFF 		bl	LCD_Clear
+ 626              	.LVL64:
+ 124:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_SetCursor(0, 30);
+ 627              		.loc 1 124 5 view .LVU154
+ 628 000e 1E21     		movs	r1, #30
+ 629 0010 0020     		movs	r0, #0
+ 630 0012 FFF7FEFF 		bl	LCD_SetCursor
+ 631              	.LVL65:
+ 125:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=RED;
+ 632              		.loc 1 125 5 view .LVU155
+ 633              		.loc 1 125 16 is_stmt 0 view .LVU156
+ 634 0016 434D     		ldr	r5, .L45
+ 635 0018 4FF47843 		mov	r3, #63488
+ 636 001c 2B60     		str	r3, [r5]
+ 126:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,30,200,16,16,(uint8_t *)"Hello World!");
+ 637              		.loc 1 126 5 is_stmt 1 view .LVU157
+ 638 001e 424F     		ldr	r7, .L45+4
+ 639 0020 0197     		str	r7, [sp, #4]
+ 640 0022 1024     		movs	r4, #16
+ 641 0024 0094     		str	r4, [sp]
+ 642 0026 2346     		mov	r3, r4
+ 643 0028 C822     		movs	r2, #200
+ 644 002a 1E21     		movs	r1, #30
+ 645 002c 0020     		movs	r0, #0
+ 646 002e FFF7FEFF 		bl	LCD_ShowString
+ 647              	.LVL66:
+ 127:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=YELLOW;
+ 648              		.loc 1 127 5 view .LVU158
+ 649              		.loc 1 127 16 is_stmt 0 view .LVU159
+ 650 0032 4FF6E07B 		movw	fp, #65504
+ 651 0036 C5F800B0 		str	fp, [r5]
+ 128:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,60,200,16,24,(uint8_t *)"Hello World!");
+ 652              		.loc 1 128 5 is_stmt 1 view .LVU160
+ 653 003a 0197     		str	r7, [sp, #4]
+ 654 003c 1826     		movs	r6, #24
+ 655 003e 0096     		str	r6, [sp]
+ 656 0040 2346     		mov	r3, r4
+ 657 0042 C822     		movs	r2, #200
+ 658 0044 3C21     		movs	r1, #60
+ 659 0046 0020     		movs	r0, #0
+ 660 0048 FFF7FEFF 		bl	LCD_ShowString
+ 661              	.LVL67:
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 16
+
+
+ 129:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=GREEN;
+ 662              		.loc 1 129 5 view .LVU161
+ 663              		.loc 1 129 16 is_stmt 0 view .LVU162
+ 664 004c 4FF4FC6A 		mov	r10, #2016
+ 665 0050 C5F800A0 		str	r10, [r5]
+ 130:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,90,200,16,32,(uint8_t *)"Hello World!");
+ 666              		.loc 1 130 5 is_stmt 1 view .LVU163
+ 667 0054 0197     		str	r7, [sp, #4]
+ 668 0056 4FF02008 		mov	r8, #32
+ 669 005a CDF80080 		str	r8, [sp]
+ 670 005e 2346     		mov	r3, r4
+ 671 0060 C822     		movs	r2, #200
+ 672 0062 5A21     		movs	r1, #90
+ 673 0064 0020     		movs	r0, #0
+ 674 0066 FFF7FEFF 		bl	LCD_ShowString
+ 675              	.LVL68:
+ 131:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=BLUE;
+ 676              		.loc 1 131 5 view .LVU164
+ 677              		.loc 1 131 16 is_stmt 0 view .LVU165
+ 678 006a 4FF01F09 		mov	r9, #31
+ 679 006e C5F80090 		str	r9, [r5]
+ 132:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowxNum(0,120,1234,4,24,1);
+ 680              		.loc 1 132 5 is_stmt 1 view .LVU166
+ 681 0072 0123     		movs	r3, #1
+ 682 0074 0193     		str	r3, [sp, #4]
+ 683 0076 0096     		str	r6, [sp]
+ 684 0078 0423     		movs	r3, #4
+ 685 007a 40F2D242 		movw	r2, #1234
+ 686 007e 7821     		movs	r1, #120
+ 687 0080 0020     		movs	r0, #0
+ 688 0082 FFF7FEFF 		bl	LCD_ShowxNum
+ 689              	.LVL69:
+ 133:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1500);
+ 690              		.loc 1 133 5 view .LVU167
+ 691 0086 40F2DC50 		movw	r0, #1500
+ 692 008a FFF7FEFF 		bl	osDelay
+ 693              	.LVL70:
+ 134:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=YELLOW;
+ 694              		.loc 1 134 5 view .LVU168
+ 695              		.loc 1 134 16 is_stmt 0 view .LVU169
+ 696 008e C5F800B0 		str	fp, [r5]
+ 135:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,180,200,16,24,(uint8_t *)"Hello World!");
+ 697              		.loc 1 135 5 is_stmt 1 view .LVU170
+ 698 0092 0197     		str	r7, [sp, #4]
+ 699 0094 0096     		str	r6, [sp]
+ 700 0096 2346     		mov	r3, r4
+ 701 0098 C822     		movs	r2, #200
+ 702 009a B421     		movs	r1, #180
+ 703 009c 0020     		movs	r0, #0
+ 704 009e FFF7FEFF 		bl	LCD_ShowString
+ 705              	.LVL71:
+ 136:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=GREEN;
+ 706              		.loc 1 136 5 view .LVU171
+ 707              		.loc 1 136 16 is_stmt 0 view .LVU172
+ 708 00a2 C5F800A0 		str	r10, [r5]
+ 137:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,210,200,16,32,(uint8_t *)" Want pi?");
+ 709              		.loc 1 137 5 is_stmt 1 view .LVU173
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 17
+
+
+ 710 00a6 214B     		ldr	r3, .L45+8
+ 711 00a8 0193     		str	r3, [sp, #4]
+ 712 00aa CDF80080 		str	r8, [sp]
+ 713 00ae 2346     		mov	r3, r4
+ 714 00b0 C822     		movs	r2, #200
+ 715 00b2 D221     		movs	r1, #210
+ 716 00b4 0020     		movs	r0, #0
+ 717 00b6 FFF7FEFF 		bl	LCD_ShowString
+ 718              	.LVL72:
+ 138:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,240,300,16,32,(uint8_t *)" Print HEX! ZJX ZDY");
+ 719              		.loc 1 138 5 view .LVU174
+ 720 00ba 1D4B     		ldr	r3, .L45+12
+ 721 00bc 0193     		str	r3, [sp, #4]
+ 722 00be CDF80080 		str	r8, [sp]
+ 723 00c2 2346     		mov	r3, r4
+ 724 00c4 4FF49672 		mov	r2, #300
+ 725 00c8 F021     		movs	r1, #240
+ 726 00ca 0020     		movs	r0, #0
+ 727 00cc FFF7FEFF 		bl	LCD_ShowString
+ 728              	.LVL73:
+ 139:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=BLUE;
+ 729              		.loc 1 139 5 view .LVU175
+ 730              		.loc 1 139 16 is_stmt 0 view .LVU176
+ 731 00d0 C5F80090 		str	r9, [r5]
+ 140:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,270,200,16,16,(uint8_t *)"Sketch has been");
+ 732              		.loc 1 140 5 is_stmt 1 view .LVU177
+ 733 00d4 174B     		ldr	r3, .L45+16
+ 734 00d6 0193     		str	r3, [sp, #4]
+ 735 00d8 0094     		str	r4, [sp]
+ 736 00da 2346     		mov	r3, r4
+ 737 00dc C822     		movs	r2, #200
+ 738 00de 4FF48771 		mov	r1, #270
+ 739 00e2 0020     		movs	r0, #0
+ 740 00e4 FFF7FEFF 		bl	LCD_ShowString
+ 741              	.LVL74:
+ 141:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,300,200,16,24,(uint8_t *)"running for: ");
+ 742              		.loc 1 141 5 view .LVU178
+ 743 00e8 134B     		ldr	r3, .L45+20
+ 744 00ea 0193     		str	r3, [sp, #4]
+ 745 00ec 0096     		str	r6, [sp]
+ 746 00ee 2346     		mov	r3, r4
+ 747 00f0 C822     		movs	r2, #200
+ 748 00f2 4FF49671 		mov	r1, #300
+ 749 00f6 0020     		movs	r0, #0
+ 750 00f8 FFF7FEFF 		bl	LCD_ShowString
+ 751              	.LVL75:
+ 142:Drivers/LCD_FMC/src/lcdTest.c ****     POINT_COLOR=MAGENTA;
+ 752              		.loc 1 142 5 view .LVU179
+ 753              		.loc 1 142 16 is_stmt 0 view .LVU180
+ 754 00fc 4FF61F03 		movw	r3, #63519
+ 755 0100 2B60     		str	r3, [r5]
+ 143:Drivers/LCD_FMC/src/lcdTest.c ****     LCD_ShowString(0,330,200,16,24,(uint8_t *)" seconds.");
+ 756              		.loc 1 143 5 is_stmt 1 view .LVU181
+ 757 0102 0E4B     		ldr	r3, .L45+24
+ 758 0104 0193     		str	r3, [sp, #4]
+ 759 0106 0096     		str	r6, [sp]
+ 760 0108 2346     		mov	r3, r4
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 18
+
+
+ 761 010a C822     		movs	r2, #200
+ 762 010c 4FF4A571 		mov	r1, #330
+ 763 0110 0020     		movs	r0, #0
+ 764 0112 FFF7FEFF 		bl	LCD_ShowString
+ 765              	.LVL76:
+ 144:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(2500);
+ 766              		.loc 1 144 5 view .LVU182
+ 767 0116 40F6C410 		movw	r0, #2500
+ 768 011a FFF7FEFF 		bl	osDelay
+ 769              	.LVL77:
+ 145:Drivers/LCD_FMC/src/lcdTest.c **** }...
+ 770              		.loc 1 145 1 is_stmt 0 view .LVU183
+ 771 011e 03B0     		add	sp, sp, #12
+ 772              	.LCFI5:
+ 773              		.cfi_def_cfa_offset 36
+ 774              		@ sp needed
+ 775 0120 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 776              	.L46:
+ 777              		.align	2
+ 778              	.L45:
+ 779 0124 00000000 		.word	POINT_COLOR
+ 780 0128 00000000 		.word	.LC0
+ 781 012c 10000000 		.word	.LC1
+ 782 0130 1C000000 		.word	.LC2
+ 783 0134 30000000 		.word	.LC3
+ 784 0138 40000000 		.word	.LC4
+ 785 013c 50000000 		.word	.LC5
+ 786              		.cfi_endproc
+ 787              	.LFE342:
+ 789              		.section	.text.LCD_TEST,"ax",%progbits
+ 790              		.align	1
+ 791              		.global	LCD_TEST
+ 792              		.syntax unified
+ 793              		.thumb
+ 794              		.thumb_func
+ 796              	LCD_TEST:
+ 797              	.LFB338:
+  10:Drivers/LCD_FMC/src/lcdTest.c **** {
+ 798              		.loc 1 10 1 is_stmt 1 view -0
+ 799              		.cfi_startproc
+ 800              		@ args = 0, pretend = 0, frame = 0
+ 801              		@ frame_needed = 0, uses_anonymous_args = 0
+ 802 0000 08B5     		push	{r3, lr}
+ 803              	.LCFI6:
+ 804              		.cfi_def_cfa_offset 8
+ 805              		.cfi_offset 3, -8
+ 806              		.cfi_offset 14, -4
+  16:Drivers/LCD_FMC/src/lcdTest.c ****     testlines();
+ 807              		.loc 1 16 5 view .LVU185
+ 808 0002 FFF7FEFF 		bl	testlines
+ 809              	.LVL78:
+  17:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1000);
+ 810              		.loc 1 17 5 view .LVU186
+ 811 0006 4FF47A70 		mov	r0, #1000
+ 812 000a FFF7FEFF 		bl	osDelay
+ 813              	.LVL79:
+  19:Drivers/LCD_FMC/src/lcdTest.c ****     testdrawrects();
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 19
+
+
+ 814              		.loc 1 19 5 view .LVU187
+ 815 000e FFF7FEFF 		bl	testdrawrects
+ 816              	.LVL80:
+  20:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1000);
+ 817              		.loc 1 20 5 view .LVU188
+ 818 0012 4FF47A70 		mov	r0, #1000
+ 819 0016 FFF7FEFF 		bl	osDelay
+ 820              	.LVL81:
+  22:Drivers/LCD_FMC/src/lcdTest.c ****     testfillcircles(15);
+ 821              		.loc 1 22 5 view .LVU189
+ 822 001a 0F20     		movs	r0, #15
+ 823 001c FFF7FEFF 		bl	testfillcircles
+ 824              	.LVL82:
+  23:Drivers/LCD_FMC/src/lcdTest.c ****     osDelay(1000);
+ 825              		.loc 1 23 5 view .LVU190
+ 826 0020 4FF47A70 		mov	r0, #1000
+ 827 0024 FFF7FEFF 		bl	osDelay
+ 828              	.LVL83:
+  25:Drivers/LCD_FMC/src/lcdTest.c ****     tftPrintTest();
+ 829              		.loc 1 25 5 view .LVU191
+ 830 0028 FFF7FEFF 		bl	tftPrintTest
+ 831              	.LVL84:
+  26:Drivers/LCD_FMC/src/lcdTest.c **** }
+ 832              		.loc 1 26 1 is_stmt 0 view .LVU192
+ 833 002c 08BD     		pop	{r3, pc}
+ 834              		.cfi_endproc
+ 835              	.LFE338:
+ 837              		.text
+ 838              	.Letext0:
+ 839              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 840              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 841              		.file 4 "Drivers/LCD_FMC/inc/tftLCD.h"
+ 842              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ARM GAS  C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s 			page 20
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lcdTest.c
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:19     .text.testlines:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:25     .text.testlines:00000000 testlines
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:332    .text.testlines:00000168 $d
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:337    .text.testdrawrects:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:343    .text.testdrawrects:00000000 testdrawrects
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:406    .text.testdrawrects:00000044 $d
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:411    .text.testfillcircles:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:417    .text.testfillcircles:00000000 testfillcircles
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:572    .text.testfillcircles:0000008c $d
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:577    .rodata.tftPrintTest.str1.4:00000000 $d
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:596    .text.tftPrintTest:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:602    .text.tftPrintTest:00000000 tftPrintTest
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:779    .text.tftPrintTest:00000124 $d
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:790    .text.LCD_TEST:00000000 $t
+C:\Users\zdy\AppData\Local\Temp\cch8oNAX.s:796    .text.LCD_TEST:00000000 LCD_TEST
+
+UNDEFINED SYMBOLS
+LCD_Clear
+LCD_DrawLine
+osDelay
+POINT_COLOR
+LCD_DrawRectangle
+LCD_Draw_Circle
+LCD_SetCursor
+LCD_ShowString
+LCD_ShowxNum
