@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
+ARM GAS  C:\usertemp\ccgw5bok.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -26,7 +26,7 @@ ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
   23              		.thumb
   24              		.thumb_func
   26              	MX_FATFS_Init:
-  27              	.LFB338:
+  27              	.LFB333:
    1:FATFS/App/fatfs.c **** /**
    2:FATFS/App/fatfs.c ****   ******************************************************************************
    3:FATFS/App/fatfs.c ****   * @file   fatfs.c
@@ -45,23 +45,23 @@ ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
   16:FATFS/App/fatfs.c ****   ******************************************************************************
   17:FATFS/App/fatfs.c ****   */
   18:FATFS/App/fatfs.c **** 
-  19:FATFS/App/fatfs.c **** #include "fatfs.h"
+  19:FATFS/App/fatfs.c ****   #include "fatfs.h"
   20:FATFS/App/fatfs.c **** 
-  21:FATFS/App/fatfs.c **** uint8_t retSD;    /* Return value for SD */
-  22:FATFS/App/fatfs.c **** char SDPath[4];   /* SD logical drive path */
-  23:FATFS/App/fatfs.c **** FATFS SDFatFS;    /* File system object for SD logical drive */
-  24:FATFS/App/fatfs.c **** FIL SDFile;       /* File object for SD */
-  25:FATFS/App/fatfs.c **** 
-  26:FATFS/App/fatfs.c **** /* USER CODE BEGIN Variables */
-  27:FATFS/App/fatfs.c **** 
-  28:FATFS/App/fatfs.c **** /* USER CODE END Variables */
-  29:FATFS/App/fatfs.c **** 
-  30:FATFS/App/fatfs.c **** void MX_FATFS_Init(void)
-  31:FATFS/App/fatfs.c **** {
-ARM GAS  C:\usertemp\ccnLKDNR.s 			page 2
+  21:FATFS/App/fatfs.c ****   uint8_t retSD;    /* Return value for SD */
+  22:FATFS/App/fatfs.c ****   char SDPath[4];   /* SD logical drive path */
+  23:FATFS/App/fatfs.c ****   FATFS SDFatFS;    /* File system object for SD logical drive */
+  24:FATFS/App/fatfs.c ****   FIL SDFile;       /* File object for SD */
+  25:FATFS/App/fatfs.c ****   
+  26:FATFS/App/fatfs.c ****   /* USER CODE BEGIN Variables */
+  27:FATFS/App/fatfs.c ****   
+  28:FATFS/App/fatfs.c ****   /* USER CODE END Variables */
+  29:FATFS/App/fatfs.c ****   
+  30:FATFS/App/fatfs.c ****   void MX_FATFS_Init(void)
+  31:FATFS/App/fatfs.c ****   {
+ARM GAS  C:\usertemp\ccgw5bok.s 			page 2
 
 
-  28              		.loc 1 31 1 view -0
+  28              		.loc 1 31 3 view -0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -70,23 +70,23 @@ ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
   34              		.cfi_def_cfa_offset 8
   35              		.cfi_offset 3, -8
   36              		.cfi_offset 14, -4
-  32:FATFS/App/fatfs.c ****   /*## FatFS: Link the SD driver ###########################*/
-  33:FATFS/App/fatfs.c ****   retSD = FATFS_LinkDriver(&SD_Driver, SDPath);
-  37              		.loc 1 33 3 view .LVU1
-  38              		.loc 1 33 11 is_stmt 0 view .LVU2
+  32:FATFS/App/fatfs.c ****     /*## FatFS: Link the SD driver ###########################*/
+  33:FATFS/App/fatfs.c ****     retSD = FATFS_LinkDriver(&SD_Driver, SDPath);
+  37              		.loc 1 33 5 view .LVU1
+  38              		.loc 1 33 13 is_stmt 0 view .LVU2
   39 0002 0349     		ldr	r1, .L3
   40 0004 0348     		ldr	r0, .L3+4
   41 0006 FFF7FEFF 		bl	FATFS_LinkDriver
   42              	.LVL0:
-  43              		.loc 1 33 9 discriminator 1 view .LVU3
+  43              		.loc 1 33 11 discriminator 1 view .LVU3
   44 000a 034B     		ldr	r3, .L3+8
   45 000c 1870     		strb	r0, [r3]
-  34:FATFS/App/fatfs.c **** 
-  35:FATFS/App/fatfs.c ****   /* USER CODE BEGIN Init */
-  36:FATFS/App/fatfs.c ****   /* additional user code for init */
-  37:FATFS/App/fatfs.c ****   /* USER CODE END Init */
-  38:FATFS/App/fatfs.c **** }
-  46              		.loc 1 38 1 view .LVU4
+  34:FATFS/App/fatfs.c ****   
+  35:FATFS/App/fatfs.c ****     /* USER CODE BEGIN Init */
+  36:FATFS/App/fatfs.c ****     /* additional user code for init */
+  37:FATFS/App/fatfs.c ****     /* USER CODE END Init */
+  38:FATFS/App/fatfs.c ****   }
+  46              		.loc 1 38 3 view .LVU4
   47 000e 08BD     		pop	{r3, pc}
   48              	.L4:
   49              		.align	2
@@ -95,7 +95,7 @@ ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
   52 0014 00000000 		.word	SD_Driver
   53 0018 00000000 		.word	retSD
   54              		.cfi_endproc
-  55              	.LFE338:
+  55              	.LFE333:
   57              		.section	.text.get_fattime,"ax",%progbits
   58              		.align	1
   59              		.global	get_fattime
@@ -103,33 +103,33 @@ ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
   61              		.thumb
   62              		.thumb_func
   64              	get_fattime:
-  65              	.LFB339:
-  39:FATFS/App/fatfs.c **** 
-  40:FATFS/App/fatfs.c **** /**
-  41:FATFS/App/fatfs.c ****   * @brief  Gets Time from RTC
-  42:FATFS/App/fatfs.c ****   * @param  None
-  43:FATFS/App/fatfs.c ****   * @retval Time in DWORD
-  44:FATFS/App/fatfs.c ****   */
-  45:FATFS/App/fatfs.c **** DWORD get_fattime(void)
-  46:FATFS/App/fatfs.c **** {
-  66              		.loc 1 46 1 is_stmt 1 view -0
+  65              	.LFB334:
+  39:FATFS/App/fatfs.c ****   
+  40:FATFS/App/fatfs.c ****   /**
+  41:FATFS/App/fatfs.c ****     * @brief  Gets Time from RTC
+  42:FATFS/App/fatfs.c ****     * @param  None
+  43:FATFS/App/fatfs.c ****     * @retval Time in DWORD
+  44:FATFS/App/fatfs.c ****     */
+  45:FATFS/App/fatfs.c ****   DWORD get_fattime(void)
+  46:FATFS/App/fatfs.c ****   {
+  66              		.loc 1 46 3 is_stmt 1 view -0
   67              		.cfi_startproc
   68              		@ args = 0, pretend = 0, frame = 0
   69              		@ frame_needed = 0, uses_anonymous_args = 0
   70              		@ link register save eliminated.
-  47:FATFS/App/fatfs.c ****   /* USER CODE BEGIN get_fattime */
-ARM GAS  C:\usertemp\ccnLKDNR.s 			page 3
+  47:FATFS/App/fatfs.c ****     /* USER CODE BEGIN get_fattime */
+ARM GAS  C:\usertemp\ccgw5bok.s 			page 3
 
 
-  48:FATFS/App/fatfs.c ****   return 0;
-  71              		.loc 1 48 3 view .LVU6
-  49:FATFS/App/fatfs.c ****   /* USER CODE END get_fattime */
-  50:FATFS/App/fatfs.c **** }
-  72              		.loc 1 50 1 is_stmt 0 view .LVU7
+  48:FATFS/App/fatfs.c ****     return 0;
+  71              		.loc 1 48 5 view .LVU6
+  49:FATFS/App/fatfs.c ****     /* USER CODE END get_fattime */
+  50:FATFS/App/fatfs.c ****   }
+  72              		.loc 1 50 3 is_stmt 0 view .LVU7
   73 0000 0020     		movs	r0, #0
   74 0002 7047     		bx	lr
   75              		.cfi_endproc
-  76              	.LFE339:
+  76              	.LFE334:
   78              		.global	SDFile
   79              		.section	.bss.SDFile,"aw",%nobits
   80              		.align	2
@@ -162,32 +162,29 @@ ARM GAS  C:\usertemp\ccnLKDNR.s 			page 1
  107              		.file 2 "Middlewares/Third_Party/FatFs/src/integer.h"
  108              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
  109              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 110              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
- 111              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
- 112              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 113              		.file 8 "Middlewares/Third_Party/FatFs/src/ff.h"
- 114              		.file 9 "Middlewares/Third_Party/FatFs/src/diskio.h"
- 115              		.file 10 "Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
- 116              		.file 11 "FATFS/Target/sd_diskio.h"
- 117              		.file 12 "FATFS/App/fatfs.h"
-ARM GAS  C:\usertemp\ccnLKDNR.s 			page 4
+ 110              		.file 5 "Middlewares/Third_Party/FatFs/src/ff.h"
+ 111              		.file 6 "Middlewares/Third_Party/FatFs/src/diskio.h"
+ 112              		.file 7 "Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 113              		.file 8 "FATFS/Target/sd_diskio.h"
+ 114              		.file 9 "FATFS/App/fatfs.h"
+ARM GAS  C:\usertemp\ccgw5bok.s 			page 4
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 fatfs.c
-C:\usertemp\ccnLKDNR.s:20     .text.MX_FATFS_Init:00000000 $t
-C:\usertemp\ccnLKDNR.s:26     .text.MX_FATFS_Init:00000000 MX_FATFS_Init
-C:\usertemp\ccnLKDNR.s:51     .text.MX_FATFS_Init:00000010 $d
-C:\usertemp\ccnLKDNR.s:97     .bss.SDPath:00000000 SDPath
-C:\usertemp\ccnLKDNR.s:103    .bss.retSD:00000000 retSD
-C:\usertemp\ccnLKDNR.s:58     .text.get_fattime:00000000 $t
-C:\usertemp\ccnLKDNR.s:64     .text.get_fattime:00000000 get_fattime
-C:\usertemp\ccnLKDNR.s:83     .bss.SDFile:00000000 SDFile
-C:\usertemp\ccnLKDNR.s:80     .bss.SDFile:00000000 $d
-C:\usertemp\ccnLKDNR.s:90     .bss.SDFatFS:00000000 SDFatFS
-C:\usertemp\ccnLKDNR.s:87     .bss.SDFatFS:00000000 $d
-C:\usertemp\ccnLKDNR.s:94     .bss.SDPath:00000000 $d
-C:\usertemp\ccnLKDNR.s:104    .bss.retSD:00000000 $d
+C:\usertemp\ccgw5bok.s:20     .text.MX_FATFS_Init:00000000 $t
+C:\usertemp\ccgw5bok.s:26     .text.MX_FATFS_Init:00000000 MX_FATFS_Init
+C:\usertemp\ccgw5bok.s:51     .text.MX_FATFS_Init:00000010 $d
+C:\usertemp\ccgw5bok.s:97     .bss.SDPath:00000000 SDPath
+C:\usertemp\ccgw5bok.s:103    .bss.retSD:00000000 retSD
+C:\usertemp\ccgw5bok.s:58     .text.get_fattime:00000000 $t
+C:\usertemp\ccgw5bok.s:64     .text.get_fattime:00000000 get_fattime
+C:\usertemp\ccgw5bok.s:83     .bss.SDFile:00000000 SDFile
+C:\usertemp\ccgw5bok.s:80     .bss.SDFile:00000000 $d
+C:\usertemp\ccgw5bok.s:90     .bss.SDFatFS:00000000 SDFatFS
+C:\usertemp\ccgw5bok.s:87     .bss.SDFatFS:00000000 $d
+C:\usertemp\ccgw5bok.s:94     .bss.SDPath:00000000 $d
+C:\usertemp\ccgw5bok.s:104    .bss.retSD:00000000 $d
 
 UNDEFINED SYMBOLS
 FATFS_LinkDriver

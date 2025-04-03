@@ -36,12 +36,28 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "sdmmc.h"
 #include "ad7606.h"
-// #include "dsp_fft.h"
+#include "lcd.h"
+#include "lv_port_indev.h"
+#include "lvgl.h"
+#include "lv_port_fs.h"
+#include "lv_port_disp.h"
+#include "fatfs.h"
+#include "gui_guider.h"
+#include "events_init.h"
+#include "sdcard_test.h"
+#include "arm_math.h"
+#include "dsp_fft.h"
+#include "lv_snapshot.h"
+#include "lv_bmp.h"
+// #include "task_page1.h"
+#include "sdram.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+lv_ui guider_ui;
 
 /* USER CODE END PTD */
 
@@ -130,19 +146,35 @@ int main(void)
   MX_UART4_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
-  MX_FATFS_Init();
+  
   /* USER CODE BEGIN 2 */
-  HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
 
+  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+  // HAL_FMC_MspInit();
 
-  // while(1)
-  // {
-  //   //LCD_ShowString(10,40,300,32,32,"Apollo STM32H7");
-  //   LCD_TEST();
-  // }
+  // lv_init();
 
+  // lv_port_disp_init();
+  // lv_port_indev_init();
+  // HAL_Delay(10);
+  // setup_ui(&guider_ui);
+  HAL_SD_MspInit(&hsd1);
+
+  HAL_TIM_Base_Start_IT(&htim1);
   ad7606ini(&ad7606dev);
-  HAL_TIMEx_PWMN_Start(&htim8,TIM_CHANNEL_3);
+  MX_FATFS_Init();
+  // MyRTC_ReadTime();
+  HAL_Delay(100);
+  FatFs_Check();
+  // lv_port_fs_init();
+  // events_init(&guider_ui);
+
+
+
+
+  // HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
+  // ad7606ini(&ad7606dev);
+  // HAL_TIMEx_PWMN_Start(&htim8,TIM_CHANNEL_3);
  
   /* USER CODE END 2 */
 
