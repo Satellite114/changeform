@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
   30:Core/Src/main.c **** #include "spi.h"
   31:Core/Src/main.c **** #include "tim.h"
   32:Core/Src/main.c **** #include "usart.h"
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 2
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 2
 
 
   33:Core/Src/main.c **** #include "usb_otg.h"
@@ -118,7 +118,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
   87:Core/Src/main.c **** 
   88:Core/Src/main.c **** /* USER CODE END PFP */
   89:Core/Src/main.c **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 3
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 3
 
 
   90:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
@@ -178,23 +178,23 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  144:Core/Src/main.c ****   MX_SPI4_Init();
  145:Core/Src/main.c ****   MX_TIM8_Init();
  146:Core/Src/main.c ****   MX_UART4_Init();
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 4
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 4
 
 
  147:Core/Src/main.c ****   MX_USART1_UART_Init();
  148:Core/Src/main.c ****   MX_USART3_UART_Init();
- 149:Core/Src/main.c ****   
+ 149:Core/Src/main.c ****   MX_FATFS_Init();
  150:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
  151:Core/Src/main.c **** 
  152:Core/Src/main.c ****   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
  153:Core/Src/main.c ****   // HAL_FMC_MspInit();
  154:Core/Src/main.c **** 
- 155:Core/Src/main.c ****   // lv_init();
+ 155:Core/Src/main.c ****   lv_init();
  156:Core/Src/main.c **** 
- 157:Core/Src/main.c ****   // lv_port_disp_init();
- 158:Core/Src/main.c ****   // lv_port_indev_init();
- 159:Core/Src/main.c ****   // HAL_Delay(10);
- 160:Core/Src/main.c ****   // setup_ui(&guider_ui);
+ 157:Core/Src/main.c ****   lv_port_disp_init();
+ 158:Core/Src/main.c ****   lv_port_indev_init();
+ 159:Core/Src/main.c ****   HAL_Delay(10);
+ 160:Core/Src/main.c ****   setup_ui(&guider_ui);
  161:Core/Src/main.c ****   HAL_SD_MspInit(&hsd1);
  162:Core/Src/main.c **** 
  163:Core/Src/main.c ****   HAL_TIM_Base_Start_IT(&htim1);
@@ -203,8 +203,8 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  166:Core/Src/main.c ****   // MyRTC_ReadTime();
  167:Core/Src/main.c ****   HAL_Delay(100);
  168:Core/Src/main.c ****   FatFs_Check();
- 169:Core/Src/main.c ****   // lv_port_fs_init();
- 170:Core/Src/main.c ****   // events_init(&guider_ui);
+ 169:Core/Src/main.c ****   lv_port_fs_init();
+ 170:Core/Src/main.c ****   events_init(&guider_ui);
  171:Core/Src/main.c **** 
  172:Core/Src/main.c **** 
  173:Core/Src/main.c **** 
@@ -238,7 +238,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  201:Core/Src/main.c ****   */
  202:Core/Src/main.c **** void SystemClock_Config(void)
  203:Core/Src/main.c **** {
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 5
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 5
 
 
  204:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -298,7 +298,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  258:Core/Src/main.c ****   {
  259:Core/Src/main.c ****     Error_Handler();
  260:Core/Src/main.c ****   }
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 6
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 6
 
 
  261:Core/Src/main.c **** }
@@ -358,7 +358,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  280:Core/Src/main.c ****   MPU_InitStruct.Size = MPU_REGION_SIZE_256B;
   62              		.loc 1 280 3 is_stmt 1 view .LVU10
   63              		.loc 1 280 23 is_stmt 0 view .LVU11
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 7
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 7
 
 
   64 0020 0723     		movs	r3, #7
@@ -418,7 +418,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  103              		.loc 1 295 3 is_stmt 1 view .LVU33
  104              		.loc 1 295 30 is_stmt 0 view .LVU34
  105 0058 8DF80E50 		strb	r5, [sp, #14]
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 8
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 8
 
 
  296:Core/Src/main.c ****   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
@@ -478,7 +478,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  143              		.loc 1 312 23 is_stmt 0 view .LVU54
  144 0090 1823     		movs	r3, #24
  145 0092 8DF80830 		strb	r3, [sp, #8]
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 9
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 9
 
 
  313:Core/Src/main.c ****   MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
@@ -538,7 +538,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  331:Core/Src/main.c **** {
  184              		.loc 1 331 1 is_stmt 1 view -0
  185              		.cfi_startproc
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 10
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 10
 
 
  186              		@ args = 0, pretend = 0, frame = 0
@@ -598,7 +598,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  345:Core/Src/main.c ****   * @retval None
  346:Core/Src/main.c ****   */
  347:Core/Src/main.c **** void Error_Handler(void)
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 11
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 11
 
 
  348:Core/Src/main.c **** {
@@ -658,7 +658,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
   41:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
   42:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   43:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 12
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 12
 
 
   44:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
@@ -718,7 +718,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
   98:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
   99:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
  100:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 13
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 13
 
 
  101:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -778,7 +778,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  155:Drivers/CMSIS/Include/cmsis_gcc.h ****   }
  156:Drivers/CMSIS/Include/cmsis_gcc.h ****  
  157:Drivers/CMSIS/Include/cmsis_gcc.h ****   for (__zero_table_t const* pTable = &__zero_table_start__; pTable < &__zero_table_end__; ++pTable
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 14
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 14
 
 
  158:Drivers/CMSIS/Include/cmsis_gcc.h ****     for(uint32_t i=0u; i<pTable->wlen; ++i) {
@@ -838,7 +838,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  240              		.loc 2 209 3 view .LVU73
  241              		.syntax unified
  242              	@ 209 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 15
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 15
 
 
  243 0000 72B6     		cpsid i
@@ -898,7 +898,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  290              	.LVL11:
  209:Core/Src/main.c ****   /** Configure the main internal regulator output voltage
  291              		.loc 1 209 3 is_stmt 1 view .LVU82
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 16
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 16
 
 
  292 0018 0220     		movs	r0, #2
@@ -958,7 +958,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  332 0050 FAD0     		beq	.L14
  217:Core/Src/main.c ****   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
  333              		.loc 1 217 3 is_stmt 1 view .LVU97
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 17
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 17
 
 
  334 0052 FFF7FEFF 		bl	HAL_PWR_EnableBkUpAccess
@@ -1018,7 +1018,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  371              		.loc 1 231 35 is_stmt 0 view .LVU114
  372 0084 1393     		str	r3, [sp, #76]
  232:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLN = 97;
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 18
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 18
 
 
  373              		.loc 1 232 3 is_stmt 1 view .LVU115
@@ -1078,7 +1078,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  246:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
  409              		.loc 1 246 3 is_stmt 1 view .LVU134
  246:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 19
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 19
 
 
  410              		.loc 1 246 31 is_stmt 0 view .LVU135
@@ -1138,7 +1138,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  261:Core/Src/main.c **** 
  447              		.loc 1 261 1 view .LVU153
  448 00d2 1DB0     		add	sp, sp, #116
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 20
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 20
 
 
  449              	.LCFI6:
@@ -1198,7 +1198,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
    2:Drivers/CMSIS/Include/core_cm7.h ****  * @file     core_cm7.h
    3:Drivers/CMSIS/Include/core_cm7.h ****  * @brief    CMSIS Cortex-M7 Core Peripheral Access Layer Header File
    4:Drivers/CMSIS/Include/core_cm7.h ****  * @version  V5.1.1
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 21
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 21
 
 
    5:Drivers/CMSIS/Include/core_cm7.h ****  * @date     28. March 2019
@@ -1258,7 +1258,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
   59:Drivers/CMSIS/Include/core_cm7.h ****   \ingroup Cortex_M7
   60:Drivers/CMSIS/Include/core_cm7.h ****   @{
   61:Drivers/CMSIS/Include/core_cm7.h ****  */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 22
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 22
 
 
   62:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -1318,7 +1318,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  116:Drivers/CMSIS/Include/core_cm7.h ****     #else
  117:Drivers/CMSIS/Include/core_cm7.h ****       #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
  118:Drivers/CMSIS/Include/core_cm7.h ****       #define __FPU_USED       0U
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 23
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 23
 
 
  119:Drivers/CMSIS/Include/core_cm7.h ****     #endif
@@ -1378,7 +1378,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  173:Drivers/CMSIS/Include/core_cm7.h **** #ifndef __CORE_CM7_H_DEPENDANT
  174:Drivers/CMSIS/Include/core_cm7.h **** #define __CORE_CM7_H_DEPENDANT
  175:Drivers/CMSIS/Include/core_cm7.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 24
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 24
 
 
  176:Drivers/CMSIS/Include/core_cm7.h **** #ifdef __cplusplus
@@ -1438,7 +1438,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  230:Drivers/CMSIS/Include/core_cm7.h **** */
  231:Drivers/CMSIS/Include/core_cm7.h **** #ifdef __cplusplus
  232:Drivers/CMSIS/Include/core_cm7.h ****   #define   __I     volatile             /*!< Defines 'read only' permissions */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 25
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 25
 
 
  233:Drivers/CMSIS/Include/core_cm7.h **** #else
@@ -1498,7 +1498,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  287:Drivers/CMSIS/Include/core_cm7.h ****   uint32_t w;                            /*!< Type      used for word access */
  288:Drivers/CMSIS/Include/core_cm7.h **** } APSR_Type;
  289:Drivers/CMSIS/Include/core_cm7.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 26
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 26
 
 
  290:Drivers/CMSIS/Include/core_cm7.h **** /* APSR Register Definitions */
@@ -1558,7 +1558,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  344:Drivers/CMSIS/Include/core_cm7.h ****     uint32_t C:1;                        /*!< bit:     29  Carry condition code flag */
  345:Drivers/CMSIS/Include/core_cm7.h ****     uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag */
  346:Drivers/CMSIS/Include/core_cm7.h ****     uint32_t N:1;                        /*!< bit:     31  Negative condition code flag */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 27
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 27
 
 
  347:Drivers/CMSIS/Include/core_cm7.h ****   } b;                                   /*!< Structure used for bit  access */
@@ -1618,7 +1618,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  401:Drivers/CMSIS/Include/core_cm7.h **** 
  402:Drivers/CMSIS/Include/core_cm7.h **** #define CONTROL_SPSEL_Pos                   1U                                            /*!< CONT
  403:Drivers/CMSIS/Include/core_cm7.h **** #define CONTROL_SPSEL_Msk                  (1UL << CONTROL_SPSEL_Pos)                     /*!< CONT
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 28
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 28
 
 
  404:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -1678,7 +1678,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  458:Drivers/CMSIS/Include/core_cm7.h ****   __IOM uint32_t ICSR;                   /*!< Offset: 0x004 (R/W)  Interrupt Control and State Regi
  459:Drivers/CMSIS/Include/core_cm7.h ****   __IOM uint32_t VTOR;                   /*!< Offset: 0x008 (R/W)  Vector Table Offset Register */
  460:Drivers/CMSIS/Include/core_cm7.h ****   __IOM uint32_t AIRCR;                  /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 29
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 29
 
 
  461:Drivers/CMSIS/Include/core_cm7.h ****   __IOM uint32_t SCR;                    /*!< Offset: 0x010 (R/W)  System Control Register */
@@ -1738,7 +1738,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  515:Drivers/CMSIS/Include/core_cm7.h **** 
  516:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CPUID_ARCHITECTURE_Pos         16U                                            /*!< SCB 
  517:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CPUID_ARCHITECTURE_Msk         (0xFUL << SCB_CPUID_ARCHITECTURE_Pos)          /*!< SCB 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 30
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 30
 
 
  518:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -1798,7 +1798,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  572:Drivers/CMSIS/Include/core_cm7.h **** 
  573:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_AIRCR_SYSRESETREQ_Pos           2U                                            /*!< SCB 
  574:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_AIRCR_SYSRESETREQ_Msk          (1UL << SCB_AIRCR_SYSRESETREQ_Pos)             /*!< SCB 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 31
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 31
 
 
  575:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -1858,7 +1858,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  629:Drivers/CMSIS/Include/core_cm7.h **** 
  630:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_SHCSR_SVCALLPENDED_Pos         15U                                            /*!< SCB 
  631:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_SHCSR_SVCALLPENDED_Msk         (1UL << SCB_SHCSR_SVCALLPENDED_Pos)            /*!< SCB 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 32
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 32
 
 
  632:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -1918,7 +1918,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  686:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CFSR_DACCVIOL_Pos              (SCB_SHCSR_MEMFAULTACT_Pos + 1U)               /*!< SCB 
  687:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CFSR_DACCVIOL_Msk              (1UL << SCB_CFSR_DACCVIOL_Pos)                 /*!< SCB 
  688:Drivers/CMSIS/Include/core_cm7.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 33
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 33
 
 
  689:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CFSR_IACCVIOL_Pos              (SCB_SHCSR_MEMFAULTACT_Pos + 0U)               /*!< SCB 
@@ -1978,7 +1978,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  743:Drivers/CMSIS/Include/core_cm7.h **** /* SCB Debug Fault Status Register Definitions */
  744:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_DFSR_EXTERNAL_Pos               4U                                            /*!< SCB 
  745:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_DFSR_EXTERNAL_Msk              (1UL << SCB_DFSR_EXTERNAL_Pos)                 /*!< SCB 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 34
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 34
 
 
  746:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -2038,7 +2038,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  800:Drivers/CMSIS/Include/core_cm7.h **** 
  801:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CCSIDR_LINESIZE_Pos             0U                                            /*!< SCB 
  802:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_CCSIDR_LINESIZE_Msk            (7UL /*<< SCB_CCSIDR_LINESIZE_Pos*/)           /*!< SCB 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 35
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 35
 
 
  803:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -2098,7 +2098,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  857:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_DTCMCR_RMW_Msk                 (1UL << SCB_DTCMCR_RMW_Pos)                    /*!< SCB 
  858:Drivers/CMSIS/Include/core_cm7.h **** 
  859:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_DTCMCR_EN_Pos                   0U                                            /*!< SCB 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 36
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 36
 
 
  860:Drivers/CMSIS/Include/core_cm7.h **** #define SCB_DTCMCR_EN_Msk                  (1UL /*<< SCB_DTCMCR_EN_Pos*/)                 /*!< SCB 
@@ -2158,7 +2158,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  914:Drivers/CMSIS/Include/core_cm7.h ****   \brief    Type definitions for the System Control and ID Register not in the SCB
  915:Drivers/CMSIS/Include/core_cm7.h ****   @{
  916:Drivers/CMSIS/Include/core_cm7.h ****  */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 37
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 37
 
 
  917:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -2218,7 +2218,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  971:Drivers/CMSIS/Include/core_cm7.h ****   \defgroup CMSIS_SysTick     System Tick Timer (SysTick)
  972:Drivers/CMSIS/Include/core_cm7.h ****   \brief    Type definitions for the System Timer Registers.
  973:Drivers/CMSIS/Include/core_cm7.h ****   @{
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 38
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 38
 
 
  974:Drivers/CMSIS/Include/core_cm7.h ****  */
@@ -2278,7 +2278,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1028:Drivers/CMSIS/Include/core_cm7.h **** /**
 1029:Drivers/CMSIS/Include/core_cm7.h ****   \brief  Structure type to access the Instrumentation Trace Macrocell Register (ITM).
 1030:Drivers/CMSIS/Include/core_cm7.h ****  */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 39
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 39
 
 
 1031:Drivers/CMSIS/Include/core_cm7.h **** typedef struct
@@ -2338,7 +2338,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1085:Drivers/CMSIS/Include/core_cm7.h **** #define ITM_TCR_DWTENA_Msk                 (1UL << ITM_TCR_DWTENA_Pos)                    /*!< ITM 
 1086:Drivers/CMSIS/Include/core_cm7.h **** 
 1087:Drivers/CMSIS/Include/core_cm7.h **** #define ITM_TCR_SYNCENA_Pos                 2U                                            /*!< ITM 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 40
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 40
 
 
 1088:Drivers/CMSIS/Include/core_cm7.h **** #define ITM_TCR_SYNCENA_Msk                (1UL << ITM_TCR_SYNCENA_Pos)                   /*!< ITM 
@@ -2398,7 +2398,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1142:Drivers/CMSIS/Include/core_cm7.h ****   __IOM uint32_t MASK3;                  /*!< Offset: 0x054 (R/W)  Mask Register 3 */
 1143:Drivers/CMSIS/Include/core_cm7.h ****   __IOM uint32_t FUNCTION3;              /*!< Offset: 0x058 (R/W)  Function Register 3 */
 1144:Drivers/CMSIS/Include/core_cm7.h ****         uint32_t RESERVED3[981U];
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 41
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 41
 
 
 1145:Drivers/CMSIS/Include/core_cm7.h ****   __OM  uint32_t LAR;                    /*!< Offset: 0xFB0 (  W)  Lock Access Register */
@@ -2458,7 +2458,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1199:Drivers/CMSIS/Include/core_cm7.h **** #define DWT_CTRL_POSTPRESET_Msk            (0xFUL << DWT_CTRL_POSTPRESET_Pos)          /*!< DWT CTR
 1200:Drivers/CMSIS/Include/core_cm7.h **** 
 1201:Drivers/CMSIS/Include/core_cm7.h **** #define DWT_CTRL_CYCCNTENA_Pos              0U                                         /*!< DWT CTR
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 42
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 42
 
 
 1202:Drivers/CMSIS/Include/core_cm7.h **** #define DWT_CTRL_CYCCNTENA_Msk             (0x1UL /*<< DWT_CTRL_CYCCNTENA_Pos*/)       /*!< DWT CTR
@@ -2518,7 +2518,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1256:Drivers/CMSIS/Include/core_cm7.h **** /*@}*/ /* end of group CMSIS_DWT */
 1257:Drivers/CMSIS/Include/core_cm7.h **** 
 1258:Drivers/CMSIS/Include/core_cm7.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 43
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 43
 
 
 1259:Drivers/CMSIS/Include/core_cm7.h **** /**
@@ -2578,7 +2578,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1313:Drivers/CMSIS/Include/core_cm7.h **** #define TPI_FFSR_FtStopped_Msk             (0x1UL << TPI_FFSR_FtStopped_Pos)           /*!< TPI FFS
 1314:Drivers/CMSIS/Include/core_cm7.h **** 
 1315:Drivers/CMSIS/Include/core_cm7.h **** #define TPI_FFSR_FlInProg_Pos               0U                                         /*!< TPI FFS
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 44
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 44
 
 
 1316:Drivers/CMSIS/Include/core_cm7.h **** #define TPI_FFSR_FlInProg_Msk              (0x1UL /*<< TPI_FFSR_FlInProg_Pos*/)        /*!< TPI FFS
@@ -2638,7 +2638,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1370:Drivers/CMSIS/Include/core_cm7.h **** 
 1371:Drivers/CMSIS/Include/core_cm7.h **** #define TPI_FIFO1_ITM2_Pos                 16U                                         /*!< TPI FIF
 1372:Drivers/CMSIS/Include/core_cm7.h **** #define TPI_FIFO1_ITM2_Msk                 (0xFFUL << TPI_FIFO1_ITM2_Pos)              /*!< TPI FIF
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 45
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 45
 
 
 1373:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -2698,7 +2698,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1427:Drivers/CMSIS/Include/core_cm7.h **** 
 1428:Drivers/CMSIS/Include/core_cm7.h **** /**
 1429:Drivers/CMSIS/Include/core_cm7.h ****   \brief  Structure type to access the Memory Protection Unit (MPU).
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 46
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 46
 
 
 1430:Drivers/CMSIS/Include/core_cm7.h ****  */
@@ -2758,7 +2758,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1484:Drivers/CMSIS/Include/core_cm7.h **** #define MPU_RASR_ATTRS_Msk                 (0xFFFFUL << MPU_RASR_ATTRS_Pos)               /*!< MPU 
 1485:Drivers/CMSIS/Include/core_cm7.h **** 
 1486:Drivers/CMSIS/Include/core_cm7.h **** #define MPU_RASR_XN_Pos                    28U                                            /*!< MPU 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 47
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 47
 
 
 1487:Drivers/CMSIS/Include/core_cm7.h **** #define MPU_RASR_XN_Msk                    (1UL << MPU_RASR_XN_Pos)                       /*!< MPU 
@@ -2818,7 +2818,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1541:Drivers/CMSIS/Include/core_cm7.h **** 
 1542:Drivers/CMSIS/Include/core_cm7.h **** #define FPU_FPCCR_LSPEN_Pos                30U                                            /*!< FPCC
 1543:Drivers/CMSIS/Include/core_cm7.h **** #define FPU_FPCCR_LSPEN_Msk                (1UL << FPU_FPCCR_LSPEN_Pos)                   /*!< FPCC
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 48
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 48
 
 
 1544:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -2878,7 +2878,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1598:Drivers/CMSIS/Include/core_cm7.h **** 
 1599:Drivers/CMSIS/Include/core_cm7.h **** #define FPU_MVFR0_Double_precision_Pos      8U                                            /*!< MVFR
 1600:Drivers/CMSIS/Include/core_cm7.h **** #define FPU_MVFR0_Double_precision_Msk     (0xFUL << FPU_MVFR0_Double_precision_Pos)      /*!< MVFR
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 49
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 49
 
 
 1601:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -2938,7 +2938,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1655:Drivers/CMSIS/Include/core_cm7.h **** #define CoreDebug_DHCSR_S_RETIRE_ST_Msk    (1UL << CoreDebug_DHCSR_S_RETIRE_ST_Pos)       /*!< Core
 1656:Drivers/CMSIS/Include/core_cm7.h **** 
 1657:Drivers/CMSIS/Include/core_cm7.h **** #define CoreDebug_DHCSR_S_LOCKUP_Pos       19U                                            /*!< Core
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 50
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 50
 
 
 1658:Drivers/CMSIS/Include/core_cm7.h **** #define CoreDebug_DHCSR_S_LOCKUP_Msk       (1UL << CoreDebug_DHCSR_S_LOCKUP_Pos)          /*!< Core
@@ -2998,7 +2998,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1712:Drivers/CMSIS/Include/core_cm7.h **** 
 1713:Drivers/CMSIS/Include/core_cm7.h **** #define CoreDebug_DEMCR_VC_BUSERR_Pos       8U                                            /*!< Core
 1714:Drivers/CMSIS/Include/core_cm7.h **** #define CoreDebug_DEMCR_VC_BUSERR_Msk      (1UL << CoreDebug_DEMCR_VC_BUSERR_Pos)         /*!< Core
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 51
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 51
 
 
 1715:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -3058,7 +3058,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1769:Drivers/CMSIS/Include/core_cm7.h **** #define ITM_BASE            (0xE0000000UL)                            /*!< ITM Base Address */
 1770:Drivers/CMSIS/Include/core_cm7.h **** #define DWT_BASE            (0xE0001000UL)                            /*!< DWT Base Address */
 1771:Drivers/CMSIS/Include/core_cm7.h **** #define TPI_BASE            (0xE0040000UL)                            /*!< TPI Base Address */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 52
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 52
 
 
 1772:Drivers/CMSIS/Include/core_cm7.h **** #define CoreDebug_BASE      (0xE000EDF0UL)                            /*!< Core Debug Base Address 
@@ -3118,7 +3118,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1826:Drivers/CMSIS/Include/core_cm7.h ****   #define NVIC_SetPriorityGrouping    __NVIC_SetPriorityGrouping
 1827:Drivers/CMSIS/Include/core_cm7.h ****   #define NVIC_GetPriorityGrouping    __NVIC_GetPriorityGrouping
 1828:Drivers/CMSIS/Include/core_cm7.h ****   #define NVIC_EnableIRQ              __NVIC_EnableIRQ
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 53
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 53
 
 
 1829:Drivers/CMSIS/Include/core_cm7.h ****   #define NVIC_GetEnableIRQ           __NVIC_GetEnableIRQ
@@ -3178,7 +3178,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1883:Drivers/CMSIS/Include/core_cm7.h **** 
 1884:Drivers/CMSIS/Include/core_cm7.h **** 
 1885:Drivers/CMSIS/Include/core_cm7.h **** /**
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 54
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 54
 
 
 1886:Drivers/CMSIS/Include/core_cm7.h ****   \brief   Get Priority Grouping
@@ -3238,7 +3238,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1940:Drivers/CMSIS/Include/core_cm7.h **** __STATIC_INLINE void __NVIC_DisableIRQ(IRQn_Type IRQn)
 1941:Drivers/CMSIS/Include/core_cm7.h **** {
 1942:Drivers/CMSIS/Include/core_cm7.h ****   if ((int32_t)(IRQn) >= 0)
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 55
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 55
 
 
 1943:Drivers/CMSIS/Include/core_cm7.h ****   {
@@ -3298,7 +3298,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 1997:Drivers/CMSIS/Include/core_cm7.h ****     NVIC->ICPR[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
 1998:Drivers/CMSIS/Include/core_cm7.h ****   }
 1999:Drivers/CMSIS/Include/core_cm7.h **** }
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 56
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 56
 
 
 2000:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -3358,7 +3358,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2054:Drivers/CMSIS/Include/core_cm7.h **** __STATIC_INLINE uint32_t __NVIC_GetPriority(IRQn_Type IRQn)
 2055:Drivers/CMSIS/Include/core_cm7.h **** {
 2056:Drivers/CMSIS/Include/core_cm7.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 57
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 57
 
 
 2057:Drivers/CMSIS/Include/core_cm7.h ****   if ((int32_t)(IRQn) >= 0)
@@ -3418,7 +3418,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2111:Drivers/CMSIS/Include/core_cm7.h **** 
 2112:Drivers/CMSIS/Include/core_cm7.h ****   PreemptPriorityBits = ((7UL - PriorityGroupTmp) > (uint32_t)(__NVIC_PRIO_BITS)) ? (uint32_t)(__NV
 2113:Drivers/CMSIS/Include/core_cm7.h ****   SubPriorityBits     = ((PriorityGroupTmp + (uint32_t)(__NVIC_PRIO_BITS)) < (uint32_t)7UL) ? (uint
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 58
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 58
 
 
 2114:Drivers/CMSIS/Include/core_cm7.h **** 
@@ -3478,7 +3478,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2168:Drivers/CMSIS/Include/core_cm7.h ****   }
 2169:Drivers/CMSIS/Include/core_cm7.h **** }
 2170:Drivers/CMSIS/Include/core_cm7.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 59
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 59
 
 
 2171:Drivers/CMSIS/Include/core_cm7.h **** /*@} end of CMSIS_Core_NVICFunctions */
@@ -3538,7 +3538,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2225:Drivers/CMSIS/Include/core_cm7.h ****   \defgroup CMSIS_Core_CacheFunctions Cache Functions
 2226:Drivers/CMSIS/Include/core_cm7.h ****   \brief    Functions that configure Instruction and Data cache.
 2227:Drivers/CMSIS/Include/core_cm7.h ****   @{
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 60
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 60
 
 
 2228:Drivers/CMSIS/Include/core_cm7.h ****  */
@@ -3562,7 +3562,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2244:Drivers/CMSIS/Include/core_cm7.h ****     if (SCB->CCR & SCB_CCR_IC_Msk) return;  /* return if ICache is already enabled */
  501              		.loc 3 2244 5 view .LVU160
  502              		.loc 3 2244 12 is_stmt 0 view .LVU161
- 503 0006 434B     		ldr	r3, .L30
+ 503 0006 4D4B     		ldr	r3, .L30
  504 0008 5B69     		ldr	r3, [r3, #20]
  505              		.loc 3 2244 8 view .LVU162
  506 000a 13F4003F 		tst	r3, #131072
@@ -3598,7 +3598,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  233:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE uint32_t __TZ_get_CONTROL_NS(void)
  234:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  235:Drivers/CMSIS/Include/cmsis_gcc.h ****   uint32_t result;
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 61
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 61
 
 
  236:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -3658,7 +3658,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  290:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MRS %0, apsr" : "=r" (result) );
  291:Drivers/CMSIS/Include/cmsis_gcc.h ****   return(result);
  292:Drivers/CMSIS/Include/cmsis_gcc.h **** }
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 62
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 62
 
 
  293:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -3718,7 +3718,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  347:Drivers/CMSIS/Include/cmsis_gcc.h **** }
  348:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  349:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 63
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 63
 
 
  350:Drivers/CMSIS/Include/cmsis_gcc.h **** #if (defined (__ARM_FEATURE_CMSE ) && (__ARM_FEATURE_CMSE == 3))
@@ -3778,7 +3778,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  404:Drivers/CMSIS/Include/cmsis_gcc.h **** #if (defined (__ARM_FEATURE_CMSE ) && (__ARM_FEATURE_CMSE == 3))
  405:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
  406:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Set Main Stack Pointer (non-secure)
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 64
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 64
 
 
  407:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Assigns the given value to the non-secure Main Stack Pointer (MSP) when in secure state.
@@ -3838,7 +3838,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  461:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Returns the current state of the non-secure priority mask bit from the Priority Mask Reg
  462:Drivers/CMSIS/Include/cmsis_gcc.h ****   \return               Priority Mask value
  463:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 65
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 65
 
 
  464:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE uint32_t __TZ_get_PRIMASK_NS(void)
@@ -3898,7 +3898,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  518:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  519:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid f" : : : "memory");
  520:Drivers/CMSIS/Include/cmsis_gcc.h **** }
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 66
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 66
 
 
  521:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -3958,7 +3958,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  575:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  576:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  577:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 67
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 67
 
 
  578:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Set Base Priority with condition
@@ -4018,7 +4018,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  632:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Set Fault Mask (non-secure)
  633:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Assigns the given value to the non-secure Fault Mask register when in secure state.
  634:Drivers/CMSIS/Include/cmsis_gcc.h ****   \param [in]    faultMask  Fault Mask value to set
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 68
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 68
 
 
  635:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
@@ -4078,7 +4078,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  689:Drivers/CMSIS/Include/cmsis_gcc.h ****   return result;
  690:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  691:Drivers/CMSIS/Include/cmsis_gcc.h **** }
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 69
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 69
 
 
  692:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -4138,7 +4138,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  746:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE uint32_t __get_MSPLIM(void)
  747:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  748:Drivers/CMSIS/Include/cmsis_gcc.h **** #if (!(defined (__ARM_ARCH_8M_MAIN__ ) && (__ARM_ARCH_8M_MAIN__ == 1)) && \
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 70
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 70
 
 
  749:Drivers/CMSIS/Include/cmsis_gcc.h ****     (!defined (__ARM_FEATURE_CMSE) || (__ARM_FEATURE_CMSE < 3)))
@@ -4198,7 +4198,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  803:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  804:Drivers/CMSIS/Include/cmsis_gcc.h **** #if (defined (__ARM_FEATURE_CMSE  ) && (__ARM_FEATURE_CMSE   == 3))
  805:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 71
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 71
 
 
  806:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Set Main Stack Pointer Limit (non-secure)
@@ -4258,7 +4258,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  860:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  861:Drivers/CMSIS/Include/cmsis_gcc.h **** #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
  862:Drivers/CMSIS/Include/cmsis_gcc.h ****      (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 72
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 72
 
 
  863:Drivers/CMSIS/Include/cmsis_gcc.h **** #if __has_builtin(__builtin_arm_set_fpscr)
@@ -4318,7 +4318,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  917:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __WFE()                             __ASM volatile ("wfe")
  918:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  919:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 73
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 73
 
 
  920:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
@@ -4378,11 +4378,11 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  535              	.LBE55:
 2248:Drivers/CMSIS/Include/core_cm7.h ****     SCB->ICIALLU = 0UL;                     /* invalidate I-Cache */
  536              		.loc 3 2248 5 view .LVU169
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 74
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 74
 
 
  537              		.loc 3 2248 18 is_stmt 0 view .LVU170
- 538 0018 3E4B     		ldr	r3, .L30
+ 538 0018 484B     		ldr	r3, .L30
  539 001a 0022     		movs	r2, #0
  540 001c C3F85022 		str	r2, [r3, #592]
 2249:Drivers/CMSIS/Include/core_cm7.h ****     __DSB();
@@ -4438,7 +4438,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  583 0030 BFF34F8F 		dsb 0xF
  584              	@ 0 "" 2
  585              		.thumb
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 75
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 75
 
 
  586              		.syntax unified
@@ -4498,7 +4498,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2281:Drivers/CMSIS/Include/core_cm7.h ****   #if defined (__ICACHE_PRESENT) && (__ICACHE_PRESENT == 1U)
 2282:Drivers/CMSIS/Include/core_cm7.h ****     __DSB();
 2283:Drivers/CMSIS/Include/core_cm7.h ****     __ISB();
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 76
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 76
 
 
 2284:Drivers/CMSIS/Include/core_cm7.h ****     SCB->ICIALLU = 0UL;
@@ -4557,8 +4557,8 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2332:Drivers/CMSIS/Include/core_cm7.h ****     if (SCB->CCR & SCB_CCR_DC_Msk) return;  /* return if DCache is already enabled */
  614              		.loc 3 2332 5 view .LVU191
  615              		.loc 3 2332 12 is_stmt 0 view .LVU192
- 616 0038 364B     		ldr	r3, .L30
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 77
+ 616 0038 404B     		ldr	r3, .L30
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 77
 
 
  617 003a 5B69     		ldr	r3, [r3, #20]
@@ -4569,7 +4569,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
 2334:Drivers/CMSIS/Include/core_cm7.h ****     SCB->CSSELR = 0U;                       /* select Level 1 data cache */
  621              		.loc 3 2334 5 is_stmt 1 view .LVU194
  622              		.loc 3 2334 17 is_stmt 0 view .LVU195
- 623 0042 344B     		ldr	r3, .L30
+ 623 0042 3E4B     		ldr	r3, .L30
  624 0044 0022     		movs	r2, #0
  625 0046 C3F88420 		str	r2, [r3, #132]
 2335:Drivers/CMSIS/Include/core_cm7.h ****     __DSB();
@@ -4618,7 +4618,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  652              		.loc 3 2350 17 view .LVU204
  653 0058 1846     		mov	r0, r3
  654              	.LVL23:
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 78
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 78
 
 
  655              	.L26:
@@ -4644,7 +4644,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  668 0066 43EA8273 		orr	r3, r3, r2, lsl #30
 2344:Drivers/CMSIS/Include/core_cm7.h ****                       ((ways << SCB_DCISW_WAY_Pos) & SCB_DCISW_WAY_Msk)  );
  669              		.loc 3 2344 20 view .LVU212
- 670 006a 2A49     		ldr	r1, .L30
+ 670 006a 3449     		ldr	r1, .L30
  671 006c C1F86032 		str	r3, [r1, #608]
 2349:Drivers/CMSIS/Include/core_cm7.h ****     } while(sets-- != 0U);
  672              		.loc 3 2349 23 is_stmt 1 discriminator 1 view .LVU213
@@ -4678,7 +4678,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  696              	@ 0 "" 2
  697              		.thumb
  698              		.syntax unified
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 79
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 79
 
 
  699              	.LBE70:
@@ -4738,7 +4738,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  743              	.LVL29:
  124:Core/Src/main.c **** 
  744              		.loc 1 124 3 view .LVU233
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 80
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 80
 
 
  745 0096 FFF7FEFF 		bl	SystemClock_Config
@@ -4798,7 +4798,7 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  144:Core/Src/main.c ****   MX_TIM8_Init();
  786              		.loc 1 144 3 view .LVU247
  787 00ce FFF7FEFF 		bl	MX_SPI4_Init
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 81
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 81
 
 
  788              	.LVL44:
@@ -4814,183 +4814,226 @@ ARM GAS  C:\usertemp\cceHqGUI.s 			page 1
  795              		.loc 1 147 3 view .LVU250
  796 00da FFF7FEFF 		bl	MX_USART1_UART_Init
  797              	.LVL47:
- 148:Core/Src/main.c ****   
+ 148:Core/Src/main.c ****   MX_FATFS_Init();
  798              		.loc 1 148 3 view .LVU251
  799 00de FFF7FEFF 		bl	MX_USART3_UART_Init
  800              	.LVL48:
+ 149:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 801              		.loc 1 149 3 view .LVU252
+ 802 00e2 FFF7FEFF 		bl	MX_FATFS_Init
+ 803              	.LVL49:
  152:Core/Src/main.c ****   // HAL_FMC_MspInit();
- 801              		.loc 1 152 3 view .LVU252
- 802 00e2 2820     		movs	r0, #40
- 803 00e4 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
- 804              	.LVL49:
+ 804              		.loc 1 152 3 view .LVU253
+ 805 00e6 2820     		movs	r0, #40
+ 806 00e8 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 807              	.LVL50:
+ 155:Core/Src/main.c **** 
+ 808              		.loc 1 155 3 view .LVU254
+ 809 00ec FFF7FEFF 		bl	lv_init
+ 810              	.LVL51:
+ 157:Core/Src/main.c ****   lv_port_indev_init();
+ 811              		.loc 1 157 3 view .LVU255
+ 812 00f0 FFF7FEFF 		bl	lv_port_disp_init
+ 813              	.LVL52:
+ 158:Core/Src/main.c ****   HAL_Delay(10);
+ 814              		.loc 1 158 3 view .LVU256
+ 815 00f4 FFF7FEFF 		bl	lv_port_indev_init
+ 816              	.LVL53:
+ 159:Core/Src/main.c ****   setup_ui(&guider_ui);
+ 817              		.loc 1 159 3 view .LVU257
+ 818 00f8 0A20     		movs	r0, #10
+ 819 00fa FFF7FEFF 		bl	HAL_Delay
+ 820              	.LVL54:
+ 160:Core/Src/main.c ****   HAL_SD_MspInit(&hsd1);
+ 821              		.loc 1 160 3 view .LVU258
+ 822 00fe 104C     		ldr	r4, .L30+4
+ 823 0100 2046     		mov	r0, r4
+ 824 0102 FFF7FEFF 		bl	setup_ui
+ 825              	.LVL55:
  161:Core/Src/main.c **** 
- 805              		.loc 1 161 3 view .LVU253
- 806 00e8 0B48     		ldr	r0, .L30+4
- 807 00ea FFF7FEFF 		bl	HAL_SD_MspInit
- 808              	.LVL50:
- 163:Core/Src/main.c ****   ad7606ini(&ad7606dev);
- 809              		.loc 1 163 3 view .LVU254
- 810 00ee 0B48     		ldr	r0, .L30+8
- 811 00f0 FFF7FEFF 		bl	HAL_TIM_Base_Start_IT
- 812              	.LVL51:
- 164:Core/Src/main.c ****   MX_FATFS_Init();
- 813              		.loc 1 164 3 view .LVU255
- 814 00f4 0A48     		ldr	r0, .L30+12
- 815 00f6 FFF7FEFF 		bl	ad7606ini
- 816              	.LVL52:
- 165:Core/Src/main.c ****   // MyRTC_ReadTime();
- 817              		.loc 1 165 3 view .LVU256
- 818 00fa FFF7FEFF 		bl	MX_FATFS_Init
- 819              	.LVL53:
- 167:Core/Src/main.c ****   FatFs_Check();
- 820              		.loc 1 167 3 view .LVU257
- 821 00fe 6420     		movs	r0, #100
- 822 0100 FFF7FEFF 		bl	HAL_Delay
- 823              	.LVL54:
- 168:Core/Src/main.c ****   // lv_port_fs_init();
- 824              		.loc 1 168 3 view .LVU258
- 825 0104 FFF7FEFF 		bl	FatFs_Check
- 826              	.LVL55:
- 182:Core/Src/main.c ****   /* Start scheduler */
- 827              		.loc 1 182 3 view .LVU259
- 828 0108 FFF7FEFF 		bl	MX_FREERTOS_Init
+ 826              		.loc 1 161 3 view .LVU259
+ 827 0106 0F48     		ldr	r0, .L30+8
+ 828 0108 FFF7FEFF 		bl	HAL_SD_MspInit
  829              	.LVL56:
+ 163:Core/Src/main.c ****   ad7606ini(&ad7606dev);
+ 830              		.loc 1 163 3 view .LVU260
+ 831 010c 0E48     		ldr	r0, .L30+12
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 82
+
+
+ 832 010e FFF7FEFF 		bl	HAL_TIM_Base_Start_IT
+ 833              	.LVL57:
+ 164:Core/Src/main.c ****   MX_FATFS_Init();
+ 834              		.loc 1 164 3 view .LVU261
+ 835 0112 0E48     		ldr	r0, .L30+16
+ 836 0114 FFF7FEFF 		bl	ad7606ini
+ 837              	.LVL58:
+ 165:Core/Src/main.c ****   // MyRTC_ReadTime();
+ 838              		.loc 1 165 3 view .LVU262
+ 839 0118 FFF7FEFF 		bl	MX_FATFS_Init
+ 840              	.LVL59:
+ 167:Core/Src/main.c ****   FatFs_Check();
+ 841              		.loc 1 167 3 view .LVU263
+ 842 011c 6420     		movs	r0, #100
+ 843 011e FFF7FEFF 		bl	HAL_Delay
+ 844              	.LVL60:
+ 168:Core/Src/main.c ****   lv_port_fs_init();
+ 845              		.loc 1 168 3 view .LVU264
+ 846 0122 FFF7FEFF 		bl	FatFs_Check
+ 847              	.LVL61:
+ 169:Core/Src/main.c ****   events_init(&guider_ui);
+ 848              		.loc 1 169 3 view .LVU265
+ 849 0126 FFF7FEFF 		bl	lv_port_fs_init
+ 850              	.LVL62:
+ 170:Core/Src/main.c **** 
+ 851              		.loc 1 170 3 view .LVU266
+ 852 012a 2046     		mov	r0, r4
+ 853 012c FFF7FEFF 		bl	events_init
+ 854              	.LVL63:
+ 182:Core/Src/main.c ****   /* Start scheduler */
+ 855              		.loc 1 182 3 view .LVU267
+ 856 0130 FFF7FEFF 		bl	MX_FREERTOS_Init
+ 857              	.LVL64:
  184:Core/Src/main.c **** 
- 830              		.loc 1 184 3 view .LVU260
- 831 010c FFF7FEFF 		bl	osKernelStart
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 82
-
-
- 832              	.LVL57:
- 833              	.L27:
+ 858              		.loc 1 184 3 view .LVU268
+ 859 0134 FFF7FEFF 		bl	osKernelStart
+ 860              	.LVL65:
+ 861              	.L27:
  189:Core/Src/main.c ****   {
- 834              		.loc 1 189 3 view .LVU261
+ 862              		.loc 1 189 3 view .LVU269
  194:Core/Src/main.c ****   /* USER CODE END 3 */
- 835              		.loc 1 194 3 view .LVU262
+ 863              		.loc 1 194 3 view .LVU270
  189:Core/Src/main.c ****   {
- 836              		.loc 1 189 9 view .LVU263
- 837 0110 FEE7     		b	.L27
- 838              	.L31:
- 839 0112 00BF     		.align	2
- 840              	.L30:
- 841 0114 00ED00E0 		.word	-536810240
- 842 0118 00000000 		.word	hsd1
- 843 011c 00000000 		.word	htim1
- 844 0120 00000000 		.word	ad7606dev
- 845              		.cfi_endproc
- 846              	.LFE598:
- 848              		.global	cnt
- 849              		.section	.bss.cnt,"aw",%nobits
- 850              		.align	1
- 853              	cnt:
- 854 0000 0000     		.space	2
- 855              		.global	adcBuf
- 856              		.section	.bss.adcBuf,"aw",%nobits
- 857              		.align	2
- 860              	adcBuf:
- 861 0000 00000000 		.space	16
- 861      00000000 
- 861      00000000 
- 861      00000000 
- 862              		.global	adcResult
- 863              		.section	.bss.adcResult,"aw",%nobits
- 864              		.align	1
- 867              	adcResult:
- 868 0000 0000     		.space	2
- 869              		.global	ad7606dev
- 870              		.section	.bss.ad7606dev,"aw",%nobits
- 871              		.align	2
- 874              	ad7606dev:
- 875 0000 00000000 		.space	2056
- 875      00000000 
- 875      00000000 
- 875      00000000 
- 875      00000000 
- 876              		.global	guider_ui
- 877              		.section	.bss.guider_ui,"aw",%nobits
- 878              		.align	2
- 881              	guider_ui:
- 882 0000 00000000 		.space	232
- 882      00000000 
- 882      00000000 
- 882      00000000 
- 882      00000000 
- 883              		.text
- 884              	.Letext0:
- 885              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 83
+ 864              		.loc 1 189 9 view .LVU271
+ 865 0138 FEE7     		b	.L27
+ 866              	.L31:
+ 867 013a 00BF     		.align	2
+ 868              	.L30:
+ 869 013c 00ED00E0 		.word	-536810240
+ 870 0140 00000000 		.word	guider_ui
+ 871 0144 00000000 		.word	hsd1
+ 872 0148 00000000 		.word	htim1
+ 873 014c 00000000 		.word	ad7606dev
+ 874              		.cfi_endproc
+ 875              	.LFE598:
+ 877              		.global	cnt
+ 878              		.section	.bss.cnt,"aw",%nobits
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 83
 
 
- 886              		.file 5 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 887              		.file 6 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 888              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
- 889              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h"
- 890              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
- 891              		.file 10 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h"
- 892              		.file 11 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_sdmmc.h"
- 893              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd.h"
- 894              		.file 13 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h"
- 895              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 896              		.file 15 "Middlewares/Third_Party/LwIP/src/include/lwip/memp.h"
- 897              		.file 16 "Core/Inc/sdmmc.h"
- 898              		.file 17 "Core/Inc/tim.h"
- 899              		.file 18 "Core/Inc/ad7606.h"
- 900              		.file 19 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
- 901              		.file 20 "lvgl/src/hal/../draw/../misc/lv_color.h"
- 902              		.file 21 "lvgl/src/hal/../draw/../misc/lv_style.h"
- 903              		.file 22 "lvgl/src/core/lv_obj.h"
- 904              		.file 23 "lvgl/src/hal/../misc/lv_ll.h"
- 905              		.file 24 "lvgl/src/core/lv_group.h"
- 906              		.file 25 "lvgl/src/core/lv_obj_scroll.h"
- 907              		.file 26 "lvgl/src/core/lv_obj_style.h"
- 908              		.file 27 "lvgl/src/core/lv_obj_class.h"
- 909              		.file 28 "lvgl/src/core/lv_event.h"
- 910              		.file 29 "lvgl/src/widgets/lv_bar.h"
- 911              		.file 30 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
- 912              		.file 31 "generated/gui_guider.h"
- 913              		.file 32 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
- 914              		.file 33 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h"
- 915              		.file 34 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h"
- 916              		.file 35 "FATFS/App/fatfs.h"
- 917              		.file 36 "Core/Inc/usart.h"
- 918              		.file 37 "Core/Inc/spi.h"
- 919              		.file 38 "Core/Inc/quadspi.h"
- 920              		.file 39 "Core/Inc/i2c.h"
- 921              		.file 40 "Core/Inc/fmc.h"
- 922              		.file 41 "Core/Inc/usb_otg.h"
- 923              		.file 42 "Core/Inc/adc.h"
- 924              		.file 43 "Core/Inc/rtc.h"
- 925              		.file 44 "Core/Inc/gpio.h"
- 926              		.file 45 "<built-in>"
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 84
+ 879              		.align	1
+ 882              	cnt:
+ 883 0000 0000     		.space	2
+ 884              		.global	adcBuf
+ 885              		.section	.bss.adcBuf,"aw",%nobits
+ 886              		.align	2
+ 889              	adcBuf:
+ 890 0000 00000000 		.space	16
+ 890      00000000 
+ 890      00000000 
+ 890      00000000 
+ 891              		.global	adcResult
+ 892              		.section	.bss.adcResult,"aw",%nobits
+ 893              		.align	1
+ 896              	adcResult:
+ 897 0000 0000     		.space	2
+ 898              		.global	ad7606dev
+ 899              		.section	.bss.ad7606dev,"aw",%nobits
+ 900              		.align	2
+ 903              	ad7606dev:
+ 904 0000 00000000 		.space	2056
+ 904      00000000 
+ 904      00000000 
+ 904      00000000 
+ 904      00000000 
+ 905              		.global	guider_ui
+ 906              		.section	.bss.guider_ui,"aw",%nobits
+ 907              		.align	2
+ 910              	guider_ui:
+ 911 0000 00000000 		.space	232
+ 911      00000000 
+ 911      00000000 
+ 911      00000000 
+ 911      00000000 
+ 912              		.text
+ 913              	.Letext0:
+ 914              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 915              		.file 5 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 916              		.file 6 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 917              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 918              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h"
+ 919              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 920              		.file 10 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h"
+ 921              		.file 11 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_sdmmc.h"
+ 922              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd.h"
+ 923              		.file 13 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h"
+ 924              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 925              		.file 15 "Middlewares/Third_Party/LwIP/src/include/lwip/memp.h"
+ 926              		.file 16 "Core/Inc/sdmmc.h"
+ 927              		.file 17 "Core/Inc/tim.h"
+ 928              		.file 18 "Core/Inc/ad7606.h"
+ 929              		.file 19 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 930              		.file 20 "lvgl/src/hal/../draw/../misc/lv_color.h"
+ 931              		.file 21 "lvgl/src/hal/../draw/../misc/lv_style.h"
+ 932              		.file 22 "lvgl/src/core/lv_obj.h"
+ 933              		.file 23 "lvgl/src/hal/../misc/lv_ll.h"
+ 934              		.file 24 "lvgl/src/core/lv_group.h"
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 84
+
+
+ 935              		.file 25 "lvgl/src/core/lv_obj_scroll.h"
+ 936              		.file 26 "lvgl/src/core/lv_obj_style.h"
+ 937              		.file 27 "lvgl/src/core/lv_obj_class.h"
+ 938              		.file 28 "lvgl/src/core/lv_event.h"
+ 939              		.file 29 "lvgl/src/widgets/lv_bar.h"
+ 940              		.file 30 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 941              		.file 31 "generated/gui_guider.h"
+ 942              		.file 32 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ 943              		.file 33 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h"
+ 944              		.file 34 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h"
+ 945              		.file 35 "generated/events_init.h"
+ 946              		.file 36 "lvgl/porting/lv_port_indev.h"
+ 947              		.file 37 "lvgl/porting/lv_port_disp.h"
+ 948              		.file 38 "FATFS/App/fatfs.h"
+ 949              		.file 39 "Core/Inc/usart.h"
+ 950              		.file 40 "Core/Inc/spi.h"
+ 951              		.file 41 "Core/Inc/quadspi.h"
+ 952              		.file 42 "Core/Inc/i2c.h"
+ 953              		.file 43 "Core/Inc/fmc.h"
+ 954              		.file 44 "Core/Inc/usb_otg.h"
+ 955              		.file 45 "Core/Inc/adc.h"
+ 956              		.file 46 "Core/Inc/rtc.h"
+ 957              		.file 47 "Core/Inc/gpio.h"
+ 958              		.file 48 "<built-in>"
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 85
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\usertemp\cceHqGUI.s:20     .text.MPU_Config:00000000 $t
-C:\usertemp\cceHqGUI.s:25     .text.MPU_Config:00000000 MPU_Config
-C:\usertemp\cceHqGUI.s:169    .text.MPU_Config:000000b0 $d
-C:\usertemp\cceHqGUI.s:175    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
-C:\usertemp\cceHqGUI.s:181    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
-C:\usertemp\cceHqGUI.s:215    .text.HAL_TIM_PeriodElapsedCallback:00000014 $d
-C:\usertemp\cceHqGUI.s:220    .text.Error_Handler:00000000 $t
-C:\usertemp\cceHqGUI.s:226    .text.Error_Handler:00000000 Error_Handler
-C:\usertemp\cceHqGUI.s:258    .text.SystemClock_Config:00000000 $t
-C:\usertemp\cceHqGUI.s:264    .text.SystemClock_Config:00000000 SystemClock_Config
-C:\usertemp\cceHqGUI.s:467    .text.SystemClock_Config:000000e0 $d
-C:\usertemp\cceHqGUI.s:474    .text.main:00000000 $t
-C:\usertemp\cceHqGUI.s:480    .text.main:00000000 main
-C:\usertemp\cceHqGUI.s:841    .text.main:00000114 $d
-C:\usertemp\cceHqGUI.s:874    .bss.ad7606dev:00000000 ad7606dev
-C:\usertemp\cceHqGUI.s:853    .bss.cnt:00000000 cnt
-C:\usertemp\cceHqGUI.s:850    .bss.cnt:00000000 $d
-C:\usertemp\cceHqGUI.s:860    .bss.adcBuf:00000000 adcBuf
-C:\usertemp\cceHqGUI.s:857    .bss.adcBuf:00000000 $d
-C:\usertemp\cceHqGUI.s:867    .bss.adcResult:00000000 adcResult
-C:\usertemp\cceHqGUI.s:864    .bss.adcResult:00000000 $d
-C:\usertemp\cceHqGUI.s:871    .bss.ad7606dev:00000000 $d
-C:\usertemp\cceHqGUI.s:881    .bss.guider_ui:00000000 guider_ui
-C:\usertemp\cceHqGUI.s:878    .bss.guider_ui:00000000 $d
+C:\usertemp\ccb6fiYn.s:20     .text.MPU_Config:00000000 $t
+C:\usertemp\ccb6fiYn.s:25     .text.MPU_Config:00000000 MPU_Config
+C:\usertemp\ccb6fiYn.s:169    .text.MPU_Config:000000b0 $d
+C:\usertemp\ccb6fiYn.s:175    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+C:\usertemp\ccb6fiYn.s:181    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+C:\usertemp\ccb6fiYn.s:215    .text.HAL_TIM_PeriodElapsedCallback:00000014 $d
+C:\usertemp\ccb6fiYn.s:220    .text.Error_Handler:00000000 $t
+C:\usertemp\ccb6fiYn.s:226    .text.Error_Handler:00000000 Error_Handler
+C:\usertemp\ccb6fiYn.s:258    .text.SystemClock_Config:00000000 $t
+C:\usertemp\ccb6fiYn.s:264    .text.SystemClock_Config:00000000 SystemClock_Config
+C:\usertemp\ccb6fiYn.s:467    .text.SystemClock_Config:000000e0 $d
+C:\usertemp\ccb6fiYn.s:474    .text.main:00000000 $t
+C:\usertemp\ccb6fiYn.s:480    .text.main:00000000 main
+C:\usertemp\ccb6fiYn.s:869    .text.main:0000013c $d
+C:\usertemp\ccb6fiYn.s:910    .bss.guider_ui:00000000 guider_ui
+C:\usertemp\ccb6fiYn.s:903    .bss.ad7606dev:00000000 ad7606dev
+C:\usertemp\ccb6fiYn.s:882    .bss.cnt:00000000 cnt
+C:\usertemp\ccb6fiYn.s:879    .bss.cnt:00000000 $d
+C:\usertemp\ccb6fiYn.s:889    .bss.adcBuf:00000000 adcBuf
+C:\usertemp\ccb6fiYn.s:886    .bss.adcBuf:00000000 $d
+C:\usertemp\ccb6fiYn.s:896    .bss.adcResult:00000000 adcResult
+C:\usertemp\ccb6fiYn.s:893    .bss.adcResult:00000000 $d
+C:\usertemp\ccb6fiYn.s:900    .bss.ad7606dev:00000000 $d
+C:\usertemp\ccb6fiYn.s:907    .bss.guider_ui:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_MPU_Disable
@@ -5022,16 +5065,22 @@ MX_TIM8_Init
 MX_UART4_Init
 MX_USART1_UART_Init
 MX_USART3_UART_Init
-ARM GAS  C:\usertemp\cceHqGUI.s 			page 85
+ARM GAS  C:\usertemp\ccb6fiYn.s 			page 86
 
 
+MX_FATFS_Init
 HAL_NVIC_DisableIRQ
+lv_init
+lv_port_disp_init
+lv_port_indev_init
+HAL_Delay
+setup_ui
 HAL_SD_MspInit
 HAL_TIM_Base_Start_IT
 ad7606ini
-MX_FATFS_Init
-HAL_Delay
 FatFs_Check
+lv_port_fs_init
+events_init
 MX_FREERTOS_Init
 osKernelStart
 hsd1

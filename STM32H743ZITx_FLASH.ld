@@ -67,6 +67,7 @@ RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
+SDRAM (xrw)      : ORIGIN = 0XC0000000, LENGTH = 32M
 }
 
 /* Define output sections */
@@ -149,7 +150,22 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >DTCMRAM AT> FLASH
 
-  
+
+
+  /* User_heap_stack section, used to check that there is enough RAM left */
+  ._user_heap_stack :
+  {
+    . = ALIGN(8);
+    PROVIDE ( end = . );
+    PROVIDE ( _end = . );
+    . = . + _Min_Heap_Size;
+    . = . + _Min_Stack_Size;
+    . = ALIGN(8);
+
+    *(.RAM_D1)
+  } >DTCMRAM
+
+    
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -164,18 +180,11 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >DTCMRAM
+  } >RAM_D1
 
-  /* User_heap_stack section, used to check that there is enough RAM left */
-  ._user_heap_stack :
-  {
-    . = ALIGN(8);
-    PROVIDE ( end = . );
-    PROVIDE ( _end = . );
-    . = . + _Min_Heap_Size;
-    . = . + _Min_Stack_Size;
-    . = ALIGN(8);
-  } >DTCMRAM
+
+
+  
 
   .lwip_sec (NOLOAD) : {
   . = ABSOLUTE(0x30040000);
@@ -187,6 +196,20 @@ SECTIONS
   . = ABSOLUTE(0x30040200);
   *(.RxArraySection) 
   } >RAM_D2 AT> FLASH
+
+  .RAM_D3 (NOLOAD) : {
+  . = ABSOLUTE(0x38000000);
+  *(.RAM_D3) 
+
+  } >RAM_D3
+
+  .SDRAM (NOLOAD) : {
+  . = ABSOLUTE(0XC0000000);
+  *(.SDRAM) 
+
+  } >SDRAM
+
+
 
 
 
@@ -200,5 +223,3 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
-
-

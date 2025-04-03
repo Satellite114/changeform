@@ -36,7 +36,6 @@ void MX_FMC_Init(void)
   /* USER CODE END FMC_Init 0 */
 
   FMC_NORSRAM_TimingTypeDef Timing = {0};
-  FMC_NORSRAM_TimingTypeDef ExtTiming = {0};
   FMC_SDRAM_TimingTypeDef SdramTiming = {0};
 
   /* USER CODE BEGIN FMC_Init 1 */
@@ -92,30 +91,23 @@ void MX_FMC_Init(void)
   hsram2.Init.WaitSignalActive = FMC_WAIT_TIMING_BEFORE_WS;
   hsram2.Init.WriteOperation = FMC_WRITE_OPERATION_ENABLE;
   hsram2.Init.WaitSignal = FMC_WAIT_SIGNAL_DISABLE;
-  hsram2.Init.ExtendedMode = FMC_EXTENDED_MODE_ENABLE;
+  hsram2.Init.ExtendedMode = FMC_EXTENDED_MODE_DISABLE;
   hsram2.Init.AsynchronousWait = FMC_ASYNCHRONOUS_WAIT_DISABLE;
   hsram2.Init.WriteBurst = FMC_WRITE_BURST_DISABLE;
   hsram2.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
   hsram2.Init.WriteFifo = FMC_WRITE_FIFO_ENABLE;
   hsram2.Init.PageSize = FMC_PAGE_SIZE_NONE;
   /* Timing */
-  Timing.AddressSetupTime = 2;
+  Timing.AddressSetupTime = 0;
   Timing.AddressHoldTime = 15;
-  Timing.DataSetupTime = 80;
-  Timing.BusTurnAroundDuration = 0;
+  Timing.DataSetupTime = 15;
+  Timing.BusTurnAroundDuration = 15;
   Timing.CLKDivision = 16;
   Timing.DataLatency = 17;
   Timing.AccessMode = FMC_ACCESS_MODE_A;
   /* ExtTiming */
-  ExtTiming.AddressSetupTime = 2;
-  ExtTiming.AddressHoldTime = 15;
-  ExtTiming.DataSetupTime = 5;
-  ExtTiming.BusTurnAroundDuration = 0;
-  ExtTiming.CLKDivision = 16;
-  ExtTiming.DataLatency = 17;
-  ExtTiming.AccessMode = FMC_ACCESS_MODE_A;
 
-  if (HAL_SRAM_Init(&hsram2, &Timing, &ExtTiming) != HAL_OK)
+  if (HAL_SRAM_Init(&hsram2, &Timing, NULL) != HAL_OK)
   {
     Error_Handler( );
   }

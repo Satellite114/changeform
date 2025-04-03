@@ -29,10 +29,67 @@
 #include "lwip/apps/httpd.h"
 #include "ad7606.h"
 #include "lcd.h"
+#include "gui_guider.h"
+#include "arm_math.h"
+#include "tim.h"
+#include "dsp_fft.h"
+#include "lvgl.h"
+#include "lv_chart.h"
+#include "task.h"
+#include "task_page1.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+ALIGN_32BYTES(FFT fft_1V)
+__attribute__((section(".SDRAM")));
+
+ALIGN_32BYTES(FFT fft_2V)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(FFT fft_3V)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(FFT fft_NV)
+__attribute__((section(".SDRAM")));
+
+ALIGN_32BYTES(FFT fft_1I)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(FFT fft_2I)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(FFT fft_3I)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(FFT fft_NI)
+__attribute__((section(".SDRAM")));
+
+ALIGN_32BYTES(phase P1)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(phase P2)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(phase P3)
+__attribute__((section(".SDRAM")));
+ALIGN_32BYTES(phase PN)
+__attribute__((section(".SDRAM")));
+
+ALIGN_32BYTES(Voltage_three Voltage)
+__attribute__((section(".SDRAM")));
+
+lv_chart_series_t *ser1;
+lv_chart_series_t *ser2;
+lv_chart_series_t *ser3;
+lv_chart_series_t *serN;
+
+lv_chart_series_t *ser1_I;
+lv_chart_series_t *ser2_I;
+lv_chart_series_t *ser3_I;
+lv_chart_series_t *serN_I;
+extern uint8_t V_I_flag;
+extern uint8_t L1_flag;
+extern uint8_t L2_flag;
+extern uint8_t L3_flag;
+extern uint8_t LN_flag;
+extern uint8_t L1_I_flag;
+extern uint8_t L2_I_flag;
+extern uint8_t L3_I_flag;
+extern uint8_t LN_I_flag;
 
 /* USER CODE END PTD */
 
@@ -138,6 +195,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    lv_task_handler(); //lvgl task handler
     osDelay(1);
  
   }

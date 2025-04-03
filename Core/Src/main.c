@@ -146,18 +146,18 @@ int main(void)
   MX_UART4_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
-  
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
   // HAL_FMC_MspInit();
 
-  // lv_init();
+  lv_init();
 
-  // lv_port_disp_init();
-  // lv_port_indev_init();
-  // HAL_Delay(10);
-  // setup_ui(&guider_ui);
+  lv_port_disp_init();
+  lv_port_indev_init();
+  HAL_Delay(10);
+  setup_ui(&guider_ui);
   HAL_SD_MspInit(&hsd1);
 
   HAL_TIM_Base_Start_IT(&htim1);
@@ -166,8 +166,8 @@ int main(void)
   // MyRTC_ReadTime();
   HAL_Delay(100);
   FatFs_Check();
-  // lv_port_fs_init();
-  // events_init(&guider_ui);
+  lv_port_fs_init();
+  events_init(&guider_ui);
 
 
 
