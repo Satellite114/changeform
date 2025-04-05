@@ -1,8 +1,5 @@
-build/sdram.o: Core/Src/sdram.c Core/Inc/sdram.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/sys.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
- LWIP/Target/lwipopts.h Core/Inc/main.h \
- Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
+build/sdram.o: Core/Src/sdram.c Core/Inc/sdram.h Core/Inc/fmc.h \
+ Core/Inc/main.h Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  Core/Inc/stm32h7xx_hal_conf.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h \
@@ -51,35 +48,9 @@ build/sdram.o: Core/Src/sdram.c Core/Inc/sdram.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h \
- Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/debug.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/arch.h \
- Middlewares/Third_Party/LwIP/system/arch/cc.h \
- Middlewares/Third_Party/LwIP/system/arch/cpu.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/err.h \
- Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
- Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
- Core/Inc/FreeRTOSConfig.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/portable.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
- Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+ Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h
 Core/Inc/sdram.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
-LWIP/Target/lwipopts.h:
+Core/Inc/fmc.h:
 Core/Inc/main.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 Core/Inc/stm32h7xx_hal_conf.h:
@@ -133,27 +104,3 @@ Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/debug.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/arch.h:
-Middlewares/Third_Party/LwIP/system/arch/cc.h:
-Middlewares/Third_Party/LwIP/system/arch/cpu.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/err.h:
-Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
-Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
-Core/Inc/FreeRTOSConfig.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/portable.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h:
-Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:

@@ -275,7 +275,7 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  lvgl/src/extra/others/snapshot/../../../core/lv_obj.h \
  lvgl/src/extra/libs/bmp/lv_bmp.h \
  lvgl/src/extra/libs/bmp/../../../lv_conf_internal.h Core/Inc/sdram.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/sys.h
+ Core/Inc/fmc.h
 Core/Inc/main.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 Core/Inc/stm32h7xx_hal_conf.h:
@@ -627,4 +627,4 @@ lvgl/src/extra/others/snapshot/../../../core/lv_obj.h:
 lvgl/src/extra/libs/bmp/lv_bmp.h:
 lvgl/src/extra/libs/bmp/../../../lv_conf_internal.h:
 Core/Inc/sdram.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:
+Core/Inc/fmc.h:

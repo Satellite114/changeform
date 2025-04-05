@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 1
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -19,33 +19,32 @@ ARM GAS  C:\usertemp\ccUdkvjX.s 			page 1
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
   18              		.file 1 "Core/Src/freertos.c"
-  19              		.section	.text.Refersh_LVGL,"ax",%progbits
+  19              		.section	.text.TASK_LVGL,"ax",%progbits
   20              		.align	1
-  21              		.global	Refersh_LVGL
+  21              		.global	TASK_LVGL
   22              		.syntax unified
   23              		.thumb
   24              		.thumb_func
-  26              	Refersh_LVGL:
-  27              	.LVL0:
-  28              	.LFB601:
+  26              	TASK_LVGL:
+  27              	.LFB603:
    1:Core/Src/freertos.c **** /* USER CODE BEGIN Header */
    2:Core/Src/freertos.c **** /**
-   3:Core/Src/freertos.c ****   ******************************************************************************
-   4:Core/Src/freertos.c ****   * File Name          : freertos.c
-   5:Core/Src/freertos.c ****   * Description        : Code for freertos applications
-   6:Core/Src/freertos.c ****   ******************************************************************************
-   7:Core/Src/freertos.c ****   * @attention
-   8:Core/Src/freertos.c ****   *
-   9:Core/Src/freertos.c ****   * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
-  10:Core/Src/freertos.c ****   * All rights reserved.</center></h2>
-  11:Core/Src/freertos.c ****   *
-  12:Core/Src/freertos.c ****   * This software component is licensed by ST under Ultimate Liberty license
-  13:Core/Src/freertos.c ****   * SLA0044, the "License"; You may not use this file except in compliance with
-  14:Core/Src/freertos.c ****   * the License. You may obtain a copy of the License at:
-  15:Core/Src/freertos.c ****   *                             www.st.com/SLA0044
-  16:Core/Src/freertos.c ****   *
-  17:Core/Src/freertos.c ****   ******************************************************************************
-  18:Core/Src/freertos.c ****   */
+   3:Core/Src/freertos.c ****  ******************************************************************************
+   4:Core/Src/freertos.c ****  * File Name          : freertos.c
+   5:Core/Src/freertos.c ****  * Description        : Code for freertos applications
+   6:Core/Src/freertos.c ****  ******************************************************************************
+   7:Core/Src/freertos.c ****  * @attention
+   8:Core/Src/freertos.c ****  *
+   9:Core/Src/freertos.c ****  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
+  10:Core/Src/freertos.c ****  * All rights reserved.</center></h2>
+  11:Core/Src/freertos.c ****  *
+  12:Core/Src/freertos.c ****  * This software component is licensed by ST under Ultimate Liberty license
+  13:Core/Src/freertos.c ****  * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Core/Src/freertos.c ****  * the License. You may obtain a copy of the License at:
+  15:Core/Src/freertos.c ****  *                             www.st.com/SLA0044
+  16:Core/Src/freertos.c ****  *
+  17:Core/Src/freertos.c ****  ******************************************************************************
+  18:Core/Src/freertos.c ****  */
   19:Core/Src/freertos.c **** /* USER CODE END Header */
   20:Core/Src/freertos.c **** 
   21:Core/Src/freertos.c **** /* Includes ------------------------------------------------------------------*/
@@ -58,10 +57,10 @@ ARM GAS  C:\usertemp\ccUdkvjX.s 			page 1
   28:Core/Src/freertos.c **** /* USER CODE BEGIN Includes */
   29:Core/Src/freertos.c **** #include "lwip/apps/httpd.h"
   30:Core/Src/freertos.c **** #include "ad7606.h"
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 2
-
-
   31:Core/Src/freertos.c **** #include "lcd.h"
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 2
+
+
   32:Core/Src/freertos.c **** #include "gui_guider.h"
   33:Core/Src/freertos.c **** #include "arm_math.h"
   34:Core/Src/freertos.c **** #include "tim.h"
@@ -118,10 +117,10 @@ ARM GAS  C:\usertemp\ccUdkvjX.s 			page 1
   85:Core/Src/freertos.c **** extern uint8_t L1_flag;
   86:Core/Src/freertos.c **** extern uint8_t L2_flag;
   87:Core/Src/freertos.c **** extern uint8_t L3_flag;
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 3
-
-
   88:Core/Src/freertos.c **** extern uint8_t LN_flag;
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 3
+
+
   89:Core/Src/freertos.c **** extern uint8_t L1_I_flag;
   90:Core/Src/freertos.c **** extern uint8_t L2_I_flag;
   91:Core/Src/freertos.c **** extern uint8_t L3_I_flag;
@@ -156,158 +155,393 @@ ARM GAS  C:\usertemp\ccUdkvjX.s 			page 1
  120:Core/Src/freertos.c **** 
  121:Core/Src/freertos.c **** /* USER CODE END FunctionPrototypes */
  122:Core/Src/freertos.c **** 
- 123:Core/Src/freertos.c **** void Refersh_LVGL(void const * argument);
- 124:Core/Src/freertos.c **** void TASK_FFT(void const * argument);
- 125:Core/Src/freertos.c **** void TASK_LVGL(void const * argument);
+ 123:Core/Src/freertos.c **** void Refersh_LVGL(void const *argument);
+ 124:Core/Src/freertos.c **** void TASK_FFT(void const *argument);
+ 125:Core/Src/freertos.c **** void TASK_LVGL(void const *argument);
  126:Core/Src/freertos.c **** 
  127:Core/Src/freertos.c **** extern void MX_LWIP_Init(void);
  128:Core/Src/freertos.c **** void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
  129:Core/Src/freertos.c **** 
  130:Core/Src/freertos.c **** /* GetIdleTaskMemory prototype (linked to static allocation support) */
- 131:Core/Src/freertos.c **** void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskS
+ 131:Core/Src/freertos.c **** void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskSt
  132:Core/Src/freertos.c **** 
  133:Core/Src/freertos.c **** /* Hook prototypes */
  134:Core/Src/freertos.c **** void vApplicationMallocFailedHook(void);
  135:Core/Src/freertos.c **** 
  136:Core/Src/freertos.c **** /* USER CODE BEGIN 5 */
- 137:Core/Src/freertos.c **** __weak void vApplicationMallocFailedHook(void)
+ 137:Core/Src/freertos.c **** void vApplicationMallocFailedHook(void)
  138:Core/Src/freertos.c **** {
- 139:Core/Src/freertos.c ****    /* vApplicationMallocFailedHook() will only be called if
- 140:Core/Src/freertos.c ****    configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
- 141:Core/Src/freertos.c ****    function that will get called if a call to pvPortMalloc() fails.
- 142:Core/Src/freertos.c ****    pvPortMalloc() is called internally by the kernel whenever a task, queue,
- 143:Core/Src/freertos.c ****    timer or semaphore is created. It is also called by various parts of the
- 144:Core/Src/freertos.c ****    demo application. If heap_1.c or heap_2.c are used, then the size of the
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 4
+ 139:Core/Src/freertos.c ****   /* vApplicationMallocFailedHook() will only be called if
+ 140:Core/Src/freertos.c ****   configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
+ 141:Core/Src/freertos.c ****   function that will get called if a call to pvPortMalloc() fails.
+ 142:Core/Src/freertos.c ****   pvPortMalloc() is called internally by the kernel whenever a task, queue,
+ 143:Core/Src/freertos.c ****   timer or semaphore is created. It is also called by various parts of the
+ 144:Core/Src/freertos.c ****   demo application. If heap_1.c or heap_2.c are used, then the size of the
+ 145:Core/Src/freertos.c ****   heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 4
 
 
- 145:Core/Src/freertos.c ****    heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
- 146:Core/Src/freertos.c ****    FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
- 147:Core/Src/freertos.c ****    to query the size of free heap space that remains (although it does not
- 148:Core/Src/freertos.c ****    provide information on how the remaining heap might be fragmented). */
- 149:Core/Src/freertos.c **** }
- 150:Core/Src/freertos.c **** /* USER CODE END 5 */
- 151:Core/Src/freertos.c **** 
- 152:Core/Src/freertos.c **** /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
- 153:Core/Src/freertos.c **** static StaticTask_t xIdleTaskTCBBuffer;
- 154:Core/Src/freertos.c **** static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
- 155:Core/Src/freertos.c **** 
- 156:Core/Src/freertos.c **** void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskS
- 157:Core/Src/freertos.c **** {
- 158:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
- 159:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
- 160:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
- 161:Core/Src/freertos.c ****   /* place for user code */
- 162:Core/Src/freertos.c **** }
- 163:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
- 164:Core/Src/freertos.c **** 
- 165:Core/Src/freertos.c **** /**
- 166:Core/Src/freertos.c ****   * @brief  FreeRTOS initialization
- 167:Core/Src/freertos.c ****   * @param  None
- 168:Core/Src/freertos.c ****   * @retval None
- 169:Core/Src/freertos.c ****   */
- 170:Core/Src/freertos.c **** void MX_FREERTOS_Init(void) {
- 171:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
- 172:Core/Src/freertos.c **** 
- 173:Core/Src/freertos.c ****   /* USER CODE END Init */
- 174:Core/Src/freertos.c **** 
- 175:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_MUTEX */
- 176:Core/Src/freertos.c ****   /* add mutexes, ... */
- 177:Core/Src/freertos.c ****   /* USER CODE END RTOS_MUTEX */
- 178:Core/Src/freertos.c **** 
- 179:Core/Src/freertos.c ****   /* Create the semaphores(s) */
- 180:Core/Src/freertos.c ****   /* definition and creation of EVENT_ADC */
- 181:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_ADC);
- 182:Core/Src/freertos.c ****   EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
- 183:Core/Src/freertos.c **** 
- 184:Core/Src/freertos.c ****   /* definition and creation of EVENT_FFT */
- 185:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_FFT);
- 186:Core/Src/freertos.c ****   EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
- 187:Core/Src/freertos.c **** 
- 188:Core/Src/freertos.c ****   /* definition and creation of EVENT_LVGL_REFERSH */
- 189:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_LVGL_REFERSH);
- 190:Core/Src/freertos.c ****   EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
+ 146:Core/Src/freertos.c ****   FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
+ 147:Core/Src/freertos.c ****   to query the size of free heap space that remains (although it does not
+ 148:Core/Src/freertos.c ****   provide information on how the remaining heap might be fragmented). */
+ 149:Core/Src/freertos.c ****   printf("malloc fail\r\n");
+ 150:Core/Src/freertos.c ****   while (1)
+ 151:Core/Src/freertos.c ****   {
+ 152:Core/Src/freertos.c **** 
+ 153:Core/Src/freertos.c ****     HAL_GPIO_TogglePin(PG14_GPIO_Port, PG14_Pin);
+ 154:Core/Src/freertos.c ****     osDelay(200);
+ 155:Core/Src/freertos.c ****   }
+ 156:Core/Src/freertos.c **** }
+ 157:Core/Src/freertos.c **** /* USER CODE END 5 */
+ 158:Core/Src/freertos.c **** 
+ 159:Core/Src/freertos.c **** /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
+ 160:Core/Src/freertos.c **** static StaticTask_t xIdleTaskTCBBuffer;
+ 161:Core/Src/freertos.c **** static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+ 162:Core/Src/freertos.c **** 
+ 163:Core/Src/freertos.c **** void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskSt
+ 164:Core/Src/freertos.c **** {
+ 165:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+ 166:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 167:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 168:Core/Src/freertos.c ****   /* place for user code */
+ 169:Core/Src/freertos.c **** }
+ 170:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
+ 171:Core/Src/freertos.c **** 
+ 172:Core/Src/freertos.c **** /**
+ 173:Core/Src/freertos.c ****  * @brief  FreeRTOS initialization
+ 174:Core/Src/freertos.c ****  * @param  None
+ 175:Core/Src/freertos.c ****  * @retval None
+ 176:Core/Src/freertos.c ****  */
+ 177:Core/Src/freertos.c **** void MX_FREERTOS_Init(void)
+ 178:Core/Src/freertos.c **** {
+ 179:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
+ 180:Core/Src/freertos.c **** 
+ 181:Core/Src/freertos.c ****   /* USER CODE END Init */
+ 182:Core/Src/freertos.c **** 
+ 183:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_MUTEX */
+ 184:Core/Src/freertos.c ****   /* add mutexes, ... */
+ 185:Core/Src/freertos.c ****   /* USER CODE END RTOS_MUTEX */
+ 186:Core/Src/freertos.c **** 
+ 187:Core/Src/freertos.c ****   /* Create the semaphores(s) */
+ 188:Core/Src/freertos.c ****   /* definition and creation of EVENT_ADC */
+ 189:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_ADC);
+ 190:Core/Src/freertos.c ****   EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
  191:Core/Src/freertos.c **** 
- 192:Core/Src/freertos.c ****   /* definition and creation of EVENT_LVGL_TASK */
- 193:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_LVGL_TASK);
- 194:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
+ 192:Core/Src/freertos.c ****   /* definition and creation of EVENT_FFT */
+ 193:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_FFT);
+ 194:Core/Src/freertos.c ****   EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
  195:Core/Src/freertos.c **** 
- 196:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
- 197:Core/Src/freertos.c ****   /* add semaphores, ... */
- 198:Core/Src/freertos.c ****   /* USER CODE END RTOS_SEMAPHORES */
+ 196:Core/Src/freertos.c ****   /* definition and creation of EVENT_LVGL_REFERSH */
+ 197:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_LVGL_REFERSH);
+ 198:Core/Src/freertos.c ****   EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
  199:Core/Src/freertos.c **** 
- 200:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_TIMERS */
- 201:Core/Src/freertos.c ****   /* start timers, add new ones, ... */
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 5
+ 200:Core/Src/freertos.c ****   /* definition and creation of EVENT_LVGL_TASK */
+ 201:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_LVGL_TASK);
+ 202:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 5
 
 
- 202:Core/Src/freertos.c ****   /* USER CODE END RTOS_TIMERS */
  203:Core/Src/freertos.c **** 
- 204:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_QUEUES */
- 205:Core/Src/freertos.c ****   /* add queues, ... */
- 206:Core/Src/freertos.c ****   /* USER CODE END RTOS_QUEUES */
+ 204:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
+ 205:Core/Src/freertos.c ****   /* add semaphores, ... */
+ 206:Core/Src/freertos.c ****   /* USER CODE END RTOS_SEMAPHORES */
  207:Core/Src/freertos.c **** 
- 208:Core/Src/freertos.c ****   /* Create the thread(s) */
- 209:Core/Src/freertos.c ****   /* definition and creation of refersh_lvgl */
- 210:Core/Src/freertos.c ****   osThreadDef(refersh_lvgl, Refersh_LVGL, osPriorityAboveNormal, 0, 1024);
- 211:Core/Src/freertos.c ****   refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
- 212:Core/Src/freertos.c **** 
- 213:Core/Src/freertos.c ****   /* definition and creation of task_FFT */
- 214:Core/Src/freertos.c ****   osThreadDef(task_FFT, TASK_FFT, osPriorityNormal, 0, 1300);
- 215:Core/Src/freertos.c ****   task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
- 216:Core/Src/freertos.c **** 
- 217:Core/Src/freertos.c ****   /* definition and creation of task_lvgl */
- 218:Core/Src/freertos.c ****   osThreadDef(task_lvgl, TASK_LVGL, osPriorityNormal, 0, 1300);
- 219:Core/Src/freertos.c ****   task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
+ 208:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_TIMERS */
+ 209:Core/Src/freertos.c ****   /* start timers, add new ones, ... */
+ 210:Core/Src/freertos.c ****   /* USER CODE END RTOS_TIMERS */
+ 211:Core/Src/freertos.c **** 
+ 212:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_QUEUES */
+ 213:Core/Src/freertos.c ****   /* add queues, ... */
+ 214:Core/Src/freertos.c ****   /* USER CODE END RTOS_QUEUES */
+ 215:Core/Src/freertos.c **** 
+ 216:Core/Src/freertos.c ****   /* Create the thread(s) */
+ 217:Core/Src/freertos.c ****   /* definition and creation of refersh_lvgl */
+ 218:Core/Src/freertos.c ****   osThreadDef(refersh_lvgl, Refersh_LVGL, osPriorityAboveNormal, 0, 1024);
+ 219:Core/Src/freertos.c ****   refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
  220:Core/Src/freertos.c **** 
- 221:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_THREADS */
- 222:Core/Src/freertos.c ****   /* add threads, ... */
- 223:Core/Src/freertos.c ****   /* USER CODE END RTOS_THREADS */
+ 221:Core/Src/freertos.c ****   /* definition and creation of task_FFT */
+ 222:Core/Src/freertos.c ****   osThreadDef(task_FFT, TASK_FFT, osPriorityNormal, 0, 1300);
+ 223:Core/Src/freertos.c ****   task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
  224:Core/Src/freertos.c **** 
- 225:Core/Src/freertos.c **** }
- 226:Core/Src/freertos.c **** 
- 227:Core/Src/freertos.c **** /* USER CODE BEGIN Header_Refersh_LVGL */
- 228:Core/Src/freertos.c **** /**
- 229:Core/Src/freertos.c ****   * @brief  Function implementing the refersh_lvgl thread.
- 230:Core/Src/freertos.c ****   * @param  argument: Not used
- 231:Core/Src/freertos.c ****   * @retval None
- 232:Core/Src/freertos.c ****   */
- 233:Core/Src/freertos.c **** /* USER CODE END Header_Refersh_LVGL */
- 234:Core/Src/freertos.c **** void Refersh_LVGL(void const * argument)
- 235:Core/Src/freertos.c **** {
-  29              		.loc 1 235 1 view -0
-  30              		.cfi_startproc
-  31              		@ Volatile: function does not return.
-  32              		@ args = 0, pretend = 0, frame = 0
-  33              		@ frame_needed = 0, uses_anonymous_args = 0
-  34              		.loc 1 235 1 is_stmt 0 view .LVU1
+ 225:Core/Src/freertos.c ****   /* definition and creation of task_lvgl */
+ 226:Core/Src/freertos.c ****   osThreadDef(task_lvgl, TASK_LVGL, osPriorityNormal, 0, 1300);
+ 227:Core/Src/freertos.c ****   task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
+ 228:Core/Src/freertos.c **** 
+ 229:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_THREADS */
+ 230:Core/Src/freertos.c ****   /* add threads, ... */
+ 231:Core/Src/freertos.c ****   /* USER CODE END RTOS_THREADS */
+ 232:Core/Src/freertos.c **** }
+ 233:Core/Src/freertos.c **** 
+ 234:Core/Src/freertos.c **** /* USER CODE BEGIN Header_Refersh_LVGL */
+ 235:Core/Src/freertos.c **** /**
+ 236:Core/Src/freertos.c ****  * @brief  Function implementing the refersh_lvgl thread.
+ 237:Core/Src/freertos.c ****  * @param  argument: Not used
+ 238:Core/Src/freertos.c ****  * @retval None
+ 239:Core/Src/freertos.c ****  */
+ 240:Core/Src/freertos.c **** /* USER CODE END Header_Refersh_LVGL */
+ 241:Core/Src/freertos.c **** void Refersh_LVGL(void const *argument)
+ 242:Core/Src/freertos.c **** {
+ 243:Core/Src/freertos.c ****   /* init code for LWIP */
+ 244:Core/Src/freertos.c ****   MX_LWIP_Init();
+ 245:Core/Src/freertos.c ****   /* USER CODE BEGIN Refersh_LVGL */
+ 246:Core/Src/freertos.c ****   httpd_init();
+ 247:Core/Src/freertos.c ****   FFT_Init(&fft_1V, SAMPLING, FFT_LENGTH, 1); // 1表示电压
+ 248:Core/Src/freertos.c ****   FFT_Init(&fft_2V, SAMPLING, FFT_LENGTH, 1);
+ 249:Core/Src/freertos.c ****   FFT_Init(&fft_3V, SAMPLING, FFT_LENGTH, 1);
+ 250:Core/Src/freertos.c ****   FFT_Init(&fft_NV, SAMPLING, FFT_LENGTH, 1);
+ 251:Core/Src/freertos.c **** 
+ 252:Core/Src/freertos.c ****   FFT_Init(&fft_1I, SAMPLING, FFT_LENGTH, 0); // 0表示电流
+ 253:Core/Src/freertos.c ****   FFT_Init(&fft_2I, SAMPLING, FFT_LENGTH, 0);
+ 254:Core/Src/freertos.c ****   FFT_Init(&fft_3I, SAMPLING, FFT_LENGTH, 0);
+ 255:Core/Src/freertos.c ****   FFT_Init(&fft_NI, SAMPLING, FFT_LENGTH, 0);
+ 256:Core/Src/freertos.c **** 
+ 257:Core/Src/freertos.c ****   PHASE_Init(&P1, &fft_1V, &fft_1I);
+ 258:Core/Src/freertos.c ****   PHASE_Init(&P2, &fft_2V, &fft_2I);
+ 259:Core/Src/freertos.c ****   PHASE_Init(&P3, &fft_3V, &fft_3I);
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 6
+
+
+ 260:Core/Src/freertos.c ****   PHASE_Init(&PN, &fft_NV, &fft_NI);
+ 261:Core/Src/freertos.c **** 
+ 262:Core/Src/freertos.c ****   Voltage_three_Init(&Voltage, &P1, &P2, &P3);
+ 263:Core/Src/freertos.c ****   /* Infinite loop */
+ 264:Core/Src/freertos.c ****   for (;;)
+ 265:Core/Src/freertos.c ****   {
+ 266:Core/Src/freertos.c ****     lv_task_handler(); // lvgl task handler
+ 267:Core/Src/freertos.c ****     osDelay(1);
+ 268:Core/Src/freertos.c ****   }
+ 269:Core/Src/freertos.c ****   /* USER CODE END Refersh_LVGL */
+ 270:Core/Src/freertos.c **** }
+ 271:Core/Src/freertos.c **** 
+ 272:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_FFT */
+ 273:Core/Src/freertos.c **** /**
+ 274:Core/Src/freertos.c ****  * @brief Function implementing the task_FFT thread.
+ 275:Core/Src/freertos.c ****  * @param argument: Not used
+ 276:Core/Src/freertos.c ****  * @retval None
+ 277:Core/Src/freertos.c ****  */
+ 278:Core/Src/freertos.c **** /* USER CODE END Header_TASK_FFT */
+ 279:Core/Src/freertos.c **** void TASK_FFT(void const *argument)
+ 280:Core/Src/freertos.c **** {
+ 281:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
+ 282:Core/Src/freertos.c ****   /* Infinite loop */
+ 283:Core/Src/freertos.c ****   for (;;)
+ 284:Core/Src/freertos.c ****   {
+ 285:Core/Src/freertos.c ****     lv_task_handler(); // lvgl task handler
+ 286:Core/Src/freertos.c ****     osDelay(1);
+ 287:Core/Src/freertos.c ****   }
+ 288:Core/Src/freertos.c ****   /* USER CODE END TASK_FFT */
+ 289:Core/Src/freertos.c **** }
+ 290:Core/Src/freertos.c **** 
+ 291:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_LVGL */
+ 292:Core/Src/freertos.c **** /**
+ 293:Core/Src/freertos.c ****  * @brief Function implementing the task_lvgl thread.
+ 294:Core/Src/freertos.c ****  * @param argument: Not used
+ 295:Core/Src/freertos.c ****  * @retval None
+ 296:Core/Src/freertos.c ****  */
+ 297:Core/Src/freertos.c **** /* USER CODE END Header_TASK_LVGL */
+ 298:Core/Src/freertos.c **** void TASK_LVGL(void const *argument)
+ 299:Core/Src/freertos.c **** {
+  28              		.loc 1 299 1 view -0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              	.LVL0:
+  34              		.loc 1 299 1 is_stmt 0 view .LVU1
   35 0000 08B5     		push	{r3, lr}
   36              	.LCFI0:
   37              		.cfi_def_cfa_offset 8
   38              		.cfi_offset 3, -8
   39              		.cfi_offset 14, -4
- 236:Core/Src/freertos.c ****   /* init code for LWIP */
- 237:Core/Src/freertos.c ****   MX_LWIP_Init();
-  40              		.loc 1 237 3 is_stmt 1 view .LVU2
-  41 0002 FFF7FEFF 		bl	MX_LWIP_Init
-  42              	.LVL1:
- 238:Core/Src/freertos.c ****   /* USER CODE BEGIN Refersh_LVGL */
- 239:Core/Src/freertos.c ****   httpd_init();
-  43              		.loc 1 239 3 view .LVU3
-  44 0006 FFF7FEFF 		bl	httpd_init
-  45              	.LVL2:
-  46              	.L2:
- 240:Core/Src/freertos.c ****   /* Infinite loop */
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 6
+  40              	.LVL1:
+  41              	.L2:
+ 300:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_LVGL */
+ 301:Core/Src/freertos.c ****   /* Infinite loop */
+ 302:Core/Src/freertos.c ****   for (;;)
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 7
 
 
- 241:Core/Src/freertos.c ****   for(;;)
-  47              		.loc 1 241 3 view .LVU4
- 242:Core/Src/freertos.c ****   {    lv_task_handler(); //lvgl task handler
-  48              		.loc 1 242 8 view .LVU5
-  49              	.LBB6:
-  50              	.LBI6:
-  51              		.file 2 "lvgl/src/lv_api_map.h"
+  42              		.loc 1 302 3 is_stmt 1 view .LVU2
+ 303:Core/Src/freertos.c ****   {
+ 304:Core/Src/freertos.c ****     HAL_GPIO_TogglePin(PG14_GPIO_Port, PG14_Pin);
+  43              		.loc 1 304 5 view .LVU3
+  44 0002 4FF48041 		mov	r1, #16384
+  45 0006 0448     		ldr	r0, .L4
+  46 0008 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+  47              	.LVL2:
+ 305:Core/Src/freertos.c ****     osDelay(1000);
+  48              		.loc 1 305 5 discriminator 1 view .LVU4
+  49 000c 4FF47A70 		mov	r0, #1000
+  50 0010 FFF7FEFF 		bl	osDelay
+  51              	.LVL3:
+ 302:Core/Src/freertos.c ****   {
+  52              		.loc 1 302 3 view .LVU5
+  53 0014 F5E7     		b	.L2
+  54              	.L5:
+  55 0016 00BF     		.align	2
+  56              	.L4:
+  57 0018 00180258 		.word	1476532224
+  58              		.cfi_endproc
+  59              	.LFE603:
+  61              		.section	.text.Refersh_LVGL,"ax",%progbits
+  62              		.align	1
+  63              		.global	Refersh_LVGL
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  68              	Refersh_LVGL:
+  69              	.LVL4:
+  70              	.LFB601:
+ 242:Core/Src/freertos.c ****   /* init code for LWIP */
+  71              		.loc 1 242 1 view -0
+  72              		.cfi_startproc
+  73              		@ Volatile: function does not return.
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242:Core/Src/freertos.c ****   /* init code for LWIP */
+  76              		.loc 1 242 1 is_stmt 0 view .LVU7
+  77 0000 2DE98848 		push	{r3, r7, fp, lr}
+  78              	.LCFI1:
+  79              		.cfi_def_cfa_offset 16
+  80              		.cfi_offset 3, -16
+  81              		.cfi_offset 7, -12
+  82              		.cfi_offset 11, -8
+  83              		.cfi_offset 14, -4
+ 244:Core/Src/freertos.c ****   /* USER CODE BEGIN Refersh_LVGL */
+  84              		.loc 1 244 3 is_stmt 1 view .LVU8
+  85 0004 FFF7FEFF 		bl	MX_LWIP_Init
+  86              	.LVL5:
+ 246:Core/Src/freertos.c ****   FFT_Init(&fft_1V, SAMPLING, FFT_LENGTH, 1); // 1表示电压
+  87              		.loc 1 246 3 view .LVU9
+  88 0008 FFF7FEFF 		bl	httpd_init
+  89              	.LVL6:
+ 247:Core/Src/freertos.c ****   FFT_Init(&fft_2V, SAMPLING, FFT_LENGTH, 1);
+  90              		.loc 1 247 3 view .LVU10
+  91 000c DFF8F8A0 		ldr	r10, .L9+28
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 8
+
+
+  92 0010 0123     		movs	r3, #1
+  93 0012 4FF40062 		mov	r2, #2048
+  94 0016 4FF44851 		mov	r1, #12800
+  95 001a 5046     		mov	r0, r10
+  96 001c FFF7FEFF 		bl	FFT_Init
+  97              	.LVL7:
+ 248:Core/Src/freertos.c ****   FFT_Init(&fft_3V, SAMPLING, FFT_LENGTH, 1);
+  98              		.loc 1 248 3 view .LVU11
+  99 0020 DFF8E880 		ldr	r8, .L9+32
+ 100 0024 0123     		movs	r3, #1
+ 101 0026 4FF40062 		mov	r2, #2048
+ 102 002a 4FF44851 		mov	r1, #12800
+ 103 002e 4046     		mov	r0, r8
+ 104 0030 FFF7FEFF 		bl	FFT_Init
+ 105              	.LVL8:
+ 249:Core/Src/freertos.c ****   FFT_Init(&fft_NV, SAMPLING, FFT_LENGTH, 1);
+ 106              		.loc 1 249 3 view .LVU12
+ 107 0034 2D4E     		ldr	r6, .L9
+ 108 0036 0123     		movs	r3, #1
+ 109 0038 4FF40062 		mov	r2, #2048
+ 110 003c 4FF44851 		mov	r1, #12800
+ 111 0040 3046     		mov	r0, r6
+ 112 0042 FFF7FEFF 		bl	FFT_Init
+ 113              	.LVL9:
+ 250:Core/Src/freertos.c **** 
+ 114              		.loc 1 250 3 view .LVU13
+ 115 0046 2A4C     		ldr	r4, .L9+4
+ 116 0048 0123     		movs	r3, #1
+ 117 004a 4FF40062 		mov	r2, #2048
+ 118 004e 4FF44851 		mov	r1, #12800
+ 119 0052 2046     		mov	r0, r4
+ 120 0054 FFF7FEFF 		bl	FFT_Init
+ 121              	.LVL10:
+ 252:Core/Src/freertos.c ****   FFT_Init(&fft_2I, SAMPLING, FFT_LENGTH, 0);
+ 122              		.loc 1 252 3 view .LVU14
+ 123 0058 DFF8B4B0 		ldr	fp, .L9+36
+ 124 005c 0023     		movs	r3, #0
+ 125 005e 4FF40062 		mov	r2, #2048
+ 126 0062 4FF44851 		mov	r1, #12800
+ 127 0066 5846     		mov	r0, fp
+ 128 0068 FFF7FEFF 		bl	FFT_Init
+ 129              	.LVL11:
+ 253:Core/Src/freertos.c ****   FFT_Init(&fft_3I, SAMPLING, FFT_LENGTH, 0);
+ 130              		.loc 1 253 3 view .LVU15
+ 131 006c DFF8A490 		ldr	r9, .L9+40
+ 132 0070 0023     		movs	r3, #0
+ 133 0072 4FF40062 		mov	r2, #2048
+ 134 0076 4FF44851 		mov	r1, #12800
+ 135 007a 4846     		mov	r0, r9
+ 136 007c FFF7FEFF 		bl	FFT_Init
+ 137              	.LVL12:
+ 254:Core/Src/freertos.c ****   FFT_Init(&fft_NI, SAMPLING, FFT_LENGTH, 0);
+ 138              		.loc 1 254 3 view .LVU16
+ 139 0080 1C4F     		ldr	r7, .L9+8
+ 140 0082 0023     		movs	r3, #0
+ 141 0084 4FF40062 		mov	r2, #2048
+ 142 0088 4FF44851 		mov	r1, #12800
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 9
+
+
+ 143 008c 3846     		mov	r0, r7
+ 144 008e FFF7FEFF 		bl	FFT_Init
+ 145              	.LVL13:
+ 255:Core/Src/freertos.c **** 
+ 146              		.loc 1 255 3 view .LVU17
+ 147 0092 194D     		ldr	r5, .L9+12
+ 148 0094 0023     		movs	r3, #0
+ 149 0096 4FF40062 		mov	r2, #2048
+ 150 009a 4FF44851 		mov	r1, #12800
+ 151 009e 2846     		mov	r0, r5
+ 152 00a0 FFF7FEFF 		bl	FFT_Init
+ 153              	.LVL14:
+ 257:Core/Src/freertos.c ****   PHASE_Init(&P2, &fft_2V, &fft_2I);
+ 154              		.loc 1 257 3 view .LVU18
+ 155 00a4 5A46     		mov	r2, fp
+ 156 00a6 5146     		mov	r1, r10
+ 157 00a8 1448     		ldr	r0, .L9+16
+ 158 00aa FFF7FEFF 		bl	PHASE_Init
+ 159              	.LVL15:
+ 258:Core/Src/freertos.c ****   PHASE_Init(&P3, &fft_3V, &fft_3I);
+ 160              		.loc 1 258 3 view .LVU19
+ 161 00ae DFF868A0 		ldr	r10, .L9+44
+ 162 00b2 4A46     		mov	r2, r9
+ 163 00b4 4146     		mov	r1, r8
+ 164 00b6 5046     		mov	r0, r10
+ 165 00b8 FFF7FEFF 		bl	PHASE_Init
+ 166              	.LVL16:
+ 259:Core/Src/freertos.c ****   PHASE_Init(&PN, &fft_NV, &fft_NI);
+ 167              		.loc 1 259 3 view .LVU20
+ 168 00bc DFF85C80 		ldr	r8, .L9+48
+ 169 00c0 3A46     		mov	r2, r7
+ 170 00c2 3146     		mov	r1, r6
+ 171 00c4 4046     		mov	r0, r8
+ 172 00c6 FFF7FEFF 		bl	PHASE_Init
+ 173              	.LVL17:
+ 260:Core/Src/freertos.c **** 
+ 174              		.loc 1 260 3 view .LVU21
+ 175 00ca 2A46     		mov	r2, r5
+ 176 00cc 2146     		mov	r1, r4
+ 177 00ce 0C48     		ldr	r0, .L9+20
+ 178 00d0 FFF7FEFF 		bl	PHASE_Init
+ 179              	.LVL18:
+ 262:Core/Src/freertos.c ****   /* Infinite loop */
+ 180              		.loc 1 262 3 view .LVU22
+ 181 00d4 4346     		mov	r3, r8
+ 182 00d6 5246     		mov	r2, r10
+ 183 00d8 0849     		ldr	r1, .L9+16
+ 184 00da 0A48     		ldr	r0, .L9+24
+ 185 00dc FFF7FEFF 		bl	Voltage_three_Init
+ 186              	.LVL19:
+ 187              	.L7:
+ 264:Core/Src/freertos.c ****   {
+ 188              		.loc 1 264 3 view .LVU23
+ 266:Core/Src/freertos.c ****     osDelay(1);
+ 189              		.loc 1 266 5 view .LVU24
+ 190              	.LBB6:
+ 191              	.LBI6:
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 10
+
+
+ 192              		.file 2 "lvgl/src/lv_api_map.h"
    1:lvgl/src/lv_api_map.h **** /**
    2:lvgl/src/lv_api_map.h ****  * @file lv_api_map.h
    3:lvgl/src/lv_api_map.h ****  *
@@ -343,836 +577,818 @@ ARM GAS  C:\usertemp\ccUdkvjX.s 			page 1
   33:lvgl/src/lv_api_map.h ****  **********************/
   34:lvgl/src/lv_api_map.h **** 
   35:lvgl/src/lv_api_map.h **** static inline LV_ATTRIBUTE_TIMER_HANDLER uint32_t lv_task_handler(void)
-  52              		.loc 2 35 51 view .LVU6
-  53              	.LBB7:
+ 193              		.loc 2 35 51 view .LVU25
+ 194              	.LBB7:
   36:lvgl/src/lv_api_map.h **** {
   37:lvgl/src/lv_api_map.h ****     return lv_timer_handler();
-  54              		.loc 2 37 5 view .LVU7
-  55              		.loc 2 37 12 is_stmt 0 view .LVU8
-  56 000a FFF7FEFF 		bl	lv_timer_handler
-  57              	.LVL3:
-  58              	.LBE7:
-  59              	.LBE6:
- 243:Core/Src/freertos.c ****     osDelay(1);
-  60              		.loc 1 243 5 is_stmt 1 discriminator 1 view .LVU9
-  61 000e 0120     		movs	r0, #1
-  62 0010 FFF7FEFF 		bl	osDelay
-  63              	.LVL4:
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 7
+ 195              		.loc 2 37 5 view .LVU26
+ 196              		.loc 2 37 12 is_stmt 0 view .LVU27
+ 197 00e0 FFF7FEFF 		bl	lv_timer_handler
+ 198              	.LVL20:
+ 199              	.LBE7:
+ 200              	.LBE6:
+ 267:Core/Src/freertos.c ****   }
+ 201              		.loc 1 267 5 is_stmt 1 discriminator 1 view .LVU28
+ 202 00e4 0120     		movs	r0, #1
+ 203 00e6 FFF7FEFF 		bl	osDelay
+ 204              	.LVL21:
+ 264:Core/Src/freertos.c ****   {
+ 205              		.loc 1 264 3 view .LVU29
+ 206 00ea F9E7     		b	.L7
+ 207              	.L10:
+ 208              		.align	2
+ 209              	.L9:
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 11
 
 
- 241:Core/Src/freertos.c ****   {    lv_task_handler(); //lvgl task handler
-  64              		.loc 1 241 3 view .LVU10
-  65 0014 F9E7     		b	.L2
-  66              		.cfi_endproc
-  67              	.LFE601:
-  69              		.section	.text.TASK_FFT,"ax",%progbits
-  70              		.align	1
-  71              		.global	TASK_FFT
-  72              		.syntax unified
-  73              		.thumb
-  74              		.thumb_func
-  76              	TASK_FFT:
-  77              	.LFB602:
- 244:Core/Src/freertos.c ****   }
- 245:Core/Src/freertos.c ****   /* USER CODE END Refersh_LVGL */
- 246:Core/Src/freertos.c **** }
- 247:Core/Src/freertos.c **** 
- 248:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_FFT */
- 249:Core/Src/freertos.c **** /**
- 250:Core/Src/freertos.c **** * @brief Function implementing the task_FFT thread.
- 251:Core/Src/freertos.c **** * @param argument: Not used
- 252:Core/Src/freertos.c **** * @retval None
- 253:Core/Src/freertos.c **** */
- 254:Core/Src/freertos.c **** /* USER CODE END Header_TASK_FFT */
- 255:Core/Src/freertos.c **** void TASK_FFT(void const * argument)
- 256:Core/Src/freertos.c **** {
-  78              		.loc 1 256 1 view -0
-  79              		.cfi_startproc
-  80              		@ Volatile: function does not return.
-  81              		@ args = 0, pretend = 0, frame = 0
-  82              		@ frame_needed = 0, uses_anonymous_args = 0
-  83              	.LVL5:
-  84              		.loc 1 256 1 is_stmt 0 view .LVU12
-  85 0000 08B5     		push	{r3, lr}
-  86              	.LCFI1:
-  87              		.cfi_def_cfa_offset 8
-  88              		.cfi_offset 3, -8
-  89              		.cfi_offset 14, -4
-  90              	.LVL6:
-  91              	.L5:
- 257:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
- 258:Core/Src/freertos.c ****   /* Infinite loop */
- 259:Core/Src/freertos.c ****   for(;;)
-  92              		.loc 1 259 3 is_stmt 1 view .LVU13
- 260:Core/Src/freertos.c ****   {
- 261:Core/Src/freertos.c ****     lv_task_handler(); //lvgl task handler
-  93              		.loc 1 261 5 view .LVU14
-  94              	.LBB8:
-  95              	.LBI8:
+ 210 00ec 00000000 		.word	fft_3V
+ 211 00f0 00000000 		.word	fft_NV
+ 212 00f4 00000000 		.word	fft_3I
+ 213 00f8 00000000 		.word	fft_NI
+ 214 00fc 00000000 		.word	P1
+ 215 0100 00000000 		.word	PN
+ 216 0104 00000000 		.word	Voltage
+ 217 0108 00000000 		.word	fft_1V
+ 218 010c 00000000 		.word	fft_2V
+ 219 0110 00000000 		.word	fft_1I
+ 220 0114 00000000 		.word	fft_2I
+ 221 0118 00000000 		.word	P2
+ 222 011c 00000000 		.word	P3
+ 223              		.cfi_endproc
+ 224              	.LFE601:
+ 226              		.section	.text.TASK_FFT,"ax",%progbits
+ 227              		.align	1
+ 228              		.global	TASK_FFT
+ 229              		.syntax unified
+ 230              		.thumb
+ 231              		.thumb_func
+ 233              	TASK_FFT:
+ 234              	.LFB602:
+ 280:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
+ 235              		.loc 1 280 1 view -0
+ 236              		.cfi_startproc
+ 237              		@ Volatile: function does not return.
+ 238              		@ args = 0, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240              	.LVL22:
+ 280:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
+ 241              		.loc 1 280 1 is_stmt 0 view .LVU31
+ 242 0000 08B5     		push	{r3, lr}
+ 243              	.LCFI2:
+ 244              		.cfi_def_cfa_offset 8
+ 245              		.cfi_offset 3, -8
+ 246              		.cfi_offset 14, -4
+ 247              	.LVL23:
+ 248              	.L12:
+ 283:Core/Src/freertos.c ****   {
+ 249              		.loc 1 283 3 is_stmt 1 view .LVU32
+ 285:Core/Src/freertos.c ****     osDelay(1);
+ 250              		.loc 1 285 5 view .LVU33
+ 251              	.LBB8:
+ 252              	.LBI8:
   35:lvgl/src/lv_api_map.h **** {
-  96              		.loc 2 35 51 view .LVU15
-  97              	.LBB9:
-  98              		.loc 2 37 5 view .LVU16
-  99              		.loc 2 37 12 is_stmt 0 view .LVU17
- 100 0002 FFF7FEFF 		bl	lv_timer_handler
- 101              	.LVL7:
- 102              	.LBE9:
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 8
+ 253              		.loc 2 35 51 view .LVU34
+ 254              	.LBB9:
+ 255              		.loc 2 37 5 view .LVU35
+ 256              		.loc 2 37 12 is_stmt 0 view .LVU36
+ 257 0002 FFF7FEFF 		bl	lv_timer_handler
+ 258              	.LVL24:
+ 259              	.LBE9:
+ 260              	.LBE8:
+ 286:Core/Src/freertos.c ****   }
+ 261              		.loc 1 286 5 is_stmt 1 discriminator 1 view .LVU37
+ 262 0006 0120     		movs	r0, #1
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 12
 
 
- 103              	.LBE8:
- 262:Core/Src/freertos.c ****     osDelay(1);
- 104              		.loc 1 262 5 is_stmt 1 discriminator 1 view .LVU18
- 105 0006 0120     		movs	r0, #1
- 106 0008 FFF7FEFF 		bl	osDelay
- 107              	.LVL8:
- 259:Core/Src/freertos.c ****   {
- 108              		.loc 1 259 3 view .LVU19
- 109 000c F9E7     		b	.L5
- 110              		.cfi_endproc
- 111              	.LFE602:
- 113              		.section	.text.TASK_LVGL,"ax",%progbits
- 114              		.align	1
- 115              		.global	TASK_LVGL
- 116              		.syntax unified
- 117              		.thumb
- 118              		.thumb_func
- 120              	TASK_LVGL:
- 121              	.LFB603:
- 263:Core/Src/freertos.c ****   }
- 264:Core/Src/freertos.c ****   /* USER CODE END TASK_FFT */
- 265:Core/Src/freertos.c **** }
- 266:Core/Src/freertos.c **** 
- 267:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_LVGL */
- 268:Core/Src/freertos.c **** /**
- 269:Core/Src/freertos.c **** * @brief Function implementing the task_lvgl thread.
- 270:Core/Src/freertos.c **** * @param argument: Not used
- 271:Core/Src/freertos.c **** * @retval None
- 272:Core/Src/freertos.c **** */
- 273:Core/Src/freertos.c **** /* USER CODE END Header_TASK_LVGL */
- 274:Core/Src/freertos.c **** void TASK_LVGL(void const * argument)
- 275:Core/Src/freertos.c **** {
- 122              		.loc 1 275 1 view -0
- 123              		.cfi_startproc
- 124              		@ Volatile: function does not return.
- 125              		@ args = 0, pretend = 0, frame = 0
- 126              		@ frame_needed = 0, uses_anonymous_args = 0
- 127              	.LVL9:
- 128              		.loc 1 275 1 is_stmt 0 view .LVU21
- 129 0000 08B5     		push	{r3, lr}
- 130              	.LCFI2:
- 131              		.cfi_def_cfa_offset 8
- 132              		.cfi_offset 3, -8
- 133              		.cfi_offset 14, -4
- 134              	.LVL10:
- 135              	.L8:
- 276:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_LVGL */
- 277:Core/Src/freertos.c ****   /* Infinite loop */
- 278:Core/Src/freertos.c ****   for(;;)
- 136              		.loc 1 278 3 is_stmt 1 view .LVU22
- 279:Core/Src/freertos.c ****   {
- 280:Core/Src/freertos.c ****     HAL_GPIO_TogglePin(PG14_GPIO_Port,PG14_Pin);
- 137              		.loc 1 280 5 view .LVU23
- 138 0002 4FF48041 		mov	r1, #16384
- 139 0006 0448     		ldr	r0, .L10
- 140 0008 FFF7FEFF 		bl	HAL_GPIO_TogglePin
- 141              	.LVL11:
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 9
+ 263 0008 FFF7FEFF 		bl	osDelay
+ 264              	.LVL25:
+ 283:Core/Src/freertos.c ****   {
+ 265              		.loc 1 283 3 view .LVU38
+ 266 000c F9E7     		b	.L12
+ 267              		.cfi_endproc
+ 268              	.LFE602:
+ 270              		.section	.rodata.vApplicationMallocFailedHook.str1.4,"aMS",%progbits,1
+ 271              		.align	2
+ 272              	.LC6:
+ 273 0000 6D616C6C 		.ascii	"malloc fail\015\000"
+ 273      6F632066 
+ 273      61696C0D 
+ 273      00
+ 274              		.section	.text.vApplicationMallocFailedHook,"ax",%progbits
+ 275              		.align	1
+ 276              		.global	vApplicationMallocFailedHook
+ 277              		.syntax unified
+ 278              		.thumb
+ 279              		.thumb_func
+ 281              	vApplicationMallocFailedHook:
+ 282              	.LFB598:
+ 138:Core/Src/freertos.c ****   /* vApplicationMallocFailedHook() will only be called if
+ 283              		.loc 1 138 1 view -0
+ 284              		.cfi_startproc
+ 285              		@ Volatile: function does not return.
+ 286              		@ args = 0, pretend = 0, frame = 0
+ 287              		@ frame_needed = 0, uses_anonymous_args = 0
+ 288 0000 08B5     		push	{r3, lr}
+ 289              	.LCFI3:
+ 290              		.cfi_def_cfa_offset 8
+ 291              		.cfi_offset 3, -8
+ 292              		.cfi_offset 14, -4
+ 149:Core/Src/freertos.c ****   while (1)
+ 293              		.loc 1 149 3 view .LVU40
+ 294 0002 0648     		ldr	r0, .L17
+ 295 0004 FFF7FEFF 		bl	puts
+ 296              	.LVL26:
+ 297              	.L15:
+ 150:Core/Src/freertos.c ****   {
+ 298              		.loc 1 150 3 view .LVU41
+ 153:Core/Src/freertos.c ****     osDelay(200);
+ 299              		.loc 1 153 5 view .LVU42
+ 300 0008 4FF48041 		mov	r1, #16384
+ 301 000c 0448     		ldr	r0, .L17+4
+ 302 000e FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 303              	.LVL27:
+ 154:Core/Src/freertos.c ****   }
+ 304              		.loc 1 154 5 discriminator 1 view .LVU43
+ 305 0012 C820     		movs	r0, #200
+ 306 0014 FFF7FEFF 		bl	osDelay
+ 307              	.LVL28:
+ 150:Core/Src/freertos.c ****   {
+ 308              		.loc 1 150 9 view .LVU44
+ 309 0018 F6E7     		b	.L15
+ 310              	.L18:
+ 311 001a 00BF     		.align	2
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 13
 
 
- 281:Core/Src/freertos.c ****     osDelay(1000);  
- 142              		.loc 1 281 5 discriminator 1 view .LVU24
- 143 000c 4FF47A70 		mov	r0, #1000
- 144 0010 FFF7FEFF 		bl	osDelay
- 145              	.LVL12:
- 278:Core/Src/freertos.c ****   {
- 146              		.loc 1 278 3 view .LVU25
- 147 0014 F5E7     		b	.L8
- 148              	.L11:
- 149 0016 00BF     		.align	2
- 150              	.L10:
- 151 0018 00180258 		.word	1476532224
- 152              		.cfi_endproc
- 153              	.LFE603:
- 155              		.section	.text.vApplicationMallocFailedHook,"ax",%progbits
- 156              		.align	1
- 157              		.weak	vApplicationMallocFailedHook
- 158              		.syntax unified
- 159              		.thumb
- 160              		.thumb_func
- 162              	vApplicationMallocFailedHook:
- 163              	.LFB598:
- 138:Core/Src/freertos.c ****    /* vApplicationMallocFailedHook() will only be called if
- 164              		.loc 1 138 1 view -0
- 165              		.cfi_startproc
- 166              		@ args = 0, pretend = 0, frame = 0
- 167              		@ frame_needed = 0, uses_anonymous_args = 0
- 168              		@ link register save eliminated.
- 149:Core/Src/freertos.c **** /* USER CODE END 5 */
- 169              		.loc 1 149 1 view .LVU27
- 170 0000 7047     		bx	lr
- 171              		.cfi_endproc
- 172              	.LFE598:
- 174              		.section	.text.vApplicationGetIdleTaskMemory,"ax",%progbits
- 175              		.align	1
- 176              		.global	vApplicationGetIdleTaskMemory
- 177              		.syntax unified
- 178              		.thumb
- 179              		.thumb_func
- 181              	vApplicationGetIdleTaskMemory:
- 182              	.LVL13:
- 183              	.LFB599:
- 157:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
- 184              		.loc 1 157 1 view -0
- 185              		.cfi_startproc
- 186              		@ args = 0, pretend = 0, frame = 0
- 187              		@ frame_needed = 0, uses_anonymous_args = 0
- 188              		@ link register save eliminated.
- 158:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
- 189              		.loc 1 158 3 view .LVU29
- 158:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
- 190              		.loc 1 158 25 is_stmt 0 view .LVU30
- 191 0000 034B     		ldr	r3, .L14
- 192 0002 0360     		str	r3, [r0]
- 159:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
- 193              		.loc 1 159 3 is_stmt 1 view .LVU31
- 159:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 10
+ 312              	.L17:
+ 313 001c 00000000 		.word	.LC6
+ 314 0020 00180258 		.word	1476532224
+ 315              		.cfi_endproc
+ 316              	.LFE598:
+ 318              		.section	.text.vApplicationGetIdleTaskMemory,"ax",%progbits
+ 319              		.align	1
+ 320              		.global	vApplicationGetIdleTaskMemory
+ 321              		.syntax unified
+ 322              		.thumb
+ 323              		.thumb_func
+ 325              	vApplicationGetIdleTaskMemory:
+ 326              	.LVL29:
+ 327              	.LFB599:
+ 164:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+ 328              		.loc 1 164 1 view -0
+ 329              		.cfi_startproc
+ 330              		@ args = 0, pretend = 0, frame = 0
+ 331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 332              		@ link register save eliminated.
+ 165:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 333              		.loc 1 165 3 view .LVU46
+ 165:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 334              		.loc 1 165 25 is_stmt 0 view .LVU47
+ 335 0000 034B     		ldr	r3, .L20
+ 336 0002 0360     		str	r3, [r0]
+ 166:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 337              		.loc 1 166 3 is_stmt 1 view .LVU48
+ 166:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 338              		.loc 1 166 27 is_stmt 0 view .LVU49
+ 339 0004 034B     		ldr	r3, .L20+4
+ 340 0006 0B60     		str	r3, [r1]
+ 167:Core/Src/freertos.c ****   /* place for user code */
+ 341              		.loc 1 167 3 is_stmt 1 view .LVU50
+ 167:Core/Src/freertos.c ****   /* place for user code */
+ 342              		.loc 1 167 25 is_stmt 0 view .LVU51
+ 343 0008 8023     		movs	r3, #128
+ 344 000a 1360     		str	r3, [r2]
+ 169:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
+ 345              		.loc 1 169 1 view .LVU52
+ 346 000c 7047     		bx	lr
+ 347              	.L21:
+ 348 000e 00BF     		.align	2
+ 349              	.L20:
+ 350 0010 00000000 		.word	xIdleTaskTCBBuffer
+ 351 0014 00000000 		.word	xIdleStack
+ 352              		.cfi_endproc
+ 353              	.LFE599:
+ 355              		.section	.text.MX_FREERTOS_Init,"ax",%progbits
+ 356              		.align	1
+ 357              		.global	MX_FREERTOS_Init
+ 358              		.syntax unified
+ 359              		.thumb
+ 360              		.thumb_func
+ 362              	MX_FREERTOS_Init:
+ 363              	.LFB600:
+ 178:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 14
 
 
- 194              		.loc 1 159 27 is_stmt 0 view .LVU32
- 195 0004 034B     		ldr	r3, .L14+4
- 196 0006 0B60     		str	r3, [r1]
- 160:Core/Src/freertos.c ****   /* place for user code */
- 197              		.loc 1 160 3 is_stmt 1 view .LVU33
- 160:Core/Src/freertos.c ****   /* place for user code */
- 198              		.loc 1 160 25 is_stmt 0 view .LVU34
- 199 0008 8023     		movs	r3, #128
- 200 000a 1360     		str	r3, [r2]
- 162:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
- 201              		.loc 1 162 1 view .LVU35
- 202 000c 7047     		bx	lr
- 203              	.L15:
- 204 000e 00BF     		.align	2
- 205              	.L14:
- 206 0010 00000000 		.word	xIdleTaskTCBBuffer
- 207 0014 00000000 		.word	xIdleStack
- 208              		.cfi_endproc
- 209              	.LFE599:
- 211              		.section	.text.MX_FREERTOS_Init,"ax",%progbits
- 212              		.align	1
- 213              		.global	MX_FREERTOS_Init
- 214              		.syntax unified
- 215              		.thumb
- 216              		.thumb_func
- 218              	MX_FREERTOS_Init:
- 219              	.LFB600:
- 170:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
- 220              		.loc 1 170 29 is_stmt 1 view -0
- 221              		.cfi_startproc
- 222              		@ args = 0, pretend = 0, frame = 120
- 223              		@ frame_needed = 0, uses_anonymous_args = 0
- 224 0000 30B5     		push	{r4, r5, lr}
- 225              	.LCFI3:
- 226              		.cfi_def_cfa_offset 12
- 227              		.cfi_offset 4, -12
- 228              		.cfi_offset 5, -8
- 229              		.cfi_offset 14, -4
- 230 0002 9FB0     		sub	sp, sp, #124
- 231              	.LCFI4:
- 232              		.cfi_def_cfa_offset 136
- 181:Core/Src/freertos.c ****   EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
- 233              		.loc 1 181 3 view .LVU37
- 234 0004 0025     		movs	r5, #0
- 235 0006 1C95     		str	r5, [sp, #112]
- 236 0008 1D95     		str	r5, [sp, #116]
- 182:Core/Src/freertos.c **** 
- 237              		.loc 1 182 3 view .LVU38
- 182:Core/Src/freertos.c **** 
- 238              		.loc 1 182 21 is_stmt 0 view .LVU39
- 239 000a 0121     		movs	r1, #1
- 240 000c 1CA8     		add	r0, sp, #112
- 241 000e FFF7FEFF 		bl	osSemaphoreCreate
- 242              	.LVL14:
- 182:Core/Src/freertos.c **** 
- 243              		.loc 1 182 19 discriminator 1 view .LVU40
- 244 0012 294B     		ldr	r3, .L18
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 11
-
-
- 245 0014 1860     		str	r0, [r3]
- 185:Core/Src/freertos.c ****   EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
- 246              		.loc 1 185 3 is_stmt 1 view .LVU41
- 247 0016 1A95     		str	r5, [sp, #104]
- 248 0018 1B95     		str	r5, [sp, #108]
- 186:Core/Src/freertos.c **** 
- 249              		.loc 1 186 3 view .LVU42
- 186:Core/Src/freertos.c **** 
- 250              		.loc 1 186 21 is_stmt 0 view .LVU43
- 251 001a 0121     		movs	r1, #1
- 252 001c 1AA8     		add	r0, sp, #104
- 253 001e FFF7FEFF 		bl	osSemaphoreCreate
- 254              	.LVL15:
- 186:Core/Src/freertos.c **** 
- 255              		.loc 1 186 19 discriminator 1 view .LVU44
- 256 0022 264B     		ldr	r3, .L18+4
- 257 0024 1860     		str	r0, [r3]
- 189:Core/Src/freertos.c ****   EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
- 258              		.loc 1 189 3 is_stmt 1 view .LVU45
- 259 0026 1895     		str	r5, [sp, #96]
- 260 0028 1995     		str	r5, [sp, #100]
+ 364              		.loc 1 178 1 is_stmt 1 view -0
+ 365              		.cfi_startproc
+ 366              		@ args = 0, pretend = 0, frame = 120
+ 367              		@ frame_needed = 0, uses_anonymous_args = 0
+ 368 0000 30B5     		push	{r4, r5, lr}
+ 369              	.LCFI4:
+ 370              		.cfi_def_cfa_offset 12
+ 371              		.cfi_offset 4, -12
+ 372              		.cfi_offset 5, -8
+ 373              		.cfi_offset 14, -4
+ 374 0002 9FB0     		sub	sp, sp, #124
+ 375              	.LCFI5:
+ 376              		.cfi_def_cfa_offset 136
+ 189:Core/Src/freertos.c ****   EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
+ 377              		.loc 1 189 3 view .LVU54
+ 378 0004 0025     		movs	r5, #0
+ 379 0006 1C95     		str	r5, [sp, #112]
+ 380 0008 1D95     		str	r5, [sp, #116]
  190:Core/Src/freertos.c **** 
- 261              		.loc 1 190 3 view .LVU46
+ 381              		.loc 1 190 3 view .LVU55
  190:Core/Src/freertos.c **** 
- 262              		.loc 1 190 30 is_stmt 0 view .LVU47
- 263 002a 0121     		movs	r1, #1
- 264 002c 18A8     		add	r0, sp, #96
- 265 002e FFF7FEFF 		bl	osSemaphoreCreate
- 266              	.LVL16:
+ 382              		.loc 1 190 21 is_stmt 0 view .LVU56
+ 383 000a 0121     		movs	r1, #1
+ 384 000c 1CA8     		add	r0, sp, #112
+ 385 000e FFF7FEFF 		bl	osSemaphoreCreate
+ 386              	.LVL30:
  190:Core/Src/freertos.c **** 
- 267              		.loc 1 190 28 discriminator 1 view .LVU48
- 268 0032 234B     		ldr	r3, .L18+8
- 269 0034 1860     		str	r0, [r3]
- 193:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
- 270              		.loc 1 193 3 is_stmt 1 view .LVU49
- 271 0036 1695     		str	r5, [sp, #88]
- 272 0038 1795     		str	r5, [sp, #92]
+ 387              		.loc 1 190 19 discriminator 1 view .LVU57
+ 388 0012 294B     		ldr	r3, .L24
+ 389 0014 1860     		str	r0, [r3]
+ 193:Core/Src/freertos.c ****   EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
+ 390              		.loc 1 193 3 is_stmt 1 view .LVU58
+ 391 0016 1A95     		str	r5, [sp, #104]
+ 392 0018 1B95     		str	r5, [sp, #108]
  194:Core/Src/freertos.c **** 
- 273              		.loc 1 194 3 view .LVU50
+ 393              		.loc 1 194 3 view .LVU59
  194:Core/Src/freertos.c **** 
- 274              		.loc 1 194 27 is_stmt 0 view .LVU51
- 275 003a 0121     		movs	r1, #1
- 276 003c 16A8     		add	r0, sp, #88
- 277 003e FFF7FEFF 		bl	osSemaphoreCreate
- 278              	.LVL17:
+ 394              		.loc 1 194 21 is_stmt 0 view .LVU60
+ 395 001a 0121     		movs	r1, #1
+ 396 001c 1AA8     		add	r0, sp, #104
+ 397 001e FFF7FEFF 		bl	osSemaphoreCreate
+ 398              	.LVL31:
  194:Core/Src/freertos.c **** 
- 279              		.loc 1 194 25 discriminator 1 view .LVU52
- 280 0042 204B     		ldr	r3, .L18+12
- 281 0044 1860     		str	r0, [r3]
- 210:Core/Src/freertos.c ****   refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
- 282              		.loc 1 210 3 is_stmt 1 view .LVU53
- 283 0046 204C     		ldr	r4, .L18+16
- 284 0048 0DF13C0C 		add	ip, sp, #60
- 285 004c A646     		mov	lr, r4
- 286 004e BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
- 287 0052 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
- 288 0056 9EE80700 		ldm	lr, {r0, r1, r2}
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 12
+ 399              		.loc 1 194 19 discriminator 1 view .LVU61
+ 400 0022 264B     		ldr	r3, .L24+4
+ 401 0024 1860     		str	r0, [r3]
+ 197:Core/Src/freertos.c ****   EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
+ 402              		.loc 1 197 3 is_stmt 1 view .LVU62
+ 403 0026 1895     		str	r5, [sp, #96]
+ 404 0028 1995     		str	r5, [sp, #100]
+ 198:Core/Src/freertos.c **** 
+ 405              		.loc 1 198 3 view .LVU63
+ 198:Core/Src/freertos.c **** 
+ 406              		.loc 1 198 30 is_stmt 0 view .LVU64
+ 407 002a 0121     		movs	r1, #1
+ 408 002c 18A8     		add	r0, sp, #96
+ 409 002e FFF7FEFF 		bl	osSemaphoreCreate
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 15
 
 
- 289 005a 8CE80700 		stm	ip, {r0, r1, r2}
- 211:Core/Src/freertos.c **** 
- 290              		.loc 1 211 3 view .LVU54
- 211:Core/Src/freertos.c **** 
- 291              		.loc 1 211 24 is_stmt 0 view .LVU55
- 292 005e 2946     		mov	r1, r5
- 293 0060 0FA8     		add	r0, sp, #60
- 294 0062 FFF7FEFF 		bl	osThreadCreate
- 295              	.LVL18:
- 211:Core/Src/freertos.c **** 
- 296              		.loc 1 211 22 discriminator 1 view .LVU56
- 297 0066 194B     		ldr	r3, .L18+20
- 298 0068 1860     		str	r0, [r3]
- 214:Core/Src/freertos.c ****   task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
- 299              		.loc 1 214 3 is_stmt 1 view .LVU57
- 300 006a 0DF1200C 		add	ip, sp, #32
- 301 006e 04F11C0E 		add	lr, r4, #28
- 302 0072 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
- 303 0076 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
- 304 007a 9EE80700 		ldm	lr, {r0, r1, r2}
- 305 007e 8CE80700 		stm	ip, {r0, r1, r2}
- 215:Core/Src/freertos.c **** 
- 306              		.loc 1 215 3 view .LVU58
- 215:Core/Src/freertos.c **** 
- 307              		.loc 1 215 20 is_stmt 0 view .LVU59
- 308 0082 2946     		mov	r1, r5
- 309 0084 08A8     		add	r0, sp, #32
- 310 0086 FFF7FEFF 		bl	osThreadCreate
- 311              	.LVL19:
- 215:Core/Src/freertos.c **** 
- 312              		.loc 1 215 18 discriminator 1 view .LVU60
- 313 008a 114B     		ldr	r3, .L18+24
- 314 008c 1860     		str	r0, [r3]
- 218:Core/Src/freertos.c ****   task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
- 315              		.loc 1 218 3 is_stmt 1 view .LVU61
- 316 008e 0DF1040E 		add	lr, sp, #4
- 317 0092 04F1380C 		add	ip, r4, #56
- 318 0096 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
- 319 009a AEE80F00 		stmia	lr!, {r0, r1, r2, r3}
- 320 009e 9CE80700 		ldm	ip, {r0, r1, r2}
- 321 00a2 8EE80700 		stm	lr, {r0, r1, r2}
+ 410              	.LVL32:
+ 198:Core/Src/freertos.c **** 
+ 411              		.loc 1 198 28 discriminator 1 view .LVU65
+ 412 0032 234B     		ldr	r3, .L24+8
+ 413 0034 1860     		str	r0, [r3]
+ 201:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
+ 414              		.loc 1 201 3 is_stmt 1 view .LVU66
+ 415 0036 1695     		str	r5, [sp, #88]
+ 416 0038 1795     		str	r5, [sp, #92]
+ 202:Core/Src/freertos.c **** 
+ 417              		.loc 1 202 3 view .LVU67
+ 202:Core/Src/freertos.c **** 
+ 418              		.loc 1 202 27 is_stmt 0 view .LVU68
+ 419 003a 0121     		movs	r1, #1
+ 420 003c 16A8     		add	r0, sp, #88
+ 421 003e FFF7FEFF 		bl	osSemaphoreCreate
+ 422              	.LVL33:
+ 202:Core/Src/freertos.c **** 
+ 423              		.loc 1 202 25 discriminator 1 view .LVU69
+ 424 0042 204B     		ldr	r3, .L24+12
+ 425 0044 1860     		str	r0, [r3]
+ 218:Core/Src/freertos.c ****   refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
+ 426              		.loc 1 218 3 is_stmt 1 view .LVU70
+ 427 0046 204C     		ldr	r4, .L24+16
+ 428 0048 0DF13C0C 		add	ip, sp, #60
+ 429 004c A646     		mov	lr, r4
+ 430 004e BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 431 0052 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 432 0056 9EE80700 		ldm	lr, {r0, r1, r2}
+ 433 005a 8CE80700 		stm	ip, {r0, r1, r2}
  219:Core/Src/freertos.c **** 
- 322              		.loc 1 219 3 view .LVU62
+ 434              		.loc 1 219 3 view .LVU71
  219:Core/Src/freertos.c **** 
- 323              		.loc 1 219 21 is_stmt 0 view .LVU63
- 324 00a6 2946     		mov	r1, r5
- 325 00a8 01A8     		add	r0, sp, #4
- 326 00aa FFF7FEFF 		bl	osThreadCreate
- 327              	.LVL20:
+ 435              		.loc 1 219 24 is_stmt 0 view .LVU72
+ 436 005e 2946     		mov	r1, r5
+ 437 0060 0FA8     		add	r0, sp, #60
+ 438 0062 FFF7FEFF 		bl	osThreadCreate
+ 439              	.LVL34:
  219:Core/Src/freertos.c **** 
- 328              		.loc 1 219 19 discriminator 1 view .LVU64
- 329 00ae 094B     		ldr	r3, .L18+28
- 330 00b0 1860     		str	r0, [r3]
- 225:Core/Src/freertos.c **** 
- 331              		.loc 1 225 1 view .LVU65
- 332 00b2 1FB0     		add	sp, sp, #124
- 333              	.LCFI5:
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 13
+ 440              		.loc 1 219 22 discriminator 1 view .LVU73
+ 441 0066 194B     		ldr	r3, .L24+20
+ 442 0068 1860     		str	r0, [r3]
+ 222:Core/Src/freertos.c ****   task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
+ 443              		.loc 1 222 3 is_stmt 1 view .LVU74
+ 444 006a 0DF1200C 		add	ip, sp, #32
+ 445 006e 04F11C0E 		add	lr, r4, #28
+ 446 0072 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 447 0076 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 448 007a 9EE80700 		ldm	lr, {r0, r1, r2}
+ 449 007e 8CE80700 		stm	ip, {r0, r1, r2}
+ 223:Core/Src/freertos.c **** 
+ 450              		.loc 1 223 3 view .LVU75
+ 223:Core/Src/freertos.c **** 
+ 451              		.loc 1 223 20 is_stmt 0 view .LVU76
+ 452 0082 2946     		mov	r1, r5
+ 453 0084 08A8     		add	r0, sp, #32
+ 454 0086 FFF7FEFF 		bl	osThreadCreate
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 16
 
 
- 334              		.cfi_def_cfa_offset 12
- 335              		@ sp needed
- 336 00b4 30BD     		pop	{r4, r5, pc}
- 337              	.L19:
- 338 00b6 00BF     		.align	2
- 339              	.L18:
- 340 00b8 00000000 		.word	EVENT_ADCHandle
- 341 00bc 00000000 		.word	EVENT_FFTHandle
- 342 00c0 00000000 		.word	EVENT_LVGL_REFERSHHandle
- 343 00c4 00000000 		.word	EVENT_LVGL_TASKHandle
- 344 00c8 00000000 		.word	.LANCHOR0
- 345 00cc 00000000 		.word	refersh_lvglHandle
- 346 00d0 00000000 		.word	task_FFTHandle
- 347 00d4 00000000 		.word	task_lvglHandle
- 348              		.cfi_endproc
- 349              	.LFE600:
- 351              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
- 352              		.align	1
- 353              		.global	HAL_GPIO_EXTI_Callback
- 354              		.syntax unified
- 355              		.thumb
- 356              		.thumb_func
- 358              	HAL_GPIO_EXTI_Callback:
- 359              	.LVL21:
- 360              	.LFB604:
- 282:Core/Src/freertos.c ****   }
- 283:Core/Src/freertos.c ****   /* USER CODE END TASK_LVGL */
- 284:Core/Src/freertos.c **** }
- 285:Core/Src/freertos.c **** 
- 286:Core/Src/freertos.c **** /* Private application code --------------------------------------------------*/
- 287:Core/Src/freertos.c **** /* USER CODE BEGIN Application */
- 288:Core/Src/freertos.c **** /**
- 289:Core/Src/freertos.c ****   * @brief  EXTI line detection callback.
- 290:Core/Src/freertos.c ****   * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
- 291:Core/Src/freertos.c ****   * @retval None
- 292:Core/Src/freertos.c ****   */
- 293:Core/Src/freertos.c **** /* NOTE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 
- 294:Core/Src/freertos.c ****               __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
- 295:Core/Src/freertos.c **** This function Should not be modified in the hal_gpio file, when the callback is needed,
- 296:Core/Src/freertos.c ****            the HAL_GPIO_EXTI_Callback could be implemented in the user file
- 297:Core/Src/freertos.c **** ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
- 298:Core/Src/freertos.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
- 299:Core/Src/freertos.c **** {
- 361              		.loc 1 299 1 is_stmt 1 view -0
- 362              		.cfi_startproc
- 363              		@ args = 0, pretend = 0, frame = 0
- 364              		@ frame_needed = 0, uses_anonymous_args = 0
- 300:Core/Src/freertos.c ****   //GPIO_PIN_12 == ADC Complete interrupt
- 301:Core/Src/freertos.c ****   if(GPIO_Pin==GPIO_PIN_12)
- 365              		.loc 1 301 3 view .LVU67
- 366              		.loc 1 301 5 is_stmt 0 view .LVU68
- 367 0000 B0F5805F 		cmp	r0, #4096
- 368 0004 00D0     		beq	.L26
- 369 0006 7047     		bx	lr
- 370              	.L26:
- 299:Core/Src/freertos.c ****   //GPIO_PIN_12 == ADC Complete interrupt
- 371              		.loc 1 299 1 view .LVU69
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 14
+ 455              	.LVL35:
+ 223:Core/Src/freertos.c **** 
+ 456              		.loc 1 223 18 discriminator 1 view .LVU77
+ 457 008a 114B     		ldr	r3, .L24+24
+ 458 008c 1860     		str	r0, [r3]
+ 226:Core/Src/freertos.c ****   task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
+ 459              		.loc 1 226 3 is_stmt 1 view .LVU78
+ 460 008e 0DF1040E 		add	lr, sp, #4
+ 461 0092 04F1380C 		add	ip, r4, #56
+ 462 0096 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
+ 463 009a AEE80F00 		stmia	lr!, {r0, r1, r2, r3}
+ 464 009e 9CE80700 		ldm	ip, {r0, r1, r2}
+ 465 00a2 8EE80700 		stm	lr, {r0, r1, r2}
+ 227:Core/Src/freertos.c **** 
+ 466              		.loc 1 227 3 view .LVU79
+ 227:Core/Src/freertos.c **** 
+ 467              		.loc 1 227 21 is_stmt 0 view .LVU80
+ 468 00a6 2946     		mov	r1, r5
+ 469 00a8 01A8     		add	r0, sp, #4
+ 470 00aa FFF7FEFF 		bl	osThreadCreate
+ 471              	.LVL36:
+ 227:Core/Src/freertos.c **** 
+ 472              		.loc 1 227 19 discriminator 1 view .LVU81
+ 473 00ae 094B     		ldr	r3, .L24+28
+ 474 00b0 1860     		str	r0, [r3]
+ 232:Core/Src/freertos.c **** 
+ 475              		.loc 1 232 1 view .LVU82
+ 476 00b2 1FB0     		add	sp, sp, #124
+ 477              	.LCFI6:
+ 478              		.cfi_def_cfa_offset 12
+ 479              		@ sp needed
+ 480 00b4 30BD     		pop	{r4, r5, pc}
+ 481              	.L25:
+ 482 00b6 00BF     		.align	2
+ 483              	.L24:
+ 484 00b8 00000000 		.word	EVENT_ADCHandle
+ 485 00bc 00000000 		.word	EVENT_FFTHandle
+ 486 00c0 00000000 		.word	EVENT_LVGL_REFERSHHandle
+ 487 00c4 00000000 		.word	EVENT_LVGL_TASKHandle
+ 488 00c8 00000000 		.word	.LANCHOR0
+ 489 00cc 00000000 		.word	refersh_lvglHandle
+ 490 00d0 00000000 		.word	task_FFTHandle
+ 491 00d4 00000000 		.word	task_lvglHandle
+ 492              		.cfi_endproc
+ 493              	.LFE600:
+ 495              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
+ 496              		.align	1
+ 497              		.global	HAL_GPIO_EXTI_Callback
+ 498              		.syntax unified
+ 499              		.thumb
+ 500              		.thumb_func
+ 502              	HAL_GPIO_EXTI_Callback:
+ 503              	.LVL37:
+ 504              	.LFB604:
+ 306:Core/Src/freertos.c ****   }
+ 307:Core/Src/freertos.c ****   /* USER CODE END TASK_LVGL */
+ 308:Core/Src/freertos.c **** }
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 17
 
 
- 372 0008 08B5     		push	{r3, lr}
- 373              	.LCFI6:
- 374              		.cfi_def_cfa_offset 8
- 375              		.cfi_offset 3, -8
- 376              		.cfi_offset 14, -4
- 302:Core/Src/freertos.c ****   {
- 303:Core/Src/freertos.c ****       test_AD7606();
- 377              		.loc 1 303 7 is_stmt 1 view .LVU70
- 378 000a FFF7FEFF 		bl	test_AD7606
- 379              	.LVL22:
- 304:Core/Src/freertos.c ****   }
- 305:Core/Src/freertos.c **** 
- 306:Core/Src/freertos.c **** }
- 380              		.loc 1 306 1 is_stmt 0 view .LVU71
- 381 000e 08BD     		pop	{r3, pc}
- 382              		.cfi_endproc
- 383              	.LFE604:
- 385              		.section	.rodata.str1.4,"aMS",%progbits,1
- 386              		.align	2
- 387              	.LC4:
- 388 0000 7461736B 		.ascii	"task_lvgl\000"
- 388      5F6C7667 
- 388      6C00
- 389 000a 0000     		.align	2
- 390              	.LC2:
- 391 000c 7461736B 		.ascii	"task_FFT\000"
- 391      5F464654 
- 391      00
- 392 0015 000000   		.align	2
- 393              	.LC0:
- 394 0018 72656665 		.ascii	"refersh_lvgl\000"
- 394      7273685F 
- 394      6C76676C 
- 394      00
- 395              		.section	.bss.xIdleStack,"aw",%nobits
- 396              		.align	2
- 399              	xIdleStack:
- 400 0000 00000000 		.space	512
- 400      00000000 
- 400      00000000 
- 400      00000000 
- 400      00000000 
- 401              		.section	.bss.xIdleTaskTCBBuffer,"aw",%nobits
- 402              		.align	2
- 405              	xIdleTaskTCBBuffer:
- 406 0000 00000000 		.space	84
- 406      00000000 
- 406      00000000 
- 406      00000000 
- 406      00000000 
- 407              		.global	EVENT_LVGL_TASKHandle
- 408              		.section	.bss.EVENT_LVGL_TASKHandle,"aw",%nobits
- 409              		.align	2
- 412              	EVENT_LVGL_TASKHandle:
- 413 0000 00000000 		.space	4
- 414              		.global	EVENT_LVGL_REFERSHHandle
- 415              		.section	.bss.EVENT_LVGL_REFERSHHandle,"aw",%nobits
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 15
+ 309:Core/Src/freertos.c **** 
+ 310:Core/Src/freertos.c **** /* Private application code --------------------------------------------------*/
+ 311:Core/Src/freertos.c **** /* USER CODE BEGIN Application */
+ 312:Core/Src/freertos.c **** /**
+ 313:Core/Src/freertos.c ****  * @brief  EXTI line detection callback.
+ 314:Core/Src/freertos.c ****  * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
+ 315:Core/Src/freertos.c ****  * @retval None
+ 316:Core/Src/freertos.c ****  */
+ 317:Core/Src/freertos.c **** /* NOTE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ 318:Core/Src/freertos.c ****               __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
+ 319:Core/Src/freertos.c **** This function Should not be modified in the hal_gpio file, when the callback is needed,
+ 320:Core/Src/freertos.c ****            the HAL_GPIO_EXTI_Callback could be implemented in the user file
+ 321:Core/Src/freertos.c **** ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+ 322:Core/Src/freertos.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+ 323:Core/Src/freertos.c **** {
+ 505              		.loc 1 323 1 is_stmt 1 view -0
+ 506              		.cfi_startproc
+ 507              		@ args = 0, pretend = 0, frame = 0
+ 508              		@ frame_needed = 0, uses_anonymous_args = 0
+ 324:Core/Src/freertos.c ****   // GPIO_PIN_12 == ADC Complete interrupt
+ 325:Core/Src/freertos.c ****   if (GPIO_Pin == GPIO_PIN_12)
+ 509              		.loc 1 325 3 view .LVU84
+ 510              		.loc 1 325 6 is_stmt 0 view .LVU85
+ 511 0000 B0F5805F 		cmp	r0, #4096
+ 512 0004 00D0     		beq	.L32
+ 513 0006 7047     		bx	lr
+ 514              	.L32:
+ 323:Core/Src/freertos.c ****   // GPIO_PIN_12 == ADC Complete interrupt
+ 515              		.loc 1 323 1 view .LVU86
+ 516 0008 08B5     		push	{r3, lr}
+ 517              	.LCFI7:
+ 518              		.cfi_def_cfa_offset 8
+ 519              		.cfi_offset 3, -8
+ 520              		.cfi_offset 14, -4
+ 326:Core/Src/freertos.c ****   {
+ 327:Core/Src/freertos.c ****     test_AD7606();
+ 521              		.loc 1 327 5 is_stmt 1 view .LVU87
+ 522 000a FFF7FEFF 		bl	test_AD7606
+ 523              	.LVL38:
+ 328:Core/Src/freertos.c ****   }
+ 329:Core/Src/freertos.c **** }
+ 524              		.loc 1 329 1 is_stmt 0 view .LVU88
+ 525 000e 08BD     		pop	{r3, pc}
+ 526              		.cfi_endproc
+ 527              	.LFE604:
+ 529              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 530              		.align	2
+ 531              	.LC4:
+ 532 0000 7461736B 		.ascii	"task_lvgl\000"
+ 532      5F6C7667 
+ 532      6C00
+ 533 000a 0000     		.align	2
+ 534              	.LC2:
+ 535 000c 7461736B 		.ascii	"task_FFT\000"
+ 535      5F464654 
+ 535      00
+ 536 0015 000000   		.align	2
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 18
 
 
- 416              		.align	2
- 419              	EVENT_LVGL_REFERSHHandle:
- 420 0000 00000000 		.space	4
- 421              		.global	EVENT_FFTHandle
- 422              		.section	.bss.EVENT_FFTHandle,"aw",%nobits
- 423              		.align	2
- 426              	EVENT_FFTHandle:
- 427 0000 00000000 		.space	4
- 428              		.global	EVENT_ADCHandle
- 429              		.section	.bss.EVENT_ADCHandle,"aw",%nobits
- 430              		.align	2
- 433              	EVENT_ADCHandle:
- 434 0000 00000000 		.space	4
- 435              		.global	task_lvglHandle
- 436              		.section	.bss.task_lvglHandle,"aw",%nobits
- 437              		.align	2
- 440              	task_lvglHandle:
- 441 0000 00000000 		.space	4
- 442              		.global	task_FFTHandle
- 443              		.section	.bss.task_FFTHandle,"aw",%nobits
- 444              		.align	2
- 447              	task_FFTHandle:
- 448 0000 00000000 		.space	4
- 449              		.global	refersh_lvglHandle
- 450              		.section	.bss.refersh_lvglHandle,"aw",%nobits
- 451              		.align	2
- 454              	refersh_lvglHandle:
- 455 0000 00000000 		.space	4
- 456              		.global	serN_I
- 457              		.section	.bss.serN_I,"aw",%nobits
- 458              		.align	2
- 461              	serN_I:
- 462 0000 00000000 		.space	4
- 463              		.global	ser3_I
- 464              		.section	.bss.ser3_I,"aw",%nobits
- 465              		.align	2
- 468              	ser3_I:
- 469 0000 00000000 		.space	4
- 470              		.global	ser2_I
- 471              		.section	.bss.ser2_I,"aw",%nobits
- 472              		.align	2
- 475              	ser2_I:
- 476 0000 00000000 		.space	4
- 477              		.global	ser1_I
- 478              		.section	.bss.ser1_I,"aw",%nobits
- 479              		.align	2
- 482              	ser1_I:
- 483 0000 00000000 		.space	4
- 484              		.global	serN
- 485              		.section	.bss.serN,"aw",%nobits
- 486              		.align	2
- 489              	serN:
- 490 0000 00000000 		.space	4
- 491              		.global	ser3
- 492              		.section	.bss.ser3,"aw",%nobits
- 493              		.align	2
- 496              	ser3:
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 16
-
-
- 497 0000 00000000 		.space	4
- 498              		.global	ser2
- 499              		.section	.bss.ser2,"aw",%nobits
- 500              		.align	2
- 503              	ser2:
- 504 0000 00000000 		.space	4
- 505              		.global	ser1
- 506              		.section	.bss.ser1,"aw",%nobits
- 507              		.align	2
- 510              	ser1:
- 511 0000 00000000 		.space	4
- 512              		.global	Voltage
- 513              		.section	.SDRAM,"aw"
- 514              		.align	5
- 517              	Voltage:
- 518 0000 00000000 		.space	32
- 518      00000000 
- 518      00000000 
- 518      00000000 
- 518      00000000 
- 519              		.global	PN
- 520              		.align	5
- 523              	PN:
- 524 0020 00000000 		.space	80
- 524      00000000 
- 524      00000000 
- 524      00000000 
- 524      00000000 
- 525              		.global	P3
- 526 0070 00000000 		.align	5
- 526      00000000 
- 526      00000000 
- 526      00000000 
- 529              	P3:
- 530 0080 00000000 		.space	80
- 530      00000000 
- 530      00000000 
- 530      00000000 
- 530      00000000 
- 531              		.global	P2
- 532 00d0 00000000 		.align	5
- 532      00000000 
- 532      00000000 
- 532      00000000 
- 535              	P2:
- 536 00e0 00000000 		.space	80
- 536      00000000 
- 536      00000000 
- 536      00000000 
- 536      00000000 
- 537              		.global	P1
- 538 0130 00000000 		.align	5
- 538      00000000 
- 538      00000000 
- 538      00000000 
- 541              	P1:
- 542 0140 00000000 		.space	80
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 17
-
-
- 542      00000000 
- 542      00000000 
- 542      00000000 
- 542      00000000 
- 543              		.global	fft_NI
- 544 0190 00000000 		.align	5
+ 537              	.LC0:
+ 538 0018 72656665 		.ascii	"refersh_lvgl\000"
+ 538      7273685F 
+ 538      6C76676C 
+ 538      00
+ 539              		.section	.bss.xIdleStack,"aw",%nobits
+ 540              		.align	2
+ 543              	xIdleStack:
+ 544 0000 00000000 		.space	512
  544      00000000 
  544      00000000 
  544      00000000 
- 547              	fft_NI:
- 548 01a0 00000000 		.space	37820
- 548      00000000 
- 548      00000000 
- 548      00000000 
- 548      00000000 
- 549              		.global	fft_3I
- 550 955c 00000000 		.align	5
- 553              	fft_3I:
- 554 9560 00000000 		.space	37820
- 554      00000000 
- 554      00000000 
- 554      00000000 
- 554      00000000 
- 555              		.global	fft_2I
- 556 1291c 00000000 		.align	5
- 559              	fft_2I:
- 560 12920 00000000 		.space	37820
- 560      00000000 
- 560      00000000 
- 560      00000000 
- 560      00000000 
- 561              		.global	fft_1I
- 562 1bcdc 00000000 		.align	5
- 565              	fft_1I:
- 566 1bce0 00000000 		.space	37820
- 566      00000000 
- 566      00000000 
- 566      00000000 
- 566      00000000 
- 567              		.global	fft_NV
- 568 2509c 00000000 		.align	5
- 571              	fft_NV:
- 572 250a0 00000000 		.space	37820
- 572      00000000 
- 572      00000000 
- 572      00000000 
- 572      00000000 
- 573              		.global	fft_3V
- 574 2e45c 00000000 		.align	5
- 577              	fft_3V:
- 578 2e460 00000000 		.space	37820
- 578      00000000 
- 578      00000000 
- 578      00000000 
- 578      00000000 
- 579              		.global	fft_2V
- 580 3781c 00000000 		.align	5
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 18
+ 544      00000000 
+ 545              		.section	.bss.xIdleTaskTCBBuffer,"aw",%nobits
+ 546              		.align	2
+ 549              	xIdleTaskTCBBuffer:
+ 550 0000 00000000 		.space	84
+ 550      00000000 
+ 550      00000000 
+ 550      00000000 
+ 550      00000000 
+ 551              		.global	EVENT_LVGL_TASKHandle
+ 552              		.section	.bss.EVENT_LVGL_TASKHandle,"aw",%nobits
+ 553              		.align	2
+ 556              	EVENT_LVGL_TASKHandle:
+ 557 0000 00000000 		.space	4
+ 558              		.global	EVENT_LVGL_REFERSHHandle
+ 559              		.section	.bss.EVENT_LVGL_REFERSHHandle,"aw",%nobits
+ 560              		.align	2
+ 563              	EVENT_LVGL_REFERSHHandle:
+ 564 0000 00000000 		.space	4
+ 565              		.global	EVENT_FFTHandle
+ 566              		.section	.bss.EVENT_FFTHandle,"aw",%nobits
+ 567              		.align	2
+ 570              	EVENT_FFTHandle:
+ 571 0000 00000000 		.space	4
+ 572              		.global	EVENT_ADCHandle
+ 573              		.section	.bss.EVENT_ADCHandle,"aw",%nobits
+ 574              		.align	2
+ 577              	EVENT_ADCHandle:
+ 578 0000 00000000 		.space	4
+ 579              		.global	task_lvglHandle
+ 580              		.section	.bss.task_lvglHandle,"aw",%nobits
+ 581              		.align	2
+ 584              	task_lvglHandle:
+ 585 0000 00000000 		.space	4
+ 586              		.global	task_FFTHandle
+ 587              		.section	.bss.task_FFTHandle,"aw",%nobits
+ 588              		.align	2
+ 591              	task_FFTHandle:
+ 592 0000 00000000 		.space	4
+ 593              		.global	refersh_lvglHandle
+ 594              		.section	.bss.refersh_lvglHandle,"aw",%nobits
+ 595              		.align	2
+ 598              	refersh_lvglHandle:
+ 599 0000 00000000 		.space	4
+ 600              		.global	serN_I
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 19
 
 
- 583              	fft_2V:
- 584 37820 00000000 		.space	37820
- 584      00000000 
- 584      00000000 
- 584      00000000 
- 584      00000000 
- 585              		.global	fft_1V
- 586 40bdc 00000000 		.align	5
- 589              	fft_1V:
- 590 40be0 00000000 		.space	37820
- 590      00000000 
- 590      00000000 
- 590      00000000 
- 590      00000000 
- 591              		.section	.rodata
- 592              		.align	2
- 593              		.set	.LANCHOR0,. + 0
- 594              	.LC6:
- 595 0000 18000000 		.word	.LC0
- 596 0004 00000000 		.word	Refersh_LVGL
- 597 0008 0100     		.short	1
- 598 000a 0000     		.space	2
- 599 000c 00000000 		.word	0
- 600 0010 00040000 		.word	1024
- 601 0014 00000000 		.word	0
- 602 0018 00000000 		.word	0
- 603              	.LC7:
- 604 001c 0C000000 		.word	.LC2
- 605 0020 00000000 		.word	TASK_FFT
- 606 0024 0000     		.short	0
- 607 0026 0000     		.space	2
- 608 0028 00000000 		.word	0
- 609 002c 14050000 		.word	1300
- 610 0030 00000000 		.word	0
- 611 0034 00000000 		.word	0
- 612              	.LC8:
- 613 0038 00000000 		.word	.LC4
- 614 003c 00000000 		.word	TASK_LVGL
- 615 0040 0000     		.short	0
- 616 0042 0000     		.space	2
- 617 0044 00000000 		.word	0
- 618 0048 14050000 		.word	1300
- 619 004c 00000000 		.word	0
- 620 0050 00000000 		.word	0
- 621              		.text
- 622              	.Letext0:
- 623              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 624              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 625              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
- 626              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h"
- 627              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
- 628              		.file 8 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 629              		.file 9 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
- 630              		.file 10 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
- 631              		.file 11 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 632              		.file 12 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
- 633              		.file 13 "lvgl/src/hal/../draw/../misc/lv_color.h"
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 19
+ 601              		.section	.bss.serN_I,"aw",%nobits
+ 602              		.align	2
+ 605              	serN_I:
+ 606 0000 00000000 		.space	4
+ 607              		.global	ser3_I
+ 608              		.section	.bss.ser3_I,"aw",%nobits
+ 609              		.align	2
+ 612              	ser3_I:
+ 613 0000 00000000 		.space	4
+ 614              		.global	ser2_I
+ 615              		.section	.bss.ser2_I,"aw",%nobits
+ 616              		.align	2
+ 619              	ser2_I:
+ 620 0000 00000000 		.space	4
+ 621              		.global	ser1_I
+ 622              		.section	.bss.ser1_I,"aw",%nobits
+ 623              		.align	2
+ 626              	ser1_I:
+ 627 0000 00000000 		.space	4
+ 628              		.global	serN
+ 629              		.section	.bss.serN,"aw",%nobits
+ 630              		.align	2
+ 633              	serN:
+ 634 0000 00000000 		.space	4
+ 635              		.global	ser3
+ 636              		.section	.bss.ser3,"aw",%nobits
+ 637              		.align	2
+ 640              	ser3:
+ 641 0000 00000000 		.space	4
+ 642              		.global	ser2
+ 643              		.section	.bss.ser2,"aw",%nobits
+ 644              		.align	2
+ 647              	ser2:
+ 648 0000 00000000 		.space	4
+ 649              		.global	ser1
+ 650              		.section	.bss.ser1,"aw",%nobits
+ 651              		.align	2
+ 654              	ser1:
+ 655 0000 00000000 		.space	4
+ 656              		.global	Voltage
+ 657              		.section	.SDRAM,"aw"
+ 658              		.align	5
+ 661              	Voltage:
+ 662 0000 00000000 		.space	32
+ 662      00000000 
+ 662      00000000 
+ 662      00000000 
+ 662      00000000 
+ 663              		.global	PN
+ 664              		.align	5
+ 667              	PN:
+ 668 0020 00000000 		.space	80
+ 668      00000000 
+ 668      00000000 
+ 668      00000000 
+ 668      00000000 
+ 669              		.global	P3
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 20
 
 
- 634              		.file 14 "lvgl/src/core/lv_obj.h"
- 635              		.file 15 "lvgl/src/widgets/lv_bar.h"
- 636              		.file 16 "lvgl/src/extra/widgets/chart/lv_chart.h"
- 637              		.file 17 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
- 638              		.file 18 "Drivers/CMSIS/DSP/Include/arm_math.h"
- 639              		.file 19 "User/FFT/dsp_fft.h"
- 640              		.file 20 "Core/Inc/ad7606.h"
- 641              		.file 21 "Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h"
- 642              		.file 22 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
- 643              		.file 23 "lvgl/src/misc/lv_timer.h"
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 20
+ 670 0070 00000000 		.align	5
+ 670      00000000 
+ 670      00000000 
+ 670      00000000 
+ 673              	P3:
+ 674 0080 00000000 		.space	80
+ 674      00000000 
+ 674      00000000 
+ 674      00000000 
+ 674      00000000 
+ 675              		.global	P2
+ 676 00d0 00000000 		.align	5
+ 676      00000000 
+ 676      00000000 
+ 676      00000000 
+ 679              	P2:
+ 680 00e0 00000000 		.space	80
+ 680      00000000 
+ 680      00000000 
+ 680      00000000 
+ 680      00000000 
+ 681              		.global	P1
+ 682 0130 00000000 		.align	5
+ 682      00000000 
+ 682      00000000 
+ 682      00000000 
+ 685              	P1:
+ 686 0140 00000000 		.space	80
+ 686      00000000 
+ 686      00000000 
+ 686      00000000 
+ 686      00000000 
+ 687              		.global	fft_NI
+ 688 0190 00000000 		.align	5
+ 688      00000000 
+ 688      00000000 
+ 688      00000000 
+ 691              	fft_NI:
+ 692 01a0 00000000 		.space	37820
+ 692      00000000 
+ 692      00000000 
+ 692      00000000 
+ 692      00000000 
+ 693              		.global	fft_3I
+ 694 955c 00000000 		.align	5
+ 697              	fft_3I:
+ 698 9560 00000000 		.space	37820
+ 698      00000000 
+ 698      00000000 
+ 698      00000000 
+ 698      00000000 
+ 699              		.global	fft_2I
+ 700 1291c 00000000 		.align	5
+ 703              	fft_2I:
+ 704 12920 00000000 		.space	37820
+ 704      00000000 
+ 704      00000000 
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 21
+
+
+ 704      00000000 
+ 704      00000000 
+ 705              		.global	fft_1I
+ 706 1bcdc 00000000 		.align	5
+ 709              	fft_1I:
+ 710 1bce0 00000000 		.space	37820
+ 710      00000000 
+ 710      00000000 
+ 710      00000000 
+ 710      00000000 
+ 711              		.global	fft_NV
+ 712 2509c 00000000 		.align	5
+ 715              	fft_NV:
+ 716 250a0 00000000 		.space	37820
+ 716      00000000 
+ 716      00000000 
+ 716      00000000 
+ 716      00000000 
+ 717              		.global	fft_3V
+ 718 2e45c 00000000 		.align	5
+ 721              	fft_3V:
+ 722 2e460 00000000 		.space	37820
+ 722      00000000 
+ 722      00000000 
+ 722      00000000 
+ 722      00000000 
+ 723              		.global	fft_2V
+ 724 3781c 00000000 		.align	5
+ 727              	fft_2V:
+ 728 37820 00000000 		.space	37820
+ 728      00000000 
+ 728      00000000 
+ 728      00000000 
+ 728      00000000 
+ 729              		.global	fft_1V
+ 730 40bdc 00000000 		.align	5
+ 733              	fft_1V:
+ 734 40be0 00000000 		.space	37820
+ 734      00000000 
+ 734      00000000 
+ 734      00000000 
+ 734      00000000 
+ 735              		.section	.rodata
+ 736              		.align	2
+ 737              		.set	.LANCHOR0,. + 0
+ 738              	.LC7:
+ 739 0000 18000000 		.word	.LC0
+ 740 0004 00000000 		.word	Refersh_LVGL
+ 741 0008 0100     		.short	1
+ 742 000a 0000     		.space	2
+ 743 000c 00000000 		.word	0
+ 744 0010 00040000 		.word	1024
+ 745 0014 00000000 		.word	0
+ 746 0018 00000000 		.word	0
+ 747              	.LC8:
+ 748 001c 0C000000 		.word	.LC2
+ 749 0020 00000000 		.word	TASK_FFT
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 22
+
+
+ 750 0024 0000     		.short	0
+ 751 0026 0000     		.space	2
+ 752 0028 00000000 		.word	0
+ 753 002c 14050000 		.word	1300
+ 754 0030 00000000 		.word	0
+ 755 0034 00000000 		.word	0
+ 756              	.LC9:
+ 757 0038 00000000 		.word	.LC4
+ 758 003c 00000000 		.word	TASK_LVGL
+ 759 0040 0000     		.short	0
+ 760 0042 0000     		.space	2
+ 761 0044 00000000 		.word	0
+ 762 0048 14050000 		.word	1300
+ 763 004c 00000000 		.word	0
+ 764 0050 00000000 		.word	0
+ 765              		.text
+ 766              	.Letext0:
+ 767              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 768              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 769              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
+ 770              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h"
+ 771              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 772              		.file 8 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 773              		.file 9 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 774              		.file 10 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 775              		.file 11 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 776              		.file 12 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 777              		.file 13 "lvgl/src/hal/../draw/../misc/lv_color.h"
+ 778              		.file 14 "lvgl/src/core/lv_obj.h"
+ 779              		.file 15 "lvgl/src/widgets/lv_bar.h"
+ 780              		.file 16 "lvgl/src/extra/widgets/chart/lv_chart.h"
+ 781              		.file 17 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 782              		.file 18 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 783              		.file 19 "User/FFT/dsp_fft.h"
+ 784              		.file 20 "Core/Inc/ad7606.h"
+ 785              		.file 21 "Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h"
+ 786              		.file 22 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 787              		.file 23 "lvgl/src/misc/lv_timer.h"
+ 788              		.file 24 "<built-in>"
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 23
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 freertos.c
-C:\usertemp\ccUdkvjX.s:20     .text.Refersh_LVGL:00000000 $t
-C:\usertemp\ccUdkvjX.s:26     .text.Refersh_LVGL:00000000 Refersh_LVGL
-C:\usertemp\ccUdkvjX.s:70     .text.TASK_FFT:00000000 $t
-C:\usertemp\ccUdkvjX.s:76     .text.TASK_FFT:00000000 TASK_FFT
-C:\usertemp\ccUdkvjX.s:114    .text.TASK_LVGL:00000000 $t
-C:\usertemp\ccUdkvjX.s:120    .text.TASK_LVGL:00000000 TASK_LVGL
-C:\usertemp\ccUdkvjX.s:151    .text.TASK_LVGL:00000018 $d
-C:\usertemp\ccUdkvjX.s:156    .text.vApplicationMallocFailedHook:00000000 $t
-C:\usertemp\ccUdkvjX.s:162    .text.vApplicationMallocFailedHook:00000000 vApplicationMallocFailedHook
-C:\usertemp\ccUdkvjX.s:175    .text.vApplicationGetIdleTaskMemory:00000000 $t
-C:\usertemp\ccUdkvjX.s:181    .text.vApplicationGetIdleTaskMemory:00000000 vApplicationGetIdleTaskMemory
-C:\usertemp\ccUdkvjX.s:206    .text.vApplicationGetIdleTaskMemory:00000010 $d
-C:\usertemp\ccUdkvjX.s:405    .bss.xIdleTaskTCBBuffer:00000000 xIdleTaskTCBBuffer
-C:\usertemp\ccUdkvjX.s:399    .bss.xIdleStack:00000000 xIdleStack
-C:\usertemp\ccUdkvjX.s:212    .text.MX_FREERTOS_Init:00000000 $t
-C:\usertemp\ccUdkvjX.s:218    .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
-C:\usertemp\ccUdkvjX.s:340    .text.MX_FREERTOS_Init:000000b8 $d
-C:\usertemp\ccUdkvjX.s:433    .bss.EVENT_ADCHandle:00000000 EVENT_ADCHandle
-C:\usertemp\ccUdkvjX.s:426    .bss.EVENT_FFTHandle:00000000 EVENT_FFTHandle
-C:\usertemp\ccUdkvjX.s:419    .bss.EVENT_LVGL_REFERSHHandle:00000000 EVENT_LVGL_REFERSHHandle
-C:\usertemp\ccUdkvjX.s:412    .bss.EVENT_LVGL_TASKHandle:00000000 EVENT_LVGL_TASKHandle
-C:\usertemp\ccUdkvjX.s:454    .bss.refersh_lvglHandle:00000000 refersh_lvglHandle
-C:\usertemp\ccUdkvjX.s:447    .bss.task_FFTHandle:00000000 task_FFTHandle
-C:\usertemp\ccUdkvjX.s:440    .bss.task_lvglHandle:00000000 task_lvglHandle
-C:\usertemp\ccUdkvjX.s:352    .text.HAL_GPIO_EXTI_Callback:00000000 $t
-C:\usertemp\ccUdkvjX.s:358    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
-C:\usertemp\ccUdkvjX.s:386    .rodata.str1.4:00000000 $d
-C:\usertemp\ccUdkvjX.s:396    .bss.xIdleStack:00000000 $d
-C:\usertemp\ccUdkvjX.s:402    .bss.xIdleTaskTCBBuffer:00000000 $d
-C:\usertemp\ccUdkvjX.s:409    .bss.EVENT_LVGL_TASKHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:416    .bss.EVENT_LVGL_REFERSHHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:423    .bss.EVENT_FFTHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:430    .bss.EVENT_ADCHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:437    .bss.task_lvglHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:444    .bss.task_FFTHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:451    .bss.refersh_lvglHandle:00000000 $d
-C:\usertemp\ccUdkvjX.s:461    .bss.serN_I:00000000 serN_I
-C:\usertemp\ccUdkvjX.s:458    .bss.serN_I:00000000 $d
-C:\usertemp\ccUdkvjX.s:468    .bss.ser3_I:00000000 ser3_I
-C:\usertemp\ccUdkvjX.s:465    .bss.ser3_I:00000000 $d
-C:\usertemp\ccUdkvjX.s:475    .bss.ser2_I:00000000 ser2_I
-C:\usertemp\ccUdkvjX.s:472    .bss.ser2_I:00000000 $d
-C:\usertemp\ccUdkvjX.s:482    .bss.ser1_I:00000000 ser1_I
-C:\usertemp\ccUdkvjX.s:479    .bss.ser1_I:00000000 $d
-C:\usertemp\ccUdkvjX.s:489    .bss.serN:00000000 serN
-C:\usertemp\ccUdkvjX.s:486    .bss.serN:00000000 $d
-C:\usertemp\ccUdkvjX.s:496    .bss.ser3:00000000 ser3
-C:\usertemp\ccUdkvjX.s:493    .bss.ser3:00000000 $d
-C:\usertemp\ccUdkvjX.s:503    .bss.ser2:00000000 ser2
-C:\usertemp\ccUdkvjX.s:500    .bss.ser2:00000000 $d
-C:\usertemp\ccUdkvjX.s:510    .bss.ser1:00000000 ser1
-C:\usertemp\ccUdkvjX.s:507    .bss.ser1:00000000 $d
-C:\usertemp\ccUdkvjX.s:517    .SDRAM:00000000 Voltage
-C:\usertemp\ccUdkvjX.s:514    .SDRAM:00000000 $d
-C:\usertemp\ccUdkvjX.s:523    .SDRAM:00000020 PN
-ARM GAS  C:\usertemp\ccUdkvjX.s 			page 21
+C:\usertemp\ccPt1wX7.s:20     .text.TASK_LVGL:00000000 $t
+C:\usertemp\ccPt1wX7.s:26     .text.TASK_LVGL:00000000 TASK_LVGL
+C:\usertemp\ccPt1wX7.s:57     .text.TASK_LVGL:00000018 $d
+C:\usertemp\ccPt1wX7.s:62     .text.Refersh_LVGL:00000000 $t
+C:\usertemp\ccPt1wX7.s:68     .text.Refersh_LVGL:00000000 Refersh_LVGL
+C:\usertemp\ccPt1wX7.s:210    .text.Refersh_LVGL:000000ec $d
+C:\usertemp\ccPt1wX7.s:721    .SDRAM:0002e460 fft_3V
+C:\usertemp\ccPt1wX7.s:715    .SDRAM:000250a0 fft_NV
+C:\usertemp\ccPt1wX7.s:697    .SDRAM:00009560 fft_3I
+C:\usertemp\ccPt1wX7.s:691    .SDRAM:000001a0 fft_NI
+C:\usertemp\ccPt1wX7.s:685    .SDRAM:00000140 P1
+C:\usertemp\ccPt1wX7.s:667    .SDRAM:00000020 PN
+C:\usertemp\ccPt1wX7.s:661    .SDRAM:00000000 Voltage
+C:\usertemp\ccPt1wX7.s:733    .SDRAM:00040be0 fft_1V
+C:\usertemp\ccPt1wX7.s:727    .SDRAM:00037820 fft_2V
+C:\usertemp\ccPt1wX7.s:709    .SDRAM:0001bce0 fft_1I
+C:\usertemp\ccPt1wX7.s:703    .SDRAM:00012920 fft_2I
+C:\usertemp\ccPt1wX7.s:679    .SDRAM:000000e0 P2
+C:\usertemp\ccPt1wX7.s:673    .SDRAM:00000080 P3
+C:\usertemp\ccPt1wX7.s:227    .text.TASK_FFT:00000000 $t
+C:\usertemp\ccPt1wX7.s:233    .text.TASK_FFT:00000000 TASK_FFT
+C:\usertemp\ccPt1wX7.s:271    .rodata.vApplicationMallocFailedHook.str1.4:00000000 $d
+C:\usertemp\ccPt1wX7.s:275    .text.vApplicationMallocFailedHook:00000000 $t
+C:\usertemp\ccPt1wX7.s:281    .text.vApplicationMallocFailedHook:00000000 vApplicationMallocFailedHook
+C:\usertemp\ccPt1wX7.s:313    .text.vApplicationMallocFailedHook:0000001c $d
+C:\usertemp\ccPt1wX7.s:319    .text.vApplicationGetIdleTaskMemory:00000000 $t
+C:\usertemp\ccPt1wX7.s:325    .text.vApplicationGetIdleTaskMemory:00000000 vApplicationGetIdleTaskMemory
+C:\usertemp\ccPt1wX7.s:350    .text.vApplicationGetIdleTaskMemory:00000010 $d
+C:\usertemp\ccPt1wX7.s:549    .bss.xIdleTaskTCBBuffer:00000000 xIdleTaskTCBBuffer
+C:\usertemp\ccPt1wX7.s:543    .bss.xIdleStack:00000000 xIdleStack
+C:\usertemp\ccPt1wX7.s:356    .text.MX_FREERTOS_Init:00000000 $t
+C:\usertemp\ccPt1wX7.s:362    .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
+C:\usertemp\ccPt1wX7.s:484    .text.MX_FREERTOS_Init:000000b8 $d
+C:\usertemp\ccPt1wX7.s:577    .bss.EVENT_ADCHandle:00000000 EVENT_ADCHandle
+C:\usertemp\ccPt1wX7.s:570    .bss.EVENT_FFTHandle:00000000 EVENT_FFTHandle
+C:\usertemp\ccPt1wX7.s:563    .bss.EVENT_LVGL_REFERSHHandle:00000000 EVENT_LVGL_REFERSHHandle
+C:\usertemp\ccPt1wX7.s:556    .bss.EVENT_LVGL_TASKHandle:00000000 EVENT_LVGL_TASKHandle
+C:\usertemp\ccPt1wX7.s:598    .bss.refersh_lvglHandle:00000000 refersh_lvglHandle
+C:\usertemp\ccPt1wX7.s:591    .bss.task_FFTHandle:00000000 task_FFTHandle
+C:\usertemp\ccPt1wX7.s:584    .bss.task_lvglHandle:00000000 task_lvglHandle
+C:\usertemp\ccPt1wX7.s:496    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+C:\usertemp\ccPt1wX7.s:502    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+C:\usertemp\ccPt1wX7.s:530    .rodata.str1.4:00000000 $d
+C:\usertemp\ccPt1wX7.s:540    .bss.xIdleStack:00000000 $d
+C:\usertemp\ccPt1wX7.s:546    .bss.xIdleTaskTCBBuffer:00000000 $d
+C:\usertemp\ccPt1wX7.s:553    .bss.EVENT_LVGL_TASKHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:560    .bss.EVENT_LVGL_REFERSHHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:567    .bss.EVENT_FFTHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:574    .bss.EVENT_ADCHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:581    .bss.task_lvglHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:588    .bss.task_FFTHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:595    .bss.refersh_lvglHandle:00000000 $d
+C:\usertemp\ccPt1wX7.s:605    .bss.serN_I:00000000 serN_I
+C:\usertemp\ccPt1wX7.s:602    .bss.serN_I:00000000 $d
+C:\usertemp\ccPt1wX7.s:612    .bss.ser3_I:00000000 ser3_I
+ARM GAS  C:\usertemp\ccPt1wX7.s 			page 24
 
 
-C:\usertemp\ccUdkvjX.s:529    .SDRAM:00000080 P3
-C:\usertemp\ccUdkvjX.s:535    .SDRAM:000000e0 P2
-C:\usertemp\ccUdkvjX.s:541    .SDRAM:00000140 P1
-C:\usertemp\ccUdkvjX.s:547    .SDRAM:000001a0 fft_NI
-C:\usertemp\ccUdkvjX.s:553    .SDRAM:00009560 fft_3I
-C:\usertemp\ccUdkvjX.s:559    .SDRAM:00012920 fft_2I
-C:\usertemp\ccUdkvjX.s:565    .SDRAM:0001bce0 fft_1I
-C:\usertemp\ccUdkvjX.s:571    .SDRAM:000250a0 fft_NV
-C:\usertemp\ccUdkvjX.s:577    .SDRAM:0002e460 fft_3V
-C:\usertemp\ccUdkvjX.s:583    .SDRAM:00037820 fft_2V
-C:\usertemp\ccUdkvjX.s:589    .SDRAM:00040be0 fft_1V
-C:\usertemp\ccUdkvjX.s:592    .rodata:00000000 $d
+C:\usertemp\ccPt1wX7.s:609    .bss.ser3_I:00000000 $d
+C:\usertemp\ccPt1wX7.s:619    .bss.ser2_I:00000000 ser2_I
+C:\usertemp\ccPt1wX7.s:616    .bss.ser2_I:00000000 $d
+C:\usertemp\ccPt1wX7.s:626    .bss.ser1_I:00000000 ser1_I
+C:\usertemp\ccPt1wX7.s:623    .bss.ser1_I:00000000 $d
+C:\usertemp\ccPt1wX7.s:633    .bss.serN:00000000 serN
+C:\usertemp\ccPt1wX7.s:630    .bss.serN:00000000 $d
+C:\usertemp\ccPt1wX7.s:640    .bss.ser3:00000000 ser3
+C:\usertemp\ccPt1wX7.s:637    .bss.ser3:00000000 $d
+C:\usertemp\ccPt1wX7.s:647    .bss.ser2:00000000 ser2
+C:\usertemp\ccPt1wX7.s:644    .bss.ser2:00000000 $d
+C:\usertemp\ccPt1wX7.s:654    .bss.ser1:00000000 ser1
+C:\usertemp\ccPt1wX7.s:651    .bss.ser1:00000000 $d
+C:\usertemp\ccPt1wX7.s:658    .SDRAM:00000000 $d
+C:\usertemp\ccPt1wX7.s:736    .rodata:00000000 $d
 
 UNDEFINED SYMBOLS
+HAL_GPIO_TogglePin
+osDelay
 MX_LWIP_Init
 httpd_init
+FFT_Init
+PHASE_Init
+Voltage_three_Init
 lv_timer_handler
-osDelay
-HAL_GPIO_TogglePin
+puts
 osSemaphoreCreate
 osThreadCreate
 test_AD7606

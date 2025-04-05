@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * File Name          : freertos.c
-  * Description        : Code for freertos applications
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * File Name          : freertos.c
+ * Description        : Code for freertos applications
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under Ultimate Liberty license
+ * SLA0044, the "License"; You may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at:
+ *                             www.st.com/SLA0044
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -120,32 +120,39 @@ osSemaphoreId EVENT_LVGL_TASKHandle;
 
 /* USER CODE END FunctionPrototypes */
 
-void Refersh_LVGL(void const * argument);
-void TASK_FFT(void const * argument);
-void TASK_LVGL(void const * argument);
+void Refersh_LVGL(void const *argument);
+void TASK_FFT(void const *argument);
+void TASK_LVGL(void const *argument);
 
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize);
 
 /* Hook prototypes */
 void vApplicationMallocFailedHook(void);
 
 /* USER CODE BEGIN 5 */
-__weak void vApplicationMallocFailedHook(void)
+void vApplicationMallocFailedHook(void)
 {
-   /* vApplicationMallocFailedHook() will only be called if
-   configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
-   function that will get called if a call to pvPortMalloc() fails.
-   pvPortMalloc() is called internally by the kernel whenever a task, queue,
-   timer or semaphore is created. It is also called by various parts of the
-   demo application. If heap_1.c or heap_2.c are used, then the size of the
-   heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
-   FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
-   to query the size of free heap space that remains (although it does not
-   provide information on how the remaining heap might be fragmented). */
+  /* vApplicationMallocFailedHook() will only be called if
+  configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
+  function that will get called if a call to pvPortMalloc() fails.
+  pvPortMalloc() is called internally by the kernel whenever a task, queue,
+  timer or semaphore is created. It is also called by various parts of the
+  demo application. If heap_1.c or heap_2.c are used, then the size of the
+  heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
+  FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
+  to query the size of free heap space that remains (although it does not
+  provide information on how the remaining heap might be fragmented). */
+  printf("malloc fail\r\n");
+  while (1)
+  {
+
+    HAL_GPIO_TogglePin(PG14_GPIO_Port, PG14_Pin);
+    osDelay(200);
+  }
 }
 /* USER CODE END 5 */
 
@@ -153,7 +160,7 @@ __weak void vApplicationMallocFailedHook(void)
 static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
 
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize)
 {
   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
   *ppxIdleTaskStackBuffer = &xIdleStack[0];
@@ -163,11 +170,12 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  */
-void MX_FREERTOS_Init(void) {
+ * @brief  FreeRTOS initialization
+ * @param  None
+ * @retval None
+ */
+void MX_FREERTOS_Init(void)
+{
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -221,25 +229,41 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
-
 }
 
 /* USER CODE BEGIN Header_Refersh_LVGL */
 /**
-  * @brief  Function implementing the refersh_lvgl thread.
-  * @param  argument: Not used
-  * @retval None
-  */
+ * @brief  Function implementing the refersh_lvgl thread.
+ * @param  argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_Refersh_LVGL */
-void Refersh_LVGL(void const * argument)
+void Refersh_LVGL(void const *argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN Refersh_LVGL */
   httpd_init();
+  FFT_Init(&fft_1V, SAMPLING, FFT_LENGTH, 1); // 1表示电压
+  FFT_Init(&fft_2V, SAMPLING, FFT_LENGTH, 1);
+  FFT_Init(&fft_3V, SAMPLING, FFT_LENGTH, 1);
+  FFT_Init(&fft_NV, SAMPLING, FFT_LENGTH, 1);
+
+  FFT_Init(&fft_1I, SAMPLING, FFT_LENGTH, 0); // 0表示电流
+  FFT_Init(&fft_2I, SAMPLING, FFT_LENGTH, 0);
+  FFT_Init(&fft_3I, SAMPLING, FFT_LENGTH, 0);
+  FFT_Init(&fft_NI, SAMPLING, FFT_LENGTH, 0);
+
+  PHASE_Init(&P1, &fft_1V, &fft_1I);
+  PHASE_Init(&P2, &fft_2V, &fft_2I);
+  PHASE_Init(&P3, &fft_3V, &fft_3I);
+  PHASE_Init(&PN, &fft_NV, &fft_NI);
+
+  Voltage_three_Init(&Voltage, &P1, &P2, &P3);
   /* Infinite loop */
-  for(;;)
-  {    lv_task_handler(); //lvgl task handler
+  for (;;)
+  {
+    lv_task_handler(); // lvgl task handler
     osDelay(1);
   }
   /* USER CODE END Refersh_LVGL */
@@ -247,18 +271,18 @@ void Refersh_LVGL(void const * argument)
 
 /* USER CODE BEGIN Header_TASK_FFT */
 /**
-* @brief Function implementing the task_FFT thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the task_FFT thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_TASK_FFT */
-void TASK_FFT(void const * argument)
+void TASK_FFT(void const *argument)
 {
   /* USER CODE BEGIN TASK_FFT */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
-    lv_task_handler(); //lvgl task handler
+    lv_task_handler(); // lvgl task handler
     osDelay(1);
   }
   /* USER CODE END TASK_FFT */
@@ -266,19 +290,19 @@ void TASK_FFT(void const * argument)
 
 /* USER CODE BEGIN Header_TASK_LVGL */
 /**
-* @brief Function implementing the task_lvgl thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the task_lvgl thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_TASK_LVGL */
-void TASK_LVGL(void const * argument)
+void TASK_LVGL(void const *argument)
 {
   /* USER CODE BEGIN TASK_LVGL */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
-    HAL_GPIO_TogglePin(PG14_GPIO_Port,PG14_Pin);
-    osDelay(1000);  
+    HAL_GPIO_TogglePin(PG14_GPIO_Port, PG14_Pin);
+    osDelay(1000);
   }
   /* USER CODE END TASK_LVGL */
 }
@@ -286,39 +310,23 @@ void TASK_LVGL(void const * argument)
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 /**
-  * @brief  EXTI line detection callback.
-  * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
-  * @retval None
-  */
-/* NOTE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 
+ * @brief  EXTI line detection callback.
+ * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
+ * @retval None
+ */
+/* NOTE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
               __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
 This function Should not be modified in the hal_gpio file, when the callback is needed,
            the HAL_GPIO_EXTI_Callback could be implemented in the user file
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  //GPIO_PIN_12 == ADC Complete interrupt
-  if(GPIO_Pin==GPIO_PIN_12)
+  // GPIO_PIN_12 == ADC Complete interrupt
+  if (GPIO_Pin == GPIO_PIN_12)
   {
-      test_AD7606();
+    test_AD7606();
   }
-
 }
-
-// void vApplicationMallocFailedHook(void)
-// {
-//   while(1)
-//   {
-//     /* USER CODE BEGIN WHILE */
-//     HAL_GPIO_TogglePin(PG14_GPIO_Port,PG14_Pin);
-//     osDelay(100);  
-//     /* USER CODE END WHILE */
-//   }
-// }
-
-
-
-
 
 /* USER CODE END Application */
 

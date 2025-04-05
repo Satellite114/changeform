@@ -30,6 +30,40 @@
 
 /* USER CODE END Includes */
 
+
+
+static FMC_SDRAM_CommandTypeDef Command;   //ĺŽäšSDRAMĺ˝äť¤çťćä˝?
+#define sdramHandle hsdram1  
+#define SDRAM_TIMEOUT                    ((uint32_t)0xFFFF)  //ĺŽäščśćśćśé´
+
+/**
+  * @brief  FMC SDRAM ć°ćŽĺşĺ°ĺ?
+  */   
+ #define SDRAM_BANK_ADDR     ((uint32_t)0xC0000000)
+
+
+
+
+/**
+  * @brief  FMC SDRAM ć¨Ąĺźéç˝ŽçĺŻĺ­ĺ¨ç¸ĺłĺŽäš
+  */
+ #define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
+ #define SDRAM_MODEREG_BURST_LENGTH_2             ((uint16_t)0x0001)
+ #define SDRAM_MODEREG_BURST_LENGTH_4             ((uint16_t)0x0002)
+ #define SDRAM_MODEREG_BURST_LENGTH_8             ((uint16_t)0x0004)
+ #define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((uint16_t)0x0000)
+ #define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((uint16_t)0x0008)
+ #define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
+ #define SDRAM_MODEREG_CAS_LATENCY_3              ((uint16_t)0x0030)
+ #define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
+ #define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000) 
+ #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)   
+ 
+
+
+
+
+
 extern SRAM_HandleTypeDef hsram1;
 extern SRAM_HandleTypeDef hsram2;
 extern SDRAM_HandleTypeDef hsdram1;
@@ -37,6 +71,8 @@ extern SDRAM_HandleTypeDef hsdram1;
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
+
+
 
 void MX_FMC_Init(void);
 void HAL_SRAM_MspInit(SRAM_HandleTypeDef* hsram);

@@ -161,11 +161,8 @@ build/events_init.o: generated/events_init.c generated/events_init.h \
  Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
  Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
  Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- User/screenshot/screenshot.h Core/Inc/sdram.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/sys.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
- LWIP/Target/lwipopts.h Core/Inc/main.h \
- Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
+ User/screenshot/screenshot.h Core/Inc/sdram.h Core/Inc/fmc.h \
+ Core/Inc/main.h Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  Core/Inc/stm32h7xx_hal_conf.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h \
@@ -214,27 +211,13 @@ build/events_init.o: generated/events_init.c generated/events_init.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h \
  Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/debug.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/arch.h \
- Middlewares/Third_Party/LwIP/system/arch/cc.h \
- Middlewares/Third_Party/LwIP/system/arch/cpu.h \
- Middlewares/Third_Party/LwIP/src/include/lwip/err.h \
- Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
- Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
- Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  lvgl/src/extra/others/snapshot/lv_snapshot.h \
  lvgl/src/extra/others/snapshot/../../../lv_conf_internal.h \
  lvgl/src/extra/others/snapshot/../../../core/lv_obj.h \
  Middlewares/Third_Party/FatFs/src/ff.h \
  Middlewares/Third_Party/FatFs/src/integer.h FATFS/Target/ffconf.h \
- FATFS/Target/bsp_driver_sd.h FATFS/Target/fatfs_platform.h
+ Core/Inc/main.h FATFS/Target/bsp_driver_sd.h \
+ FATFS/Target/fatfs_platform.h
 generated/events_init.h:
 generated/gui_guider.h:
 lvgl/lvgl.h:
@@ -451,9 +434,7 @@ Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
 Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 User/screenshot/screenshot.h:
 Core/Inc/sdram.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
-LWIP/Target/lwipopts.h:
+Core/Inc/fmc.h:
 Core/Inc/main.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 Core/Inc/stm32h7xx_hal_conf.h:
@@ -506,26 +487,12 @@ Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h:
 Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/debug.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/arch.h:
-Middlewares/Third_Party/LwIP/system/arch/cc.h:
-Middlewares/Third_Party/LwIP/system/arch/cpu.h:
-Middlewares/Third_Party/LwIP/src/include/lwip/err.h:
-Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
-Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
-Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 lvgl/src/extra/others/snapshot/lv_snapshot.h:
 lvgl/src/extra/others/snapshot/../../../lv_conf_internal.h:
 lvgl/src/extra/others/snapshot/../../../core/lv_obj.h:
 Middlewares/Third_Party/FatFs/src/ff.h:
 Middlewares/Third_Party/FatFs/src/integer.h:
 FATFS/Target/ffconf.h:
+Core/Inc/main.h:
 FATFS/Target/bsp_driver_sd.h:
 FATFS/Target/fatfs_platform.h:

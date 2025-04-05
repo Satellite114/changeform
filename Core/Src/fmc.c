@@ -22,6 +22,67 @@
 
 /* USER CODE BEGIN 0 */
 #include "sdram.h"
+static void SDRAM_InitSequence(void)
+ {
+   uint32_t tmpr = 0;
+ 
+   /* Step 1 ----------------------------------------------------------------*/
+   /* é…�ç½®å‘½ä»¤ï¼šå¼€å�¯æ��ä¾›ç»™SDRAMçš„æ—¶é’? */
+   Command.CommandMode = FMC_SDRAM_CMD_CLK_ENABLE; //æ—¶é’Ÿé…�ç½®ä½¿èƒ½
+   Command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;     //ç›®æ ‡SDRAMå­˜å‚¨åŒºåŸŸ
+   Command.AutoRefreshNumber = 1;
+   Command.ModeRegisterDefinition = 0;
+   /* å�‘é?�é…�ç½®å‘½ä»? */
+   HAL_SDRAM_SendCommand(&sdramHandle, &Command, SDRAM_TIMEOUT);
+ 
+   /* Step 2: å»¶æ—¶100us */ 
+   
+   HAL_Delay(1);
+   
+   /* Step 3 ----------------------------------------------------------------*/
+   /* é…�ç½®å‘½ä»¤ï¼šå¯¹æ‰?æœ‰çš„banké¢„å……ç”? */ 
+   Command.CommandMode = FMC_SDRAM_CMD_PALL;    //é¢„å……ç”µå‘½ä»?
+   Command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;    //ç›®æ ‡SDRAMå­˜å‚¨åŒºåŸŸ
+   Command.AutoRefreshNumber = 1;
+   Command.ModeRegisterDefinition = 0;
+   /* å�‘é?�é…�ç½®å‘½ä»? */
+   HAL_SDRAM_SendCommand(&sdramHandle, &Command, SDRAM_TIMEOUT);   
+ 
+   /* Step 4 ----------------------------------------------------------------*/
+   /* é…�ç½®å‘½ä»¤ï¼šè‡ªåŠ¨åˆ·æ–? */   
+   Command.CommandMode = FMC_SDRAM_CMD_AUTOREFRESH_MODE;  //è‡ªåŠ¨åˆ·æ–°å‘½ä»¤
+   Command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
+   Command.AutoRefreshNumber = 4;  //è®¾ç½®è‡ªåˆ·æ–°æ¬¡æ•? 
+   Command.ModeRegisterDefinition = 0;  
+   /* å�‘é?�é…�ç½®å‘½ä»? */
+   HAL_SDRAM_SendCommand(&sdramHandle, &Command, SDRAM_TIMEOUT);
+ 
+   /* Step 5 ----------------------------------------------------------------*/
+   /* è®¾ç½®sdramå¯„å­˜å™¨é…�ç½? */
+   tmpr = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_1          |  //è®¾ç½®çª�å�‘é•¿åº¦:1(å�¯ä»¥æ˜?1/2/4/8)
+            SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |  //è®¾ç½®çª�å�‘ç±»åž‹:è¿žç»­(å�¯ä»¥æ˜¯è¿žç»?/é—´éš”)
+            SDRAM_MODEREG_CAS_LATENCY_2           |   //è®¾ç½®CASå€?:3(å�¯ä»¥æ˜?2/3)
+            SDRAM_MODEREG_OPERATING_MODE_STANDARD |   //è®¾ç½®æ“�ä½œæ¨¡å¼�:0,æ ‡å‡†æ¨¡å¼�
+            SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;    //è®¾ç½®çª�å�‘å†™æ¨¡å¼?:1,å�•ç‚¹è®¿é—®
+ 
+   /* é…�ç½®å‘½ä»¤ï¼šè®¾ç½®SDRAMå¯„å­˜å™? */
+   Command.CommandMode = FMC_SDRAM_CMD_LOAD_MODE;  //åŠ è½½æ¨¡å¼�å¯„å­˜å™¨å‘½ä»?
+   Command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
+   Command.AutoRefreshNumber = 1;
+   Command.ModeRegisterDefinition = tmpr;
+   /* å�‘é?�é…�ç½®å‘½ä»? */
+   HAL_SDRAM_SendCommand(&sdramHandle, &Command, SDRAM_TIMEOUT);
+ 
+   /* Step 6 ----------------------------------------------------------------*/
+ 
+   /* è®¾ç½®è‡ªåˆ·æ–°é?ŸçŽ‡ */
+   
+       //åˆ·æ–°é¢‘çŽ‡è®¡æ•°å™?(ä»¥SDCLKé¢‘çŽ‡è®¡æ•°),è®¡ç®—æ–¹æ³•:
+   //COUNT=SDRAMåˆ·æ–°å‘¨æœŸ/è¡Œæ•°-20=SDRAMåˆ·æ–°å‘¨æœŸ(us)*SDCLKé¢‘çŽ‡(Mhz)/è¡Œæ•°
+     //æˆ‘ä»¬ä½¿ç”¨çš„SDRAMåˆ·æ–°å‘¨æœŸä¸?64ms,SDCLK=200/2=100Mhz,è¡Œæ•°ä¸?8192(2^13).
+   //æ‰?ä»?,COUNT=64*1000*100/8192-20=761
+   HAL_SDRAM_ProgramRefreshRate(&sdramHandle, 761); 
+ }
 /* USER CODE END 0 */
 
 SRAM_HandleTypeDef hsram1;
@@ -141,7 +202,7 @@ void MX_FMC_Init(void)
   }
 
   /* USER CODE BEGIN FMC_Init 2 */
-  SDRAM_Initialization_Sequence(&SDRAM_Handler);
+  SDRAM_InitSequence();
   /* USER CODE END FMC_Init 2 */
 }
 

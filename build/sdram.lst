@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 1
+ARM GAS  C:\usertemp\ccONhDix.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -19,414 +19,428 @@ ARM GAS  C:\usertemp\ccKq1vww.s 			page 1
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
   18              		.file 1 "Core/Src/sdram.c"
-  19              		.section	.text.SDRAM_Send_Cmd,"ax",%progbits
+  19              		.section	.text.FMC_SDRAM_WriteBuffer,"ax",%progbits
   20              		.align	1
-  21              		.global	SDRAM_Send_Cmd
+  21              		.global	FMC_SDRAM_WriteBuffer
   22              		.syntax unified
   23              		.thumb
   24              		.thumb_func
-  26              	SDRAM_Send_Cmd:
+  26              	FMC_SDRAM_WriteBuffer:
   27              	.LVL0:
-  28              	.LFB365:
+  28              	.LFB333:
    1:Core/Src/sdram.c **** #include "sdram.h"
-   2:Core/Src/sdram.c **** 
-   3:Core/Src/sdram.c **** 
-   4:Core/Src/sdram.c **** SDRAM_HandleTypeDef SDRAM_Handler;   //SDRAM句柄
-   5:Core/Src/sdram.c **** 
-   6:Core/Src/sdram.c **** //发送SDRAM初始化序列
-   7:Core/Src/sdram.c **** void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram)
-   8:Core/Src/sdram.c **** {
-   9:Core/Src/sdram.c **** 	u32_t temp=0;
-  10:Core/Src/sdram.c **** 
-  11:Core/Src/sdram.c ****     //SDRAM控制器初始化完成以后还需要按照如下顺序初始化SDRAM
-  12:Core/Src/sdram.c ****     SDRAM_Send_Cmd(0,FMC_SDRAM_CMD_CLK_ENABLE,1,0); //时钟配置使能
-  13:Core/Src/sdram.c ****     HAL_Delay(1);                                  //至少延时200us
-  14:Core/Src/sdram.c **** 	SDRAM_Send_Cmd(0,FMC_SDRAM_CMD_PALL,1,0);       //对所有存储区预充电
-  15:Core/Src/sdram.c ****     SDRAM_Send_Cmd(0,FMC_SDRAM_CMD_AUTOREFRESH_MODE,8,0);//设置自刷新次数 
-  16:Core/Src/sdram.c ****     //配置模式寄存器,SDRAM的bit0~bit2为指定突发访问的长度，
-  17:Core/Src/sdram.c **** 	//bit3为指定突发访问的类型，bit4~bit6为CAS值，bit7和bit8为运行模式
-  18:Core/Src/sdram.c **** 	//bit9为指定的写突发模式，bit10和bit11位保留位
-  19:Core/Src/sdram.c **** 	temp=(u32_t)SDRAM_MODEREG_BURST_LENGTH_1          |	//设置突发长度:1(可以是1/2/4/8)
-  20:Core/Src/sdram.c ****               SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |	//设置突发类型:连续(可以是连续/�
-  21:Core/Src/sdram.c ****               SDRAM_MODEREG_CAS_LATENCY_2           |	//设置CAS值:3(可以是2/3)
-  22:Core/Src/sdram.c ****               SDRAM_MODEREG_OPERATING_MODE_STANDARD |   //设置操作模式:0,标准模式
-  23:Core/Src/sdram.c ****               SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;     //设置突发写模式:1,单点访问
-  24:Core/Src/sdram.c ****     SDRAM_Send_Cmd(0,FMC_SDRAM_CMD_LOAD_MODE,1,temp);   //设置SDRAM的模式寄存器
-  25:Core/Src/sdram.c ****     
-  26:Core/Src/sdram.c ****     //刷新频率计数器(以SDCLK频率计数),计算方法:
-  27:Core/Src/sdram.c **** 	//COUNT=SDRAM刷新周期/行数-20=SDRAM刷新周期(us)*SDCLK频率(Mhz)/行数
-  28:Core/Src/sdram.c ****     //我们使用的SDRAM刷新周期为64ms,SDCLK=200/2=100Mhz,行数为8192(2^13).
-  29:Core/Src/sdram.c **** 	//所以,COUNT=64*1000*100/8192-20=761
-  30:Core/Src/sdram.c **** 	HAL_SDRAM_ProgramRefreshRate(&SDRAM_Handler,761);	
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 2
-
-
-  31:Core/Src/sdram.c **** }	
-  32:Core/Src/sdram.c **** 
-  33:Core/Src/sdram.c **** //向SDRAM发送命令
-  34:Core/Src/sdram.c **** //bankx:0,向BANK5上面的SDRAM发送指令
-  35:Core/Src/sdram.c **** //      1,向BANK6上面的SDRAM发送指令
-  36:Core/Src/sdram.c **** //cmd:指令(0,正常模式/1,时钟配置使能/2,预充电所有存储区/3,自动刷新/4,加载
-  37:Core/Src/sdram.c **** //refresh:自刷新次数
-  38:Core/Src/sdram.c **** //regval:模式寄存器的定义
-  39:Core/Src/sdram.c **** //返回值:0,正常;1,失败.
-  40:Core/Src/sdram.c **** uint8_t SDRAM_Send_Cmd(uint8_t bankx,uint8_t cmd,uint8_t refresh,u16_t regval)
-  41:Core/Src/sdram.c **** {
-  29              		.loc 1 41 1 view -0
-  30              		.cfi_startproc
-  31              		@ args = 0, pretend = 0, frame = 16
-  32              		@ frame_needed = 0, uses_anonymous_args = 0
-  33              		.loc 1 41 1 is_stmt 0 view .LVU1
-  34 0000 00B5     		push	{lr}
-  35              	.LCFI0:
-  36              		.cfi_def_cfa_offset 4
-  37              		.cfi_offset 14, -4
-  38 0002 85B0     		sub	sp, sp, #20
-  39              	.LCFI1:
-  40              		.cfi_def_cfa_offset 24
-  42:Core/Src/sdram.c ****     u32_t target_bank=0;
-  41              		.loc 1 42 5 is_stmt 1 view .LVU2
-  42              	.LVL1:
-  43:Core/Src/sdram.c ****     FMC_SDRAM_CommandTypeDef Command;
-  43              		.loc 1 43 5 view .LVU3
-  44:Core/Src/sdram.c ****     
-  45:Core/Src/sdram.c ****     if(bankx==0) target_bank=FMC_SDRAM_CMD_TARGET_BANK1;       
-  44              		.loc 1 45 5 view .LVU4
-  45              		.loc 1 45 7 is_stmt 0 view .LVU5
-  46 0004 18B1     		cbz	r0, .L4
-  46:Core/Src/sdram.c ****     else if(bankx==1) target_bank=FMC_SDRAM_CMD_TARGET_BANK2;   
-  47              		.loc 1 46 10 is_stmt 1 view .LVU6
-  48              		.loc 1 46 12 is_stmt 0 view .LVU7
-  49 0006 0128     		cmp	r0, #1
-  50 0008 11D0     		beq	.L5
-  42:Core/Src/sdram.c ****     FMC_SDRAM_CommandTypeDef Command;
-  51              		.loc 1 42 11 view .LVU8
-  52 000a 0020     		movs	r0, #0
-  53              	.LVL2:
-  42:Core/Src/sdram.c ****     FMC_SDRAM_CommandTypeDef Command;
-  54              		.loc 1 42 11 view .LVU9
-  55 000c 00E0     		b	.L2
-  56              	.LVL3:
-  57              	.L4:
-  45:Core/Src/sdram.c ****     else if(bankx==1) target_bank=FMC_SDRAM_CMD_TARGET_BANK2;   
-  58              		.loc 1 45 29 discriminator 1 view .LVU10
-  59 000e 1020     		movs	r0, #16
-  60              	.LVL4:
-  61              	.L2:
-  47:Core/Src/sdram.c ****     Command.CommandMode=cmd;                //命令
-  62              		.loc 1 47 5 is_stmt 1 view .LVU11
-  63              		.loc 1 47 24 is_stmt 0 view .LVU12
-  64 0010 0091     		str	r1, [sp]
-  48:Core/Src/sdram.c ****     Command.CommandTarget=target_bank;      //目标SDRAM存储区域
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 3
-
-
-  65              		.loc 1 48 5 is_stmt 1 view .LVU13
-  66              		.loc 1 48 26 is_stmt 0 view .LVU14
-  67 0012 0190     		str	r0, [sp, #4]
-  49:Core/Src/sdram.c ****     Command.AutoRefreshNumber=refresh;      //自刷新次数
-  68              		.loc 1 49 5 is_stmt 1 view .LVU15
-  69              		.loc 1 49 30 is_stmt 0 view .LVU16
-  70 0014 0292     		str	r2, [sp, #8]
-  50:Core/Src/sdram.c ****     Command.ModeRegisterDefinition=regval;  //要写入模式寄存器的值
-  71              		.loc 1 50 5 is_stmt 1 view .LVU17
-  72              		.loc 1 50 35 is_stmt 0 view .LVU18
-  73 0016 0393     		str	r3, [sp, #12]
-  51:Core/Src/sdram.c ****     if(HAL_SDRAM_SendCommand(&SDRAM_Handler,&Command,0XFFFF)==HAL_OK) //向SDRAM发送命令
-  74              		.loc 1 51 5 is_stmt 1 view .LVU19
-  75              		.loc 1 51 8 is_stmt 0 view .LVU20
-  76 0018 4FF6FF72 		movw	r2, #65535
-  77              	.LVL5:
-  78              		.loc 1 51 8 view .LVU21
-  79 001c 6946     		mov	r1, sp
-  80              	.LVL6:
-  81              		.loc 1 51 8 view .LVU22
-  82 001e 0548     		ldr	r0, .L8
-  83              	.LVL7:
-  84              		.loc 1 51 8 view .LVU23
-  85 0020 FFF7FEFF 		bl	HAL_SDRAM_SendCommand
-  86              	.LVL8:
-  87              		.loc 1 51 7 discriminator 1 view .LVU24
-  88 0024 00B1     		cbz	r0, .L3
-  52:Core/Src/sdram.c ****     {
-  53:Core/Src/sdram.c ****         return 0;  
-  54:Core/Src/sdram.c ****     }
-  55:Core/Src/sdram.c ****     else return 1;    
-  89              		.loc 1 55 17 view .LVU25
-  90 0026 0120     		movs	r0, #1
-  91              	.L3:
-  56:Core/Src/sdram.c **** }
-  92              		.loc 1 56 1 view .LVU26
-  93 0028 05B0     		add	sp, sp, #20
-  94              	.LCFI2:
-  95              		.cfi_remember_state
-  96              		.cfi_def_cfa_offset 4
-  97              		@ sp needed
-  98 002a 5DF804FB 		ldr	pc, [sp], #4
-  99              	.LVL9:
- 100              	.L5:
- 101              	.LCFI3:
- 102              		.cfi_restore_state
-  46:Core/Src/sdram.c ****     Command.CommandMode=cmd;                //命令
- 103              		.loc 1 46 34 discriminator 1 view .LVU27
- 104 002e 0820     		movs	r0, #8
- 105              	.LVL10:
-  46:Core/Src/sdram.c ****     Command.CommandMode=cmd;                //命令
- 106              		.loc 1 46 34 discriminator 1 view .LVU28
- 107 0030 EEE7     		b	.L2
- 108              	.L9:
- 109 0032 00BF     		.align	2
- 110              	.L8:
- 111 0034 00000000 		.word	SDRAM_Handler
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 4
-
-
- 112              		.cfi_endproc
- 113              	.LFE365:
- 115              		.section	.text.SDRAM_Initialization_Sequence,"ax",%progbits
- 116              		.align	1
- 117              		.global	SDRAM_Initialization_Sequence
- 118              		.syntax unified
- 119              		.thumb
- 120              		.thumb_func
- 122              	SDRAM_Initialization_Sequence:
- 123              	.LVL11:
- 124              	.LFB364:
-   8:Core/Src/sdram.c **** 	u32_t temp=0;
- 125              		.loc 1 8 1 is_stmt 1 view -0
- 126              		.cfi_startproc
- 127              		@ args = 0, pretend = 0, frame = 0
- 128              		@ frame_needed = 0, uses_anonymous_args = 0
-   8:Core/Src/sdram.c **** 	u32_t temp=0;
- 129              		.loc 1 8 1 is_stmt 0 view .LVU30
- 130 0000 08B5     		push	{r3, lr}
- 131              	.LCFI4:
- 132              		.cfi_def_cfa_offset 8
- 133              		.cfi_offset 3, -8
- 134              		.cfi_offset 14, -4
+   2:Core/Src/sdram.c **** /**
+   3:Core/Src/sdram.c ****   * @brief  向sdram写入数据 ，在指定地址(WriteAddr+Bank5_SDRAM_ADDR)开始,连续写入n
+   4:Core/Src/sdram.c ****   * @param  pBuffer: 指向数据的指针 
+   5:Core/Src/sdram.c ****   * @param  WriteAddr: 要写入的SDRAM内部地址
+   6:Core/Src/sdram.c ****   * @param  n:要写入的字节数
+   7:Core/Src/sdram.c ****   * @retval None.
+   8:Core/Src/sdram.c ****   */
    9:Core/Src/sdram.c **** 
- 135              		.loc 1 9 2 is_stmt 1 view .LVU31
- 136              	.LVL12:
-  12:Core/Src/sdram.c ****     HAL_Delay(1);                                  //至少延时200us
- 137              		.loc 1 12 5 view .LVU32
- 138 0002 0023     		movs	r3, #0
- 139 0004 0122     		movs	r2, #1
- 140 0006 1146     		mov	r1, r2
- 141 0008 1846     		mov	r0, r3
- 142              	.LVL13:
-  12:Core/Src/sdram.c ****     HAL_Delay(1);                                  //至少延时200us
- 143              		.loc 1 12 5 is_stmt 0 view .LVU33
- 144 000a FFF7FEFF 		bl	SDRAM_Send_Cmd
- 145              	.LVL14:
-  13:Core/Src/sdram.c **** 	SDRAM_Send_Cmd(0,FMC_SDRAM_CMD_PALL,1,0);       //对所有存储区预充电
- 146              		.loc 1 13 5 is_stmt 1 view .LVU34
- 147 000e 0120     		movs	r0, #1
- 148 0010 FFF7FEFF 		bl	HAL_Delay
- 149              	.LVL15:
-  14:Core/Src/sdram.c ****     SDRAM_Send_Cmd(0,FMC_SDRAM_CMD_AUTOREFRESH_MODE,8,0);//设置自刷新次数 
- 150              		.loc 1 14 2 view .LVU35
- 151 0014 0023     		movs	r3, #0
- 152 0016 0122     		movs	r2, #1
- 153 0018 0221     		movs	r1, #2
- 154 001a 1846     		mov	r0, r3
- 155 001c FFF7FEFF 		bl	SDRAM_Send_Cmd
- 156              	.LVL16:
-  15:Core/Src/sdram.c ****     //配置模式寄存器,SDRAM的bit0~bit2为指定突发访问的长度，
- 157              		.loc 1 15 5 view .LVU36
- 158 0020 0023     		movs	r3, #0
- 159 0022 0822     		movs	r2, #8
- 160 0024 0321     		movs	r1, #3
- 161 0026 1846     		mov	r0, r3
- 162 0028 FFF7FEFF 		bl	SDRAM_Send_Cmd
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 5
+  10:Core/Src/sdram.c ****   void FMC_SDRAM_WriteBuffer(uint8_t *pBuffer,uint32_t WriteAddr,uint32_t n)
+  11:Core/Src/sdram.c ****   {
+  29              		.loc 1 11 3 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 11 3 is_stmt 0 view .LVU1
+  34 0000 70B5     		push	{r4, r5, r6, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 16
+  37              		.cfi_offset 4, -16
+  38              		.cfi_offset 5, -12
+  39              		.cfi_offset 6, -8
+  40              		.cfi_offset 14, -4
+  41 0002 0646     		mov	r6, r0
+  42 0004 0D46     		mov	r5, r1
+  43 0006 1446     		mov	r4, r2
+  12:Core/Src/sdram.c ****   
+  13:Core/Src/sdram.c ****     /* 检查SDRAM标志，等待至SDRAM空闲 */  
+  14:Core/Src/sdram.c ****     while ( HAL_SDRAM_GetState(&hsdram1) != RESET)
+  44              		.loc 1 14 5 is_stmt 1 view .LVU2
+ARM GAS  C:\usertemp\ccONhDix.s 			page 2
 
 
- 163              	.LVL17:
-  19:Core/Src/sdram.c ****               SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |	//设置突发类型:连续(可以是连续/�
- 164              		.loc 1 19 2 view .LVU37
-  24:Core/Src/sdram.c ****     
- 165              		.loc 1 24 5 view .LVU38
- 166 002c 4FF40873 		mov	r3, #544
- 167 0030 0122     		movs	r2, #1
- 168 0032 0421     		movs	r1, #4
- 169 0034 0020     		movs	r0, #0
- 170 0036 FFF7FEFF 		bl	SDRAM_Send_Cmd
- 171              	.LVL18:
-  30:Core/Src/sdram.c **** }	
- 172              		.loc 1 30 2 view .LVU39
- 173 003a 40F2F921 		movw	r1, #761
- 174 003e 0248     		ldr	r0, .L12
- 175 0040 FFF7FEFF 		bl	HAL_SDRAM_ProgramRefreshRate
- 176              	.LVL19:
-  31:Core/Src/sdram.c **** 
- 177              		.loc 1 31 1 is_stmt 0 view .LVU40
- 178 0044 08BD     		pop	{r3, pc}
- 179              	.L13:
- 180 0046 00BF     		.align	2
- 181              	.L12:
- 182 0048 00000000 		.word	SDRAM_Handler
- 183              		.cfi_endproc
- 184              	.LFE364:
- 186              		.section	.text.FMC_SDRAM_WriteBuffer,"ax",%progbits
- 187              		.align	1
- 188              		.global	FMC_SDRAM_WriteBuffer
- 189              		.syntax unified
- 190              		.thumb
- 191              		.thumb_func
- 193              	FMC_SDRAM_WriteBuffer:
- 194              	.LVL20:
- 195              	.LFB366:
-  57:Core/Src/sdram.c **** 
-  58:Core/Src/sdram.c **** //在指定地址(WriteAddr+Bank5_SDRAM_ADDR)开始,连续写入n个字节.
-  59:Core/Src/sdram.c **** //pBuffer:字节指针
-  60:Core/Src/sdram.c **** //WriteAddr:要写入的地址
-  61:Core/Src/sdram.c **** //n:要写入的字节数
-  62:Core/Src/sdram.c **** void FMC_SDRAM_WriteBuffer(uint8_t *pBuffer,u32_t WriteAddr,u32_t n)
-  63:Core/Src/sdram.c **** {
- 196              		.loc 1 63 1 is_stmt 1 view -0
- 197              		.cfi_startproc
- 198              		@ args = 0, pretend = 0, frame = 0
- 199              		@ frame_needed = 0, uses_anonymous_args = 0
- 200              		@ link register save eliminated.
-  64:Core/Src/sdram.c **** 	for(;n!=0;n--)
- 201              		.loc 1 64 2 view .LVU42
- 202 0000 07E0     		b	.L15
- 203              	.L16:
-  65:Core/Src/sdram.c **** 	{
-  66:Core/Src/sdram.c **** 		*(volatile uint8_t*)(Bank5_SDRAM_ADDR+WriteAddr)=*pBuffer;
- 204              		.loc 1 66 3 view .LVU43
- 205              		.loc 1 66 40 is_stmt 0 view .LVU44
- 206 0002 01F14043 		add	r3, r1, #-1073741824
- 207              		.loc 1 66 52 view .LVU45
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 6
+  45              	.LVL1:
+  46              	.L2:
+  15:Core/Src/sdram.c ****     {
+  16:Core/Src/sdram.c ****     }
+  47              		.loc 1 16 5 view .LVU3
+  14:Core/Src/sdram.c ****     {
+  48              		.loc 1 14 42 discriminator 1 view .LVU4
+  14:Core/Src/sdram.c ****     {
+  49              		.loc 1 14 13 is_stmt 0 discriminator 1 view .LVU5
+  50 0008 0748     		ldr	r0, .L6
+  51 000a FFF7FEFF 		bl	HAL_SDRAM_GetState
+  52              	.LVL2:
+  14:Core/Src/sdram.c ****     {
+  53              		.loc 1 14 42 discriminator 1 view .LVU6
+  54 000e 0028     		cmp	r0, #0
+  55 0010 FAD1     		bne	.L2
+  56 0012 06E0     		b	.L3
+  57              	.L4:
+  17:Core/Src/sdram.c ****       for(;n!=0;n--)
+  18:Core/Src/sdram.c ****       {
+  19:Core/Src/sdram.c ****           *(__IO uint8_t*)(SDRAM_BANK_ADDR+WriteAddr)=*pBuffer;
+  58              		.loc 1 19 11 is_stmt 1 view .LVU7
+  59              		.loc 1 19 43 is_stmt 0 view .LVU8
+  60 0014 05F14043 		add	r3, r5, #-1073741824
+  61              		.loc 1 19 55 view .LVU9
+  62 0018 16F8012B 		ldrb	r2, [r6], #1	@ zero_extendqisi2
+  63              	.LVL3:
+  64              		.loc 1 19 54 view .LVU10
+  65 001c 1A70     		strb	r2, [r3]
+  20:Core/Src/sdram.c ****           WriteAddr++;
+  66              		.loc 1 20 11 is_stmt 1 view .LVU11
+  67              		.loc 1 20 20 is_stmt 0 view .LVU12
+  68 001e 0135     		adds	r5, r5, #1
+  69              	.LVL4:
+  21:Core/Src/sdram.c ****           pBuffer++;
+  70              		.loc 1 21 11 is_stmt 1 view .LVU13
+  17:Core/Src/sdram.c ****       for(;n!=0;n--)
+  71              		.loc 1 17 18 discriminator 2 view .LVU14
+  72 0020 013C     		subs	r4, r4, #1
+  73              	.LVL5:
+  74              	.L3:
+  17:Core/Src/sdram.c ****       for(;n!=0;n--)
+  75              		.loc 1 17 13 discriminator 1 view .LVU15
+  76 0022 002C     		cmp	r4, #0
+  77 0024 F6D1     		bne	.L4
+  22:Core/Src/sdram.c ****       }
+  23:Core/Src/sdram.c ****   }
+  78              		.loc 1 23 3 is_stmt 0 view .LVU16
+  79 0026 70BD     		pop	{r4, r5, r6, pc}
+  80              	.LVL6:
+  81              	.L7:
+  82              		.loc 1 23 3 view .LVU17
+  83              		.align	2
+  84              	.L6:
+  85 0028 00000000 		.word	hsdram1
+  86              		.cfi_endproc
+  87              	.LFE333:
+ARM GAS  C:\usertemp\ccONhDix.s 			page 3
 
 
- 208 0006 10F801CB 		ldrb	ip, [r0], #1	@ zero_extendqisi2
- 209              	.LVL21:
- 210              		.loc 1 66 51 view .LVU46
- 211 000a 83F800C0 		strb	ip, [r3]
-  67:Core/Src/sdram.c **** 		WriteAddr++;
- 212              		.loc 1 67 3 is_stmt 1 view .LVU47
- 213              		.loc 1 67 12 is_stmt 0 view .LVU48
- 214 000e 0131     		adds	r1, r1, #1
- 215              	.LVL22:
-  68:Core/Src/sdram.c **** 		pBuffer++;
- 216              		.loc 1 68 3 is_stmt 1 view .LVU49
-  64:Core/Src/sdram.c **** 	{
- 217              		.loc 1 64 13 discriminator 2 view .LVU50
- 218 0010 013A     		subs	r2, r2, #1
- 219              	.LVL23:
- 220              	.L15:
-  64:Core/Src/sdram.c **** 	{
- 221              		.loc 1 64 8 discriminator 1 view .LVU51
- 222 0012 002A     		cmp	r2, #0
- 223 0014 F5D1     		bne	.L16
-  69:Core/Src/sdram.c **** 	}
-  70:Core/Src/sdram.c **** }
- 224              		.loc 1 70 1 is_stmt 0 view .LVU52
- 225 0016 7047     		bx	lr
- 226              		.cfi_endproc
- 227              	.LFE366:
- 229              		.section	.text.FMC_SDRAM_ReadBuffer,"ax",%progbits
- 230              		.align	1
- 231              		.global	FMC_SDRAM_ReadBuffer
- 232              		.syntax unified
- 233              		.thumb
- 234              		.thumb_func
- 236              	FMC_SDRAM_ReadBuffer:
- 237              	.LVL24:
- 238              	.LFB367:
-  71:Core/Src/sdram.c **** 
-  72:Core/Src/sdram.c **** //在指定地址((WriteAddr+Bank5_SDRAM_ADDR))开始,连续读出n个字节.
-  73:Core/Src/sdram.c **** //pBuffer:字节指针
-  74:Core/Src/sdram.c **** //ReadAddr:要读出的起始地址
-  75:Core/Src/sdram.c **** //n:要写入的字节数
-  76:Core/Src/sdram.c **** void FMC_SDRAM_ReadBuffer(uint8_t *pBuffer,u32_t ReadAddr,u32_t n)
-  77:Core/Src/sdram.c **** {
- 239              		.loc 1 77 1 is_stmt 1 view -0
- 240              		.cfi_startproc
- 241              		@ args = 0, pretend = 0, frame = 0
- 242              		@ frame_needed = 0, uses_anonymous_args = 0
- 243              		@ link register save eliminated.
-  78:Core/Src/sdram.c **** 	for(;n!=0;n--)
- 244              		.loc 1 78 2 view .LVU54
- 245 0000 06E0     		b	.L18
- 246              	.L19:
-  79:Core/Src/sdram.c **** 	{
-  80:Core/Src/sdram.c **** 		*pBuffer++=*(volatile uint8_t*)(Bank5_SDRAM_ADDR+ReadAddr);
- 247              		.loc 1 80 3 view .LVU55
- 248              		.loc 1 80 51 is_stmt 0 view .LVU56
- 249 0002 01F14043 		add	r3, r1, #-1073741824
- 250              	.LVL25:
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 7
+  89              		.section	.text.FMC_SDRAM_ReadBuffer,"ax",%progbits
+  90              		.align	1
+  91              		.global	FMC_SDRAM_ReadBuffer
+  92              		.syntax unified
+  93              		.thumb
+  94              		.thumb_func
+  96              	FMC_SDRAM_ReadBuffer:
+  97              	.LVL7:
+  98              	.LFB334:
+  24:Core/Src/sdram.c ****   
+  25:Core/Src/sdram.c **** 
+  26:Core/Src/sdram.c ****   /**
+  27:Core/Src/sdram.c ****   * @brief  从sdram读数据 ，在指定地址((WriteAddr+Bank5_SDRAM_ADDR))开始,连续读出n�
+  28:Core/Src/sdram.c ****   * @param  pBuffer: 指向数据的指针 
+  29:Core/Src/sdram.c ****   * @param  ReadAddr: 要读出的起始地址
+  30:Core/Src/sdram.c ****   * @param  n:要读出的字节数
+  31:Core/Src/sdram.c ****   * @retval None.
+  32:Core/Src/sdram.c ****   */
+  33:Core/Src/sdram.c **** void FMC_SDRAM_ReadBuffer(uint8_t *pBuffer,uint32_t ReadAddr,uint32_t n)
+  34:Core/Src/sdram.c **** {
+  99              		.loc 1 34 1 is_stmt 1 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		.loc 1 34 1 is_stmt 0 view .LVU19
+ 104 0000 70B5     		push	{r4, r5, r6, lr}
+ 105              	.LCFI1:
+ 106              		.cfi_def_cfa_offset 16
+ 107              		.cfi_offset 4, -16
+ 108              		.cfi_offset 5, -12
+ 109              		.cfi_offset 6, -8
+ 110              		.cfi_offset 14, -4
+ 111 0002 0446     		mov	r4, r0
+ 112 0004 0E46     		mov	r6, r1
+ 113 0006 1546     		mov	r5, r2
+  35:Core/Src/sdram.c **** 
+  36:Core/Src/sdram.c ****   /* 检查SDRAM标志，等待至SDRAM空闲 */  
+  37:Core/Src/sdram.c ****   while ( HAL_SDRAM_GetState(&hsdram1) != RESET)
+ 114              		.loc 1 37 3 is_stmt 1 view .LVU20
+ 115              	.LVL8:
+ 116              	.L9:
+  38:Core/Src/sdram.c ****   {
+  39:Core/Src/sdram.c ****   }
+ 117              		.loc 1 39 3 view .LVU21
+  37:Core/Src/sdram.c ****   {
+ 118              		.loc 1 37 40 discriminator 1 view .LVU22
+  37:Core/Src/sdram.c ****   {
+ 119              		.loc 1 37 11 is_stmt 0 discriminator 1 view .LVU23
+ 120 0008 0848     		ldr	r0, .L13
+ 121 000a FFF7FEFF 		bl	HAL_SDRAM_GetState
+ 122              	.LVL9:
+  37:Core/Src/sdram.c ****   {
+ 123              		.loc 1 37 40 discriminator 1 view .LVU24
+ 124 000e 0028     		cmp	r0, #0
+ 125 0010 FAD1     		bne	.L9
+ 126 0012 08E0     		b	.L10
+ 127              	.L11:
+ARM GAS  C:\usertemp\ccONhDix.s 			page 4
 
 
- 251              		.loc 1 80 14 view .LVU57
- 252 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 253              		.loc 1 80 13 view .LVU58
- 254 0008 00F8013B 		strb	r3, [r0], #1
- 255              	.LVL26:
-  81:Core/Src/sdram.c **** 		ReadAddr++;
- 256              		.loc 1 81 3 is_stmt 1 view .LVU59
- 257              		.loc 1 81 11 is_stmt 0 view .LVU60
- 258 000c 0131     		adds	r1, r1, #1
- 259              	.LVL27:
-  78:Core/Src/sdram.c **** 	for(;n!=0;n--)
- 260              		.loc 1 78 13 is_stmt 1 discriminator 2 view .LVU61
- 261 000e 013A     		subs	r2, r2, #1
- 262              	.LVL28:
- 263              	.L18:
-  78:Core/Src/sdram.c **** 	for(;n!=0;n--)
- 264              		.loc 1 78 8 discriminator 1 view .LVU62
- 265 0010 002A     		cmp	r2, #0
- 266 0012 F6D1     		bne	.L19
-  82:Core/Src/sdram.c **** 	}
-  83:Core/Src/sdram.c **** }
- 267              		.loc 1 83 1 is_stmt 0 view .LVU63
- 268 0014 7047     		bx	lr
- 269              		.cfi_endproc
- 270              	.LFE367:
- 272              		.global	SDRAM_Handler
- 273              		.section	.bss.SDRAM_Handler,"aw",%nobits
- 274              		.align	2
- 277              	SDRAM_Handler:
- 278 0000 00000000 		.space	52
- 278      00000000 
- 278      00000000 
- 278      00000000 
- 278      00000000 
- 279              		.text
- 280              	.Letext0:
- 281              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 282              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 283              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 284              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
- 285              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h"
- 286              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_fmc.h"
- 287              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sdram.h"
- 288              		.file 9 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 289              		.file 10 "Middlewares/Third_Party/LwIP/src/include/lwip/arch.h"
- 290              		.file 11 "Core/Inc/sdram.h"
- 291              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
-ARM GAS  C:\usertemp\ccKq1vww.s 			page 8
+  40:Core/Src/sdram.c **** 	for(;n!=0;n--)
+  41:Core/Src/sdram.c **** 	{
+  42:Core/Src/sdram.c **** 		*pBuffer++=*(__IO uint8_t*)(SDRAM_BANK_ADDR+ReadAddr);
+ 128              		.loc 1 42 3 is_stmt 1 view .LVU25
+ 129              		.loc 1 42 46 is_stmt 0 view .LVU26
+ 130 0014 06F14043 		add	r3, r6, #-1073741824
+ 131              		.loc 1 42 11 view .LVU27
+ 132 0018 2046     		mov	r0, r4
+ 133              	.LVL10:
+ 134              		.loc 1 42 14 view .LVU28
+ 135 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 136              		.loc 1 42 13 view .LVU29
+ 137 001c 00F8013B 		strb	r3, [r0], #1
+ 138              	.LVL11:
+  43:Core/Src/sdram.c **** 		ReadAddr++;
+ 139              		.loc 1 43 3 is_stmt 1 view .LVU30
+ 140              		.loc 1 43 11 is_stmt 0 view .LVU31
+ 141 0020 0136     		adds	r6, r6, #1
+ 142              	.LVL12:
+  40:Core/Src/sdram.c **** 	for(;n!=0;n--)
+ 143              		.loc 1 40 13 is_stmt 1 discriminator 2 view .LVU32
+ 144 0022 013D     		subs	r5, r5, #1
+ 145              	.LVL13:
+  42:Core/Src/sdram.c **** 		ReadAddr++;
+ 146              		.loc 1 42 11 is_stmt 0 view .LVU33
+ 147 0024 0446     		mov	r4, r0
+ 148              	.LVL14:
+ 149              	.L10:
+  40:Core/Src/sdram.c **** 	for(;n!=0;n--)
+ 150              		.loc 1 40 8 is_stmt 1 discriminator 1 view .LVU34
+ 151 0026 002D     		cmp	r5, #0
+ 152 0028 F4D1     		bne	.L11
+  44:Core/Src/sdram.c **** 	}
+  45:Core/Src/sdram.c **** }
+ 153              		.loc 1 45 1 is_stmt 0 view .LVU35
+ 154 002a 70BD     		pop	{r4, r5, r6, pc}
+ 155              	.LVL15:
+ 156              	.L14:
+ 157              		.loc 1 45 1 view .LVU36
+ 158              		.align	2
+ 159              	.L13:
+ 160 002c 00000000 		.word	hsdram1
+ 161              		.cfi_endproc
+ 162              	.LFE334:
+ 164              		.section	.rodata.fsmc_sdram_test.str1.4,"aMS",%progbits,1
+ 165              		.align	2
+ 166              	.LC0:
+ 167 0000 53445241 		.ascii	"SDRAM Capacity:%dKB\015\012\000"
+ 167      4D204361 
+ 167      70616369 
+ 167      74793A25 
+ 167      644B420D 
+ 168              		.section	.text.fsmc_sdram_test,"ax",%progbits
+ 169              		.align	1
+ 170              		.global	fsmc_sdram_test
+ 171              		.syntax unified
+ 172              		.thumb
+ARM GAS  C:\usertemp\ccONhDix.s 			page 5
+
+
+ 173              		.thumb_func
+ 175              	fsmc_sdram_test:
+ 176              	.LFB335:
+  46:Core/Src/sdram.c **** 
+  47:Core/Src/sdram.c **** 
+  48:Core/Src/sdram.c **** //SDRAM内存测试	    
+  49:Core/Src/sdram.c **** void fsmc_sdram_test()
+  50:Core/Src/sdram.c **** {  
+ 177              		.loc 1 50 1 is_stmt 1 view -0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 16
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181 0000 00B5     		push	{lr}
+ 182              	.LCFI2:
+ 183              		.cfi_def_cfa_offset 4
+ 184              		.cfi_offset 14, -4
+ 185 0002 85B0     		sub	sp, sp, #20
+ 186              	.LCFI3:
+ 187              		.cfi_def_cfa_offset 24
+  51:Core/Src/sdram.c **** 	__IO uint32_t i=0;  	  
+ 188              		.loc 1 51 2 view .LVU38
+ 189              		.loc 1 51 16 is_stmt 0 view .LVU39
+ 190 0004 0023     		movs	r3, #0
+ 191 0006 0393     		str	r3, [sp, #12]
+  52:Core/Src/sdram.c **** 	__IO uint32_t temp=0;	   
+ 192              		.loc 1 52 2 is_stmt 1 view .LVU40
+ 193              		.loc 1 52 16 is_stmt 0 view .LVU41
+ 194 0008 0293     		str	r3, [sp, #8]
+  53:Core/Src/sdram.c **** 	__IO uint32_t sval=0;	//在地址0读到的数据	  				   
+ 195              		.loc 1 53 2 is_stmt 1 view .LVU42
+ 196              		.loc 1 53 16 is_stmt 0 view .LVU43
+ 197 000a 0193     		str	r3, [sp, #4]
+  54:Core/Src/sdram.c ****   
+  55:Core/Src/sdram.c **** 	//每隔16K字节,写入一个数据,总共写入2048个数据,刚好是32M字节
+  56:Core/Src/sdram.c **** 	for(i=0;i<32*1024*1024;i+=16*1024)
+ 198              		.loc 1 56 2 is_stmt 1 view .LVU44
+ 199              		.loc 1 56 7 is_stmt 0 view .LVU45
+ 200 000c 0393     		str	r3, [sp, #12]
+ 201              		.loc 1 56 2 view .LVU46
+ 202 000e 0BE0     		b	.L16
+ 203              	.L17:
+  57:Core/Src/sdram.c **** 	{
+  58:Core/Src/sdram.c **** 		*(__IO uint32_t*)(SDRAM_BANK_ADDR+i)=temp; 
+ 204              		.loc 1 58 3 is_stmt 1 view .LVU47
+ 205              		.loc 1 58 36 is_stmt 0 view .LVU48
+ 206 0010 039B     		ldr	r3, [sp, #12]
+ 207 0012 03F14043 		add	r3, r3, #-1073741824
+ 208              		.loc 1 58 39 view .LVU49
+ 209 0016 029A     		ldr	r2, [sp, #8]
+ 210 0018 1A60     		str	r2, [r3]
+  59:Core/Src/sdram.c **** 		temp++;
+ 211              		.loc 1 59 3 is_stmt 1 view .LVU50
+ 212              		.loc 1 59 7 is_stmt 0 view .LVU51
+ 213 001a 029B     		ldr	r3, [sp, #8]
+ 214 001c 0133     		adds	r3, r3, #1
+ 215 001e 0293     		str	r3, [sp, #8]
+  56:Core/Src/sdram.c **** 	{
+ARM GAS  C:\usertemp\ccONhDix.s 			page 6
+
+
+ 216              		.loc 1 56 26 is_stmt 1 discriminator 3 view .LVU52
+ 217 0020 039B     		ldr	r3, [sp, #12]
+ 218 0022 03F58043 		add	r3, r3, #16384
+ 219 0026 0393     		str	r3, [sp, #12]
+ 220              	.L16:
+  56:Core/Src/sdram.c **** 	{
+ 221              		.loc 1 56 11 discriminator 1 view .LVU53
+ 222 0028 039B     		ldr	r3, [sp, #12]
+ 223 002a B3F1007F 		cmp	r3, #33554432
+ 224 002e EFD3     		bcc	.L17
+  60:Core/Src/sdram.c **** 	}
+  61:Core/Src/sdram.c **** 	//依次读出之前写入的数据,进行校验		  
+  62:Core/Src/sdram.c ****  	for(i=0;i<32*1024*1024;i+=16*1024) 
+ 225              		.loc 1 62 3 view .LVU54
+ 226              		.loc 1 62 8 is_stmt 0 view .LVU55
+ 227 0030 0023     		movs	r3, #0
+ 228 0032 0393     		str	r3, [sp, #12]
+ 229              		.loc 1 62 3 view .LVU56
+ 230 0034 11E0     		b	.L18
+ 231              	.L19:
+ 232              	.LBB2:
+  63:Core/Src/sdram.c **** 	{	
+  64:Core/Src/sdram.c ****   		temp=*(__IO uint32_t*)(SDRAM_BANK_ADDR+i);
+  65:Core/Src/sdram.c **** 		if(i==0)sval=temp;
+  66:Core/Src/sdram.c ****  		else if(temp<=sval)break;//后面读出的数据一定要比第一次读到的数据大.	   		  
+ 233              		.loc 1 66 9 is_stmt 1 view .LVU57
+ 234              		.loc 1 66 16 is_stmt 0 view .LVU58
+ 235 0036 029A     		ldr	r2, [sp, #8]
+ 236 0038 019B     		ldr	r3, [sp, #4]
+ 237              		.loc 1 66 11 view .LVU59
+ 238 003a 9A42     		cmp	r2, r3
+ 239 003c 1CD9     		bls	.L15
+ 240              	.L20:
+  67:Core/Src/sdram.c **** 		printf("SDRAM Capacity:%dKB\r\n",(uint16_t)(temp-sval+1)*16);//打印SDRAM容量
+ 241              		.loc 1 67 3 is_stmt 1 view .LVU60
+ 242              		.loc 1 67 51 is_stmt 0 view .LVU61
+ 243 003e 0299     		ldr	r1, [sp, #8]
+ 244 0040 019B     		ldr	r3, [sp, #4]
+ 245 0042 C91A     		subs	r1, r1, r3
+ 246 0044 89B2     		uxth	r1, r1
+ 247              		.loc 1 67 36 view .LVU62
+ 248 0046 0131     		adds	r1, r1, #1
+ 249 0048 89B2     		uxth	r1, r1
+ 250              		.loc 1 67 3 view .LVU63
+ 251 004a 0901     		lsls	r1, r1, #4
+ 252 004c 0C48     		ldr	r0, .L24
+ 253 004e FFF7FEFF 		bl	printf
+ 254              	.LVL16:
+ 255              	.LBE2:
+  62:Core/Src/sdram.c **** 	{	
+ 256              		.loc 1 62 27 is_stmt 1 discriminator 2 view .LVU64
+ 257 0052 039B     		ldr	r3, [sp, #12]
+ 258 0054 03F58043 		add	r3, r3, #16384
+ 259 0058 0393     		str	r3, [sp, #12]
+ 260              	.L18:
+  62:Core/Src/sdram.c **** 	{	
+ 261              		.loc 1 62 12 discriminator 1 view .LVU65
+ARM GAS  C:\usertemp\ccONhDix.s 			page 7
+
+
+ 262 005a 039B     		ldr	r3, [sp, #12]
+ 263 005c B3F1007F 		cmp	r3, #33554432
+ 264 0060 0AD2     		bcs	.L15
+ 265              	.LBB3:
+  64:Core/Src/sdram.c **** 		if(i==0)sval=temp;
+ 266              		.loc 1 64 5 view .LVU66
+  64:Core/Src/sdram.c **** 		if(i==0)sval=temp;
+ 267              		.loc 1 64 43 is_stmt 0 view .LVU67
+ 268 0062 039B     		ldr	r3, [sp, #12]
+ 269 0064 03F14043 		add	r3, r3, #-1073741824
+  64:Core/Src/sdram.c **** 		if(i==0)sval=temp;
+ 270              		.loc 1 64 10 view .LVU68
+ 271 0068 1B68     		ldr	r3, [r3]
+  64:Core/Src/sdram.c **** 		if(i==0)sval=temp;
+ 272              		.loc 1 64 9 view .LVU69
+ 273 006a 0293     		str	r3, [sp, #8]
+  65:Core/Src/sdram.c ****  		else if(temp<=sval)break;//后面读出的数据一定要比第一次读到的数据大.	   		  
+ 274              		.loc 1 65 3 is_stmt 1 view .LVU70
+  65:Core/Src/sdram.c ****  		else if(temp<=sval)break;//后面读出的数据一定要比第一次读到的数据大.	   		  
+ 275              		.loc 1 65 7 is_stmt 0 view .LVU71
+ 276 006c 039B     		ldr	r3, [sp, #12]
+  65:Core/Src/sdram.c ****  		else if(temp<=sval)break;//后面读出的数据一定要比第一次读到的数据大.	   		  
+ 277              		.loc 1 65 5 view .LVU72
+ 278 006e 002B     		cmp	r3, #0
+ 279 0070 E1D1     		bne	.L19
+  65:Core/Src/sdram.c ****  		else if(temp<=sval)break;//后面读出的数据一定要比第一次读到的数据大.	   		  
+ 280              		.loc 1 65 11 is_stmt 1 discriminator 1 view .LVU73
+  65:Core/Src/sdram.c ****  		else if(temp<=sval)break;//后面读出的数据一定要比第一次读到的数据大.	   		  
+ 281              		.loc 1 65 15 is_stmt 0 discriminator 1 view .LVU74
+ 282 0072 029B     		ldr	r3, [sp, #8]
+ 283 0074 0193     		str	r3, [sp, #4]
+ 284 0076 E2E7     		b	.L20
+ 285              	.L15:
+ 286              	.LBE3:
+  68:Core/Src/sdram.c ****  	}					 
+  69:Core/Src/sdram.c **** }
+ 287              		.loc 1 69 1 view .LVU75
+ 288 0078 05B0     		add	sp, sp, #20
+ 289              	.LCFI4:
+ 290              		.cfi_def_cfa_offset 4
+ 291              		@ sp needed
+ 292 007a 5DF804FB 		ldr	pc, [sp], #4
+ 293              	.L25:
+ 294 007e 00BF     		.align	2
+ 295              	.L24:
+ 296 0080 00000000 		.word	.LC0
+ 297              		.cfi_endproc
+ 298              	.LFE335:
+ 300              		.text
+ 301              	.Letext0:
+ 302              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 303              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 304              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 305              		.file 5 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h"
+ 306              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 307              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h"
+ 308              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_fmc.h"
+ARM GAS  C:\usertemp\ccONhDix.s 			page 8
+
+
+ 309              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sdram.h"
+ 310              		.file 10 "Core/Inc/fmc.h"
+ 311              		.file 11 "<built-in>"
+ARM GAS  C:\usertemp\ccONhDix.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 sdram.c
-C:\usertemp\ccKq1vww.s:20     .text.SDRAM_Send_Cmd:00000000 $t
-C:\usertemp\ccKq1vww.s:26     .text.SDRAM_Send_Cmd:00000000 SDRAM_Send_Cmd
-C:\usertemp\ccKq1vww.s:111    .text.SDRAM_Send_Cmd:00000034 $d
-C:\usertemp\ccKq1vww.s:277    .bss.SDRAM_Handler:00000000 SDRAM_Handler
-C:\usertemp\ccKq1vww.s:116    .text.SDRAM_Initialization_Sequence:00000000 $t
-C:\usertemp\ccKq1vww.s:122    .text.SDRAM_Initialization_Sequence:00000000 SDRAM_Initialization_Sequence
-C:\usertemp\ccKq1vww.s:182    .text.SDRAM_Initialization_Sequence:00000048 $d
-C:\usertemp\ccKq1vww.s:187    .text.FMC_SDRAM_WriteBuffer:00000000 $t
-C:\usertemp\ccKq1vww.s:193    .text.FMC_SDRAM_WriteBuffer:00000000 FMC_SDRAM_WriteBuffer
-C:\usertemp\ccKq1vww.s:230    .text.FMC_SDRAM_ReadBuffer:00000000 $t
-C:\usertemp\ccKq1vww.s:236    .text.FMC_SDRAM_ReadBuffer:00000000 FMC_SDRAM_ReadBuffer
-C:\usertemp\ccKq1vww.s:274    .bss.SDRAM_Handler:00000000 $d
+C:\usertemp\ccONhDix.s:20     .text.FMC_SDRAM_WriteBuffer:00000000 $t
+C:\usertemp\ccONhDix.s:26     .text.FMC_SDRAM_WriteBuffer:00000000 FMC_SDRAM_WriteBuffer
+C:\usertemp\ccONhDix.s:85     .text.FMC_SDRAM_WriteBuffer:00000028 $d
+C:\usertemp\ccONhDix.s:90     .text.FMC_SDRAM_ReadBuffer:00000000 $t
+C:\usertemp\ccONhDix.s:96     .text.FMC_SDRAM_ReadBuffer:00000000 FMC_SDRAM_ReadBuffer
+C:\usertemp\ccONhDix.s:160    .text.FMC_SDRAM_ReadBuffer:0000002c $d
+C:\usertemp\ccONhDix.s:165    .rodata.fsmc_sdram_test.str1.4:00000000 $d
+C:\usertemp\ccONhDix.s:169    .text.fsmc_sdram_test:00000000 $t
+C:\usertemp\ccONhDix.s:175    .text.fsmc_sdram_test:00000000 fsmc_sdram_test
+C:\usertemp\ccONhDix.s:296    .text.fsmc_sdram_test:00000080 $d
 
 UNDEFINED SYMBOLS
-HAL_SDRAM_SendCommand
-HAL_Delay
-HAL_SDRAM_ProgramRefreshRate
+HAL_SDRAM_GetState
+hsdram1
+printf
