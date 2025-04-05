@@ -330,12 +330,24 @@ void MPU_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+  static uint16_t temp = 0;
+  static uint16_t counter = 0;
 
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM4) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
+  if (htim->Instance == TIM4)
+  {
+    temp++;
+    counter++;
+    if (temp == 5)
+    {
+      lv_tick_inc(5);
+      temp = 0;
+    }
+  }
 
   /* USER CODE END Callback 1 */
 }

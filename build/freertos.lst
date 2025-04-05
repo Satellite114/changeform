@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -19,14 +19,15 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
   18              		.file 1 "Core/Src/freertos.c"
-  19              		.section	.text.TASK_LVGL,"ax",%progbits
+  19              		.section	.text.Refersh_LVGL,"ax",%progbits
   20              		.align	1
-  21              		.global	TASK_LVGL
+  21              		.global	Refersh_LVGL
   22              		.syntax unified
   23              		.thumb
   24              		.thumb_func
-  26              	TASK_LVGL:
-  27              	.LFB603:
+  26              	Refersh_LVGL:
+  27              	.LVL0:
+  28              	.LFB601:
    1:Core/Src/freertos.c **** /* USER CODE BEGIN Header */
    2:Core/Src/freertos.c **** /**
    3:Core/Src/freertos.c ****  ******************************************************************************
@@ -57,10 +58,10 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
   28:Core/Src/freertos.c **** /* USER CODE BEGIN Includes */
   29:Core/Src/freertos.c **** #include "lwip/apps/httpd.h"
   30:Core/Src/freertos.c **** #include "ad7606.h"
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 2
+
+
   31:Core/Src/freertos.c **** #include "lcd.h"
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 2
-
-
   32:Core/Src/freertos.c **** #include "gui_guider.h"
   33:Core/Src/freertos.c **** #include "arm_math.h"
   34:Core/Src/freertos.c **** #include "tim.h"
@@ -117,10 +118,10 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
   85:Core/Src/freertos.c **** extern uint8_t L1_flag;
   86:Core/Src/freertos.c **** extern uint8_t L2_flag;
   87:Core/Src/freertos.c **** extern uint8_t L3_flag;
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 3
+
+
   88:Core/Src/freertos.c **** extern uint8_t LN_flag;
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 3
-
-
   89:Core/Src/freertos.c **** extern uint8_t L1_I_flag;
   90:Core/Src/freertos.c **** extern uint8_t L2_I_flag;
   91:Core/Src/freertos.c **** extern uint8_t L3_I_flag;
@@ -177,10 +178,10 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
  142:Core/Src/freertos.c ****   pvPortMalloc() is called internally by the kernel whenever a task, queue,
  143:Core/Src/freertos.c ****   timer or semaphore is created. It is also called by various parts of the
  144:Core/Src/freertos.c ****   demo application. If heap_1.c or heap_2.c are used, then the size of the
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 4
+
+
  145:Core/Src/freertos.c ****   heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 4
-
-
  146:Core/Src/freertos.c ****   FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
  147:Core/Src/freertos.c ****   to query the size of free heap space that remains (although it does not
  148:Core/Src/freertos.c ****   provide information on how the remaining heap might be fragmented). */
@@ -237,10 +238,10 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
  199:Core/Src/freertos.c **** 
  200:Core/Src/freertos.c ****   /* definition and creation of EVENT_LVGL_TASK */
  201:Core/Src/freertos.c ****   osSemaphoreDef(EVENT_LVGL_TASK);
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 5
+
+
  202:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 5
-
-
  203:Core/Src/freertos.c **** 
  204:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
  205:Core/Src/freertos.c ****   /* add semaphores, ... */
@@ -281,267 +282,161 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
  240:Core/Src/freertos.c **** /* USER CODE END Header_Refersh_LVGL */
  241:Core/Src/freertos.c **** void Refersh_LVGL(void const *argument)
  242:Core/Src/freertos.c **** {
+  29              		.loc 1 242 1 view -0
+  30              		.cfi_startproc
+  31              		@ Volatile: function does not return.
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 242 1 is_stmt 0 view .LVU1
+  35 0000 2DE98848 		push	{r3, r7, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 3, -16
+  39              		.cfi_offset 7, -12
+  40              		.cfi_offset 11, -8
+  41              		.cfi_offset 14, -4
  243:Core/Src/freertos.c ****   /* init code for LWIP */
  244:Core/Src/freertos.c ****   MX_LWIP_Init();
+  42              		.loc 1 244 3 is_stmt 1 view .LVU2
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 6
+
+
+  43 0004 FFF7FEFF 		bl	MX_LWIP_Init
+  44              	.LVL1:
  245:Core/Src/freertos.c ****   /* USER CODE BEGIN Refersh_LVGL */
  246:Core/Src/freertos.c ****   httpd_init();
+  45              		.loc 1 246 3 view .LVU3
+  46 0008 FFF7FEFF 		bl	httpd_init
+  47              	.LVL2:
  247:Core/Src/freertos.c ****   FFT_Init(&fft_1V, SAMPLING, FFT_LENGTH, 1); // 1表示电压
+  48              		.loc 1 247 3 view .LVU4
+  49 000c DFF8F8A0 		ldr	r10, .L4+28
+  50 0010 0123     		movs	r3, #1
+  51 0012 4FF40062 		mov	r2, #2048
+  52 0016 4FF44851 		mov	r1, #12800
+  53 001a 5046     		mov	r0, r10
+  54 001c FFF7FEFF 		bl	FFT_Init
+  55              	.LVL3:
  248:Core/Src/freertos.c ****   FFT_Init(&fft_2V, SAMPLING, FFT_LENGTH, 1);
+  56              		.loc 1 248 3 view .LVU5
+  57 0020 DFF8E880 		ldr	r8, .L4+32
+  58 0024 0123     		movs	r3, #1
+  59 0026 4FF40062 		mov	r2, #2048
+  60 002a 4FF44851 		mov	r1, #12800
+  61 002e 4046     		mov	r0, r8
+  62 0030 FFF7FEFF 		bl	FFT_Init
+  63              	.LVL4:
  249:Core/Src/freertos.c ****   FFT_Init(&fft_3V, SAMPLING, FFT_LENGTH, 1);
+  64              		.loc 1 249 3 view .LVU6
+  65 0034 2D4E     		ldr	r6, .L4
+  66 0036 0123     		movs	r3, #1
+  67 0038 4FF40062 		mov	r2, #2048
+  68 003c 4FF44851 		mov	r1, #12800
+  69 0040 3046     		mov	r0, r6
+  70 0042 FFF7FEFF 		bl	FFT_Init
+  71              	.LVL5:
  250:Core/Src/freertos.c ****   FFT_Init(&fft_NV, SAMPLING, FFT_LENGTH, 1);
+  72              		.loc 1 250 3 view .LVU7
+  73 0046 2A4C     		ldr	r4, .L4+4
+  74 0048 0123     		movs	r3, #1
+  75 004a 4FF40062 		mov	r2, #2048
+  76 004e 4FF44851 		mov	r1, #12800
+  77 0052 2046     		mov	r0, r4
+  78 0054 FFF7FEFF 		bl	FFT_Init
+  79              	.LVL6:
  251:Core/Src/freertos.c **** 
  252:Core/Src/freertos.c ****   FFT_Init(&fft_1I, SAMPLING, FFT_LENGTH, 0); // 0表示电流
+  80              		.loc 1 252 3 view .LVU8
+  81 0058 DFF8B4B0 		ldr	fp, .L4+36
+  82 005c 0023     		movs	r3, #0
+  83 005e 4FF40062 		mov	r2, #2048
+  84 0062 4FF44851 		mov	r1, #12800
+  85 0066 5846     		mov	r0, fp
+  86 0068 FFF7FEFF 		bl	FFT_Init
+  87              	.LVL7:
  253:Core/Src/freertos.c ****   FFT_Init(&fft_2I, SAMPLING, FFT_LENGTH, 0);
+  88              		.loc 1 253 3 view .LVU9
+  89 006c DFF8A490 		ldr	r9, .L4+40
+  90 0070 0023     		movs	r3, #0
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 7
+
+
+  91 0072 4FF40062 		mov	r2, #2048
+  92 0076 4FF44851 		mov	r1, #12800
+  93 007a 4846     		mov	r0, r9
+  94 007c FFF7FEFF 		bl	FFT_Init
+  95              	.LVL8:
  254:Core/Src/freertos.c ****   FFT_Init(&fft_3I, SAMPLING, FFT_LENGTH, 0);
+  96              		.loc 1 254 3 view .LVU10
+  97 0080 1C4F     		ldr	r7, .L4+8
+  98 0082 0023     		movs	r3, #0
+  99 0084 4FF40062 		mov	r2, #2048
+ 100 0088 4FF44851 		mov	r1, #12800
+ 101 008c 3846     		mov	r0, r7
+ 102 008e FFF7FEFF 		bl	FFT_Init
+ 103              	.LVL9:
  255:Core/Src/freertos.c ****   FFT_Init(&fft_NI, SAMPLING, FFT_LENGTH, 0);
+ 104              		.loc 1 255 3 view .LVU11
+ 105 0092 194D     		ldr	r5, .L4+12
+ 106 0094 0023     		movs	r3, #0
+ 107 0096 4FF40062 		mov	r2, #2048
+ 108 009a 4FF44851 		mov	r1, #12800
+ 109 009e 2846     		mov	r0, r5
+ 110 00a0 FFF7FEFF 		bl	FFT_Init
+ 111              	.LVL10:
  256:Core/Src/freertos.c **** 
  257:Core/Src/freertos.c ****   PHASE_Init(&P1, &fft_1V, &fft_1I);
+ 112              		.loc 1 257 3 view .LVU12
+ 113 00a4 5A46     		mov	r2, fp
+ 114 00a6 5146     		mov	r1, r10
+ 115 00a8 1448     		ldr	r0, .L4+16
+ 116 00aa FFF7FEFF 		bl	PHASE_Init
+ 117              	.LVL11:
  258:Core/Src/freertos.c ****   PHASE_Init(&P2, &fft_2V, &fft_2I);
+ 118              		.loc 1 258 3 view .LVU13
+ 119 00ae DFF868A0 		ldr	r10, .L4+44
+ 120 00b2 4A46     		mov	r2, r9
+ 121 00b4 4146     		mov	r1, r8
+ 122 00b6 5046     		mov	r0, r10
+ 123 00b8 FFF7FEFF 		bl	PHASE_Init
+ 124              	.LVL12:
  259:Core/Src/freertos.c ****   PHASE_Init(&P3, &fft_3V, &fft_3I);
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 6
-
-
+ 125              		.loc 1 259 3 view .LVU14
+ 126 00bc DFF85C80 		ldr	r8, .L4+48
+ 127 00c0 3A46     		mov	r2, r7
+ 128 00c2 3146     		mov	r1, r6
+ 129 00c4 4046     		mov	r0, r8
+ 130 00c6 FFF7FEFF 		bl	PHASE_Init
+ 131              	.LVL13:
  260:Core/Src/freertos.c ****   PHASE_Init(&PN, &fft_NV, &fft_NI);
+ 132              		.loc 1 260 3 view .LVU15
+ 133 00ca 2A46     		mov	r2, r5
+ 134 00cc 2146     		mov	r1, r4
+ 135 00ce 0C48     		ldr	r0, .L4+20
+ 136 00d0 FFF7FEFF 		bl	PHASE_Init
+ 137              	.LVL14:
  261:Core/Src/freertos.c **** 
  262:Core/Src/freertos.c ****   Voltage_three_Init(&Voltage, &P1, &P2, &P3);
+ 138              		.loc 1 262 3 view .LVU16
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 8
+
+
+ 139 00d4 4346     		mov	r3, r8
+ 140 00d6 5246     		mov	r2, r10
+ 141 00d8 0849     		ldr	r1, .L4+16
+ 142 00da 0A48     		ldr	r0, .L4+24
+ 143 00dc FFF7FEFF 		bl	Voltage_three_Init
+ 144              	.LVL15:
+ 145              	.L2:
  263:Core/Src/freertos.c ****   /* Infinite loop */
  264:Core/Src/freertos.c ****   for (;;)
+ 146              		.loc 1 264 3 view .LVU17
  265:Core/Src/freertos.c ****   {
- 266:Core/Src/freertos.c ****     lv_task_handler(); // lvgl task handler
- 267:Core/Src/freertos.c ****     osDelay(1);
- 268:Core/Src/freertos.c ****   }
- 269:Core/Src/freertos.c ****   /* USER CODE END Refersh_LVGL */
- 270:Core/Src/freertos.c **** }
- 271:Core/Src/freertos.c **** 
- 272:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_FFT */
- 273:Core/Src/freertos.c **** /**
- 274:Core/Src/freertos.c ****  * @brief Function implementing the task_FFT thread.
- 275:Core/Src/freertos.c ****  * @param argument: Not used
- 276:Core/Src/freertos.c ****  * @retval None
- 277:Core/Src/freertos.c ****  */
- 278:Core/Src/freertos.c **** /* USER CODE END Header_TASK_FFT */
- 279:Core/Src/freertos.c **** void TASK_FFT(void const *argument)
- 280:Core/Src/freertos.c **** {
- 281:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
- 282:Core/Src/freertos.c ****   /* Infinite loop */
- 283:Core/Src/freertos.c ****   for (;;)
- 284:Core/Src/freertos.c ****   {
- 285:Core/Src/freertos.c ****     lv_task_handler(); // lvgl task handler
- 286:Core/Src/freertos.c ****     osDelay(1);
- 287:Core/Src/freertos.c ****   }
- 288:Core/Src/freertos.c ****   /* USER CODE END TASK_FFT */
- 289:Core/Src/freertos.c **** }
- 290:Core/Src/freertos.c **** 
- 291:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_LVGL */
- 292:Core/Src/freertos.c **** /**
- 293:Core/Src/freertos.c ****  * @brief Function implementing the task_lvgl thread.
- 294:Core/Src/freertos.c ****  * @param argument: Not used
- 295:Core/Src/freertos.c ****  * @retval None
- 296:Core/Src/freertos.c ****  */
- 297:Core/Src/freertos.c **** /* USER CODE END Header_TASK_LVGL */
- 298:Core/Src/freertos.c **** void TASK_LVGL(void const *argument)
- 299:Core/Src/freertos.c **** {
-  28              		.loc 1 299 1 view -0
-  29              		.cfi_startproc
-  30              		@ Volatile: function does not return.
-  31              		@ args = 0, pretend = 0, frame = 0
-  32              		@ frame_needed = 0, uses_anonymous_args = 0
-  33              	.LVL0:
-  34              		.loc 1 299 1 is_stmt 0 view .LVU1
-  35 0000 08B5     		push	{r3, lr}
-  36              	.LCFI0:
-  37              		.cfi_def_cfa_offset 8
-  38              		.cfi_offset 3, -8
-  39              		.cfi_offset 14, -4
-  40              	.LVL1:
-  41              	.L2:
- 300:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_LVGL */
- 301:Core/Src/freertos.c ****   /* Infinite loop */
- 302:Core/Src/freertos.c ****   for (;;)
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 7
-
-
-  42              		.loc 1 302 3 is_stmt 1 view .LVU2
- 303:Core/Src/freertos.c ****   {
- 304:Core/Src/freertos.c ****     HAL_GPIO_TogglePin(PG14_GPIO_Port, PG14_Pin);
-  43              		.loc 1 304 5 view .LVU3
-  44 0002 4FF48041 		mov	r1, #16384
-  45 0006 0448     		ldr	r0, .L4
-  46 0008 FFF7FEFF 		bl	HAL_GPIO_TogglePin
-  47              	.LVL2:
- 305:Core/Src/freertos.c ****     osDelay(1000);
-  48              		.loc 1 305 5 discriminator 1 view .LVU4
-  49 000c 4FF47A70 		mov	r0, #1000
-  50 0010 FFF7FEFF 		bl	osDelay
-  51              	.LVL3:
- 302:Core/Src/freertos.c ****   {
-  52              		.loc 1 302 3 view .LVU5
-  53 0014 F5E7     		b	.L2
-  54              	.L5:
-  55 0016 00BF     		.align	2
-  56              	.L4:
-  57 0018 00180258 		.word	1476532224
-  58              		.cfi_endproc
-  59              	.LFE603:
-  61              		.section	.text.Refersh_LVGL,"ax",%progbits
-  62              		.align	1
-  63              		.global	Refersh_LVGL
-  64              		.syntax unified
-  65              		.thumb
-  66              		.thumb_func
-  68              	Refersh_LVGL:
-  69              	.LVL4:
-  70              	.LFB601:
- 242:Core/Src/freertos.c ****   /* init code for LWIP */
-  71              		.loc 1 242 1 view -0
-  72              		.cfi_startproc
-  73              		@ Volatile: function does not return.
-  74              		@ args = 0, pretend = 0, frame = 0
-  75              		@ frame_needed = 0, uses_anonymous_args = 0
- 242:Core/Src/freertos.c ****   /* init code for LWIP */
-  76              		.loc 1 242 1 is_stmt 0 view .LVU7
-  77 0000 2DE98848 		push	{r3, r7, fp, lr}
-  78              	.LCFI1:
-  79              		.cfi_def_cfa_offset 16
-  80              		.cfi_offset 3, -16
-  81              		.cfi_offset 7, -12
-  82              		.cfi_offset 11, -8
-  83              		.cfi_offset 14, -4
- 244:Core/Src/freertos.c ****   /* USER CODE BEGIN Refersh_LVGL */
-  84              		.loc 1 244 3 is_stmt 1 view .LVU8
-  85 0004 FFF7FEFF 		bl	MX_LWIP_Init
-  86              	.LVL5:
- 246:Core/Src/freertos.c ****   FFT_Init(&fft_1V, SAMPLING, FFT_LENGTH, 1); // 1表示电压
-  87              		.loc 1 246 3 view .LVU9
-  88 0008 FFF7FEFF 		bl	httpd_init
-  89              	.LVL6:
- 247:Core/Src/freertos.c ****   FFT_Init(&fft_2V, SAMPLING, FFT_LENGTH, 1);
-  90              		.loc 1 247 3 view .LVU10
-  91 000c DFF8F8A0 		ldr	r10, .L9+28
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 8
-
-
-  92 0010 0123     		movs	r3, #1
-  93 0012 4FF40062 		mov	r2, #2048
-  94 0016 4FF44851 		mov	r1, #12800
-  95 001a 5046     		mov	r0, r10
-  96 001c FFF7FEFF 		bl	FFT_Init
-  97              	.LVL7:
- 248:Core/Src/freertos.c ****   FFT_Init(&fft_3V, SAMPLING, FFT_LENGTH, 1);
-  98              		.loc 1 248 3 view .LVU11
-  99 0020 DFF8E880 		ldr	r8, .L9+32
- 100 0024 0123     		movs	r3, #1
- 101 0026 4FF40062 		mov	r2, #2048
- 102 002a 4FF44851 		mov	r1, #12800
- 103 002e 4046     		mov	r0, r8
- 104 0030 FFF7FEFF 		bl	FFT_Init
- 105              	.LVL8:
- 249:Core/Src/freertos.c ****   FFT_Init(&fft_NV, SAMPLING, FFT_LENGTH, 1);
- 106              		.loc 1 249 3 view .LVU12
- 107 0034 2D4E     		ldr	r6, .L9
- 108 0036 0123     		movs	r3, #1
- 109 0038 4FF40062 		mov	r2, #2048
- 110 003c 4FF44851 		mov	r1, #12800
- 111 0040 3046     		mov	r0, r6
- 112 0042 FFF7FEFF 		bl	FFT_Init
- 113              	.LVL9:
- 250:Core/Src/freertos.c **** 
- 114              		.loc 1 250 3 view .LVU13
- 115 0046 2A4C     		ldr	r4, .L9+4
- 116 0048 0123     		movs	r3, #1
- 117 004a 4FF40062 		mov	r2, #2048
- 118 004e 4FF44851 		mov	r1, #12800
- 119 0052 2046     		mov	r0, r4
- 120 0054 FFF7FEFF 		bl	FFT_Init
- 121              	.LVL10:
- 252:Core/Src/freertos.c ****   FFT_Init(&fft_2I, SAMPLING, FFT_LENGTH, 0);
- 122              		.loc 1 252 3 view .LVU14
- 123 0058 DFF8B4B0 		ldr	fp, .L9+36
- 124 005c 0023     		movs	r3, #0
- 125 005e 4FF40062 		mov	r2, #2048
- 126 0062 4FF44851 		mov	r1, #12800
- 127 0066 5846     		mov	r0, fp
- 128 0068 FFF7FEFF 		bl	FFT_Init
- 129              	.LVL11:
- 253:Core/Src/freertos.c ****   FFT_Init(&fft_3I, SAMPLING, FFT_LENGTH, 0);
- 130              		.loc 1 253 3 view .LVU15
- 131 006c DFF8A490 		ldr	r9, .L9+40
- 132 0070 0023     		movs	r3, #0
- 133 0072 4FF40062 		mov	r2, #2048
- 134 0076 4FF44851 		mov	r1, #12800
- 135 007a 4846     		mov	r0, r9
- 136 007c FFF7FEFF 		bl	FFT_Init
- 137              	.LVL12:
- 254:Core/Src/freertos.c ****   FFT_Init(&fft_NI, SAMPLING, FFT_LENGTH, 0);
- 138              		.loc 1 254 3 view .LVU16
- 139 0080 1C4F     		ldr	r7, .L9+8
- 140 0082 0023     		movs	r3, #0
- 141 0084 4FF40062 		mov	r2, #2048
- 142 0088 4FF44851 		mov	r1, #12800
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 9
-
-
- 143 008c 3846     		mov	r0, r7
- 144 008e FFF7FEFF 		bl	FFT_Init
- 145              	.LVL13:
- 255:Core/Src/freertos.c **** 
- 146              		.loc 1 255 3 view .LVU17
- 147 0092 194D     		ldr	r5, .L9+12
- 148 0094 0023     		movs	r3, #0
- 149 0096 4FF40062 		mov	r2, #2048
- 150 009a 4FF44851 		mov	r1, #12800
- 151 009e 2846     		mov	r0, r5
- 152 00a0 FFF7FEFF 		bl	FFT_Init
- 153              	.LVL14:
- 257:Core/Src/freertos.c ****   PHASE_Init(&P2, &fft_2V, &fft_2I);
- 154              		.loc 1 257 3 view .LVU18
- 155 00a4 5A46     		mov	r2, fp
- 156 00a6 5146     		mov	r1, r10
- 157 00a8 1448     		ldr	r0, .L9+16
- 158 00aa FFF7FEFF 		bl	PHASE_Init
- 159              	.LVL15:
- 258:Core/Src/freertos.c ****   PHASE_Init(&P3, &fft_3V, &fft_3I);
- 160              		.loc 1 258 3 view .LVU19
- 161 00ae DFF868A0 		ldr	r10, .L9+44
- 162 00b2 4A46     		mov	r2, r9
- 163 00b4 4146     		mov	r1, r8
- 164 00b6 5046     		mov	r0, r10
- 165 00b8 FFF7FEFF 		bl	PHASE_Init
- 166              	.LVL16:
- 259:Core/Src/freertos.c ****   PHASE_Init(&PN, &fft_NV, &fft_NI);
- 167              		.loc 1 259 3 view .LVU20
- 168 00bc DFF85C80 		ldr	r8, .L9+48
- 169 00c0 3A46     		mov	r2, r7
- 170 00c2 3146     		mov	r1, r6
- 171 00c4 4046     		mov	r0, r8
- 172 00c6 FFF7FEFF 		bl	PHASE_Init
- 173              	.LVL17:
- 260:Core/Src/freertos.c **** 
- 174              		.loc 1 260 3 view .LVU21
- 175 00ca 2A46     		mov	r2, r5
- 176 00cc 2146     		mov	r1, r4
- 177 00ce 0C48     		ldr	r0, .L9+20
- 178 00d0 FFF7FEFF 		bl	PHASE_Init
- 179              	.LVL18:
- 262:Core/Src/freertos.c ****   /* Infinite loop */
- 180              		.loc 1 262 3 view .LVU22
- 181 00d4 4346     		mov	r3, r8
- 182 00d6 5246     		mov	r2, r10
- 183 00d8 0849     		ldr	r1, .L9+16
- 184 00da 0A48     		ldr	r0, .L9+24
- 185 00dc FFF7FEFF 		bl	Voltage_three_Init
- 186              	.LVL19:
- 187              	.L7:
- 264:Core/Src/freertos.c ****   {
- 188              		.loc 1 264 3 view .LVU23
- 266:Core/Src/freertos.c ****     osDelay(1);
- 189              		.loc 1 266 5 view .LVU24
- 190              	.LBB6:
- 191              	.LBI6:
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 10
-
-
- 192              		.file 2 "lvgl/src/lv_api_map.h"
+ 266:Core/Src/freertos.c ****     lv_task_handler();
+ 147              		.loc 1 266 5 view .LVU18
+ 148              	.LBB10:
+ 149              	.LBI10:
+ 150              		.file 2 "lvgl/src/lv_api_map.h"
    1:lvgl/src/lv_api_map.h **** /**
    2:lvgl/src/lv_api_map.h ****  * @file lv_api_map.h
    3:lvgl/src/lv_api_map.h ****  *
@@ -577,818 +472,2030 @@ ARM GAS  C:\usertemp\ccPt1wX7.s 			page 1
   33:lvgl/src/lv_api_map.h ****  **********************/
   34:lvgl/src/lv_api_map.h **** 
   35:lvgl/src/lv_api_map.h **** static inline LV_ATTRIBUTE_TIMER_HANDLER uint32_t lv_task_handler(void)
- 193              		.loc 2 35 51 view .LVU25
- 194              	.LBB7:
+ 151              		.loc 2 35 51 view .LVU19
+ 152              	.LBB11:
   36:lvgl/src/lv_api_map.h **** {
   37:lvgl/src/lv_api_map.h ****     return lv_timer_handler();
- 195              		.loc 2 37 5 view .LVU26
- 196              		.loc 2 37 12 is_stmt 0 view .LVU27
- 197 00e0 FFF7FEFF 		bl	lv_timer_handler
- 198              	.LVL20:
- 199              	.LBE7:
- 200              	.LBE6:
- 267:Core/Src/freertos.c ****   }
- 201              		.loc 1 267 5 is_stmt 1 discriminator 1 view .LVU28
- 202 00e4 0120     		movs	r0, #1
- 203 00e6 FFF7FEFF 		bl	osDelay
- 204              	.LVL21:
+ 153              		.loc 2 37 5 view .LVU20
+ 154              		.loc 2 37 12 is_stmt 0 view .LVU21
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 9
+
+
+ 155 00e0 FFF7FEFF 		bl	lv_timer_handler
+ 156              	.LVL16:
+ 157              	.LBE11:
+ 158              	.LBE10:
+ 267:Core/Src/freertos.c ****     // test
+ 268:Core/Src/freertos.c ****     osDelay(30);
+ 159              		.loc 1 268 5 is_stmt 1 discriminator 1 view .LVU22
+ 160 00e4 1E20     		movs	r0, #30
+ 161 00e6 FFF7FEFF 		bl	osDelay
+ 162              	.LVL17:
  264:Core/Src/freertos.c ****   {
- 205              		.loc 1 264 3 view .LVU29
- 206 00ea F9E7     		b	.L7
- 207              	.L10:
- 208              		.align	2
- 209              	.L9:
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 11
+ 163              		.loc 1 264 3 view .LVU23
+ 164 00ea F9E7     		b	.L2
+ 165              	.L5:
+ 166              		.align	2
+ 167              	.L4:
+ 168 00ec 00000000 		.word	fft_3V
+ 169 00f0 00000000 		.word	fft_NV
+ 170 00f4 00000000 		.word	fft_3I
+ 171 00f8 00000000 		.word	fft_NI
+ 172 00fc 00000000 		.word	P1
+ 173 0100 00000000 		.word	PN
+ 174 0104 00000000 		.word	Voltage
+ 175 0108 00000000 		.word	fft_1V
+ 176 010c 00000000 		.word	fft_2V
+ 177 0110 00000000 		.word	fft_1I
+ 178 0114 00000000 		.word	fft_2I
+ 179 0118 00000000 		.word	P2
+ 180 011c 00000000 		.word	P3
+ 181              		.cfi_endproc
+ 182              	.LFE601:
+ 184              		.section	.text.TASK_FFT,"ax",%progbits
+ 185              		.align	1
+ 186              		.global	TASK_FFT
+ 187              		.syntax unified
+ 188              		.thumb
+ 189              		.thumb_func
+ 191              	TASK_FFT:
+ 192              	.LVL18:
+ 193              	.LFB602:
+ 269:Core/Src/freertos.c ****   }
+ 270:Core/Src/freertos.c ****   /* USER CODE END Refersh_LVGL */
+ 271:Core/Src/freertos.c **** }
+ 272:Core/Src/freertos.c **** 
+ 273:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_FFT */
+ 274:Core/Src/freertos.c **** /**
+ 275:Core/Src/freertos.c ****  * @brief Function implementing the task_FFT thread.
+ 276:Core/Src/freertos.c ****  * @param argument: Not used
+ 277:Core/Src/freertos.c ****  * @retval None
+ 278:Core/Src/freertos.c ****  */
+ 279:Core/Src/freertos.c **** /* USER CODE END Header_TASK_FFT */
+ 280:Core/Src/freertos.c **** void TASK_FFT(void const *argument)
+ 281:Core/Src/freertos.c **** {
+ 194              		.loc 1 281 1 view -0
+ 195              		.cfi_startproc
+ 196              		@ Volatile: function does not return.
+ 197              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 10
 
 
- 210 00ec 00000000 		.word	fft_3V
- 211 00f0 00000000 		.word	fft_NV
- 212 00f4 00000000 		.word	fft_3I
- 213 00f8 00000000 		.word	fft_NI
- 214 00fc 00000000 		.word	P1
- 215 0100 00000000 		.word	PN
- 216 0104 00000000 		.word	Voltage
- 217 0108 00000000 		.word	fft_1V
- 218 010c 00000000 		.word	fft_2V
- 219 0110 00000000 		.word	fft_1I
- 220 0114 00000000 		.word	fft_2I
- 221 0118 00000000 		.word	P2
- 222 011c 00000000 		.word	P3
- 223              		.cfi_endproc
- 224              	.LFE601:
- 226              		.section	.text.TASK_FFT,"ax",%progbits
- 227              		.align	1
- 228              		.global	TASK_FFT
- 229              		.syntax unified
- 230              		.thumb
- 231              		.thumb_func
- 233              	TASK_FFT:
- 234              	.LFB602:
- 280:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
- 235              		.loc 1 280 1 view -0
- 236              		.cfi_startproc
- 237              		@ Volatile: function does not return.
- 238              		@ args = 0, pretend = 0, frame = 0
- 239              		@ frame_needed = 0, uses_anonymous_args = 0
- 240              	.LVL22:
- 280:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
- 241              		.loc 1 280 1 is_stmt 0 view .LVU31
- 242 0000 08B5     		push	{r3, lr}
- 243              	.LCFI2:
- 244              		.cfi_def_cfa_offset 8
- 245              		.cfi_offset 3, -8
- 246              		.cfi_offset 14, -4
- 247              	.LVL23:
- 248              	.L12:
- 283:Core/Src/freertos.c ****   {
- 249              		.loc 1 283 3 is_stmt 1 view .LVU32
- 285:Core/Src/freertos.c ****     osDelay(1);
- 250              		.loc 1 285 5 view .LVU33
- 251              	.LBB8:
- 252              	.LBI8:
-  35:lvgl/src/lv_api_map.h **** {
- 253              		.loc 2 35 51 view .LVU34
- 254              	.LBB9:
- 255              		.loc 2 37 5 view .LVU35
- 256              		.loc 2 37 12 is_stmt 0 view .LVU36
- 257 0002 FFF7FEFF 		bl	lv_timer_handler
- 258              	.LVL24:
- 259              	.LBE9:
- 260              	.LBE8:
- 286:Core/Src/freertos.c ****   }
- 261              		.loc 1 286 5 is_stmt 1 discriminator 1 view .LVU37
- 262 0006 0120     		movs	r0, #1
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 12
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199              		.loc 1 281 1 is_stmt 0 view .LVU25
+ 200 0000 08B5     		push	{r3, lr}
+ 201              	.LCFI1:
+ 202              		.cfi_def_cfa_offset 8
+ 203              		.cfi_offset 3, -8
+ 204              		.cfi_offset 14, -4
+ 282:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_FFT */
+ 283:Core/Src/freertos.c ****   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+ 205              		.loc 1 283 3 is_stmt 1 view .LVU26
+ 206 0002 2820     		movs	r0, #40
+ 207              	.LVL19:
+ 208              		.loc 1 283 3 is_stmt 0 view .LVU27
+ 209 0004 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 210              	.LVL20:
+ 284:Core/Src/freertos.c ****   HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
+ 211              		.loc 1 284 3 is_stmt 1 view .LVU28
+ 212 0008 0821     		movs	r1, #8
+ 213 000a 1948     		ldr	r0, .L9
+ 214 000c FFF7FEFF 		bl	HAL_TIMEx_PWMN_Start
+ 215              	.LVL21:
+ 216              	.L7:
+ 285:Core/Src/freertos.c ****   /* Infinite loop */
+ 286:Core/Src/freertos.c ****   for (;;)
+ 217              		.loc 1 286 3 view .LVU29
+ 287:Core/Src/freertos.c ****   {
+ 288:Core/Src/freertos.c ****    fft_run(&fft_1V);
+ 218              		.loc 1 288 4 view .LVU30
+ 219 0010 1848     		ldr	r0, .L9+4
+ 220 0012 FFF7FEFF 		bl	fft_run
+ 221              	.LVL22:
+ 289:Core/Src/freertos.c ****     fft_run(&fft_2V);
+ 222              		.loc 1 289 5 view .LVU31
+ 223 0016 1848     		ldr	r0, .L9+8
+ 224 0018 FFF7FEFF 		bl	fft_run
+ 225              	.LVL23:
+ 290:Core/Src/freertos.c ****     fft_run(&fft_3V);
+ 226              		.loc 1 290 5 view .LVU32
+ 227 001c 1748     		ldr	r0, .L9+12
+ 228 001e FFF7FEFF 		bl	fft_run
+ 229              	.LVL24:
+ 291:Core/Src/freertos.c ****     fft_run(&fft_NV);
+ 230              		.loc 1 291 5 view .LVU33
+ 231 0022 1748     		ldr	r0, .L9+16
+ 232 0024 FFF7FEFF 		bl	fft_run
+ 233              	.LVL25:
+ 292:Core/Src/freertos.c **** 
+ 293:Core/Src/freertos.c ****     fft_run(&fft_1I);
+ 234              		.loc 1 293 5 view .LVU34
+ 235 0028 1648     		ldr	r0, .L9+20
+ 236 002a FFF7FEFF 		bl	fft_run
+ 237              	.LVL26:
+ 294:Core/Src/freertos.c ****     fft_run(&fft_2I);
+ 238              		.loc 1 294 5 view .LVU35
+ 239 002e 1648     		ldr	r0, .L9+24
+ 240 0030 FFF7FEFF 		bl	fft_run
+ 241              	.LVL27:
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 11
 
 
- 263 0008 FFF7FEFF 		bl	osDelay
- 264              	.LVL25:
- 283:Core/Src/freertos.c ****   {
- 265              		.loc 1 283 3 view .LVU38
- 266 000c F9E7     		b	.L12
- 267              		.cfi_endproc
- 268              	.LFE602:
- 270              		.section	.rodata.vApplicationMallocFailedHook.str1.4,"aMS",%progbits,1
- 271              		.align	2
- 272              	.LC6:
- 273 0000 6D616C6C 		.ascii	"malloc fail\015\000"
- 273      6F632066 
- 273      61696C0D 
- 273      00
- 274              		.section	.text.vApplicationMallocFailedHook,"ax",%progbits
- 275              		.align	1
- 276              		.global	vApplicationMallocFailedHook
- 277              		.syntax unified
- 278              		.thumb
- 279              		.thumb_func
- 281              	vApplicationMallocFailedHook:
- 282              	.LFB598:
- 138:Core/Src/freertos.c ****   /* vApplicationMallocFailedHook() will only be called if
- 283              		.loc 1 138 1 view -0
- 284              		.cfi_startproc
- 285              		@ Volatile: function does not return.
- 286              		@ args = 0, pretend = 0, frame = 0
- 287              		@ frame_needed = 0, uses_anonymous_args = 0
- 288 0000 08B5     		push	{r3, lr}
- 289              	.LCFI3:
- 290              		.cfi_def_cfa_offset 8
- 291              		.cfi_offset 3, -8
- 292              		.cfi_offset 14, -4
- 149:Core/Src/freertos.c ****   while (1)
- 293              		.loc 1 149 3 view .LVU40
- 294 0002 0648     		ldr	r0, .L17
- 295 0004 FFF7FEFF 		bl	puts
- 296              	.LVL26:
- 297              	.L15:
- 150:Core/Src/freertos.c ****   {
- 298              		.loc 1 150 3 view .LVU41
- 153:Core/Src/freertos.c ****     osDelay(200);
- 299              		.loc 1 153 5 view .LVU42
- 300 0008 4FF48041 		mov	r1, #16384
- 301 000c 0448     		ldr	r0, .L17+4
- 302 000e FFF7FEFF 		bl	HAL_GPIO_TogglePin
- 303              	.LVL27:
- 154:Core/Src/freertos.c ****   }
- 304              		.loc 1 154 5 discriminator 1 view .LVU43
- 305 0012 C820     		movs	r0, #200
- 306 0014 FFF7FEFF 		bl	osDelay
- 307              	.LVL28:
- 150:Core/Src/freertos.c ****   {
- 308              		.loc 1 150 9 view .LVU44
- 309 0018 F6E7     		b	.L15
- 310              	.L18:
- 311 001a 00BF     		.align	2
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 13
+ 295:Core/Src/freertos.c ****     fft_run(&fft_3I);
+ 242              		.loc 1 295 5 view .LVU36
+ 243 0034 1548     		ldr	r0, .L9+28
+ 244 0036 FFF7FEFF 		bl	fft_run
+ 245              	.LVL28:
+ 296:Core/Src/freertos.c ****     fft_run(&fft_NI);
+ 246              		.loc 1 296 5 view .LVU37
+ 247 003a 1548     		ldr	r0, .L9+32
+ 248 003c FFF7FEFF 		bl	fft_run
+ 249              	.LVL29:
+ 297:Core/Src/freertos.c **** 
+ 298:Core/Src/freertos.c ****     PHASE_run(&P1);
+ 250              		.loc 1 298 5 view .LVU38
+ 251 0040 1448     		ldr	r0, .L9+36
+ 252 0042 FFF7FEFF 		bl	PHASE_run
+ 253              	.LVL30:
+ 299:Core/Src/freertos.c ****     PHASE_run(&P2);
+ 254              		.loc 1 299 5 view .LVU39
+ 255 0046 1448     		ldr	r0, .L9+40
+ 256 0048 FFF7FEFF 		bl	PHASE_run
+ 257              	.LVL31:
+ 300:Core/Src/freertos.c ****     PHASE_run(&P3);
+ 258              		.loc 1 300 5 view .LVU40
+ 259 004c 1348     		ldr	r0, .L9+44
+ 260 004e FFF7FEFF 		bl	PHASE_run
+ 261              	.LVL32:
+ 301:Core/Src/freertos.c ****     PHASE_run(&PN);
+ 262              		.loc 1 301 5 view .LVU41
+ 263 0052 1348     		ldr	r0, .L9+48
+ 264 0054 FFF7FEFF 		bl	PHASE_run
+ 265              	.LVL33:
+ 302:Core/Src/freertos.c **** 
+ 303:Core/Src/freertos.c ****     Voltage_three_run(&Voltage);
+ 266              		.loc 1 303 5 view .LVU42
+ 267 0058 1248     		ldr	r0, .L9+52
+ 268 005a FFF7FEFF 		bl	Voltage_three_run
+ 269              	.LVL34:
+ 304:Core/Src/freertos.c ****     HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
+ 270              		.loc 1 304 5 view .LVU43
+ 271 005e 0821     		movs	r1, #8
+ 272 0060 0348     		ldr	r0, .L9
+ 273 0062 FFF7FEFF 		bl	HAL_TIMEx_PWMN_Start
+ 274              	.LVL35:
+ 305:Core/Src/freertos.c ****     osDelay(100);
+ 275              		.loc 1 305 5 discriminator 1 view .LVU44
+ 276 0066 6420     		movs	r0, #100
+ 277 0068 FFF7FEFF 		bl	osDelay
+ 278              	.LVL36:
+ 286:Core/Src/freertos.c ****   {
+ 279              		.loc 1 286 3 view .LVU45
+ 280 006c D0E7     		b	.L7
+ 281              	.L10:
+ 282 006e 00BF     		.align	2
+ 283              	.L9:
+ 284 0070 00000000 		.word	htim8
+ 285 0074 00000000 		.word	fft_1V
+ 286 0078 00000000 		.word	fft_2V
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 12
 
 
- 312              	.L17:
- 313 001c 00000000 		.word	.LC6
- 314 0020 00180258 		.word	1476532224
- 315              		.cfi_endproc
- 316              	.LFE598:
- 318              		.section	.text.vApplicationGetIdleTaskMemory,"ax",%progbits
- 319              		.align	1
- 320              		.global	vApplicationGetIdleTaskMemory
- 321              		.syntax unified
- 322              		.thumb
- 323              		.thumb_func
- 325              	vApplicationGetIdleTaskMemory:
- 326              	.LVL29:
- 327              	.LFB599:
- 164:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
- 328              		.loc 1 164 1 view -0
- 329              		.cfi_startproc
- 330              		@ args = 0, pretend = 0, frame = 0
- 331              		@ frame_needed = 0, uses_anonymous_args = 0
- 332              		@ link register save eliminated.
- 165:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
- 333              		.loc 1 165 3 view .LVU46
- 165:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
- 334              		.loc 1 165 25 is_stmt 0 view .LVU47
- 335 0000 034B     		ldr	r3, .L20
- 336 0002 0360     		str	r3, [r0]
- 166:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
- 337              		.loc 1 166 3 is_stmt 1 view .LVU48
- 166:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
- 338              		.loc 1 166 27 is_stmt 0 view .LVU49
- 339 0004 034B     		ldr	r3, .L20+4
- 340 0006 0B60     		str	r3, [r1]
- 167:Core/Src/freertos.c ****   /* place for user code */
- 341              		.loc 1 167 3 is_stmt 1 view .LVU50
- 167:Core/Src/freertos.c ****   /* place for user code */
- 342              		.loc 1 167 25 is_stmt 0 view .LVU51
- 343 0008 8023     		movs	r3, #128
- 344 000a 1360     		str	r3, [r2]
- 169:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
- 345              		.loc 1 169 1 view .LVU52
- 346 000c 7047     		bx	lr
- 347              	.L21:
- 348 000e 00BF     		.align	2
- 349              	.L20:
- 350 0010 00000000 		.word	xIdleTaskTCBBuffer
- 351 0014 00000000 		.word	xIdleStack
- 352              		.cfi_endproc
- 353              	.LFE599:
- 355              		.section	.text.MX_FREERTOS_Init,"ax",%progbits
- 356              		.align	1
- 357              		.global	MX_FREERTOS_Init
- 358              		.syntax unified
- 359              		.thumb
- 360              		.thumb_func
- 362              	MX_FREERTOS_Init:
- 363              	.LFB600:
- 178:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 14
-
-
- 364              		.loc 1 178 1 is_stmt 1 view -0
- 365              		.cfi_startproc
- 366              		@ args = 0, pretend = 0, frame = 120
- 367              		@ frame_needed = 0, uses_anonymous_args = 0
- 368 0000 30B5     		push	{r4, r5, lr}
- 369              	.LCFI4:
- 370              		.cfi_def_cfa_offset 12
- 371              		.cfi_offset 4, -12
- 372              		.cfi_offset 5, -8
- 373              		.cfi_offset 14, -4
- 374 0002 9FB0     		sub	sp, sp, #124
- 375              	.LCFI5:
- 376              		.cfi_def_cfa_offset 136
- 189:Core/Src/freertos.c ****   EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
- 377              		.loc 1 189 3 view .LVU54
- 378 0004 0025     		movs	r5, #0
- 379 0006 1C95     		str	r5, [sp, #112]
- 380 0008 1D95     		str	r5, [sp, #116]
- 190:Core/Src/freertos.c **** 
- 381              		.loc 1 190 3 view .LVU55
- 190:Core/Src/freertos.c **** 
- 382              		.loc 1 190 21 is_stmt 0 view .LVU56
- 383 000a 0121     		movs	r1, #1
- 384 000c 1CA8     		add	r0, sp, #112
- 385 000e FFF7FEFF 		bl	osSemaphoreCreate
- 386              	.LVL30:
- 190:Core/Src/freertos.c **** 
- 387              		.loc 1 190 19 discriminator 1 view .LVU57
- 388 0012 294B     		ldr	r3, .L24
- 389 0014 1860     		str	r0, [r3]
- 193:Core/Src/freertos.c ****   EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
- 390              		.loc 1 193 3 is_stmt 1 view .LVU58
- 391 0016 1A95     		str	r5, [sp, #104]
- 392 0018 1B95     		str	r5, [sp, #108]
- 194:Core/Src/freertos.c **** 
- 393              		.loc 1 194 3 view .LVU59
- 194:Core/Src/freertos.c **** 
- 394              		.loc 1 194 21 is_stmt 0 view .LVU60
- 395 001a 0121     		movs	r1, #1
- 396 001c 1AA8     		add	r0, sp, #104
- 397 001e FFF7FEFF 		bl	osSemaphoreCreate
- 398              	.LVL31:
- 194:Core/Src/freertos.c **** 
- 399              		.loc 1 194 19 discriminator 1 view .LVU61
- 400 0022 264B     		ldr	r3, .L24+4
- 401 0024 1860     		str	r0, [r3]
- 197:Core/Src/freertos.c ****   EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
- 402              		.loc 1 197 3 is_stmt 1 view .LVU62
- 403 0026 1895     		str	r5, [sp, #96]
- 404 0028 1995     		str	r5, [sp, #100]
- 198:Core/Src/freertos.c **** 
- 405              		.loc 1 198 3 view .LVU63
- 198:Core/Src/freertos.c **** 
- 406              		.loc 1 198 30 is_stmt 0 view .LVU64
- 407 002a 0121     		movs	r1, #1
- 408 002c 18A8     		add	r0, sp, #96
- 409 002e FFF7FEFF 		bl	osSemaphoreCreate
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 15
-
-
- 410              	.LVL32:
- 198:Core/Src/freertos.c **** 
- 411              		.loc 1 198 28 discriminator 1 view .LVU65
- 412 0032 234B     		ldr	r3, .L24+8
- 413 0034 1860     		str	r0, [r3]
- 201:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
- 414              		.loc 1 201 3 is_stmt 1 view .LVU66
- 415 0036 1695     		str	r5, [sp, #88]
- 416 0038 1795     		str	r5, [sp, #92]
- 202:Core/Src/freertos.c **** 
- 417              		.loc 1 202 3 view .LVU67
- 202:Core/Src/freertos.c **** 
- 418              		.loc 1 202 27 is_stmt 0 view .LVU68
- 419 003a 0121     		movs	r1, #1
- 420 003c 16A8     		add	r0, sp, #88
- 421 003e FFF7FEFF 		bl	osSemaphoreCreate
- 422              	.LVL33:
- 202:Core/Src/freertos.c **** 
- 423              		.loc 1 202 25 discriminator 1 view .LVU69
- 424 0042 204B     		ldr	r3, .L24+12
- 425 0044 1860     		str	r0, [r3]
- 218:Core/Src/freertos.c ****   refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
- 426              		.loc 1 218 3 is_stmt 1 view .LVU70
- 427 0046 204C     		ldr	r4, .L24+16
- 428 0048 0DF13C0C 		add	ip, sp, #60
- 429 004c A646     		mov	lr, r4
- 430 004e BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
- 431 0052 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
- 432 0056 9EE80700 		ldm	lr, {r0, r1, r2}
- 433 005a 8CE80700 		stm	ip, {r0, r1, r2}
- 219:Core/Src/freertos.c **** 
- 434              		.loc 1 219 3 view .LVU71
- 219:Core/Src/freertos.c **** 
- 435              		.loc 1 219 24 is_stmt 0 view .LVU72
- 436 005e 2946     		mov	r1, r5
- 437 0060 0FA8     		add	r0, sp, #60
- 438 0062 FFF7FEFF 		bl	osThreadCreate
- 439              	.LVL34:
- 219:Core/Src/freertos.c **** 
- 440              		.loc 1 219 22 discriminator 1 view .LVU73
- 441 0066 194B     		ldr	r3, .L24+20
- 442 0068 1860     		str	r0, [r3]
- 222:Core/Src/freertos.c ****   task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
- 443              		.loc 1 222 3 is_stmt 1 view .LVU74
- 444 006a 0DF1200C 		add	ip, sp, #32
- 445 006e 04F11C0E 		add	lr, r4, #28
- 446 0072 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
- 447 0076 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
- 448 007a 9EE80700 		ldm	lr, {r0, r1, r2}
- 449 007e 8CE80700 		stm	ip, {r0, r1, r2}
- 223:Core/Src/freertos.c **** 
- 450              		.loc 1 223 3 view .LVU75
- 223:Core/Src/freertos.c **** 
- 451              		.loc 1 223 20 is_stmt 0 view .LVU76
- 452 0082 2946     		mov	r1, r5
- 453 0084 08A8     		add	r0, sp, #32
- 454 0086 FFF7FEFF 		bl	osThreadCreate
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 16
-
-
- 455              	.LVL35:
- 223:Core/Src/freertos.c **** 
- 456              		.loc 1 223 18 discriminator 1 view .LVU77
- 457 008a 114B     		ldr	r3, .L24+24
- 458 008c 1860     		str	r0, [r3]
- 226:Core/Src/freertos.c ****   task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
- 459              		.loc 1 226 3 is_stmt 1 view .LVU78
- 460 008e 0DF1040E 		add	lr, sp, #4
- 461 0092 04F1380C 		add	ip, r4, #56
- 462 0096 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
- 463 009a AEE80F00 		stmia	lr!, {r0, r1, r2, r3}
- 464 009e 9CE80700 		ldm	ip, {r0, r1, r2}
- 465 00a2 8EE80700 		stm	lr, {r0, r1, r2}
- 227:Core/Src/freertos.c **** 
- 466              		.loc 1 227 3 view .LVU79
- 227:Core/Src/freertos.c **** 
- 467              		.loc 1 227 21 is_stmt 0 view .LVU80
- 468 00a6 2946     		mov	r1, r5
- 469 00a8 01A8     		add	r0, sp, #4
- 470 00aa FFF7FEFF 		bl	osThreadCreate
- 471              	.LVL36:
- 227:Core/Src/freertos.c **** 
- 472              		.loc 1 227 19 discriminator 1 view .LVU81
- 473 00ae 094B     		ldr	r3, .L24+28
- 474 00b0 1860     		str	r0, [r3]
- 232:Core/Src/freertos.c **** 
- 475              		.loc 1 232 1 view .LVU82
- 476 00b2 1FB0     		add	sp, sp, #124
- 477              	.LCFI6:
- 478              		.cfi_def_cfa_offset 12
- 479              		@ sp needed
- 480 00b4 30BD     		pop	{r4, r5, pc}
- 481              	.L25:
- 482 00b6 00BF     		.align	2
- 483              	.L24:
- 484 00b8 00000000 		.word	EVENT_ADCHandle
- 485 00bc 00000000 		.word	EVENT_FFTHandle
- 486 00c0 00000000 		.word	EVENT_LVGL_REFERSHHandle
- 487 00c4 00000000 		.word	EVENT_LVGL_TASKHandle
- 488 00c8 00000000 		.word	.LANCHOR0
- 489 00cc 00000000 		.word	refersh_lvglHandle
- 490 00d0 00000000 		.word	task_FFTHandle
- 491 00d4 00000000 		.word	task_lvglHandle
- 492              		.cfi_endproc
- 493              	.LFE600:
- 495              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
- 496              		.align	1
- 497              		.global	HAL_GPIO_EXTI_Callback
- 498              		.syntax unified
- 499              		.thumb
- 500              		.thumb_func
- 502              	HAL_GPIO_EXTI_Callback:
- 503              	.LVL37:
- 504              	.LFB604:
+ 287 007c 00000000 		.word	fft_3V
+ 288 0080 00000000 		.word	fft_NV
+ 289 0084 00000000 		.word	fft_1I
+ 290 0088 00000000 		.word	fft_2I
+ 291 008c 00000000 		.word	fft_3I
+ 292 0090 00000000 		.word	fft_NI
+ 293 0094 00000000 		.word	P1
+ 294 0098 00000000 		.word	P2
+ 295 009c 00000000 		.word	P3
+ 296 00a0 00000000 		.word	PN
+ 297 00a4 00000000 		.word	Voltage
+ 298              		.cfi_endproc
+ 299              	.LFE602:
+ 301              		.section	.text.TASK_LVGL,"ax",%progbits
+ 302              		.align	1
+ 303              		.global	TASK_LVGL
+ 304              		.syntax unified
+ 305              		.thumb
+ 306              		.thumb_func
+ 308              	TASK_LVGL:
+ 309              	.LVL37:
+ 310              	.LFB603:
  306:Core/Src/freertos.c ****   }
- 307:Core/Src/freertos.c ****   /* USER CODE END TASK_LVGL */
+ 307:Core/Src/freertos.c ****   /* USER CODE END TASK_FFT */
  308:Core/Src/freertos.c **** }
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 17
-
-
  309:Core/Src/freertos.c **** 
- 310:Core/Src/freertos.c **** /* Private application code --------------------------------------------------*/
- 311:Core/Src/freertos.c **** /* USER CODE BEGIN Application */
- 312:Core/Src/freertos.c **** /**
- 313:Core/Src/freertos.c ****  * @brief  EXTI line detection callback.
- 314:Core/Src/freertos.c ****  * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
- 315:Core/Src/freertos.c ****  * @retval None
- 316:Core/Src/freertos.c ****  */
- 317:Core/Src/freertos.c **** /* NOTE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
- 318:Core/Src/freertos.c ****               __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
- 319:Core/Src/freertos.c **** This function Should not be modified in the hal_gpio file, when the callback is needed,
- 320:Core/Src/freertos.c ****            the HAL_GPIO_EXTI_Callback could be implemented in the user file
- 321:Core/Src/freertos.c **** ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
- 322:Core/Src/freertos.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
- 323:Core/Src/freertos.c **** {
- 505              		.loc 1 323 1 is_stmt 1 view -0
- 506              		.cfi_startproc
- 507              		@ args = 0, pretend = 0, frame = 0
- 508              		@ frame_needed = 0, uses_anonymous_args = 0
- 324:Core/Src/freertos.c ****   // GPIO_PIN_12 == ADC Complete interrupt
- 325:Core/Src/freertos.c ****   if (GPIO_Pin == GPIO_PIN_12)
- 509              		.loc 1 325 3 view .LVU84
- 510              		.loc 1 325 6 is_stmt 0 view .LVU85
- 511 0000 B0F5805F 		cmp	r0, #4096
- 512 0004 00D0     		beq	.L32
- 513 0006 7047     		bx	lr
- 514              	.L32:
- 323:Core/Src/freertos.c ****   // GPIO_PIN_12 == ADC Complete interrupt
- 515              		.loc 1 323 1 view .LVU86
- 516 0008 08B5     		push	{r3, lr}
- 517              	.LCFI7:
- 518              		.cfi_def_cfa_offset 8
- 519              		.cfi_offset 3, -8
- 520              		.cfi_offset 14, -4
- 326:Core/Src/freertos.c ****   {
- 327:Core/Src/freertos.c ****     test_AD7606();
- 521              		.loc 1 327 5 is_stmt 1 view .LVU87
- 522 000a FFF7FEFF 		bl	test_AD7606
- 523              	.LVL38:
- 328:Core/Src/freertos.c ****   }
- 329:Core/Src/freertos.c **** }
- 524              		.loc 1 329 1 is_stmt 0 view .LVU88
- 525 000e 08BD     		pop	{r3, pc}
- 526              		.cfi_endproc
- 527              	.LFE604:
- 529              		.section	.rodata.str1.4,"aMS",%progbits,1
- 530              		.align	2
- 531              	.LC4:
- 532 0000 7461736B 		.ascii	"task_lvgl\000"
- 532      5F6C7667 
- 532      6C00
- 533 000a 0000     		.align	2
- 534              	.LC2:
- 535 000c 7461736B 		.ascii	"task_FFT\000"
- 535      5F464654 
- 535      00
- 536 0015 000000   		.align	2
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 18
+ 310:Core/Src/freertos.c **** /* USER CODE BEGIN Header_TASK_LVGL */
+ 311:Core/Src/freertos.c **** /**
+ 312:Core/Src/freertos.c ****  * @brief Function implementing the task_lvgl thread.
+ 313:Core/Src/freertos.c ****  * @param argument: Not used
+ 314:Core/Src/freertos.c ****  * @retval None
+ 315:Core/Src/freertos.c ****  */
+ 316:Core/Src/freertos.c **** /* USER CODE END Header_TASK_LVGL */
+ 317:Core/Src/freertos.c **** void TASK_LVGL(void const *argument)
+ 318:Core/Src/freertos.c **** {
+ 311              		.loc 1 318 1 view -0
+ 312              		.cfi_startproc
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315              		.loc 1 318 1 is_stmt 0 view .LVU47
+ 316 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 317              	.LCFI2:
+ 318              		.cfi_def_cfa_offset 40
+ 319              		.cfi_offset 3, -40
+ 320              		.cfi_offset 4, -36
+ 321              		.cfi_offset 5, -32
+ 322              		.cfi_offset 6, -28
+ 323              		.cfi_offset 7, -24
+ 324              		.cfi_offset 8, -20
+ 325              		.cfi_offset 9, -16
+ 326              		.cfi_offset 10, -12
+ 327              		.cfi_offset 11, -8
+ 328              		.cfi_offset 14, -4
+ 319:Core/Src/freertos.c ****   /* USER CODE BEGIN TASK_LVGL */
+ 320:Core/Src/freertos.c ****   page_init();
+ 329              		.loc 1 320 3 is_stmt 1 view .LVU48
+ 330 0004 FFF7FEFF 		bl	page_init
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 13
 
 
- 537              	.LC0:
- 538 0018 72656665 		.ascii	"refersh_lvgl\000"
- 538      7273685F 
- 538      6C76676C 
- 538      00
- 539              		.section	.bss.xIdleStack,"aw",%nobits
- 540              		.align	2
- 543              	xIdleStack:
- 544 0000 00000000 		.space	512
- 544      00000000 
- 544      00000000 
- 544      00000000 
- 544      00000000 
- 545              		.section	.bss.xIdleTaskTCBBuffer,"aw",%nobits
- 546              		.align	2
- 549              	xIdleTaskTCBBuffer:
- 550 0000 00000000 		.space	84
- 550      00000000 
- 550      00000000 
- 550      00000000 
- 550      00000000 
- 551              		.global	EVENT_LVGL_TASKHandle
- 552              		.section	.bss.EVENT_LVGL_TASKHandle,"aw",%nobits
- 553              		.align	2
- 556              	EVENT_LVGL_TASKHandle:
- 557 0000 00000000 		.space	4
- 558              		.global	EVENT_LVGL_REFERSHHandle
- 559              		.section	.bss.EVENT_LVGL_REFERSHHandle,"aw",%nobits
- 560              		.align	2
- 563              	EVENT_LVGL_REFERSHHandle:
- 564 0000 00000000 		.space	4
- 565              		.global	EVENT_FFTHandle
- 566              		.section	.bss.EVENT_FFTHandle,"aw",%nobits
- 567              		.align	2
- 570              	EVENT_FFTHandle:
- 571 0000 00000000 		.space	4
- 572              		.global	EVENT_ADCHandle
- 573              		.section	.bss.EVENT_ADCHandle,"aw",%nobits
- 574              		.align	2
- 577              	EVENT_ADCHandle:
- 578 0000 00000000 		.space	4
- 579              		.global	task_lvglHandle
- 580              		.section	.bss.task_lvglHandle,"aw",%nobits
- 581              		.align	2
- 584              	task_lvglHandle:
- 585 0000 00000000 		.space	4
- 586              		.global	task_FFTHandle
- 587              		.section	.bss.task_FFTHandle,"aw",%nobits
- 588              		.align	2
- 591              	task_FFTHandle:
- 592 0000 00000000 		.space	4
- 593              		.global	refersh_lvglHandle
- 594              		.section	.bss.refersh_lvglHandle,"aw",%nobits
- 595              		.align	2
- 598              	refersh_lvglHandle:
- 599 0000 00000000 		.space	4
- 600              		.global	serN_I
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 19
+ 331              	.LVL38:
+ 321:Core/Src/freertos.c ****   ser1 = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_YELLOW), LV_C
+ 332              		.loc 1 321 3 view .LVU49
+ 333              		.loc 1 321 10 is_stmt 0 view .LVU50
+ 334 0008 724C     		ldr	r4, .L14
+ 335 000a D4F88C50 		ldr	r5, [r4, #140]
+ 336 000e 0C20     		movs	r0, #12
+ 337 0010 FFF7FEFF 		bl	lv_palette_main
+ 338              	.LVL39:
+ 339 0014 0146     		mov	r1, r0	@ movhi
+ 340              		.loc 1 321 10 discriminator 1 view .LVU51
+ 341 0016 0022     		movs	r2, #0
+ 342 0018 2846     		mov	r0, r5
+ 343 001a FFF7FEFF 		bl	lv_chart_add_series
+ 344              	.LVL40:
+ 345              		.loc 1 321 8 discriminator 2 view .LVU52
+ 346 001e DFF8E481 		ldr	r8, .L14+48
+ 347 0022 C8F80000 		str	r0, [r8]
+ 322:Core/Src/freertos.c ****   ser2 = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_color_hex(0x00FF00), LV_CHART_AXIS_PR
+ 348              		.loc 1 322 3 is_stmt 1 view .LVU53
+ 349              	.LVL41:
+ 350              	.LBB12:
+ 351              	.LBI12:
+ 352              		.file 3 "lvgl/src/hal/../draw/../misc/lv_color.h"
+   1:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+   2:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @file lv_color.h
+   3:lvgl/src/hal/../draw/../misc/lv_color.h ****  *
+   4:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+   5:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+   6:lvgl/src/hal/../draw/../misc/lv_color.h **** #ifndef LV_COLOR_H
+   7:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_H
+   8:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+   9:lvgl/src/hal/../draw/../misc/lv_color.h **** #ifdef __cplusplus
+  10:lvgl/src/hal/../draw/../misc/lv_color.h **** extern "C" {
+  11:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  12:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  13:lvgl/src/hal/../draw/../misc/lv_color.h **** /*********************
+  14:lvgl/src/hal/../draw/../misc/lv_color.h ****  *      INCLUDES
+  15:lvgl/src/hal/../draw/../misc/lv_color.h ****  *********************/
+  16:lvgl/src/hal/../draw/../misc/lv_color.h **** #include "../lv_conf_internal.h"
+  17:lvgl/src/hal/../draw/../misc/lv_color.h **** #include "lv_assert.h"
+  18:lvgl/src/hal/../draw/../misc/lv_color.h **** #include "lv_math.h"
+  19:lvgl/src/hal/../draw/../misc/lv_color.h **** #include "lv_types.h"
+  20:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  21:lvgl/src/hal/../draw/../misc/lv_color.h **** /*Error checking*/
+  22:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 24
+  23:lvgl/src/hal/../draw/../misc/lv_color.h **** #error "LV_COLOR_DEPTH 24 is deprecated. Use LV_COLOR_DEPTH 32 instead (lv_conf.h)"
+  24:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  25:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  26:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH != 32 && LV_COLOR_SCREEN_TRANSP != 0
+  27:lvgl/src/hal/../draw/../misc/lv_color.h **** #error "LV_COLOR_SCREEN_TRANSP requires LV_COLOR_DEPTH == 32. Set it in lv_conf.h"
+  28:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  29:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  30:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH != 16 && LV_COLOR_16_SWAP != 0
+  31:lvgl/src/hal/../draw/../misc/lv_color.h **** #error "LV_COLOR_16_SWAP requires LV_COLOR_DEPTH == 16. Set it in lv_conf.h"
+  32:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  33:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 14
 
 
- 601              		.section	.bss.serN_I,"aw",%nobits
- 602              		.align	2
- 605              	serN_I:
- 606 0000 00000000 		.space	4
- 607              		.global	ser3_I
- 608              		.section	.bss.ser3_I,"aw",%nobits
- 609              		.align	2
- 612              	ser3_I:
- 613 0000 00000000 		.space	4
- 614              		.global	ser2_I
- 615              		.section	.bss.ser2_I,"aw",%nobits
- 616              		.align	2
- 619              	ser2_I:
- 620 0000 00000000 		.space	4
- 621              		.global	ser1_I
- 622              		.section	.bss.ser1_I,"aw",%nobits
- 623              		.align	2
- 626              	ser1_I:
- 627 0000 00000000 		.space	4
- 628              		.global	serN
- 629              		.section	.bss.serN,"aw",%nobits
- 630              		.align	2
- 633              	serN:
- 634 0000 00000000 		.space	4
- 635              		.global	ser3
- 636              		.section	.bss.ser3,"aw",%nobits
- 637              		.align	2
- 640              	ser3:
- 641 0000 00000000 		.space	4
- 642              		.global	ser2
- 643              		.section	.bss.ser2,"aw",%nobits
- 644              		.align	2
- 647              	ser2:
- 648 0000 00000000 		.space	4
- 649              		.global	ser1
- 650              		.section	.bss.ser1,"aw",%nobits
- 651              		.align	2
- 654              	ser1:
- 655 0000 00000000 		.space	4
- 656              		.global	Voltage
- 657              		.section	.SDRAM,"aw"
- 658              		.align	5
- 661              	Voltage:
- 662 0000 00000000 		.space	32
- 662      00000000 
- 662      00000000 
- 662      00000000 
- 662      00000000 
- 663              		.global	PN
- 664              		.align	5
- 667              	PN:
- 668 0020 00000000 		.space	80
- 668      00000000 
- 668      00000000 
- 668      00000000 
- 668      00000000 
- 669              		.global	P3
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 20
+  34:lvgl/src/hal/../draw/../misc/lv_color.h **** #include <stdint.h>
+  35:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  36:lvgl/src/hal/../draw/../misc/lv_color.h **** /*********************
+  37:lvgl/src/hal/../draw/../misc/lv_color.h ****  *      DEFINES
+  38:lvgl/src/hal/../draw/../misc/lv_color.h ****  *********************/
+  39:lvgl/src/hal/../draw/../misc/lv_color.h **** LV_EXPORT_CONST_INT(LV_COLOR_DEPTH);
+  40:lvgl/src/hal/../draw/../misc/lv_color.h **** LV_EXPORT_CONST_INT(LV_COLOR_16_SWAP);
+  41:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  42:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+  43:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Opacity percentages.
+  44:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+  45:lvgl/src/hal/../draw/../misc/lv_color.h **** enum {
+  46:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_TRANSP = 0,
+  47:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_0      = 0,
+  48:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_10     = 25,
+  49:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_20     = 51,
+  50:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_30     = 76,
+  51:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_40     = 102,
+  52:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_50     = 127,
+  53:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_60     = 153,
+  54:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_70     = 178,
+  55:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_80     = 204,
+  56:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_90     = 229,
+  57:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_100    = 255,
+  58:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_OPA_COVER  = 255,
+  59:lvgl/src/hal/../draw/../misc/lv_color.h **** };
+  60:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  61:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_OPA_MIN 2    /*Opacities below this will be transparent*/
+  62:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_OPA_MAX 253  /*Opacities above this will fully cover*/
+  63:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  64:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 1
+  65:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SIZE 8
+  66:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 8
+  67:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SIZE 8
+  68:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 16
+  69:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SIZE 16
+  70:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 32
+  71:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SIZE 32
+  72:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+  73:lvgl/src/hal/../draw/../misc/lv_color.h **** #error "Invalid LV_COLOR_DEPTH in lv_conf.h! Set it to 1, 8, 16 or 32!"
+  74:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  75:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  76:lvgl/src/hal/../draw/../misc/lv_color.h **** #if defined(__cplusplus) && !defined(_LV_COLOR_HAS_MODERN_CPP)
+  77:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+  78:lvgl/src/hal/../draw/../misc/lv_color.h **** * MSVC compiler's definition of the __cplusplus indicating 199711L regardless to C++ standard versi
+  79:lvgl/src/hal/../draw/../misc/lv_color.h **** * see https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-cplusplus
+  80:lvgl/src/hal/../draw/../misc/lv_color.h **** * so we use _MSC_VER macro instead of __cplusplus
+  81:lvgl/src/hal/../draw/../misc/lv_color.h **** */
+  82:lvgl/src/hal/../draw/../misc/lv_color.h **** #ifdef _MSC_VER
+  83:lvgl/src/hal/../draw/../misc/lv_color.h **** #if _MSC_VER >= 1900 /*Visual Studio 2015*/
+  84:lvgl/src/hal/../draw/../misc/lv_color.h **** #define _LV_COLOR_HAS_MODERN_CPP 1
+  85:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  86:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+  87:lvgl/src/hal/../draw/../misc/lv_color.h **** #if __cplusplus >= 201103L
+  88:lvgl/src/hal/../draw/../misc/lv_color.h **** #define _LV_COLOR_HAS_MODERN_CPP 1
+  89:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  90:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 15
 
 
- 670 0070 00000000 		.align	5
- 670      00000000 
- 670      00000000 
- 670      00000000 
- 673              	P3:
- 674 0080 00000000 		.space	80
- 674      00000000 
- 674      00000000 
- 674      00000000 
- 674      00000000 
- 675              		.global	P2
- 676 00d0 00000000 		.align	5
- 676      00000000 
- 676      00000000 
- 676      00000000 
- 679              	P2:
- 680 00e0 00000000 		.space	80
- 680      00000000 
- 680      00000000 
- 680      00000000 
- 680      00000000 
- 681              		.global	P1
- 682 0130 00000000 		.align	5
- 682      00000000 
- 682      00000000 
- 682      00000000 
- 685              	P1:
- 686 0140 00000000 		.space	80
- 686      00000000 
- 686      00000000 
- 686      00000000 
- 686      00000000 
- 687              		.global	fft_NI
- 688 0190 00000000 		.align	5
- 688      00000000 
- 688      00000000 
- 688      00000000 
- 691              	fft_NI:
- 692 01a0 00000000 		.space	37820
- 692      00000000 
- 692      00000000 
- 692      00000000 
- 692      00000000 
- 693              		.global	fft_3I
- 694 955c 00000000 		.align	5
- 697              	fft_3I:
- 698 9560 00000000 		.space	37820
- 698      00000000 
- 698      00000000 
- 698      00000000 
- 698      00000000 
- 699              		.global	fft_2I
- 700 1291c 00000000 		.align	5
- 703              	fft_2I:
- 704 12920 00000000 		.space	37820
- 704      00000000 
- 704      00000000 
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 21
+  91:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif /*__cplusplus*/
+  92:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  93:lvgl/src/hal/../draw/../misc/lv_color.h **** #ifndef _LV_COLOR_HAS_MODERN_CPP
+  94:lvgl/src/hal/../draw/../misc/lv_color.h **** #define _LV_COLOR_HAS_MODERN_CPP 0
+  95:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+  96:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+  97:lvgl/src/hal/../draw/../misc/lv_color.h **** #if _LV_COLOR_HAS_MODERN_CPP
+  98:lvgl/src/hal/../draw/../misc/lv_color.h **** /*Fix msvc compiler error C4576 inside C++ code*/
+  99:lvgl/src/hal/../draw/../misc/lv_color.h **** #define _LV_COLOR_MAKE_TYPE_HELPER lv_color_t
+ 100:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 101:lvgl/src/hal/../draw/../misc/lv_color.h **** #define _LV_COLOR_MAKE_TYPE_HELPER (lv_color_t)
+ 102:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 103:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 104:lvgl/src/hal/../draw/../misc/lv_color.h **** /*---------------------------------------
+ 105:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Macros for all existing color depths
+ 106:lvgl/src/hal/../draw/../misc/lv_color.h ****  * to set/get values of the color channels
+ 107:lvgl/src/hal/../draw/../misc/lv_color.h ****  *------------------------------------------*/
+ 108:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_R1(c, v) (c).ch.red = (uint8_t)((v) & 0x1)
+ 109:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_G1(c, v) (c).ch.green = (uint8_t)((v) & 0x1)
+ 110:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_B1(c, v) (c).ch.blue = (uint8_t)((v) & 0x1)
+ 111:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_A1(c, v) do {} while(0)
+ 112:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 113:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_R1(c) (c).ch.red
+ 114:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_G1(c) (c).ch.green
+ 115:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_B1(c) (c).ch.blue
+ 116:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_A1(c) 0xFF
+ 117:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 118:lvgl/src/hal/../draw/../misc/lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER1 {0x00}
+ 119:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_MAKE1(r8, g8, b8)  {(uint8_t)((b8 >> 7) | (g8 >> 7) | (r8 >> 7))}
+ 120:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 121:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_R8(c, v) (c).ch.red = (uint8_t)((v) & 0x7U)
+ 122:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_G8(c, v) (c).ch.green = (uint8_t)((v) & 0x7U)
+ 123:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_B8(c, v) (c).ch.blue = (uint8_t)((v) & 0x3U)
+ 124:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_A8(c, v) do {} while(0)
+ 125:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 126:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_R8(c) (c).ch.red
+ 127:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_G8(c) (c).ch.green
+ 128:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_B8(c) (c).ch.blue
+ 129:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_A8(c) 0xFF
+ 130:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 131:lvgl/src/hal/../draw/../misc/lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER8 {{0x00, 0x00, 0x00}}
+ 132:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_MAKE8(r8, g8, b8) {{(uint8_t)((b8 >> 6) & 0x3U), (uint8_t)((g8 >> 5) & 0x7U), (ui
+ 133:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 134:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_R16(c, v) (c).ch.red = (uint8_t)((v) & 0x1FU)
+ 135:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 136:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_G16(c, v) (c).ch.green = (uint8_t)((v) & 0x3FU)
+ 137:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 138:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_G16(c, v) {(c).ch.green_h = (uint8_t)(((v) >> 3) & 0x7); (c).ch.green_l = (ui
+ 139:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 140:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_B16(c, v) (c).ch.blue = (uint8_t)((v) & 0x1FU)
+ 141:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_A16(c, v) do {} while(0)
+ 142:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 143:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_R16(c) (c).ch.red
+ 144:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 145:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_G16(c) (c).ch.green
+ 146:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 147:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_G16(c) (((c).ch.green_h << 3) + (c).ch.green_l)
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 16
 
 
- 704      00000000 
- 704      00000000 
- 705              		.global	fft_1I
- 706 1bcdc 00000000 		.align	5
- 709              	fft_1I:
- 710 1bce0 00000000 		.space	37820
- 710      00000000 
- 710      00000000 
- 710      00000000 
- 710      00000000 
- 711              		.global	fft_NV
- 712 2509c 00000000 		.align	5
- 715              	fft_NV:
- 716 250a0 00000000 		.space	37820
- 716      00000000 
- 716      00000000 
- 716      00000000 
- 716      00000000 
- 717              		.global	fft_3V
- 718 2e45c 00000000 		.align	5
- 721              	fft_3V:
- 722 2e460 00000000 		.space	37820
- 722      00000000 
- 722      00000000 
- 722      00000000 
- 722      00000000 
- 723              		.global	fft_2V
- 724 3781c 00000000 		.align	5
- 727              	fft_2V:
- 728 37820 00000000 		.space	37820
- 728      00000000 
- 728      00000000 
- 728      00000000 
- 728      00000000 
- 729              		.global	fft_1V
- 730 40bdc 00000000 		.align	5
- 733              	fft_1V:
- 734 40be0 00000000 		.space	37820
- 734      00000000 
- 734      00000000 
- 734      00000000 
- 734      00000000 
- 735              		.section	.rodata
- 736              		.align	2
- 737              		.set	.LANCHOR0,. + 0
- 738              	.LC7:
- 739 0000 18000000 		.word	.LC0
- 740 0004 00000000 		.word	Refersh_LVGL
- 741 0008 0100     		.short	1
- 742 000a 0000     		.space	2
- 743 000c 00000000 		.word	0
- 744 0010 00040000 		.word	1024
- 745 0014 00000000 		.word	0
- 746 0018 00000000 		.word	0
- 747              	.LC8:
- 748 001c 0C000000 		.word	.LC2
- 749 0020 00000000 		.word	TASK_FFT
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 22
+ 148:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 149:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_B16(c) (c).ch.blue
+ 150:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_A16(c) 0xFF
+ 151:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 152:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 153:lvgl/src/hal/../draw/../misc/lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER16  {{0x00, 0x00, 0x00}}
+ 154:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_MAKE16(r8, g8, b8) {{(uint8_t)((b8 >> 3) & 0x1FU), (uint8_t)((g8 >> 2) & 0x3FU), 
+ 155:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 156:lvgl/src/hal/../draw/../misc/lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER16 {{0x00, 0x00, 0x00, 0x00}}
+ 157:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_MAKE16(r8, g8, b8) {{(uint8_t)((g8 >> 5) & 0x7U), (uint8_t)((r8 >> 3) & 0x1FU), (
+ 158:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 159:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 160:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_R32(c, v) (c).ch.red = (uint8_t)((v) & 0xFF)
+ 161:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_G32(c, v) (c).ch.green = (uint8_t)((v) & 0xFF)
+ 162:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_B32(c, v) (c).ch.blue = (uint8_t)((v) & 0xFF)
+ 163:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_SET_A32(c, v) (c).ch.alpha = (uint8_t)((v) & 0xFF)
+ 164:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 165:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_R32(c) (c).ch.red
+ 166:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_G32(c) (c).ch.green
+ 167:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_B32(c) (c).ch.blue
+ 168:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_GET_A32(c) (c).ch.alpha
+ 169:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 170:lvgl/src/hal/../draw/../misc/lv_color.h **** # define _LV_COLOR_ZERO_INITIALIZER32  {{0x00, 0x00, 0x00, 0x00}}
+ 171:lvgl/src/hal/../draw/../misc/lv_color.h **** # define LV_COLOR_MAKE32(r8, g8, b8) {{b8, g8, r8, 0xff}} /*Fix 0xff alpha*/
+ 172:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 173:lvgl/src/hal/../draw/../misc/lv_color.h **** /*---------------------------------------
+ 174:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Macros for the current color depth
+ 175:lvgl/src/hal/../draw/../misc/lv_color.h ****  * to set/get values of the color channels
+ 176:lvgl/src/hal/../draw/../misc/lv_color.h ****  *------------------------------------------*/
+ 177:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SET_R(c, v) LV_CONCAT(LV_COLOR_SET_R, LV_COLOR_DEPTH)(c, v)
+ 178:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SET_G(c, v) LV_CONCAT(LV_COLOR_SET_G, LV_COLOR_DEPTH)(c, v)
+ 179:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SET_B(c, v) LV_CONCAT(LV_COLOR_SET_B, LV_COLOR_DEPTH)(c, v)
+ 180:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_SET_A(c, v) LV_CONCAT(LV_COLOR_SET_A, LV_COLOR_DEPTH)(c, v)
+ 181:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 182:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_GET_R(c) LV_CONCAT(LV_COLOR_GET_R, LV_COLOR_DEPTH)(c)
+ 183:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_GET_G(c) LV_CONCAT(LV_COLOR_GET_G, LV_COLOR_DEPTH)(c)
+ 184:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_GET_B(c) LV_CONCAT(LV_COLOR_GET_B, LV_COLOR_DEPTH)(c)
+ 185:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_GET_A(c) LV_CONCAT(LV_COLOR_GET_A, LV_COLOR_DEPTH)(c)
+ 186:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 187:lvgl/src/hal/../draw/../misc/lv_color.h **** #define _LV_COLOR_ZERO_INITIALIZER LV_CONCAT(_LV_COLOR_ZERO_INITIALIZER, LV_COLOR_DEPTH)
+ 188:lvgl/src/hal/../draw/../misc/lv_color.h **** #define LV_COLOR_MAKE(r8, g8, b8) LV_CONCAT(LV_COLOR_MAKE, LV_COLOR_DEPTH)(r8, g8, b8)
+ 189:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 190:lvgl/src/hal/../draw/../misc/lv_color.h **** /**********************
+ 191:lvgl/src/hal/../draw/../misc/lv_color.h ****  *      TYPEDEFS
+ 192:lvgl/src/hal/../draw/../misc/lv_color.h ****  **********************/
+ 193:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 194:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef union {
+ 195:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint8_t full; /*must be declared first to set all bits of byte via initializer list*/
+ 196:lvgl/src/hal/../draw/../misc/lv_color.h ****     union {
+ 197:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t blue : 1;
+ 198:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t green : 1;
+ 199:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t red : 1;
+ 200:lvgl/src/hal/../draw/../misc/lv_color.h ****     } ch;
+ 201:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_color1_t;
+ 202:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 203:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef union {
+ 204:lvgl/src/hal/../draw/../misc/lv_color.h ****     struct {
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 17
 
 
- 750 0024 0000     		.short	0
- 751 0026 0000     		.space	2
- 752 0028 00000000 		.word	0
- 753 002c 14050000 		.word	1300
- 754 0030 00000000 		.word	0
- 755 0034 00000000 		.word	0
- 756              	.LC9:
- 757 0038 00000000 		.word	.LC4
- 758 003c 00000000 		.word	TASK_LVGL
- 759 0040 0000     		.short	0
- 760 0042 0000     		.space	2
- 761 0044 00000000 		.word	0
- 762 0048 14050000 		.word	1300
- 763 004c 00000000 		.word	0
- 764 0050 00000000 		.word	0
- 765              		.text
- 766              	.Letext0:
- 767              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 768              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 769              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
- 770              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h"
- 771              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
- 772              		.file 8 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 773              		.file 9 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
- 774              		.file 10 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
- 775              		.file 11 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 776              		.file 12 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
- 777              		.file 13 "lvgl/src/hal/../draw/../misc/lv_color.h"
- 778              		.file 14 "lvgl/src/core/lv_obj.h"
- 779              		.file 15 "lvgl/src/widgets/lv_bar.h"
- 780              		.file 16 "lvgl/src/extra/widgets/chart/lv_chart.h"
- 781              		.file 17 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
- 782              		.file 18 "Drivers/CMSIS/DSP/Include/arm_math.h"
- 783              		.file 19 "User/FFT/dsp_fft.h"
- 784              		.file 20 "Core/Inc/ad7606.h"
- 785              		.file 21 "Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h"
- 786              		.file 22 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
- 787              		.file 23 "lvgl/src/misc/lv_timer.h"
- 788              		.file 24 "<built-in>"
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 23
+ 205:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t blue : 2;
+ 206:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t green : 3;
+ 207:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t red : 3;
+ 208:lvgl/src/hal/../draw/../misc/lv_color.h ****     } ch;
+ 209:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint8_t full;
+ 210:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_color8_t;
+ 211:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 212:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef union {
+ 213:lvgl/src/hal/../draw/../misc/lv_color.h ****     struct {
+ 214:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 215:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t blue : 5;
+ 216:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t green : 6;
+ 217:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t red : 5;
+ 218:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 219:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t green_h : 3;
+ 220:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t red : 5;
+ 221:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t blue : 5;
+ 222:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint16_t green_l : 3;
+ 223:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 224:lvgl/src/hal/../draw/../misc/lv_color.h ****     } ch;
+ 225:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint16_t full;
+ 226:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_color16_t;
+ 227:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 228:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef union {
+ 229:lvgl/src/hal/../draw/../misc/lv_color.h ****     struct {
+ 230:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t blue;
+ 231:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t green;
+ 232:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t red;
+ 233:lvgl/src/hal/../draw/../misc/lv_color.h ****         uint8_t alpha;
+ 234:lvgl/src/hal/../draw/../misc/lv_color.h ****     } ch;
+ 235:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint32_t full;
+ 236:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_color32_t;
+ 237:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 238:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef LV_CONCAT3(uint, LV_COLOR_SIZE, _t) lv_color_int_t;
+ 239:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef LV_CONCAT3(lv_color, LV_COLOR_DEPTH, _t) lv_color_t;
+ 240:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 241:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef struct {
+ 242:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint16_t h;
+ 243:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint8_t s;
+ 244:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint8_t v;
+ 245:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_color_hsv_t;
+ 246:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 247:lvgl/src/hal/../draw/../misc/lv_color.h **** //! @cond Doxygen_Suppress
+ 248:lvgl/src/hal/../draw/../misc/lv_color.h **** /*No idea where the guard is required but else throws warnings in the docs*/
+ 249:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef uint8_t lv_opa_t;
+ 250:lvgl/src/hal/../draw/../misc/lv_color.h **** //! @endcond
+ 251:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 252:lvgl/src/hal/../draw/../misc/lv_color.h **** struct _lv_color_filter_dsc_t;
+ 253:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 254:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef lv_color_t (*lv_color_filter_cb_t)(const struct _lv_color_filter_dsc_t *, lv_color_t, lv_op
+ 255:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 256:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef struct _lv_color_filter_dsc_t {
+ 257:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color_filter_cb_t filter_cb;
+ 258:lvgl/src/hal/../draw/../misc/lv_color.h ****     void * user_data;
+ 259:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_color_filter_dsc_t;
+ 260:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 261:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 18
+
+
+ 262:lvgl/src/hal/../draw/../misc/lv_color.h **** typedef enum {
+ 263:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_RED,
+ 264:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_PINK,
+ 265:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_PURPLE,
+ 266:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_DEEP_PURPLE,
+ 267:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_INDIGO,
+ 268:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_BLUE,
+ 269:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_LIGHT_BLUE,
+ 270:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_CYAN,
+ 271:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_TEAL,
+ 272:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_GREEN,
+ 273:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_LIGHT_GREEN,
+ 274:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_LIME,
+ 275:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_YELLOW,
+ 276:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_AMBER,
+ 277:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_ORANGE,
+ 278:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_DEEP_ORANGE,
+ 279:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_BROWN,
+ 280:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_BLUE_GREY,
+ 281:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_GREY,
+ 282:lvgl/src/hal/../draw/../misc/lv_color.h ****     _LV_PALETTE_LAST,
+ 283:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_PALETTE_NONE = 0xff,
+ 284:lvgl/src/hal/../draw/../misc/lv_color.h **** } lv_palette_t;
+ 285:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 286:lvgl/src/hal/../draw/../misc/lv_color.h **** /**********************
+ 287:lvgl/src/hal/../draw/../misc/lv_color.h ****  * GLOBAL PROTOTYPES
+ 288:lvgl/src/hal/../draw/../misc/lv_color.h ****  **********************/
+ 289:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 290:lvgl/src/hal/../draw/../misc/lv_color.h **** /*In color conversations:
+ 291:lvgl/src/hal/../draw/../misc/lv_color.h ****  * - When converting to bigger color type the LSB weight of 1 LSB is calculated
+ 292:lvgl/src/hal/../draw/../misc/lv_color.h ****  *   E.g. 16 bit Red has 5 bits
+ 293:lvgl/src/hal/../draw/../misc/lv_color.h ****  *         8 bit Red has 3 bits
+ 294:lvgl/src/hal/../draw/../misc/lv_color.h ****  *        ----------------------
+ 295:lvgl/src/hal/../draw/../misc/lv_color.h ****  *        8 bit red LSB = (2^5 - 1) / (2^3 - 1) = 31 / 7 = 4
+ 296:lvgl/src/hal/../draw/../misc/lv_color.h ****  *
+ 297:lvgl/src/hal/../draw/../misc/lv_color.h ****  * - When calculating to smaller color type simply shift out the LSBs
+ 298:lvgl/src/hal/../draw/../misc/lv_color.h ****  *   E.g.  8 bit Red has 3 bits
+ 299:lvgl/src/hal/../draw/../misc/lv_color.h ****  *        16 bit Red has 5 bits
+ 300:lvgl/src/hal/../draw/../misc/lv_color.h ****  *        ----------------------
+ 301:lvgl/src/hal/../draw/../misc/lv_color.h ****  *         Shift right with 5 - 3 = 2
+ 302:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+ 303:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline uint8_t lv_color_to1(lv_color_t color)
+ 304:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 305:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 306:lvgl/src/hal/../draw/../misc/lv_color.h ****     return color.full;
+ 307:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 308:lvgl/src/hal/../draw/../misc/lv_color.h ****     if((LV_COLOR_GET_R(color) & 0x4) || (LV_COLOR_GET_G(color) & 0x4) || (LV_COLOR_GET_B(color) & 0
+ 309:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 1;
+ 310:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 311:lvgl/src/hal/../draw/../misc/lv_color.h ****     else {
+ 312:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0;
+ 313:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 314:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 315:lvgl/src/hal/../draw/../misc/lv_color.h ****     if((LV_COLOR_GET_R(color) & 0x10) || (LV_COLOR_GET_G(color) & 0x20) || (LV_COLOR_GET_B(color) &
+ 316:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 1;
+ 317:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 318:lvgl/src/hal/../draw/../misc/lv_color.h ****     else {
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 19
+
+
+ 319:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0;
+ 320:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 321:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 322:lvgl/src/hal/../draw/../misc/lv_color.h ****     if((LV_COLOR_GET_R(color) & 0x80) || (LV_COLOR_GET_G(color) & 0x80) || (LV_COLOR_GET_B(color) &
+ 323:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 1;
+ 324:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 325:lvgl/src/hal/../draw/../misc/lv_color.h ****     else {
+ 326:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0;
+ 327:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 328:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 329:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 330:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 331:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline uint8_t lv_color_to8(lv_color_t color)
+ 332:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 333:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 334:lvgl/src/hal/../draw/../misc/lv_color.h ****     if(color.full == 0)
+ 335:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0;
+ 336:lvgl/src/hal/../draw/../misc/lv_color.h ****     else
+ 337:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0xFF;
+ 338:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 339:lvgl/src/hal/../draw/../misc/lv_color.h ****     return color.full;
+ 340:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 341:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color8_t ret;
+ 342:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R8(ret, LV_COLOR_GET_R(color) >> 2); /*5 - 3  = 2*/
+ 343:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G8(ret, LV_COLOR_GET_G(color) >> 3); /*6 - 3  = 3*/
+ 344:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B8(ret, LV_COLOR_GET_B(color) >> 3); /*5 - 2  = 3*/
+ 345:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret.full;
+ 346:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 347:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color8_t ret;
+ 348:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R8(ret, LV_COLOR_GET_R(color) >> 5); /*8 - 3  = 5*/
+ 349:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G8(ret, LV_COLOR_GET_G(color) >> 5); /*8 - 3  = 5*/
+ 350:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B8(ret, LV_COLOR_GET_B(color) >> 6); /*8 - 2  = 6*/
+ 351:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret.full;
+ 352:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 353:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 354:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 355:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline uint16_t lv_color_to16(lv_color_t color)
+ 356:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 357:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 358:lvgl/src/hal/../draw/../misc/lv_color.h ****     if(color.full == 0)
+ 359:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0;
+ 360:lvgl/src/hal/../draw/../misc/lv_color.h ****     else
+ 361:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0xFFFF;
+ 362:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 363:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color16_t ret;
+ 364:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R16(ret, LV_COLOR_GET_R(color) * 4);  /*(2^5 - 1)/(2^3 - 1) = 31/7 = 4*/
+ 365:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G16(ret, LV_COLOR_GET_G(color) * 9);  /*(2^6 - 1)/(2^3 - 1) = 63/7 = 9*/
+ 366:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B16(ret, LV_COLOR_GET_B(color) * 10); /*(2^5 - 1)/(2^2 - 1) = 31/3 = 10*/
+ 367:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret.full;
+ 368:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 369:lvgl/src/hal/../draw/../misc/lv_color.h ****     return color.full;
+ 370:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 371:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color16_t ret;
+ 372:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R16(ret, LV_COLOR_GET_R(color) >> 3); /*8 - 5  = 3*/
+ 373:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G16(ret, LV_COLOR_GET_G(color) >> 2); /*8 - 6  = 2*/
+ 374:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B16(ret, LV_COLOR_GET_B(color) >> 3); /*8 - 5  = 3*/
+ 375:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret.full;
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 20
+
+
+ 376:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 377:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 378:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 379:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline uint32_t lv_color_to32(lv_color_t color)
+ 380:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 381:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 1
+ 382:lvgl/src/hal/../draw/../misc/lv_color.h ****     if(color.full == 0)
+ 383:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0xFF000000;
+ 384:lvgl/src/hal/../draw/../misc/lv_color.h ****     else
+ 385:lvgl/src/hal/../draw/../misc/lv_color.h ****         return 0xFFFFFFFF;
+ 386:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 8
+ 387:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color32_t ret;
+ 388:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R32(ret, LV_COLOR_GET_R(color) * 36); /*(2^8 - 1)/(2^3 - 1) = 255/7 = 36*/
+ 389:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G32(ret, LV_COLOR_GET_G(color) * 36); /*(2^8 - 1)/(2^3 - 1) = 255/7 = 36*/
+ 390:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B32(ret, LV_COLOR_GET_B(color) * 85); /*(2^8 - 1)/(2^2 - 1) = 255/3 = 85*/
+ 391:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_A32(ret, 0xFF);
+ 392:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret.full;
+ 393:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 16
+ 394:lvgl/src/hal/../draw/../misc/lv_color.h ****     /**
+ 395:lvgl/src/hal/../draw/../misc/lv_color.h ****      * The floating point math for conversion is:
+ 396:lvgl/src/hal/../draw/../misc/lv_color.h ****      *  valueto = valuefrom * ( (2^bitsto - 1) / (float)(2^bitsfrom - 1) )
+ 397:lvgl/src/hal/../draw/../misc/lv_color.h ****      * The faster integer math for conversion is:
+ 398:lvgl/src/hal/../draw/../misc/lv_color.h ****      *  valueto = ( valuefrom * multiplier + adder ) >> divisor
+ 399:lvgl/src/hal/../draw/../misc/lv_color.h ****      *   multiplier = FLOOR( ( (2^bitsto - 1) << divisor ) / (float)(2^bitsfrom - 1) )
+ 400:lvgl/src/hal/../draw/../misc/lv_color.h ****      *
+ 401:lvgl/src/hal/../draw/../misc/lv_color.h ****      * Find the first divisor where ( adder >> divisor ) <= 0
+ 402:lvgl/src/hal/../draw/../misc/lv_color.h ****      *
+ 403:lvgl/src/hal/../draw/../misc/lv_color.h ****      * 5-bit to 8-bit: ( 31 * multiplier + adder ) >> divisor = 255
+ 404:lvgl/src/hal/../draw/../misc/lv_color.h ****      * divisor  multiplier  adder  min (0)  max (31)
+ 405:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       0           8      7        7       255
+ 406:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       1          16     14        7       255
+ 407:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       2          32     28        7       255
+ 408:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       3          65     25        3       255
+ 409:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       4         131     19        1       255
+ 410:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       5         263      7        0       255
+ 411:lvgl/src/hal/../draw/../misc/lv_color.h ****      *
+ 412:lvgl/src/hal/../draw/../misc/lv_color.h ****      * 6-bit to 8-bit: 255 = ( 63 * multiplier + adder ) >> divisor
+ 413:lvgl/src/hal/../draw/../misc/lv_color.h ****      * divisor  multiplier  adder  min (0)  max (63)
+ 414:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       0           4      3        3       255
+ 415:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       1           8      6        3       255
+ 416:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       2          16     12        3       255
+ 417:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       3          32     24        3       255
+ 418:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       4          64     48        3       255
+ 419:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       5         129     33        1       255
+ 420:lvgl/src/hal/../draw/../misc/lv_color.h ****      *       6         259      3        0       255
+ 421:lvgl/src/hal/../draw/../misc/lv_color.h ****      */
+ 422:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 423:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color32_t ret;
+ 424:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R32(ret, (LV_COLOR_GET_R(color) * 263 + 7) >> 5);
+ 425:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G32(ret, (LV_COLOR_GET_G(color) * 259 + 3) >> 6);
+ 426:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B32(ret, (LV_COLOR_GET_B(color) * 263 + 7) >> 5);
+ 427:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_A32(ret, 0xFF);
+ 428:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret.full;
+ 429:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH == 32
+ 430:lvgl/src/hal/../draw/../misc/lv_color.h ****     return color.full;
+ 431:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 432:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 21
+
+
+ 433:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 434:lvgl/src/hal/../draw/../misc/lv_color.h **** //! @cond Doxygen_Suppress
+ 435:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 436:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+ 437:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Mix two colors with a given ratio.
+ 438:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param c1 the first color to mix (usually the foreground)
+ 439:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param c2 the second color to mix (usually the background)
+ 440:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param mix The ratio of the colors. 0: full `c2`, 255: full `c1`, 127: half `c1` and half`c2`
+ 441:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @return the mixed color
+ 442:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+ 443:lvgl/src/hal/../draw/../misc/lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline lv_color_t lv_color_mix(lv_color_t c1, lv_color_t c2, uint8_t m
+ 444:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 445:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color_t ret;
+ 446:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 447:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 16 && LV_COLOR_16_SWAP == 0
+ 448:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Source: https://stackoverflow.com/a/50012418/1999969*/
+ 449:lvgl/src/hal/../draw/../misc/lv_color.h ****     mix = (mix + 4) >> 3;
+ 450:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint32_t bg = (uint32_t)((uint32_t)c2.full | ((uint32_t)c2.full << 16)) &
+ 451:lvgl/src/hal/../draw/../misc/lv_color.h ****                   0x7E0F81F; /*0b00000111111000001111100000011111*/
+ 452:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint32_t fg = (uint32_t)((uint32_t)c1.full | ((uint32_t)c1.full << 16)) & 0x7E0F81F;
+ 453:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint32_t result = ((((fg - bg) * mix) >> 5) + bg) & 0x7E0F81F;
+ 454:lvgl/src/hal/../draw/../misc/lv_color.h ****     ret.full = (uint16_t)((result >> 16) | result);
+ 455:lvgl/src/hal/../draw/../misc/lv_color.h **** #elif LV_COLOR_DEPTH != 1
+ 456:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*LV_COLOR_DEPTH == 8, 16 or 32*/
+ 457:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R(ret, LV_UDIV255((uint16_t)LV_COLOR_GET_R(c1) * mix + LV_COLOR_GET_R(c2) *
+ 458:lvgl/src/hal/../draw/../misc/lv_color.h ****                                    (255 - mix) + LV_COLOR_MIX_ROUND_OFS));
+ 459:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G(ret, LV_UDIV255((uint16_t)LV_COLOR_GET_G(c1) * mix + LV_COLOR_GET_G(c2) *
+ 460:lvgl/src/hal/../draw/../misc/lv_color.h ****                                    (255 - mix) + LV_COLOR_MIX_ROUND_OFS));
+ 461:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B(ret, LV_UDIV255((uint16_t)LV_COLOR_GET_B(c1) * mix + LV_COLOR_GET_B(c2) *
+ 462:lvgl/src/hal/../draw/../misc/lv_color.h ****                                    (255 - mix) + LV_COLOR_MIX_ROUND_OFS));
+ 463:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_A(ret, 0xFF);
+ 464:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 465:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*LV_COLOR_DEPTH == 1*/
+ 466:lvgl/src/hal/../draw/../misc/lv_color.h ****     ret.full = mix > LV_OPA_50 ? c1.full : c2.full;
+ 467:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 468:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 469:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret;
+ 470:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 471:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 472:lvgl/src/hal/../draw/../misc/lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline void lv_color_premult(lv_color_t c, uint8_t mix, uint16_t * out
+ 473:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 474:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH != 1
+ 475:lvgl/src/hal/../draw/../misc/lv_color.h ****     out[0] = (uint16_t)LV_COLOR_GET_R(c) * mix;
+ 476:lvgl/src/hal/../draw/../misc/lv_color.h ****     out[1] = (uint16_t)LV_COLOR_GET_G(c) * mix;
+ 477:lvgl/src/hal/../draw/../misc/lv_color.h ****     out[2] = (uint16_t)LV_COLOR_GET_B(c) * mix;
+ 478:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 479:lvgl/src/hal/../draw/../misc/lv_color.h ****     (void) mix;
+ 480:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Pre-multiplication can't be used with 1 bpp*/
+ 481:lvgl/src/hal/../draw/../misc/lv_color.h ****     out[0] = LV_COLOR_GET_R(c);
+ 482:lvgl/src/hal/../draw/../misc/lv_color.h ****     out[1] = LV_COLOR_GET_G(c);
+ 483:lvgl/src/hal/../draw/../misc/lv_color.h ****     out[2] = LV_COLOR_GET_B(c);
+ 484:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 485:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 486:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 487:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 488:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+ 489:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Mix two colors with a given ratio. It runs faster then `lv_color_mix` but requires some pre comp
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 22
+
+
+ 490:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param premult_c1 The first color. Should be preprocessed with `lv_color_premult(c1)`
+ 491:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param c2 The second color. As it is no pre computation required on it
+ 492:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param mix The ratio of the colors. 0: full `c1`, 255: full `c2`, 127: half `c1` and half `c2`.
+ 493:lvgl/src/hal/../draw/../misc/lv_color.h ****  *            Should be modified like mix = `255 - mix`
+ 494:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @return the mixed color
+ 495:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @note 255 won't give clearly `c1`.
+ 496:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+ 497:lvgl/src/hal/../draw/../misc/lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline lv_color_t lv_color_mix_premult(uint16_t * premult_c1, lv_color
+ 498:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 499:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color_t ret;
+ 500:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH != 1
+ 501:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*LV_COLOR_DEPTH == 8 or 32*/
+ 502:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R(ret, LV_UDIV255(premult_c1[0] + LV_COLOR_GET_R(c2) * mix + LV_COLOR_MIX_ROUND_OF
+ 503:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G(ret, LV_UDIV255(premult_c1[1] + LV_COLOR_GET_G(c2) * mix + LV_COLOR_MIX_ROUND_OF
+ 504:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B(ret, LV_UDIV255(premult_c1[2] + LV_COLOR_GET_B(c2) * mix + LV_COLOR_MIX_ROUND_OF
+ 505:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_A(ret, 0xFF);
+ 506:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 507:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*LV_COLOR_DEPTH == 1*/
+ 508:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Restore color1*/
+ 509:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color_t c1;
+ 510:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_R(c1, premult_c1[0]);
+ 511:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_G(c1, premult_c1[1]);
+ 512:lvgl/src/hal/../draw/../misc/lv_color.h ****     LV_COLOR_SET_B(c1, premult_c1[2]);
+ 513:lvgl/src/hal/../draw/../misc/lv_color.h ****     ret.full = mix > LV_OPA_50 ? c2.full : c1.full;
+ 514:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 515:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 516:lvgl/src/hal/../draw/../misc/lv_color.h ****     return ret;
+ 517:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 518:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 519:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+ 520:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Mix two colors. Both color can have alpha value.
+ 521:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param bg_color background color
+ 522:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param bg_opa alpha of the background color
+ 523:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param fg_color foreground color
+ 524:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param fg_opa alpha of the foreground color
+ 525:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param res_color the result color
+ 526:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param res_opa the result opacity
+ 527:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+ 528:lvgl/src/hal/../draw/../misc/lv_color.h **** LV_ATTRIBUTE_FAST_MEM static inline void lv_color_mix_with_alpha(lv_color_t bg_color, lv_opa_t bg_o
+ 529:lvgl/src/hal/../draw/../misc/lv_color.h ****                                                                  lv_color_t fg_color, lv_opa_t fg_o
+ 530:lvgl/src/hal/../draw/../misc/lv_color.h ****                                                                  lv_color_t * res_color, lv_opa_t *
+ 531:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 532:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Pick the foreground if it's fully opaque or the Background is fully transparent*/
+ 533:lvgl/src/hal/../draw/../misc/lv_color.h ****     if(fg_opa >= LV_OPA_MAX || bg_opa <= LV_OPA_MIN) {
+ 534:lvgl/src/hal/../draw/../misc/lv_color.h ****         res_color->full = fg_color.full;
+ 535:lvgl/src/hal/../draw/../misc/lv_color.h ****         *res_opa = fg_opa;
+ 536:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 537:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Transparent foreground: use the Background*/
+ 538:lvgl/src/hal/../draw/../misc/lv_color.h ****     else if(fg_opa <= LV_OPA_MIN) {
+ 539:lvgl/src/hal/../draw/../misc/lv_color.h ****         res_color->full = bg_color.full;
+ 540:lvgl/src/hal/../draw/../misc/lv_color.h ****         *res_opa = bg_opa;
+ 541:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 542:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Opaque background: use simple mix*/
+ 543:lvgl/src/hal/../draw/../misc/lv_color.h ****     else if(bg_opa >= LV_OPA_MAX) {
+ 544:lvgl/src/hal/../draw/../misc/lv_color.h ****         *res_color = lv_color_mix(fg_color, bg_color, fg_opa);
+ 545:lvgl/src/hal/../draw/../misc/lv_color.h ****         *res_opa = LV_OPA_COVER;
+ 546:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 23
+
+
+ 547:lvgl/src/hal/../draw/../misc/lv_color.h ****     /*Both colors have alpha. Expensive calculation need to be applied*/
+ 548:lvgl/src/hal/../draw/../misc/lv_color.h ****     else {
+ 549:lvgl/src/hal/../draw/../misc/lv_color.h ****         /*Save the parameters and the result. If they will be asked again don't compute again*/
+ 550:lvgl/src/hal/../draw/../misc/lv_color.h ****         static lv_opa_t fg_opa_save     = 0;
+ 551:lvgl/src/hal/../draw/../misc/lv_color.h ****         static lv_opa_t bg_opa_save     = 0;
+ 552:lvgl/src/hal/../draw/../misc/lv_color.h ****         static lv_color_t fg_color_save = _LV_COLOR_ZERO_INITIALIZER;
+ 553:lvgl/src/hal/../draw/../misc/lv_color.h ****         static lv_color_t bg_color_save = _LV_COLOR_ZERO_INITIALIZER;
+ 554:lvgl/src/hal/../draw/../misc/lv_color.h ****         static lv_color_t res_color_saved = _LV_COLOR_ZERO_INITIALIZER;
+ 555:lvgl/src/hal/../draw/../misc/lv_color.h ****         static lv_opa_t res_opa_saved = 0;
+ 556:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 557:lvgl/src/hal/../draw/../misc/lv_color.h ****         if(fg_opa != fg_opa_save || bg_opa != bg_opa_save || fg_color.full != fg_color_save.full ||
+ 558:lvgl/src/hal/../draw/../misc/lv_color.h ****            bg_color.full != bg_color_save.full) {
+ 559:lvgl/src/hal/../draw/../misc/lv_color.h ****             fg_opa_save        = fg_opa;
+ 560:lvgl/src/hal/../draw/../misc/lv_color.h ****             bg_opa_save        = bg_opa;
+ 561:lvgl/src/hal/../draw/../misc/lv_color.h ****             fg_color_save.full = fg_color.full;
+ 562:lvgl/src/hal/../draw/../misc/lv_color.h ****             bg_color_save.full = bg_color.full;
+ 563:lvgl/src/hal/../draw/../misc/lv_color.h ****             /*Info:
+ 564:lvgl/src/hal/../draw/../misc/lv_color.h ****              * https://en.wikipedia.org/wiki/Alpha_compositing#Analytical_derivation_of_the_over_op
+ 565:lvgl/src/hal/../draw/../misc/lv_color.h ****             res_opa_saved = 255 - ((uint16_t)((uint16_t)(255 - fg_opa) * (255 - bg_opa)) >> 8);
+ 566:lvgl/src/hal/../draw/../misc/lv_color.h ****             LV_ASSERT(res_opa_saved != 0);
+ 567:lvgl/src/hal/../draw/../misc/lv_color.h ****             lv_opa_t ratio = (uint16_t)((uint16_t)fg_opa * 255) / res_opa_saved;
+ 568:lvgl/src/hal/../draw/../misc/lv_color.h ****             res_color_saved = lv_color_mix(fg_color, bg_color, ratio);
+ 569:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 570:lvgl/src/hal/../draw/../misc/lv_color.h ****         }
+ 571:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 572:lvgl/src/hal/../draw/../misc/lv_color.h ****         res_color->full = res_color_saved.full;
+ 573:lvgl/src/hal/../draw/../misc/lv_color.h ****         *res_opa = res_opa_saved;
+ 574:lvgl/src/hal/../draw/../misc/lv_color.h ****     }
+ 575:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 576:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 577:lvgl/src/hal/../draw/../misc/lv_color.h **** //! @endcond
+ 578:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 579:lvgl/src/hal/../draw/../misc/lv_color.h **** /**
+ 580:lvgl/src/hal/../draw/../misc/lv_color.h ****  * Get the brightness of a color
+ 581:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @param color a color
+ 582:lvgl/src/hal/../draw/../misc/lv_color.h ****  * @return the brightness [0..255]
+ 583:lvgl/src/hal/../draw/../misc/lv_color.h ****  */
+ 584:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline uint8_t lv_color_brightness(lv_color_t color)
+ 585:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 586:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color32_t c32;
+ 587:lvgl/src/hal/../draw/../misc/lv_color.h ****     c32.full        = lv_color_to32(color);
+ 588:lvgl/src/hal/../draw/../misc/lv_color.h ****     uint16_t bright = (uint16_t)(3u * LV_COLOR_GET_R32(c32) + LV_COLOR_GET_B32(c32) + 4u * LV_COLOR
+ 589:lvgl/src/hal/../draw/../misc/lv_color.h ****     return (uint8_t)(bright >> 3);
+ 590:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 591:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 592:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline lv_color_t lv_color_make(uint8_t r, uint8_t g, uint8_t b)
+ 593:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 594:lvgl/src/hal/../draw/../misc/lv_color.h ****     return _LV_COLOR_MAKE_TYPE_HELPER LV_COLOR_MAKE(r, g, b);
+ 595:lvgl/src/hal/../draw/../misc/lv_color.h **** }
+ 596:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 597:lvgl/src/hal/../draw/../misc/lv_color.h **** static inline lv_color_t lv_color_hex(uint32_t c)
+ 353              		.loc 3 597 26 view .LVU54
+ 354              	.LBB13:
+ 598:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 599:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_DEPTH == 16
+ 600:lvgl/src/hal/../draw/../misc/lv_color.h ****     lv_color_t r;
+ 355              		.loc 3 600 5 view .LVU55
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 24
+
+
+ 601:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 602:lvgl/src/hal/../draw/../misc/lv_color.h ****     /* Convert a 4 bytes per pixel in format ARGB32 to R5G6B5 format
+ 603:lvgl/src/hal/../draw/../misc/lv_color.h ****         naive way (by calling lv_color_make with components):
+ 604:lvgl/src/hal/../draw/../misc/lv_color.h ****                     r = ((c & 0xFF0000) >> 19)
+ 605:lvgl/src/hal/../draw/../misc/lv_color.h ****                     g = ((c & 0xFF00) >> 10)
+ 606:lvgl/src/hal/../draw/../misc/lv_color.h ****                     b = ((c & 0xFF) >> 3)
+ 607:lvgl/src/hal/../draw/../misc/lv_color.h ****                     rgb565 = (r << 11) | (g << 5) | b
+ 608:lvgl/src/hal/../draw/../misc/lv_color.h ****         That's 3 mask, 5 bitshift and 2 or operations
+ 609:lvgl/src/hal/../draw/../misc/lv_color.h **** 
+ 610:lvgl/src/hal/../draw/../misc/lv_color.h ****         A bit better:
+ 611:lvgl/src/hal/../draw/../misc/lv_color.h ****                     r = ((c & 0xF80000) >> 8)
+ 612:lvgl/src/hal/../draw/../misc/lv_color.h ****                     g = ((c & 0xFC00) >> 5)
+ 613:lvgl/src/hal/../draw/../misc/lv_color.h ****                     b = ((c & 0xFF) >> 3)
+ 614:lvgl/src/hal/../draw/../misc/lv_color.h ****                     rgb565 = r | g | b
+ 615:lvgl/src/hal/../draw/../misc/lv_color.h ****         That's 3 mask, 3 bitshifts and 2 or operations */
+ 616:lvgl/src/hal/../draw/../misc/lv_color.h ****     r.full = (uint16_t)(((c & 0xF80000) >> 8) | ((c & 0xFC00) >> 5) | ((c & 0xFF) >> 3));
+ 356              		.loc 3 616 5 view .LVU56
+ 617:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 618:lvgl/src/hal/../draw/../misc/lv_color.h ****     /* We want: rrrr rrrr GGGg gggg bbbb bbbb => gggb bbbb rrrr rGGG */
+ 619:lvgl/src/hal/../draw/../misc/lv_color.h ****     r.full = (uint16_t)(((c & 0xF80000) >> 16) | ((c & 0xFC00) >> 13) | ((c & 0x1C00) << 3) | ((c &
+ 620:lvgl/src/hal/../draw/../misc/lv_color.h **** #endif
+ 621:lvgl/src/hal/../draw/../misc/lv_color.h ****     return r;
+ 357              		.loc 3 621 5 view .LVU57
+ 358              		.loc 3 621 5 is_stmt 0 view .LVU58
+ 359              	.LBE13:
+ 360              	.LBE12:
+ 361              		.loc 1 322 10 discriminator 1 view .LVU59
+ 362 0026 0022     		movs	r2, #0
+ 363 0028 4FF4FC61 		mov	r1, #2016	@ movhi
+ 364 002c D4F88C00 		ldr	r0, [r4, #140]
+ 365 0030 FFF7FEFF 		bl	lv_chart_add_series
+ 366              	.LVL42:
+ 367              		.loc 1 322 8 discriminator 2 view .LVU60
+ 368 0034 684F     		ldr	r7, .L14+4
+ 369 0036 3860     		str	r0, [r7]
+ 323:Core/Src/freertos.c ****   ser3 = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_RED), LV_CHAR
+ 370              		.loc 1 323 3 is_stmt 1 view .LVU61
+ 371              		.loc 1 323 10 is_stmt 0 view .LVU62
+ 372 0038 D4F88C50 		ldr	r5, [r4, #140]
+ 373 003c 0020     		movs	r0, #0
+ 374 003e FFF7FEFF 		bl	lv_palette_main
+ 375              	.LVL43:
+ 376 0042 0146     		mov	r1, r0	@ movhi
+ 377              		.loc 1 323 10 discriminator 1 view .LVU63
+ 378 0044 0022     		movs	r2, #0
+ 379 0046 2846     		mov	r0, r5
+ 380 0048 FFF7FEFF 		bl	lv_chart_add_series
+ 381              	.LVL44:
+ 382              		.loc 1 323 8 discriminator 2 view .LVU64
+ 383 004c 634E     		ldr	r6, .L14+8
+ 384 004e 3060     		str	r0, [r6]
+ 324:Core/Src/freertos.c ****   serN = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_BLUE), LV_CHA
+ 385              		.loc 1 324 3 is_stmt 1 view .LVU65
+ 386              		.loc 1 324 10 is_stmt 0 view .LVU66
+ 387 0050 D4F88C50 		ldr	r5, [r4, #140]
+ 388 0054 0520     		movs	r0, #5
+ 389 0056 FFF7FEFF 		bl	lv_palette_main
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 25
+
+
+ 390              	.LVL45:
+ 391 005a 0146     		mov	r1, r0	@ movhi
+ 392              		.loc 1 324 10 discriminator 1 view .LVU67
+ 393 005c 0022     		movs	r2, #0
+ 394 005e 2846     		mov	r0, r5
+ 395 0060 FFF7FEFF 		bl	lv_chart_add_series
+ 396              	.LVL46:
+ 397              		.loc 1 324 8 discriminator 2 view .LVU68
+ 398 0064 5E4D     		ldr	r5, .L14+12
+ 399 0066 2860     		str	r0, [r5]
+ 325:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser1, fft_1V.LVGL_wave);
+ 400              		.loc 1 325 3 is_stmt 1 view .LVU69
+ 401 0068 DFF89C91 		ldr	r9, .L14+52
+ 402 006c 4A46     		mov	r2, r9
+ 403 006e D8F80010 		ldr	r1, [r8]
+ 404 0072 D4F88C00 		ldr	r0, [r4, #140]
+ 405 0076 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 406              	.LVL47:
+ 326:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser2, fft_2V.LVGL_wave);
+ 407              		.loc 1 326 3 view .LVU70
+ 408 007a DFF89081 		ldr	r8, .L14+56
+ 409 007e 4246     		mov	r2, r8
+ 410 0080 3968     		ldr	r1, [r7]
+ 411 0082 D4F88C00 		ldr	r0, [r4, #140]
+ 412 0086 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 413              	.LVL48:
+ 327:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser3, fft_3V.LVGL_wave);
+ 414              		.loc 1 327 3 view .LVU71
+ 415 008a 564F     		ldr	r7, .L14+16
+ 416 008c 3A46     		mov	r2, r7
+ 417 008e 3168     		ldr	r1, [r6]
+ 418 0090 D4F88C00 		ldr	r0, [r4, #140]
+ 419 0094 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 420              	.LVL49:
+ 328:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, serN, fft_NV.LVGL_wave);
+ 421              		.loc 1 328 3 view .LVU72
+ 422 0098 534A     		ldr	r2, .L14+20
+ 423 009a 2968     		ldr	r1, [r5]
+ 424 009c D4F88C00 		ldr	r0, [r4, #140]
+ 425 00a0 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 426              	.LVL50:
+ 329:Core/Src/freertos.c **** 
+ 330:Core/Src/freertos.c ****   ser1_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_YELLOW), LV
+ 427              		.loc 1 330 3 view .LVU73
+ 428              		.loc 1 330 12 is_stmt 0 view .LVU74
+ 429 00a4 D4F88C50 		ldr	r5, [r4, #140]
+ 430 00a8 0C20     		movs	r0, #12
+ 431 00aa FFF7FEFF 		bl	lv_palette_main
+ 432              	.LVL51:
+ 433 00ae 0146     		mov	r1, r0	@ movhi
+ 434              		.loc 1 330 12 discriminator 1 view .LVU75
+ 435 00b0 0022     		movs	r2, #0
+ 436 00b2 2846     		mov	r0, r5
+ 437 00b4 FFF7FEFF 		bl	lv_chart_add_series
+ 438              	.LVL52:
+ 439              		.loc 1 330 10 discriminator 2 view .LVU76
+ 440 00b8 DFF854B1 		ldr	fp, .L14+60
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 26
+
+
+ 441 00bc CBF80000 		str	r0, [fp]
+ 331:Core/Src/freertos.c ****   ser2_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_color_hex(0x00FF00), LV_CHART_AXIS_
+ 442              		.loc 1 331 3 is_stmt 1 view .LVU77
+ 443              	.LVL53:
+ 444              	.LBB14:
+ 445              	.LBI14:
+ 597:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 446              		.loc 3 597 26 view .LVU78
+ 447              	.LBB15:
+ 600:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 448              		.loc 3 600 5 view .LVU79
+ 616:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 449              		.loc 3 616 5 view .LVU80
+ 450              		.loc 3 621 5 view .LVU81
+ 451              		.loc 3 621 5 is_stmt 0 view .LVU82
+ 452              	.LBE15:
+ 453              	.LBE14:
+ 454              		.loc 1 331 12 discriminator 1 view .LVU83
+ 455 00c0 0022     		movs	r2, #0
+ 456 00c2 4FF4FC61 		mov	r1, #2016	@ movhi
+ 457 00c6 D4F88C00 		ldr	r0, [r4, #140]
+ 458 00ca FFF7FEFF 		bl	lv_chart_add_series
+ 459              	.LVL54:
+ 460              		.loc 1 331 10 discriminator 2 view .LVU84
+ 461 00ce 474E     		ldr	r6, .L14+24
+ 462 00d0 3060     		str	r0, [r6]
+ 332:Core/Src/freertos.c ****   ser3_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_RED), LV_CH
+ 463              		.loc 1 332 3 is_stmt 1 view .LVU85
+ 464              		.loc 1 332 12 is_stmt 0 view .LVU86
+ 465 00d2 D4F88C50 		ldr	r5, [r4, #140]
+ 466 00d6 0020     		movs	r0, #0
+ 467 00d8 FFF7FEFF 		bl	lv_palette_main
+ 468              	.LVL55:
+ 469 00dc 0146     		mov	r1, r0	@ movhi
+ 470              		.loc 1 332 12 discriminator 1 view .LVU87
+ 471 00de 0022     		movs	r2, #0
+ 472 00e0 2846     		mov	r0, r5
+ 473 00e2 FFF7FEFF 		bl	lv_chart_add_series
+ 474              	.LVL56:
+ 475              		.loc 1 332 10 discriminator 2 view .LVU88
+ 476 00e6 424D     		ldr	r5, .L14+28
+ 477 00e8 2860     		str	r0, [r5]
+ 333:Core/Src/freertos.c ****   serN_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_BLUE), LV_C
+ 478              		.loc 1 333 3 is_stmt 1 view .LVU89
+ 479              		.loc 1 333 12 is_stmt 0 view .LVU90
+ 480 00ea D4F88CA0 		ldr	r10, [r4, #140]
+ 481 00ee 0520     		movs	r0, #5
+ 482 00f0 FFF7FEFF 		bl	lv_palette_main
+ 483              	.LVL57:
+ 484 00f4 0146     		mov	r1, r0	@ movhi
+ 485              		.loc 1 333 12 discriminator 1 view .LVU91
+ 486 00f6 0022     		movs	r2, #0
+ 487 00f8 5046     		mov	r0, r10
+ 488 00fa FFF7FEFF 		bl	lv_chart_add_series
+ 489              	.LVL58:
+ 490              		.loc 1 333 10 discriminator 2 view .LVU92
+ 491 00fe DFF814A1 		ldr	r10, .L14+64
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 27
+
+
+ 492 0102 CAF80000 		str	r0, [r10]
+ 334:Core/Src/freertos.c ****   ser1_I->hidden = 1;
+ 493              		.loc 1 334 3 is_stmt 1 view .LVU93
+ 494              		.loc 1 334 9 is_stmt 0 view .LVU94
+ 495 0106 DBF80010 		ldr	r1, [fp]
+ 496              		.loc 1 334 18 view .LVU95
+ 497 010a 0B7B     		ldrb	r3, [r1, #12]	@ zero_extendqisi2
+ 498 010c 43F00103 		orr	r3, r3, #1
+ 499 0110 0B73     		strb	r3, [r1, #12]
+ 335:Core/Src/freertos.c ****   ser2_I->hidden = 1;
+ 500              		.loc 1 335 3 is_stmt 1 view .LVU96
+ 501              		.loc 1 335 9 is_stmt 0 view .LVU97
+ 502 0112 3268     		ldr	r2, [r6]
+ 503              		.loc 1 335 18 view .LVU98
+ 504 0114 137B     		ldrb	r3, [r2, #12]	@ zero_extendqisi2
+ 505 0116 43F00103 		orr	r3, r3, #1
+ 506 011a 1373     		strb	r3, [r2, #12]
+ 336:Core/Src/freertos.c ****   ser3_I->hidden = 1;
+ 507              		.loc 1 336 3 is_stmt 1 view .LVU99
+ 508              		.loc 1 336 9 is_stmt 0 view .LVU100
+ 509 011c 2A68     		ldr	r2, [r5]
+ 510              		.loc 1 336 18 view .LVU101
+ 511 011e 137B     		ldrb	r3, [r2, #12]	@ zero_extendqisi2
+ 512 0120 43F00103 		orr	r3, r3, #1
+ 513 0124 1373     		strb	r3, [r2, #12]
+ 337:Core/Src/freertos.c ****   serN_I->hidden = 1;
+ 514              		.loc 1 337 3 is_stmt 1 view .LVU102
+ 515              		.loc 1 337 18 is_stmt 0 view .LVU103
+ 516 0126 037B     		ldrb	r3, [r0, #12]	@ zero_extendqisi2
+ 517 0128 43F00103 		orr	r3, r3, #1
+ 518 012c 0373     		strb	r3, [r0, #12]
+ 338:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser1_I, fft_1I.LVGL_wave);
+ 519              		.loc 1 338 3 is_stmt 1 view .LVU104
+ 520 012e 314A     		ldr	r2, .L14+32
+ 521 0130 D4F88C00 		ldr	r0, [r4, #140]
+ 522 0134 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 523              	.LVL59:
+ 339:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser2_I, fft_2I.LVGL_wave);
+ 524              		.loc 1 339 3 view .LVU105
+ 525 0138 2F4A     		ldr	r2, .L14+36
+ 526 013a 3168     		ldr	r1, [r6]
+ 527 013c D4F88C00 		ldr	r0, [r4, #140]
+ 528 0140 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 529              	.LVL60:
+ 340:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser3_I, fft_3I.LVGL_wave);
+ 530              		.loc 1 340 3 view .LVU106
+ 531 0144 2D4A     		ldr	r2, .L14+40
+ 532 0146 2968     		ldr	r1, [r5]
+ 533 0148 D4F88C00 		ldr	r0, [r4, #140]
+ 534 014c FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 535              	.LVL61:
+ 341:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, serN_I, fft_NI.LVGL_wave);
+ 536              		.loc 1 341 3 view .LVU107
+ 537 0150 2B4A     		ldr	r2, .L14+44
+ 538 0152 DAF80010 		ldr	r1, [r10]
+ 539 0156 D4F88C00 		ldr	r0, [r4, #140]
+ 540 015a FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 28
+
+
+ 541              	.LVL62:
+ 342:Core/Src/freertos.c **** 
+ 343:Core/Src/freertos.c ****   lv_chart_series_t *ser_xb_1 = lv_chart_add_series(guider_ui.wave_model_chart_3, lv_palette_main(L
+ 542              		.loc 1 343 3 view .LVU108
+ 543              		.loc 1 343 33 is_stmt 0 view .LVU109
+ 544 015e D4F8E050 		ldr	r5, [r4, #224]
+ 545 0162 0C20     		movs	r0, #12
+ 546 0164 FFF7FEFF 		bl	lv_palette_main
+ 547              	.LVL63:
+ 548 0168 0146     		mov	r1, r0	@ movhi
+ 549              		.loc 1 343 33 discriminator 1 view .LVU110
+ 550 016a 0022     		movs	r2, #0
+ 551 016c 2846     		mov	r0, r5
+ 552 016e FFF7FEFF 		bl	lv_chart_add_series
+ 553              	.LVL64:
+ 554 0172 0646     		mov	r6, r0
+ 555              	.LVL65:
+ 344:Core/Src/freertos.c ****   lv_chart_series_t *ser_xb_2 = lv_chart_add_series(guider_ui.wave_model_chart_3, lv_color_hex(0x00
+ 556              		.loc 1 344 3 is_stmt 1 view .LVU111
+ 557              	.LBB16:
+ 558              	.LBI16:
+ 597:lvgl/src/hal/../draw/../misc/lv_color.h **** {
+ 559              		.loc 3 597 26 view .LVU112
+ 560              	.LBB17:
+ 600:lvgl/src/hal/../draw/../misc/lv_color.h **** #if LV_COLOR_16_SWAP == 0
+ 561              		.loc 3 600 5 view .LVU113
+ 616:lvgl/src/hal/../draw/../misc/lv_color.h **** #else
+ 562              		.loc 3 616 5 view .LVU114
+ 563              		.loc 3 621 5 view .LVU115
+ 564              		.loc 3 621 5 is_stmt 0 view .LVU116
+ 565              	.LBE17:
+ 566              	.LBE16:
+ 567              		.loc 1 344 33 discriminator 1 view .LVU117
+ 568 0174 0022     		movs	r2, #0
+ 569 0176 4FF4FC61 		mov	r1, #2016	@ movhi
+ 570 017a D4F8E000 		ldr	r0, [r4, #224]
+ 571              	.LVL66:
+ 572              		.loc 1 344 33 discriminator 1 view .LVU118
+ 573 017e FFF7FEFF 		bl	lv_chart_add_series
+ 574              	.LVL67:
+ 575 0182 8246     		mov	r10, r0
+ 576              	.LVL68:
+ 345:Core/Src/freertos.c ****   lv_chart_series_t *ser_xb_3 = lv_chart_add_series(guider_ui.wave_model_chart_3, lv_palette_main(L
+ 577              		.loc 1 345 3 is_stmt 1 view .LVU119
+ 578              		.loc 1 345 33 is_stmt 0 view .LVU120
+ 579 0184 D4F8E050 		ldr	r5, [r4, #224]
+ 580 0188 0020     		movs	r0, #0
+ 581              	.LVL69:
+ 582              		.loc 1 345 33 view .LVU121
+ 583 018a FFF7FEFF 		bl	lv_palette_main
+ 584              	.LVL70:
+ 585 018e 0146     		mov	r1, r0	@ movhi
+ 586              		.loc 1 345 33 discriminator 1 view .LVU122
+ 587 0190 0022     		movs	r2, #0
+ 588 0192 2846     		mov	r0, r5
+ 589 0194 FFF7FEFF 		bl	lv_chart_add_series
+ 590              	.LVL71:
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 29
+
+
+ 591 0198 0546     		mov	r5, r0
+ 592              	.LVL72:
+ 346:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_3, ser_xb_1, fft_1V.LVGL_xb);
+ 593              		.loc 1 346 3 is_stmt 1 view .LVU123
+ 594 019a 09F50072 		add	r2, r9, #512
+ 595 019e 3146     		mov	r1, r6
+ 596 01a0 D4F8E000 		ldr	r0, [r4, #224]
+ 597              	.LVL73:
+ 598              		.loc 1 346 3 is_stmt 0 view .LVU124
+ 599 01a4 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 600              	.LVL74:
+ 347:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_3, ser_xb_2, fft_2V.LVGL_xb);
+ 601              		.loc 1 347 3 is_stmt 1 view .LVU125
+ 602 01a8 08F50072 		add	r2, r8, #512
+ 603 01ac 5146     		mov	r1, r10
+ 604 01ae D4F8E000 		ldr	r0, [r4, #224]
+ 605 01b2 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 606              	.LVL75:
+ 348:Core/Src/freertos.c ****   lv_chart_set_ext_y_array(guider_ui.wave_model_chart_3, ser_xb_3, fft_3V.LVGL_xb);
+ 607              		.loc 1 348 3 view .LVU126
+ 608 01b6 07F50072 		add	r2, r7, #512
+ 609 01ba 2946     		mov	r1, r5
+ 610 01bc D4F8E000 		ldr	r0, [r4, #224]
+ 611 01c0 FFF7FEFF 		bl	lv_chart_set_ext_y_array
+ 612              	.LVL76:
+ 613              	.L12:
+ 349:Core/Src/freertos.c ****   /* Infinite loop */
+ 350:Core/Src/freertos.c ****   for (;;)
+ 614              		.loc 1 350 3 view .LVU127
+ 351:Core/Src/freertos.c ****   {
+ 352:Core/Src/freertos.c ****     task_page();
+ 615              		.loc 1 352 5 view .LVU128
+ 616 01c4 FFF7FEFF 		bl	task_page
+ 617              	.LVL77:
+ 353:Core/Src/freertos.c ****     osDelay(1000);
+ 618              		.loc 1 353 5 discriminator 1 view .LVU129
+ 619 01c8 4FF47A70 		mov	r0, #1000
+ 620 01cc FFF7FEFF 		bl	osDelay
+ 621              	.LVL78:
+ 350:Core/Src/freertos.c ****   {
+ 622              		.loc 1 350 3 view .LVU130
+ 623 01d0 F8E7     		b	.L12
+ 624              	.L15:
+ 625 01d2 00BF     		.align	2
+ 626              	.L14:
+ 627 01d4 00000000 		.word	guider_ui
+ 628 01d8 00000000 		.word	ser2
+ 629 01dc 00000000 		.word	ser3
+ 630 01e0 00000000 		.word	serN
+ 631 01e4 08200000 		.word	fft_3V+8200
+ 632 01e8 08200000 		.word	fft_NV+8200
+ 633 01ec 00000000 		.word	ser2_I
+ 634 01f0 00000000 		.word	ser3_I
+ 635 01f4 08200000 		.word	fft_1I+8200
+ 636 01f8 08200000 		.word	fft_2I+8200
+ 637 01fc 08200000 		.word	fft_3I+8200
+ 638 0200 08200000 		.word	fft_NI+8200
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 30
+
+
+ 639 0204 00000000 		.word	ser1
+ 640 0208 08200000 		.word	fft_1V+8200
+ 641 020c 08200000 		.word	fft_2V+8200
+ 642 0210 00000000 		.word	ser1_I
+ 643 0214 00000000 		.word	serN_I
+ 644              		.cfi_endproc
+ 645              	.LFE603:
+ 647              		.section	.rodata.vApplicationMallocFailedHook.str1.4,"aMS",%progbits,1
+ 648              		.align	2
+ 649              	.LC6:
+ 650 0000 6D616C6C 		.ascii	"malloc fail\015\000"
+ 650      6F632066 
+ 650      61696C0D 
+ 650      00
+ 651              		.section	.text.vApplicationMallocFailedHook,"ax",%progbits
+ 652              		.align	1
+ 653              		.global	vApplicationMallocFailedHook
+ 654              		.syntax unified
+ 655              		.thumb
+ 656              		.thumb_func
+ 658              	vApplicationMallocFailedHook:
+ 659              	.LFB598:
+ 138:Core/Src/freertos.c ****   /* vApplicationMallocFailedHook() will only be called if
+ 660              		.loc 1 138 1 view -0
+ 661              		.cfi_startproc
+ 662              		@ Volatile: function does not return.
+ 663              		@ args = 0, pretend = 0, frame = 0
+ 664              		@ frame_needed = 0, uses_anonymous_args = 0
+ 665 0000 08B5     		push	{r3, lr}
+ 666              	.LCFI3:
+ 667              		.cfi_def_cfa_offset 8
+ 668              		.cfi_offset 3, -8
+ 669              		.cfi_offset 14, -4
+ 149:Core/Src/freertos.c ****   while (1)
+ 670              		.loc 1 149 3 view .LVU132
+ 671 0002 0648     		ldr	r0, .L19
+ 672 0004 FFF7FEFF 		bl	puts
+ 673              	.LVL79:
+ 674              	.L17:
+ 150:Core/Src/freertos.c ****   {
+ 675              		.loc 1 150 3 view .LVU133
+ 153:Core/Src/freertos.c ****     osDelay(200);
+ 676              		.loc 1 153 5 view .LVU134
+ 677 0008 4FF48041 		mov	r1, #16384
+ 678 000c 0448     		ldr	r0, .L19+4
+ 679 000e FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 680              	.LVL80:
+ 154:Core/Src/freertos.c ****   }
+ 681              		.loc 1 154 5 discriminator 1 view .LVU135
+ 682 0012 C820     		movs	r0, #200
+ 683 0014 FFF7FEFF 		bl	osDelay
+ 684              	.LVL81:
+ 150:Core/Src/freertos.c ****   {
+ 685              		.loc 1 150 9 view .LVU136
+ 686 0018 F6E7     		b	.L17
+ 687              	.L20:
+ 688 001a 00BF     		.align	2
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 31
+
+
+ 689              	.L19:
+ 690 001c 00000000 		.word	.LC6
+ 691 0020 00180258 		.word	1476532224
+ 692              		.cfi_endproc
+ 693              	.LFE598:
+ 695              		.section	.text.vApplicationGetIdleTaskMemory,"ax",%progbits
+ 696              		.align	1
+ 697              		.global	vApplicationGetIdleTaskMemory
+ 698              		.syntax unified
+ 699              		.thumb
+ 700              		.thumb_func
+ 702              	vApplicationGetIdleTaskMemory:
+ 703              	.LVL82:
+ 704              	.LFB599:
+ 164:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+ 705              		.loc 1 164 1 view -0
+ 706              		.cfi_startproc
+ 707              		@ args = 0, pretend = 0, frame = 0
+ 708              		@ frame_needed = 0, uses_anonymous_args = 0
+ 709              		@ link register save eliminated.
+ 165:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 710              		.loc 1 165 3 view .LVU138
+ 165:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 711              		.loc 1 165 25 is_stmt 0 view .LVU139
+ 712 0000 034B     		ldr	r3, .L22
+ 713 0002 0360     		str	r3, [r0]
+ 166:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 714              		.loc 1 166 3 is_stmt 1 view .LVU140
+ 166:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 715              		.loc 1 166 27 is_stmt 0 view .LVU141
+ 716 0004 034B     		ldr	r3, .L22+4
+ 717 0006 0B60     		str	r3, [r1]
+ 167:Core/Src/freertos.c ****   /* place for user code */
+ 718              		.loc 1 167 3 is_stmt 1 view .LVU142
+ 167:Core/Src/freertos.c ****   /* place for user code */
+ 719              		.loc 1 167 25 is_stmt 0 view .LVU143
+ 720 0008 8023     		movs	r3, #128
+ 721 000a 1360     		str	r3, [r2]
+ 169:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
+ 722              		.loc 1 169 1 view .LVU144
+ 723 000c 7047     		bx	lr
+ 724              	.L23:
+ 725 000e 00BF     		.align	2
+ 726              	.L22:
+ 727 0010 00000000 		.word	xIdleTaskTCBBuffer
+ 728 0014 00000000 		.word	xIdleStack
+ 729              		.cfi_endproc
+ 730              	.LFE599:
+ 732              		.section	.text.MX_FREERTOS_Init,"ax",%progbits
+ 733              		.align	1
+ 734              		.global	MX_FREERTOS_Init
+ 735              		.syntax unified
+ 736              		.thumb
+ 737              		.thumb_func
+ 739              	MX_FREERTOS_Init:
+ 740              	.LFB600:
+ 178:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 32
+
+
+ 741              		.loc 1 178 1 is_stmt 1 view -0
+ 742              		.cfi_startproc
+ 743              		@ args = 0, pretend = 0, frame = 120
+ 744              		@ frame_needed = 0, uses_anonymous_args = 0
+ 745 0000 30B5     		push	{r4, r5, lr}
+ 746              	.LCFI4:
+ 747              		.cfi_def_cfa_offset 12
+ 748              		.cfi_offset 4, -12
+ 749              		.cfi_offset 5, -8
+ 750              		.cfi_offset 14, -4
+ 751 0002 9FB0     		sub	sp, sp, #124
+ 752              	.LCFI5:
+ 753              		.cfi_def_cfa_offset 136
+ 189:Core/Src/freertos.c ****   EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
+ 754              		.loc 1 189 3 view .LVU146
+ 755 0004 0025     		movs	r5, #0
+ 756 0006 1C95     		str	r5, [sp, #112]
+ 757 0008 1D95     		str	r5, [sp, #116]
+ 190:Core/Src/freertos.c **** 
+ 758              		.loc 1 190 3 view .LVU147
+ 190:Core/Src/freertos.c **** 
+ 759              		.loc 1 190 21 is_stmt 0 view .LVU148
+ 760 000a 0121     		movs	r1, #1
+ 761 000c 1CA8     		add	r0, sp, #112
+ 762 000e FFF7FEFF 		bl	osSemaphoreCreate
+ 763              	.LVL83:
+ 190:Core/Src/freertos.c **** 
+ 764              		.loc 1 190 19 discriminator 1 view .LVU149
+ 765 0012 294B     		ldr	r3, .L26
+ 766 0014 1860     		str	r0, [r3]
+ 193:Core/Src/freertos.c ****   EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
+ 767              		.loc 1 193 3 is_stmt 1 view .LVU150
+ 768 0016 1A95     		str	r5, [sp, #104]
+ 769 0018 1B95     		str	r5, [sp, #108]
+ 194:Core/Src/freertos.c **** 
+ 770              		.loc 1 194 3 view .LVU151
+ 194:Core/Src/freertos.c **** 
+ 771              		.loc 1 194 21 is_stmt 0 view .LVU152
+ 772 001a 0121     		movs	r1, #1
+ 773 001c 1AA8     		add	r0, sp, #104
+ 774 001e FFF7FEFF 		bl	osSemaphoreCreate
+ 775              	.LVL84:
+ 194:Core/Src/freertos.c **** 
+ 776              		.loc 1 194 19 discriminator 1 view .LVU153
+ 777 0022 264B     		ldr	r3, .L26+4
+ 778 0024 1860     		str	r0, [r3]
+ 197:Core/Src/freertos.c ****   EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
+ 779              		.loc 1 197 3 is_stmt 1 view .LVU154
+ 780 0026 1895     		str	r5, [sp, #96]
+ 781 0028 1995     		str	r5, [sp, #100]
+ 198:Core/Src/freertos.c **** 
+ 782              		.loc 1 198 3 view .LVU155
+ 198:Core/Src/freertos.c **** 
+ 783              		.loc 1 198 30 is_stmt 0 view .LVU156
+ 784 002a 0121     		movs	r1, #1
+ 785 002c 18A8     		add	r0, sp, #96
+ 786 002e FFF7FEFF 		bl	osSemaphoreCreate
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 33
+
+
+ 787              	.LVL85:
+ 198:Core/Src/freertos.c **** 
+ 788              		.loc 1 198 28 discriminator 1 view .LVU157
+ 789 0032 234B     		ldr	r3, .L26+8
+ 790 0034 1860     		str	r0, [r3]
+ 201:Core/Src/freertos.c ****   EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
+ 791              		.loc 1 201 3 is_stmt 1 view .LVU158
+ 792 0036 1695     		str	r5, [sp, #88]
+ 793 0038 1795     		str	r5, [sp, #92]
+ 202:Core/Src/freertos.c **** 
+ 794              		.loc 1 202 3 view .LVU159
+ 202:Core/Src/freertos.c **** 
+ 795              		.loc 1 202 27 is_stmt 0 view .LVU160
+ 796 003a 0121     		movs	r1, #1
+ 797 003c 16A8     		add	r0, sp, #88
+ 798 003e FFF7FEFF 		bl	osSemaphoreCreate
+ 799              	.LVL86:
+ 202:Core/Src/freertos.c **** 
+ 800              		.loc 1 202 25 discriminator 1 view .LVU161
+ 801 0042 204B     		ldr	r3, .L26+12
+ 802 0044 1860     		str	r0, [r3]
+ 218:Core/Src/freertos.c ****   refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
+ 803              		.loc 1 218 3 is_stmt 1 view .LVU162
+ 804 0046 204C     		ldr	r4, .L26+16
+ 805 0048 0DF13C0C 		add	ip, sp, #60
+ 806 004c A646     		mov	lr, r4
+ 807 004e BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 808 0052 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 809 0056 9EE80700 		ldm	lr, {r0, r1, r2}
+ 810 005a 8CE80700 		stm	ip, {r0, r1, r2}
+ 219:Core/Src/freertos.c **** 
+ 811              		.loc 1 219 3 view .LVU163
+ 219:Core/Src/freertos.c **** 
+ 812              		.loc 1 219 24 is_stmt 0 view .LVU164
+ 813 005e 2946     		mov	r1, r5
+ 814 0060 0FA8     		add	r0, sp, #60
+ 815 0062 FFF7FEFF 		bl	osThreadCreate
+ 816              	.LVL87:
+ 219:Core/Src/freertos.c **** 
+ 817              		.loc 1 219 22 discriminator 1 view .LVU165
+ 818 0066 194B     		ldr	r3, .L26+20
+ 819 0068 1860     		str	r0, [r3]
+ 222:Core/Src/freertos.c ****   task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
+ 820              		.loc 1 222 3 is_stmt 1 view .LVU166
+ 821 006a 0DF1200C 		add	ip, sp, #32
+ 822 006e 04F11C0E 		add	lr, r4, #28
+ 823 0072 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 824 0076 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 825 007a 9EE80700 		ldm	lr, {r0, r1, r2}
+ 826 007e 8CE80700 		stm	ip, {r0, r1, r2}
+ 223:Core/Src/freertos.c **** 
+ 827              		.loc 1 223 3 view .LVU167
+ 223:Core/Src/freertos.c **** 
+ 828              		.loc 1 223 20 is_stmt 0 view .LVU168
+ 829 0082 2946     		mov	r1, r5
+ 830 0084 08A8     		add	r0, sp, #32
+ 831 0086 FFF7FEFF 		bl	osThreadCreate
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 34
+
+
+ 832              	.LVL88:
+ 223:Core/Src/freertos.c **** 
+ 833              		.loc 1 223 18 discriminator 1 view .LVU169
+ 834 008a 114B     		ldr	r3, .L26+24
+ 835 008c 1860     		str	r0, [r3]
+ 226:Core/Src/freertos.c ****   task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
+ 836              		.loc 1 226 3 is_stmt 1 view .LVU170
+ 837 008e 0DF1040E 		add	lr, sp, #4
+ 838 0092 04F1380C 		add	ip, r4, #56
+ 839 0096 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
+ 840 009a AEE80F00 		stmia	lr!, {r0, r1, r2, r3}
+ 841 009e 9CE80700 		ldm	ip, {r0, r1, r2}
+ 842 00a2 8EE80700 		stm	lr, {r0, r1, r2}
+ 227:Core/Src/freertos.c **** 
+ 843              		.loc 1 227 3 view .LVU171
+ 227:Core/Src/freertos.c **** 
+ 844              		.loc 1 227 21 is_stmt 0 view .LVU172
+ 845 00a6 2946     		mov	r1, r5
+ 846 00a8 01A8     		add	r0, sp, #4
+ 847 00aa FFF7FEFF 		bl	osThreadCreate
+ 848              	.LVL89:
+ 227:Core/Src/freertos.c **** 
+ 849              		.loc 1 227 19 discriminator 1 view .LVU173
+ 850 00ae 094B     		ldr	r3, .L26+28
+ 851 00b0 1860     		str	r0, [r3]
+ 232:Core/Src/freertos.c **** 
+ 852              		.loc 1 232 1 view .LVU174
+ 853 00b2 1FB0     		add	sp, sp, #124
+ 854              	.LCFI6:
+ 855              		.cfi_def_cfa_offset 12
+ 856              		@ sp needed
+ 857 00b4 30BD     		pop	{r4, r5, pc}
+ 858              	.L27:
+ 859 00b6 00BF     		.align	2
+ 860              	.L26:
+ 861 00b8 00000000 		.word	EVENT_ADCHandle
+ 862 00bc 00000000 		.word	EVENT_FFTHandle
+ 863 00c0 00000000 		.word	EVENT_LVGL_REFERSHHandle
+ 864 00c4 00000000 		.word	EVENT_LVGL_TASKHandle
+ 865 00c8 00000000 		.word	.LANCHOR0
+ 866 00cc 00000000 		.word	refersh_lvglHandle
+ 867 00d0 00000000 		.word	task_FFTHandle
+ 868 00d4 00000000 		.word	task_lvglHandle
+ 869              		.cfi_endproc
+ 870              	.LFE600:
+ 872              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
+ 873              		.align	1
+ 874              		.global	HAL_GPIO_EXTI_Callback
+ 875              		.syntax unified
+ 876              		.thumb
+ 877              		.thumb_func
+ 879              	HAL_GPIO_EXTI_Callback:
+ 880              	.LVL90:
+ 881              	.LFB604:
+ 354:Core/Src/freertos.c ****   }
+ 355:Core/Src/freertos.c ****   /* USER CODE END TASK_LVGL */
+ 356:Core/Src/freertos.c **** }
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 35
+
+
+ 357:Core/Src/freertos.c **** 
+ 358:Core/Src/freertos.c **** /* Private application code --------------------------------------------------*/
+ 359:Core/Src/freertos.c **** /* USER CODE BEGIN Application */
+ 360:Core/Src/freertos.c **** /**
+ 361:Core/Src/freertos.c ****  * @brief  EXTI line detection callback.
+ 362:Core/Src/freertos.c ****  * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
+ 363:Core/Src/freertos.c ****  * @retval None
+ 364:Core/Src/freertos.c ****  */
+ 365:Core/Src/freertos.c **** /* NOTE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ 366:Core/Src/freertos.c ****               __HAL_GPIO_EXTI_CLEAR_IT(GPIO_Pin);
+ 367:Core/Src/freertos.c **** This function Should not be modified in the hal_gpio file, when the callback is needed,
+ 368:Core/Src/freertos.c ****            the HAL_GPIO_EXTI_Callback could be implemented in the user file
+ 369:Core/Src/freertos.c **** ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+ 370:Core/Src/freertos.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+ 371:Core/Src/freertos.c **** {
+ 882              		.loc 1 371 1 is_stmt 1 view -0
+ 883              		.cfi_startproc
+ 884              		@ args = 0, pretend = 0, frame = 0
+ 885              		@ frame_needed = 0, uses_anonymous_args = 0
+ 372:Core/Src/freertos.c ****   // GPIO_PIN_12 == ADC Complete interrupt
+ 373:Core/Src/freertos.c ****   if (GPIO_Pin == GPIO_PIN_12)
+ 886              		.loc 1 373 3 view .LVU176
+ 887              		.loc 1 373 6 is_stmt 0 view .LVU177
+ 888 0000 B0F5805F 		cmp	r0, #4096
+ 889 0004 00D0     		beq	.L34
+ 890 0006 7047     		bx	lr
+ 891              	.L34:
+ 371:Core/Src/freertos.c ****   // GPIO_PIN_12 == ADC Complete interrupt
+ 892              		.loc 1 371 1 view .LVU178
+ 893 0008 08B5     		push	{r3, lr}
+ 894              	.LCFI7:
+ 895              		.cfi_def_cfa_offset 8
+ 896              		.cfi_offset 3, -8
+ 897              		.cfi_offset 14, -4
+ 374:Core/Src/freertos.c ****   {
+ 375:Core/Src/freertos.c ****     Get_AD7606();
+ 898              		.loc 1 375 5 is_stmt 1 view .LVU179
+ 899 000a FFF7FEFF 		bl	Get_AD7606
+ 900              	.LVL91:
+ 376:Core/Src/freertos.c ****   }
+ 377:Core/Src/freertos.c **** }
+ 901              		.loc 1 377 1 is_stmt 0 view .LVU180
+ 902 000e 08BD     		pop	{r3, pc}
+ 903              		.cfi_endproc
+ 904              	.LFE604:
+ 906              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 907              		.align	2
+ 908              	.LC4:
+ 909 0000 7461736B 		.ascii	"task_lvgl\000"
+ 909      5F6C7667 
+ 909      6C00
+ 910 000a 0000     		.align	2
+ 911              	.LC2:
+ 912 000c 7461736B 		.ascii	"task_FFT\000"
+ 912      5F464654 
+ 912      00
+ 913 0015 000000   		.align	2
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 36
+
+
+ 914              	.LC0:
+ 915 0018 72656665 		.ascii	"refersh_lvgl\000"
+ 915      7273685F 
+ 915      6C76676C 
+ 915      00
+ 916              		.section	.bss.xIdleStack,"aw",%nobits
+ 917              		.align	2
+ 920              	xIdleStack:
+ 921 0000 00000000 		.space	512
+ 921      00000000 
+ 921      00000000 
+ 921      00000000 
+ 921      00000000 
+ 922              		.section	.bss.xIdleTaskTCBBuffer,"aw",%nobits
+ 923              		.align	2
+ 926              	xIdleTaskTCBBuffer:
+ 927 0000 00000000 		.space	84
+ 927      00000000 
+ 927      00000000 
+ 927      00000000 
+ 927      00000000 
+ 928              		.global	EVENT_LVGL_TASKHandle
+ 929              		.section	.bss.EVENT_LVGL_TASKHandle,"aw",%nobits
+ 930              		.align	2
+ 933              	EVENT_LVGL_TASKHandle:
+ 934 0000 00000000 		.space	4
+ 935              		.global	EVENT_LVGL_REFERSHHandle
+ 936              		.section	.bss.EVENT_LVGL_REFERSHHandle,"aw",%nobits
+ 937              		.align	2
+ 940              	EVENT_LVGL_REFERSHHandle:
+ 941 0000 00000000 		.space	4
+ 942              		.global	EVENT_FFTHandle
+ 943              		.section	.bss.EVENT_FFTHandle,"aw",%nobits
+ 944              		.align	2
+ 947              	EVENT_FFTHandle:
+ 948 0000 00000000 		.space	4
+ 949              		.global	EVENT_ADCHandle
+ 950              		.section	.bss.EVENT_ADCHandle,"aw",%nobits
+ 951              		.align	2
+ 954              	EVENT_ADCHandle:
+ 955 0000 00000000 		.space	4
+ 956              		.global	task_lvglHandle
+ 957              		.section	.bss.task_lvglHandle,"aw",%nobits
+ 958              		.align	2
+ 961              	task_lvglHandle:
+ 962 0000 00000000 		.space	4
+ 963              		.global	task_FFTHandle
+ 964              		.section	.bss.task_FFTHandle,"aw",%nobits
+ 965              		.align	2
+ 968              	task_FFTHandle:
+ 969 0000 00000000 		.space	4
+ 970              		.global	refersh_lvglHandle
+ 971              		.section	.bss.refersh_lvglHandle,"aw",%nobits
+ 972              		.align	2
+ 975              	refersh_lvglHandle:
+ 976 0000 00000000 		.space	4
+ 977              		.global	serN_I
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 37
+
+
+ 978              		.section	.bss.serN_I,"aw",%nobits
+ 979              		.align	2
+ 982              	serN_I:
+ 983 0000 00000000 		.space	4
+ 984              		.global	ser3_I
+ 985              		.section	.bss.ser3_I,"aw",%nobits
+ 986              		.align	2
+ 989              	ser3_I:
+ 990 0000 00000000 		.space	4
+ 991              		.global	ser2_I
+ 992              		.section	.bss.ser2_I,"aw",%nobits
+ 993              		.align	2
+ 996              	ser2_I:
+ 997 0000 00000000 		.space	4
+ 998              		.global	ser1_I
+ 999              		.section	.bss.ser1_I,"aw",%nobits
+ 1000              		.align	2
+ 1003              	ser1_I:
+ 1004 0000 00000000 		.space	4
+ 1005              		.global	serN
+ 1006              		.section	.bss.serN,"aw",%nobits
+ 1007              		.align	2
+ 1010              	serN:
+ 1011 0000 00000000 		.space	4
+ 1012              		.global	ser3
+ 1013              		.section	.bss.ser3,"aw",%nobits
+ 1014              		.align	2
+ 1017              	ser3:
+ 1018 0000 00000000 		.space	4
+ 1019              		.global	ser2
+ 1020              		.section	.bss.ser2,"aw",%nobits
+ 1021              		.align	2
+ 1024              	ser2:
+ 1025 0000 00000000 		.space	4
+ 1026              		.global	ser1
+ 1027              		.section	.bss.ser1,"aw",%nobits
+ 1028              		.align	2
+ 1031              	ser1:
+ 1032 0000 00000000 		.space	4
+ 1033              		.global	Voltage
+ 1034              		.section	.SDRAM,"aw"
+ 1035              		.align	5
+ 1038              	Voltage:
+ 1039 0000 00000000 		.space	32
+ 1039      00000000 
+ 1039      00000000 
+ 1039      00000000 
+ 1039      00000000 
+ 1040              		.global	PN
+ 1041              		.align	5
+ 1044              	PN:
+ 1045 0020 00000000 		.space	80
+ 1045      00000000 
+ 1045      00000000 
+ 1045      00000000 
+ 1045      00000000 
+ 1046              		.global	P3
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 38
+
+
+ 1047 0070 00000000 		.align	5
+ 1047      00000000 
+ 1047      00000000 
+ 1047      00000000 
+ 1050              	P3:
+ 1051 0080 00000000 		.space	80
+ 1051      00000000 
+ 1051      00000000 
+ 1051      00000000 
+ 1051      00000000 
+ 1052              		.global	P2
+ 1053 00d0 00000000 		.align	5
+ 1053      00000000 
+ 1053      00000000 
+ 1053      00000000 
+ 1056              	P2:
+ 1057 00e0 00000000 		.space	80
+ 1057      00000000 
+ 1057      00000000 
+ 1057      00000000 
+ 1057      00000000 
+ 1058              		.global	P1
+ 1059 0130 00000000 		.align	5
+ 1059      00000000 
+ 1059      00000000 
+ 1059      00000000 
+ 1062              	P1:
+ 1063 0140 00000000 		.space	80
+ 1063      00000000 
+ 1063      00000000 
+ 1063      00000000 
+ 1063      00000000 
+ 1064              		.global	fft_NI
+ 1065 0190 00000000 		.align	5
+ 1065      00000000 
+ 1065      00000000 
+ 1065      00000000 
+ 1068              	fft_NI:
+ 1069 01a0 00000000 		.space	37820
+ 1069      00000000 
+ 1069      00000000 
+ 1069      00000000 
+ 1069      00000000 
+ 1070              		.global	fft_3I
+ 1071 955c 00000000 		.align	5
+ 1074              	fft_3I:
+ 1075 9560 00000000 		.space	37820
+ 1075      00000000 
+ 1075      00000000 
+ 1075      00000000 
+ 1075      00000000 
+ 1076              		.global	fft_2I
+ 1077 1291c 00000000 		.align	5
+ 1080              	fft_2I:
+ 1081 12920 00000000 		.space	37820
+ 1081      00000000 
+ 1081      00000000 
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 39
+
+
+ 1081      00000000 
+ 1081      00000000 
+ 1082              		.global	fft_1I
+ 1083 1bcdc 00000000 		.align	5
+ 1086              	fft_1I:
+ 1087 1bce0 00000000 		.space	37820
+ 1087      00000000 
+ 1087      00000000 
+ 1087      00000000 
+ 1087      00000000 
+ 1088              		.global	fft_NV
+ 1089 2509c 00000000 		.align	5
+ 1092              	fft_NV:
+ 1093 250a0 00000000 		.space	37820
+ 1093      00000000 
+ 1093      00000000 
+ 1093      00000000 
+ 1093      00000000 
+ 1094              		.global	fft_3V
+ 1095 2e45c 00000000 		.align	5
+ 1098              	fft_3V:
+ 1099 2e460 00000000 		.space	37820
+ 1099      00000000 
+ 1099      00000000 
+ 1099      00000000 
+ 1099      00000000 
+ 1100              		.global	fft_2V
+ 1101 3781c 00000000 		.align	5
+ 1104              	fft_2V:
+ 1105 37820 00000000 		.space	37820
+ 1105      00000000 
+ 1105      00000000 
+ 1105      00000000 
+ 1105      00000000 
+ 1106              		.global	fft_1V
+ 1107 40bdc 00000000 		.align	5
+ 1110              	fft_1V:
+ 1111 40be0 00000000 		.space	37820
+ 1111      00000000 
+ 1111      00000000 
+ 1111      00000000 
+ 1111      00000000 
+ 1112              		.section	.rodata
+ 1113              		.align	2
+ 1114              		.set	.LANCHOR0,. + 0
+ 1115              	.LC7:
+ 1116 0000 18000000 		.word	.LC0
+ 1117 0004 00000000 		.word	Refersh_LVGL
+ 1118 0008 0100     		.short	1
+ 1119 000a 0000     		.space	2
+ 1120 000c 00000000 		.word	0
+ 1121 0010 00040000 		.word	1024
+ 1122 0014 00000000 		.word	0
+ 1123 0018 00000000 		.word	0
+ 1124              	.LC8:
+ 1125 001c 0C000000 		.word	.LC2
+ 1126 0020 00000000 		.word	TASK_FFT
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 40
+
+
+ 1127 0024 0000     		.short	0
+ 1128 0026 0000     		.space	2
+ 1129 0028 00000000 		.word	0
+ 1130 002c 14050000 		.word	1300
+ 1131 0030 00000000 		.word	0
+ 1132 0034 00000000 		.word	0
+ 1133              	.LC9:
+ 1134 0038 00000000 		.word	.LC4
+ 1135 003c 00000000 		.word	TASK_LVGL
+ 1136 0040 0000     		.short	0
+ 1137 0042 0000     		.space	2
+ 1138 0044 00000000 		.word	0
+ 1139 0048 14050000 		.word	1300
+ 1140 004c 00000000 		.word	0
+ 1141 0050 00000000 		.word	0
+ 1142              		.text
+ 1143              	.Letext0:
+ 1144              		.file 4 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1145              		.file 5 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1146              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
+ 1147              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h"
+ 1148              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1149              		.file 9 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 1150              		.file 10 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1151              		.file 11 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 1152              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h"
+ 1153              		.file 13 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 1154              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 1155              		.file 15 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1156              		.file 16 "lvgl/src/hal/../draw/../misc/../font/../misc/lv_area.h"
+ 1157              		.file 17 "lvgl/src/hal/../draw/../misc/lv_style.h"
+ 1158              		.file 18 "lvgl/src/core/lv_obj.h"
+ 1159              		.file 19 "lvgl/src/hal/../misc/lv_ll.h"
+ 1160              		.file 20 "lvgl/src/core/lv_group.h"
+ 1161              		.file 21 "lvgl/src/core/lv_obj_scroll.h"
+ 1162              		.file 22 "lvgl/src/core/lv_obj_style.h"
+ 1163              		.file 23 "lvgl/src/core/lv_obj_class.h"
+ 1164              		.file 24 "lvgl/src/core/lv_event.h"
+ 1165              		.file 25 "lvgl/src/widgets/lv_bar.h"
+ 1166              		.file 26 "lvgl/src/extra/widgets/chart/lv_chart.h"
+ 1167              		.file 27 "lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h"
+ 1168              		.file 28 "generated/gui_guider.h"
+ 1169              		.file 29 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 1170              		.file 30 "Core/Inc/tim.h"
+ 1171              		.file 31 "User/FFT/dsp_fft.h"
+ 1172              		.file 32 "Core/Inc/ad7606.h"
+ 1173              		.file 33 "User/task/task_page1.h"
+ 1174              		.file 34 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h"
+ 1175              		.file 35 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h"
+ 1176              		.file 36 "Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h"
+ 1177              		.file 37 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 1178              		.file 38 "lvgl/src/misc/lv_timer.h"
+ 1179              		.file 39 "<built-in>"
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 41
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 freertos.c
-C:\usertemp\ccPt1wX7.s:20     .text.TASK_LVGL:00000000 $t
-C:\usertemp\ccPt1wX7.s:26     .text.TASK_LVGL:00000000 TASK_LVGL
-C:\usertemp\ccPt1wX7.s:57     .text.TASK_LVGL:00000018 $d
-C:\usertemp\ccPt1wX7.s:62     .text.Refersh_LVGL:00000000 $t
-C:\usertemp\ccPt1wX7.s:68     .text.Refersh_LVGL:00000000 Refersh_LVGL
-C:\usertemp\ccPt1wX7.s:210    .text.Refersh_LVGL:000000ec $d
-C:\usertemp\ccPt1wX7.s:721    .SDRAM:0002e460 fft_3V
-C:\usertemp\ccPt1wX7.s:715    .SDRAM:000250a0 fft_NV
-C:\usertemp\ccPt1wX7.s:697    .SDRAM:00009560 fft_3I
-C:\usertemp\ccPt1wX7.s:691    .SDRAM:000001a0 fft_NI
-C:\usertemp\ccPt1wX7.s:685    .SDRAM:00000140 P1
-C:\usertemp\ccPt1wX7.s:667    .SDRAM:00000020 PN
-C:\usertemp\ccPt1wX7.s:661    .SDRAM:00000000 Voltage
-C:\usertemp\ccPt1wX7.s:733    .SDRAM:00040be0 fft_1V
-C:\usertemp\ccPt1wX7.s:727    .SDRAM:00037820 fft_2V
-C:\usertemp\ccPt1wX7.s:709    .SDRAM:0001bce0 fft_1I
-C:\usertemp\ccPt1wX7.s:703    .SDRAM:00012920 fft_2I
-C:\usertemp\ccPt1wX7.s:679    .SDRAM:000000e0 P2
-C:\usertemp\ccPt1wX7.s:673    .SDRAM:00000080 P3
-C:\usertemp\ccPt1wX7.s:227    .text.TASK_FFT:00000000 $t
-C:\usertemp\ccPt1wX7.s:233    .text.TASK_FFT:00000000 TASK_FFT
-C:\usertemp\ccPt1wX7.s:271    .rodata.vApplicationMallocFailedHook.str1.4:00000000 $d
-C:\usertemp\ccPt1wX7.s:275    .text.vApplicationMallocFailedHook:00000000 $t
-C:\usertemp\ccPt1wX7.s:281    .text.vApplicationMallocFailedHook:00000000 vApplicationMallocFailedHook
-C:\usertemp\ccPt1wX7.s:313    .text.vApplicationMallocFailedHook:0000001c $d
-C:\usertemp\ccPt1wX7.s:319    .text.vApplicationGetIdleTaskMemory:00000000 $t
-C:\usertemp\ccPt1wX7.s:325    .text.vApplicationGetIdleTaskMemory:00000000 vApplicationGetIdleTaskMemory
-C:\usertemp\ccPt1wX7.s:350    .text.vApplicationGetIdleTaskMemory:00000010 $d
-C:\usertemp\ccPt1wX7.s:549    .bss.xIdleTaskTCBBuffer:00000000 xIdleTaskTCBBuffer
-C:\usertemp\ccPt1wX7.s:543    .bss.xIdleStack:00000000 xIdleStack
-C:\usertemp\ccPt1wX7.s:356    .text.MX_FREERTOS_Init:00000000 $t
-C:\usertemp\ccPt1wX7.s:362    .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
-C:\usertemp\ccPt1wX7.s:484    .text.MX_FREERTOS_Init:000000b8 $d
-C:\usertemp\ccPt1wX7.s:577    .bss.EVENT_ADCHandle:00000000 EVENT_ADCHandle
-C:\usertemp\ccPt1wX7.s:570    .bss.EVENT_FFTHandle:00000000 EVENT_FFTHandle
-C:\usertemp\ccPt1wX7.s:563    .bss.EVENT_LVGL_REFERSHHandle:00000000 EVENT_LVGL_REFERSHHandle
-C:\usertemp\ccPt1wX7.s:556    .bss.EVENT_LVGL_TASKHandle:00000000 EVENT_LVGL_TASKHandle
-C:\usertemp\ccPt1wX7.s:598    .bss.refersh_lvglHandle:00000000 refersh_lvglHandle
-C:\usertemp\ccPt1wX7.s:591    .bss.task_FFTHandle:00000000 task_FFTHandle
-C:\usertemp\ccPt1wX7.s:584    .bss.task_lvglHandle:00000000 task_lvglHandle
-C:\usertemp\ccPt1wX7.s:496    .text.HAL_GPIO_EXTI_Callback:00000000 $t
-C:\usertemp\ccPt1wX7.s:502    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
-C:\usertemp\ccPt1wX7.s:530    .rodata.str1.4:00000000 $d
-C:\usertemp\ccPt1wX7.s:540    .bss.xIdleStack:00000000 $d
-C:\usertemp\ccPt1wX7.s:546    .bss.xIdleTaskTCBBuffer:00000000 $d
-C:\usertemp\ccPt1wX7.s:553    .bss.EVENT_LVGL_TASKHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:560    .bss.EVENT_LVGL_REFERSHHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:567    .bss.EVENT_FFTHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:574    .bss.EVENT_ADCHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:581    .bss.task_lvglHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:588    .bss.task_FFTHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:595    .bss.refersh_lvglHandle:00000000 $d
-C:\usertemp\ccPt1wX7.s:605    .bss.serN_I:00000000 serN_I
-C:\usertemp\ccPt1wX7.s:602    .bss.serN_I:00000000 $d
-C:\usertemp\ccPt1wX7.s:612    .bss.ser3_I:00000000 ser3_I
-ARM GAS  C:\usertemp\ccPt1wX7.s 			page 24
+C:\usertemp\ccUufyDV.s:20     .text.Refersh_LVGL:00000000 $t
+C:\usertemp\ccUufyDV.s:26     .text.Refersh_LVGL:00000000 Refersh_LVGL
+C:\usertemp\ccUufyDV.s:168    .text.Refersh_LVGL:000000ec $d
+C:\usertemp\ccUufyDV.s:1098   .SDRAM:0002e460 fft_3V
+C:\usertemp\ccUufyDV.s:1092   .SDRAM:000250a0 fft_NV
+C:\usertemp\ccUufyDV.s:1074   .SDRAM:00009560 fft_3I
+C:\usertemp\ccUufyDV.s:1068   .SDRAM:000001a0 fft_NI
+C:\usertemp\ccUufyDV.s:1062   .SDRAM:00000140 P1
+C:\usertemp\ccUufyDV.s:1044   .SDRAM:00000020 PN
+C:\usertemp\ccUufyDV.s:1038   .SDRAM:00000000 Voltage
+C:\usertemp\ccUufyDV.s:1110   .SDRAM:00040be0 fft_1V
+C:\usertemp\ccUufyDV.s:1104   .SDRAM:00037820 fft_2V
+C:\usertemp\ccUufyDV.s:1086   .SDRAM:0001bce0 fft_1I
+C:\usertemp\ccUufyDV.s:1080   .SDRAM:00012920 fft_2I
+C:\usertemp\ccUufyDV.s:1056   .SDRAM:000000e0 P2
+C:\usertemp\ccUufyDV.s:1050   .SDRAM:00000080 P3
+C:\usertemp\ccUufyDV.s:185    .text.TASK_FFT:00000000 $t
+C:\usertemp\ccUufyDV.s:191    .text.TASK_FFT:00000000 TASK_FFT
+C:\usertemp\ccUufyDV.s:284    .text.TASK_FFT:00000070 $d
+C:\usertemp\ccUufyDV.s:302    .text.TASK_LVGL:00000000 $t
+C:\usertemp\ccUufyDV.s:308    .text.TASK_LVGL:00000000 TASK_LVGL
+C:\usertemp\ccUufyDV.s:627    .text.TASK_LVGL:000001d4 $d
+C:\usertemp\ccUufyDV.s:1024   .bss.ser2:00000000 ser2
+C:\usertemp\ccUufyDV.s:1017   .bss.ser3:00000000 ser3
+C:\usertemp\ccUufyDV.s:1010   .bss.serN:00000000 serN
+C:\usertemp\ccUufyDV.s:996    .bss.ser2_I:00000000 ser2_I
+C:\usertemp\ccUufyDV.s:989    .bss.ser3_I:00000000 ser3_I
+C:\usertemp\ccUufyDV.s:1031   .bss.ser1:00000000 ser1
+C:\usertemp\ccUufyDV.s:1003   .bss.ser1_I:00000000 ser1_I
+C:\usertemp\ccUufyDV.s:982    .bss.serN_I:00000000 serN_I
+C:\usertemp\ccUufyDV.s:648    .rodata.vApplicationMallocFailedHook.str1.4:00000000 $d
+C:\usertemp\ccUufyDV.s:652    .text.vApplicationMallocFailedHook:00000000 $t
+C:\usertemp\ccUufyDV.s:658    .text.vApplicationMallocFailedHook:00000000 vApplicationMallocFailedHook
+C:\usertemp\ccUufyDV.s:690    .text.vApplicationMallocFailedHook:0000001c $d
+C:\usertemp\ccUufyDV.s:696    .text.vApplicationGetIdleTaskMemory:00000000 $t
+C:\usertemp\ccUufyDV.s:702    .text.vApplicationGetIdleTaskMemory:00000000 vApplicationGetIdleTaskMemory
+C:\usertemp\ccUufyDV.s:727    .text.vApplicationGetIdleTaskMemory:00000010 $d
+C:\usertemp\ccUufyDV.s:926    .bss.xIdleTaskTCBBuffer:00000000 xIdleTaskTCBBuffer
+C:\usertemp\ccUufyDV.s:920    .bss.xIdleStack:00000000 xIdleStack
+C:\usertemp\ccUufyDV.s:733    .text.MX_FREERTOS_Init:00000000 $t
+C:\usertemp\ccUufyDV.s:739    .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
+C:\usertemp\ccUufyDV.s:861    .text.MX_FREERTOS_Init:000000b8 $d
+C:\usertemp\ccUufyDV.s:954    .bss.EVENT_ADCHandle:00000000 EVENT_ADCHandle
+C:\usertemp\ccUufyDV.s:947    .bss.EVENT_FFTHandle:00000000 EVENT_FFTHandle
+C:\usertemp\ccUufyDV.s:940    .bss.EVENT_LVGL_REFERSHHandle:00000000 EVENT_LVGL_REFERSHHandle
+C:\usertemp\ccUufyDV.s:933    .bss.EVENT_LVGL_TASKHandle:00000000 EVENT_LVGL_TASKHandle
+C:\usertemp\ccUufyDV.s:975    .bss.refersh_lvglHandle:00000000 refersh_lvglHandle
+C:\usertemp\ccUufyDV.s:968    .bss.task_FFTHandle:00000000 task_FFTHandle
+C:\usertemp\ccUufyDV.s:961    .bss.task_lvglHandle:00000000 task_lvglHandle
+C:\usertemp\ccUufyDV.s:873    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+C:\usertemp\ccUufyDV.s:879    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+C:\usertemp\ccUufyDV.s:907    .rodata.str1.4:00000000 $d
+C:\usertemp\ccUufyDV.s:917    .bss.xIdleStack:00000000 $d
+C:\usertemp\ccUufyDV.s:923    .bss.xIdleTaskTCBBuffer:00000000 $d
+C:\usertemp\ccUufyDV.s:930    .bss.EVENT_LVGL_TASKHandle:00000000 $d
+ARM GAS  C:\usertemp\ccUufyDV.s 			page 42
 
 
-C:\usertemp\ccPt1wX7.s:609    .bss.ser3_I:00000000 $d
-C:\usertemp\ccPt1wX7.s:619    .bss.ser2_I:00000000 ser2_I
-C:\usertemp\ccPt1wX7.s:616    .bss.ser2_I:00000000 $d
-C:\usertemp\ccPt1wX7.s:626    .bss.ser1_I:00000000 ser1_I
-C:\usertemp\ccPt1wX7.s:623    .bss.ser1_I:00000000 $d
-C:\usertemp\ccPt1wX7.s:633    .bss.serN:00000000 serN
-C:\usertemp\ccPt1wX7.s:630    .bss.serN:00000000 $d
-C:\usertemp\ccPt1wX7.s:640    .bss.ser3:00000000 ser3
-C:\usertemp\ccPt1wX7.s:637    .bss.ser3:00000000 $d
-C:\usertemp\ccPt1wX7.s:647    .bss.ser2:00000000 ser2
-C:\usertemp\ccPt1wX7.s:644    .bss.ser2:00000000 $d
-C:\usertemp\ccPt1wX7.s:654    .bss.ser1:00000000 ser1
-C:\usertemp\ccPt1wX7.s:651    .bss.ser1:00000000 $d
-C:\usertemp\ccPt1wX7.s:658    .SDRAM:00000000 $d
-C:\usertemp\ccPt1wX7.s:736    .rodata:00000000 $d
+C:\usertemp\ccUufyDV.s:937    .bss.EVENT_LVGL_REFERSHHandle:00000000 $d
+C:\usertemp\ccUufyDV.s:944    .bss.EVENT_FFTHandle:00000000 $d
+C:\usertemp\ccUufyDV.s:951    .bss.EVENT_ADCHandle:00000000 $d
+C:\usertemp\ccUufyDV.s:958    .bss.task_lvglHandle:00000000 $d
+C:\usertemp\ccUufyDV.s:965    .bss.task_FFTHandle:00000000 $d
+C:\usertemp\ccUufyDV.s:972    .bss.refersh_lvglHandle:00000000 $d
+C:\usertemp\ccUufyDV.s:979    .bss.serN_I:00000000 $d
+C:\usertemp\ccUufyDV.s:986    .bss.ser3_I:00000000 $d
+C:\usertemp\ccUufyDV.s:993    .bss.ser2_I:00000000 $d
+C:\usertemp\ccUufyDV.s:1000   .bss.ser1_I:00000000 $d
+C:\usertemp\ccUufyDV.s:1007   .bss.serN:00000000 $d
+C:\usertemp\ccUufyDV.s:1014   .bss.ser3:00000000 $d
+C:\usertemp\ccUufyDV.s:1021   .bss.ser2:00000000 $d
+C:\usertemp\ccUufyDV.s:1028   .bss.ser1:00000000 $d
+C:\usertemp\ccUufyDV.s:1035   .SDRAM:00000000 $d
+C:\usertemp\ccUufyDV.s:1113   .rodata:00000000 $d
 
 UNDEFINED SYMBOLS
-HAL_GPIO_TogglePin
-osDelay
 MX_LWIP_Init
 httpd_init
 FFT_Init
 PHASE_Init
 Voltage_three_Init
 lv_timer_handler
+osDelay
+HAL_NVIC_EnableIRQ
+HAL_TIMEx_PWMN_Start
+fft_run
+PHASE_run
+Voltage_three_run
+htim8
+page_init
+lv_palette_main
+lv_chart_add_series
+lv_chart_set_ext_y_array
+task_page
+guider_ui
 puts
+HAL_GPIO_TogglePin
 osSemaphoreCreate
 osThreadCreate
-test_AD7606
+Get_AD7606

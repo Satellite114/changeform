@@ -4,7 +4,7 @@
 #include "main.h"
 #include "gpio.h"
 
-#define AD7606Addr	*(volatile short*)(0x60000000);
+#define AD7606Addr	*(volatile short*)(0x60000000)
 
 #define DataBufLen  1024
 #define testCHs 8
@@ -42,8 +42,8 @@ typedef struct ad7606
 
 
 void ad7606ini(AD7606Dev * dev);
-void get_AD7606(void);
-void test_AD7606(void);
-void print_AD7606(void);
+
+void Get_AD7606(void);
+
 
 #endif

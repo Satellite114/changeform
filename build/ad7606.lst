@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\cces32Dd.s 			page 1
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -26,58 +26,66 @@ ARM GAS  C:\usertemp\cces32Dd.s 			page 1
   23              		.thumb_func
   25              	ini7606Paras:
   26              	.LVL0:
-  27              	.LFB336:
+  27              	.LFB575:
    1:Core/Src/ad7606.c **** #include "ad7606.h"
    2:Core/Src/ad7606.c **** #include "usart.h"
-   3:Core/Src/ad7606.c **** 
-   4:Core/Src/ad7606.c **** 
-   5:Core/Src/ad7606.c **** /*******************************************************
-   6:Core/Src/ad7606.c ****  * 
-   7:Core/Src/ad7606.c ****  * Declare a struct variable in ur app_code.c as bellow
-   8:Core/Src/ad7606.c ****  * AD7606Dev ad7606dev;
-   9:Core/Src/ad7606.c ****  * and initialize it.
-  10:Core/Src/ad7606.c ****  * 
-  11:Core/Src/ad7606.c **** ********************************************************/
-  12:Core/Src/ad7606.c **** 
-  13:Core/Src/ad7606.c **** short testAdc[testCHs];   // just for test .
-  14:Core/Src/ad7606.c **** 
-  15:Core/Src/ad7606.c **** 
-  16:Core/Src/ad7606.c **** static void ini7606Paras(AD7606Dev * dev)
-  17:Core/Src/ad7606.c **** { 
-  28              		.loc 1 17 1 view -0
+   3:Core/Src/ad7606.c **** #include "tim.h"
+   4:Core/Src/ad7606.c **** #include "FreeRTOS.h"
+   5:Core/Src/ad7606.c **** #include "lvgl.h"
+   6:Core/Src/ad7606.c **** #include "gui_guider.h"
+   7:Core/Src/ad7606.c **** #include "dsp_fft.h"
+   8:Core/Src/ad7606.c **** 
+   9:Core/Src/ad7606.c **** extern FFT fft_1V;
+  10:Core/Src/ad7606.c **** extern FFT fft_2V;
+  11:Core/Src/ad7606.c **** extern FFT fft_3V;
+  12:Core/Src/ad7606.c **** extern FFT fft_NV; // 四通道电压采样
+  13:Core/Src/ad7606.c **** 
+  14:Core/Src/ad7606.c **** extern FFT fft_1I;
+  15:Core/Src/ad7606.c **** extern FFT fft_2I;
+  16:Core/Src/ad7606.c **** extern FFT fft_3I;
+  17:Core/Src/ad7606.c **** extern FFT fft_NI; // 四通道电流采样
+  18:Core/Src/ad7606.c **** /*******************************************************
+  19:Core/Src/ad7606.c ****  *
+  20:Core/Src/ad7606.c ****  * Declare a struct variable in ur app_code.c as bellow
+  21:Core/Src/ad7606.c ****  * AD7606Dev ad7606dev;
+  22:Core/Src/ad7606.c ****  * and initialize it.
+  23:Core/Src/ad7606.c ****  *
+  24:Core/Src/ad7606.c ****  ********************************************************/
+  25:Core/Src/ad7606.c **** static void ini7606Paras(AD7606Dev *dev)
+  26:Core/Src/ad7606.c **** {
+  28              		.loc 1 26 1 view -0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 0, uses_anonymous_args = 0
   32              		@ link register save eliminated.
-  18:Core/Src/ad7606.c ****     dev->baseaddr=0x60000000;
-  33              		.loc 1 18 5 view .LVU1
-  34              		.loc 1 18 18 is_stmt 0 view .LVU2
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 2
+
+
+  27:Core/Src/ad7606.c ****     dev->baseaddr = 0x60000000;
+  33              		.loc 1 27 5 view .LVU1
+  34              		.loc 1 27 19 is_stmt 0 view .LVU2
   35 0000 4FF0C043 		mov	r3, #1610612736
   36 0004 0360     		str	r3, [r0]
-  19:Core/Src/ad7606.c ****     dev->interface=AD7606_PARALLEL;
-  37              		.loc 1 19 5 is_stmt 1 view .LVU3
-  38              		.loc 1 19 19 is_stmt 0 view .LVU4
+  28:Core/Src/ad7606.c ****     dev->interface = AD7606_PARALLEL;
+  37              		.loc 1 28 5 is_stmt 1 view .LVU3
+  38              		.loc 1 28 20 is_stmt 0 view .LVU4
   39 0006 0123     		movs	r3, #1
-ARM GAS  C:\usertemp\cces32Dd.s 			page 2
-
-
   40 0008 80F80438 		strb	r3, [r0, #2052]
-  20:Core/Src/ad7606.c ****     dev->range=AD7606_10V;
-  41              		.loc 1 20 5 is_stmt 1 view .LVU5
-  42              		.loc 1 20 15 is_stmt 0 view .LVU6
+  29:Core/Src/ad7606.c ****     dev->range = AD7606_10V;
+  41              		.loc 1 29 5 is_stmt 1 view .LVU5
+  42              		.loc 1 29 16 is_stmt 0 view .LVU6
   43 000c 0223     		movs	r3, #2
   44 000e 80F80538 		strb	r3, [r0, #2053]
-  21:Core/Src/ad7606.c ****     dev->osr=AD7606_OSR_64;
-  45              		.loc 1 21 5 is_stmt 1 view .LVU7
-  46              		.loc 1 21 13 is_stmt 0 view .LVU8
+  30:Core/Src/ad7606.c ****     dev->osr = AD7606_OSR_64;
+  45              		.loc 1 30 5 is_stmt 1 view .LVU7
+  46              		.loc 1 30 14 is_stmt 0 view .LVU8
   47 0012 0623     		movs	r3, #6
   48 0014 80F80638 		strb	r3, [r0, #2054]
-  22:Core/Src/ad7606.c **** 
-  23:Core/Src/ad7606.c **** }
-  49              		.loc 1 23 1 view .LVU9
+  31:Core/Src/ad7606.c **** }
+  49              		.loc 1 31 1 view .LVU9
   50 0018 7047     		bx	lr
   51              		.cfi_endproc
-  52              	.LFE336:
+  52              	.LFE575:
   54              		.section	.text.ad7606ini,"ax",%progbits
   55              		.align	1
   56              		.global	ad7606ini
@@ -86,338 +94,353 @@ ARM GAS  C:\usertemp\cces32Dd.s 			page 1
   59              		.thumb_func
   61              	ad7606ini:
   62              	.LVL1:
-  63              	.LFB337:
-  24:Core/Src/ad7606.c **** 
-  25:Core/Src/ad7606.c **** void ad7606ini(AD7606Dev * dev)
-  26:Core/Src/ad7606.c **** {
-  64              		.loc 1 26 1 is_stmt 1 view -0
+  63              	.LFB576:
+  32:Core/Src/ad7606.c **** 
+  33:Core/Src/ad7606.c **** void ad7606ini(AD7606Dev *dev)
+  34:Core/Src/ad7606.c **** {
+  64              		.loc 1 34 1 is_stmt 1 view -0
   65              		.cfi_startproc
   66              		@ args = 0, pretend = 0, frame = 0
   67              		@ frame_needed = 0, uses_anonymous_args = 0
-  68              		.loc 1 26 1 is_stmt 0 view .LVU11
+  68              		.loc 1 34 1 is_stmt 0 view .LVU11
   69 0000 10B5     		push	{r4, lr}
   70              	.LCFI0:
   71              		.cfi_def_cfa_offset 8
   72              		.cfi_offset 4, -8
   73              		.cfi_offset 14, -4
-  74 0002 0446     		mov	r4, r0
-  27:Core/Src/ad7606.c **** 
-  28:Core/Src/ad7606.c ****     int i;
-  75              		.loc 1 28 5 is_stmt 1 view .LVU12
-  29:Core/Src/ad7606.c **** 
-  30:Core/Src/ad7606.c ****     ini7606Paras(dev);
-  76              		.loc 1 30 5 view .LVU13
-  77 0004 FFF7FEFF 		bl	ini7606Paras
-  78              	.LVL2:
-  31:Core/Src/ad7606.c ****     
-  32:Core/Src/ad7606.c ****     /// set rang 
-  33:Core/Src/ad7606.c **** 
-  34:Core/Src/ad7606.c ****     /// clear bufs.
-  35:Core/Src/ad7606.c ****     for(i=0;i<DataBufLen;i++)
-  79              		.loc 1 35 5 view .LVU14
-  80              		.loc 1 35 10 is_stmt 0 view .LVU15
-  81 0008 0023     		movs	r3, #0
-  82              		.loc 1 35 5 view .LVU16
-ARM GAS  C:\usertemp\cces32Dd.s 			page 3
+  35:Core/Src/ad7606.c ****     int i;
+  74              		.loc 1 35 5 is_stmt 1 view .LVU12
+  36:Core/Src/ad7606.c ****     ini7606Paras(dev);
+  75              		.loc 1 36 5 view .LVU13
+  76 0002 FFF7FEFF 		bl	ini7606Paras
+  77              	.LVL2:
+  37:Core/Src/ad7606.c ****     /// set rang 硬件上JP3高电平，10V范围
+  38:Core/Src/ad7606.c **** 
+  39:Core/Src/ad7606.c ****     // for (i = 0; i < DataBufLen; i++)
+  40:Core/Src/ad7606.c ****     // {
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 3
 
 
-  83 000a 04E0     		b	.L3
+  41:Core/Src/ad7606.c ****     //     dev->dataBuf[i] = 0;
+  42:Core/Src/ad7606.c ****     // }
+  43:Core/Src/ad7606.c ****     HAL_GPIO_WritePin(ADC_STBY_GPIO_Port, ADC_STBY_Pin, GPIO_PIN_SET);
+  78              		.loc 1 43 5 view .LVU14
+  79 0006 0C4C     		ldr	r4, .L4
+  80 0008 0122     		movs	r2, #1
+  81 000a 8021     		movs	r1, #128
+  82 000c 2046     		mov	r0, r4
+  83 000e FFF7FEFF 		bl	HAL_GPIO_WritePin
   84              	.LVL3:
-  85              	.L4:
-  36:Core/Src/ad7606.c ****     {
-  37:Core/Src/ad7606.c ****         dev->dataBuf[i]=0;
-  86              		.loc 1 37 9 is_stmt 1 view .LVU17
-  87              		.loc 1 37 24 is_stmt 0 view .LVU18
-  88 000c 04EB4302 		add	r2, r4, r3, lsl #1
-  89 0010 0021     		movs	r1, #0
-  90 0012 9180     		strh	r1, [r2, #4]	@ movhi
-  35:Core/Src/ad7606.c ****     {
-  91              		.loc 1 35 27 is_stmt 1 discriminator 3 view .LVU19
-  92 0014 0133     		adds	r3, r3, #1
-  93              	.LVL4:
-  94              	.L3:
-  35:Core/Src/ad7606.c ****     {
-  95              		.loc 1 35 14 discriminator 1 view .LVU20
-  96 0016 B3F5806F 		cmp	r3, #1024
-  97 001a F7DB     		blt	.L4
-  38:Core/Src/ad7606.c ****     }
-  39:Core/Src/ad7606.c **** 
-  40:Core/Src/ad7606.c **** 	HAL_GPIO_WritePin(ADC_STBY_GPIO_Port,ADC_STBY_Pin,GPIO_PIN_SET);
-  98              		.loc 1 40 2 view .LVU21
-  99 001c 0C4C     		ldr	r4, .L6
- 100              	.LVL5:
- 101              		.loc 1 40 2 is_stmt 0 view .LVU22
- 102 001e 0122     		movs	r2, #1
- 103 0020 8021     		movs	r1, #128
- 104 0022 2046     		mov	r0, r4
- 105 0024 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 106              	.LVL6:
-  41:Core/Src/ad7606.c **** 	HAL_Delay(2);
- 107              		.loc 1 41 2 is_stmt 1 view .LVU23
- 108 0028 0220     		movs	r0, #2
- 109 002a FFF7FEFF 		bl	HAL_Delay
- 110              	.LVL7:
-  42:Core/Src/ad7606.c **** 	HAL_GPIO_WritePin(ADC_RST_GPIO_Port,ADC_RST_Pin,GPIO_PIN_SET);
- 111              		.loc 1 42 2 view .LVU24
- 112 002e 0122     		movs	r2, #1
- 113 0030 4FF48061 		mov	r1, #1024
- 114 0034 2046     		mov	r0, r4
- 115 0036 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 116              	.LVL8:
-  43:Core/Src/ad7606.c **** 	HAL_Delay(20);
- 117              		.loc 1 43 2 view .LVU25
- 118 003a 1420     		movs	r0, #20
- 119 003c FFF7FEFF 		bl	HAL_Delay
- 120              	.LVL9:
-  44:Core/Src/ad7606.c **** 	HAL_GPIO_WritePin(ADC_RST_GPIO_Port,ADC_RST_Pin,GPIO_PIN_RESET);
- 121              		.loc 1 44 2 view .LVU26
- 122 0040 0022     		movs	r2, #0
- 123 0042 4FF48061 		mov	r1, #1024
- 124 0046 2046     		mov	r0, r4
- 125 0048 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 126              	.LVL10:
-  45:Core/Src/ad7606.c **** 	
-  46:Core/Src/ad7606.c **** }
-ARM GAS  C:\usertemp\cces32Dd.s 			page 4
+  44:Core/Src/ad7606.c ****     HAL_Delay(2);
+  85              		.loc 1 44 5 view .LVU15
+  86 0012 0220     		movs	r0, #2
+  87 0014 FFF7FEFF 		bl	HAL_Delay
+  88              	.LVL4:
+  45:Core/Src/ad7606.c ****     HAL_GPIO_WritePin(ADC_RST_GPIO_Port, ADC_RST_Pin, GPIO_PIN_SET);
+  89              		.loc 1 45 5 view .LVU16
+  90 0018 0122     		movs	r2, #1
+  91 001a 4FF48061 		mov	r1, #1024
+  92 001e 2046     		mov	r0, r4
+  93 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  94              	.LVL5:
+  46:Core/Src/ad7606.c ****     HAL_Delay(20);
+  95              		.loc 1 46 5 view .LVU17
+  96 0024 1420     		movs	r0, #20
+  97 0026 FFF7FEFF 		bl	HAL_Delay
+  98              	.LVL6:
+  47:Core/Src/ad7606.c ****     HAL_GPIO_WritePin(ADC_RST_GPIO_Port, ADC_RST_Pin, GPIO_PIN_RESET);
+  99              		.loc 1 47 5 view .LVU18
+ 100 002a 0022     		movs	r2, #0
+ 101 002c 4FF48061 		mov	r1, #1024
+ 102 0030 2046     		mov	r0, r4
+ 103 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 104              	.LVL7:
+  48:Core/Src/ad7606.c **** }
+ 105              		.loc 1 48 1 is_stmt 0 view .LVU19
+ 106 0036 10BD     		pop	{r4, pc}
+ 107              	.L5:
+ 108              		.align	2
+ 109              	.L4:
+ 110 0038 00180258 		.word	1476532224
+ 111              		.cfi_endproc
+ 112              	.LFE576:
+ 114              		.section	.text.Get_AD7606,"ax",%progbits
+ 115              		.align	1
+ 116              		.global	Get_AD7606
+ 117              		.syntax unified
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	Get_AD7606:
+ 122              	.LFB577:
+  49:Core/Src/ad7606.c **** 
+  50:Core/Src/ad7606.c **** void Get_AD7606(void)
+  51:Core/Src/ad7606.c **** {
+ 123              		.loc 1 51 1 is_stmt 1 view -0
+ 124              		.cfi_startproc
+ 125              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 4
 
 
- 127              		.loc 1 46 1 is_stmt 0 view .LVU27
- 128 004c 10BD     		pop	{r4, pc}
- 129              	.L7:
- 130 004e 00BF     		.align	2
- 131              	.L6:
- 132 0050 00180258 		.word	1476532224
- 133              		.cfi_endproc
- 134              	.LFE337:
- 136              		.section	.text.get_AD7606,"ax",%progbits
- 137              		.align	1
- 138              		.global	get_AD7606
- 139              		.syntax unified
- 140              		.thumb
- 141              		.thumb_func
- 143              	get_AD7606:
- 144              	.LFB338:
-  47:Core/Src/ad7606.c **** 
-  48:Core/Src/ad7606.c **** 
-  49:Core/Src/ad7606.c **** void get_AD7606(void)
-  50:Core/Src/ad7606.c **** {
- 145              		.loc 1 50 1 is_stmt 1 view -0
- 146              		.cfi_startproc
- 147              		@ args = 0, pretend = 0, frame = 0
- 148              		@ frame_needed = 0, uses_anonymous_args = 0
- 149              		@ link register save eliminated.
-  51:Core/Src/ad7606.c **** 		// for(i=0;i<8;i++)
-  52:Core/Src/ad7606.c **** 		// {
-  53:Core/Src/ad7606.c **** 		// 	testAdc[i]=AD7606Addr;
-  54:Core/Src/ad7606.c **** 		// }
-  55:Core/Src/ad7606.c **** }
- 150              		.loc 1 55 1 view .LVU29
- 151 0000 7047     		bx	lr
- 152              		.cfi_endproc
- 153              	.LFE338:
- 155              		.section	.text.test_AD7606,"ax",%progbits
- 156              		.align	1
- 157              		.global	test_AD7606
- 158              		.syntax unified
- 159              		.thumb
- 160              		.thumb_func
- 162              	test_AD7606:
- 163              	.LFB339:
-  56:Core/Src/ad7606.c **** 
-  57:Core/Src/ad7606.c **** void test_AD7606(void)
-  58:Core/Src/ad7606.c **** {
- 164              		.loc 1 58 1 view -0
- 165              		.cfi_startproc
- 166              		@ args = 0, pretend = 0, frame = 0
- 167              		@ frame_needed = 0, uses_anonymous_args = 0
- 168              		@ link register save eliminated.
-  59:Core/Src/ad7606.c ****     int i;
- 169              		.loc 1 59 5 view .LVU31
-  60:Core/Src/ad7606.c **** 
-  61:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
- 170              		.loc 1 61 5 view .LVU32
- 171              	.LVL11:
- 172              		.loc 1 61 10 is_stmt 0 view .LVU33
-ARM GAS  C:\usertemp\cces32Dd.s 			page 5
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127 0000 08B5     		push	{r3, lr}
+ 128              	.LCFI1:
+ 129              		.cfi_def_cfa_offset 8
+ 130              		.cfi_offset 3, -8
+ 131              		.cfi_offset 14, -4
+  52:Core/Src/ad7606.c ****     static uint32_t j = 0;
+ 132              		.loc 1 52 5 view .LVU21
+  53:Core/Src/ad7606.c ****     if (j == fft_1V.length)
+ 133              		.loc 1 53 5 view .LVU22
+ 134              		.loc 1 53 20 is_stmt 0 view .LVU23
+ 135 0002 534B     		ldr	r3, .L11+8
+ 136 0004 5B68     		ldr	r3, [r3, #4]
+ 137              		.loc 1 53 11 view .LVU24
+ 138 0006 534A     		ldr	r2, .L11+12
+ 139 0008 1168     		ldr	r1, [r2]
+ 140              		.loc 1 53 8 view .LVU25
+ 141 000a 8B42     		cmp	r3, r1
+ 142 000c 00F09380 		beq	.L10
+  54:Core/Src/ad7606.c ****     {
+  55:Core/Src/ad7606.c ****        
+  56:Core/Src/ad7606.c ****         j = 0;
+  57:Core/Src/ad7606.c ****         HAL_TIMEx_PWMN_Stop(&htim8, TIM_CHANNEL_3);
+  58:Core/Src/ad7606.c ****        
+  59:Core/Src/ad7606.c ****         return;
+  60:Core/Src/ad7606.c ****     }
+  61:Core/Src/ad7606.c ****   
+  62:Core/Src/ad7606.c ****     fft_1V.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 143              		.loc 1 62 5 is_stmt 1 view .LVU26
+ 144              		.loc 1 62 33 is_stmt 0 view .LVU27
+ 145 0010 4FF0C040 		mov	r0, #1610612736
+ 146 0014 0388     		ldrh	r3, [r0]
+ 147 0016 1BB2     		sxth	r3, r3
+ 148 0018 07EE103A 		vmov	s14, r3	@ int
+ 149              		.loc 1 62 43 view .LVU28
+ 150 001c B8EEC77B 		vcvt.f64.s32	d7, s14
+ 151 0020 B2EE045B 		vmov.f64	d5, #1.0e+1
+ 152 0024 27EE057B 		vmul.f64	d7, d7, d5
+ 153              		.loc 1 62 50 view .LVU29
+ 154 0028 9FED476B 		vldr.64	d6, .L11
+ 155 002c 27EE067B 		vmul.f64	d7, d7, d6
+ 156 0030 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 157              		.loc 1 62 31 view .LVU30
+ 158 0034 8A1C     		adds	r2, r1, #2
+ 159 0036 464B     		ldr	r3, .L11+8
+ 160 0038 03EB8203 		add	r3, r3, r2, lsl #2
+ 161 003c 83ED007A 		vstr.32	s14, [r3]
+  63:Core/Src/ad7606.c ****     fft_2V.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 162              		.loc 1 63 5 is_stmt 1 view .LVU31
+ 163              		.loc 1 63 33 is_stmt 0 view .LVU32
+ 164 0040 0388     		ldrh	r3, [r0]
+ 165 0042 1BB2     		sxth	r3, r3
+ 166 0044 07EE103A 		vmov	s14, r3	@ int
+ 167              		.loc 1 63 43 view .LVU33
+ 168 0048 B8EEC77B 		vcvt.f64.s32	d7, s14
+ 169 004c 27EE057B 		vmul.f64	d7, d7, d5
+ 170              		.loc 1 63 50 view .LVU34
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 5
 
 
- 173 0000 0023     		movs	r3, #0
- 174              		.loc 1 61 5 view .LVU34
- 175 0002 06E0     		b	.L10
- 176              	.LVL12:
- 177              	.L11:
-  62:Core/Src/ad7606.c ****     {
-  63:Core/Src/ad7606.c ****     	testAdc[i]=AD7606Addr;
- 178              		.loc 1 63 6 is_stmt 1 view .LVU35
- 179              		.loc 1 63 17 is_stmt 0 view .LVU36
- 180 0004 4FF0C042 		mov	r2, #1610612736
- 181 0008 1188     		ldrh	r1, [r2]
- 182              		.loc 1 63 16 view .LVU37
- 183 000a 034A     		ldr	r2, .L12
- 184 000c 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
- 185              		.loc 1 63 27 is_stmt 1 view .LVU38
-  61:Core/Src/ad7606.c ****     {
- 186              		.loc 1 61 24 discriminator 3 view .LVU39
- 187 0010 0133     		adds	r3, r3, #1
- 188              	.LVL13:
- 189              	.L10:
-  61:Core/Src/ad7606.c ****     {
- 190              		.loc 1 61 14 discriminator 1 view .LVU40
- 191 0012 072B     		cmp	r3, #7
- 192 0014 F6DD     		ble	.L11
-  64:Core/Src/ad7606.c ****     }
-  65:Core/Src/ad7606.c **** }
- 193              		.loc 1 65 1 is_stmt 0 view .LVU41
- 194 0016 7047     		bx	lr
- 195              	.L13:
- 196              		.align	2
- 197              	.L12:
- 198 0018 00000000 		.word	testAdc
- 199              		.cfi_endproc
- 200              	.LFE339:
- 202              		.section	.rodata.print_AD7606.str1.4,"aMS",%progbits,1
- 203              		.align	2
- 204              	.LC0:
- 205 0000 0D0A2041 		.ascii	"\015\012 AD7606 DATAs:\015\000"
- 205      44373630 
- 205      36204441 
- 205      5441733A 
- 205      0D00
- 206 0012 0000     		.align	2
- 207              	.LC1:
- 208 0014 0D0A2044 		.ascii	"\015\012 DATA at CH%d:\011%.3f\015\012\000"
- 208      41544120 
- 208      61742043 
- 208      4825643A 
- 208      09252E33 
- 209              		.section	.text.print_AD7606,"ax",%progbits
- 210              		.align	1
- 211              		.global	print_AD7606
- 212              		.syntax unified
- 213              		.thumb
- 214              		.thumb_func
- 216              	print_AD7606:
- 217              	.LFB340:
-ARM GAS  C:\usertemp\cces32Dd.s 			page 6
-
-
+ 171 0050 27EE067B 		vmul.f64	d7, d7, d6
+ 172 0054 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 173              		.loc 1 63 31 view .LVU35
+ 174 0058 3F4B     		ldr	r3, .L11+16
+ 175 005a 03EB8203 		add	r3, r3, r2, lsl #2
+ 176 005e 83ED007A 		vstr.32	s14, [r3]
+  64:Core/Src/ad7606.c ****     fft_3V.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 177              		.loc 1 64 5 is_stmt 1 view .LVU36
+ 178              		.loc 1 64 33 is_stmt 0 view .LVU37
+ 179 0062 0388     		ldrh	r3, [r0]
+ 180 0064 1BB2     		sxth	r3, r3
+ 181 0066 07EE103A 		vmov	s14, r3	@ int
+ 182              		.loc 1 64 43 view .LVU38
+ 183 006a B8EEC77B 		vcvt.f64.s32	d7, s14
+ 184 006e 27EE057B 		vmul.f64	d7, d7, d5
+ 185              		.loc 1 64 50 view .LVU39
+ 186 0072 27EE067B 		vmul.f64	d7, d7, d6
+ 187 0076 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 188              		.loc 1 64 31 view .LVU40
+ 189 007a 384B     		ldr	r3, .L11+20
+ 190 007c 03EB8203 		add	r3, r3, r2, lsl #2
+ 191 0080 83ED007A 		vstr.32	s14, [r3]
+  65:Core/Src/ad7606.c ****     fft_NV.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 192              		.loc 1 65 5 is_stmt 1 view .LVU41
+ 193              		.loc 1 65 33 is_stmt 0 view .LVU42
+ 194 0084 0388     		ldrh	r3, [r0]
+ 195 0086 1BB2     		sxth	r3, r3
+ 196 0088 07EE103A 		vmov	s14, r3	@ int
+ 197              		.loc 1 65 43 view .LVU43
+ 198 008c B8EEC77B 		vcvt.f64.s32	d7, s14
+ 199 0090 27EE057B 		vmul.f64	d7, d7, d5
+ 200              		.loc 1 65 50 view .LVU44
+ 201 0094 27EE067B 		vmul.f64	d7, d7, d6
+ 202 0098 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 203              		.loc 1 65 31 view .LVU45
+ 204 009c 304B     		ldr	r3, .L11+24
+ 205 009e 03EB8203 		add	r3, r3, r2, lsl #2
+ 206 00a2 83ED007A 		vstr.32	s14, [r3]
   66:Core/Src/ad7606.c **** 
-  67:Core/Src/ad7606.c **** 
-  68:Core/Src/ad7606.c **** void print_AD7606(void)
-  69:Core/Src/ad7606.c **** {
- 218              		.loc 1 69 1 is_stmt 1 view -0
- 219              		.cfi_startproc
- 220              		@ args = 0, pretend = 0, frame = 0
- 221              		@ frame_needed = 0, uses_anonymous_args = 0
- 222 0000 10B5     		push	{r4, lr}
- 223              	.LCFI1:
- 224              		.cfi_def_cfa_offset 8
- 225              		.cfi_offset 4, -8
- 226              		.cfi_offset 14, -4
-  70:Core/Src/ad7606.c ****     int i;
- 227              		.loc 1 70 5 view .LVU43
-  71:Core/Src/ad7606.c ****     printf("\r\n AD7606 DATAs:\r\n");
- 228              		.loc 1 71 5 view .LVU44
- 229 0002 1148     		ldr	r0, .L18+8
- 230 0004 FFF7FEFF 		bl	puts
- 231              	.LVL14:
-  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
- 232              		.loc 1 72 5 view .LVU45
- 233              		.loc 1 72 10 is_stmt 0 view .LVU46
- 234 0008 0024     		movs	r4, #0
- 235              		.loc 1 72 5 view .LVU47
- 236 000a 15E0     		b	.L15
- 237              	.LVL15:
- 238              	.L16:
-  73:Core/Src/ad7606.c ****     {
-  74:Core/Src/ad7606.c ****         printf("\r\n DATA at CH%d:\t%.3f\r\n",i,testAdc[i]/32768.0*10);
- 239              		.loc 1 74 9 is_stmt 1 view .LVU48
- 240              		.loc 1 74 56 is_stmt 0 view .LVU49
- 241 000c 0F4B     		ldr	r3, .L18+12
- 242 000e 33F91430 		ldrsh	r3, [r3, r4, lsl #1]
- 243 0012 07EE103A 		vmov	s14, r3	@ int
- 244              		.loc 1 74 59 view .LVU50
- 245 0016 B8EEC77B 		vcvt.f64.s32	d7, s14
- 246 001a 9FED096B 		vldr.64	d6, .L18
- 247 001e 27EE067B 		vmul.f64	d7, d7, d6
- 248              		.loc 1 74 9 view .LVU51
- 249 0022 B2EE046B 		vmov.f64	d6, #1.0e+1
- 250 0026 27EE067B 		vmul.f64	d7, d7, d6
- 251 002a 53EC172B 		vmov	r2, r3, d7
- 252 002e 2146     		mov	r1, r4
- 253 0030 0748     		ldr	r0, .L18+16
- 254 0032 FFF7FEFF 		bl	printf
- 255              	.LVL16:
-  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
- 256              		.loc 1 72 24 is_stmt 1 discriminator 3 view .LVU52
- 257 0036 0134     		adds	r4, r4, #1
- 258              	.LVL17:
- 259              	.L15:
-  72:Core/Src/ad7606.c ****     for(i=0;i<testCHs;i++)
- 260              		.loc 1 72 14 discriminator 1 view .LVU53
- 261 0038 072C     		cmp	r4, #7
- 262 003a E7DD     		ble	.L16
-  75:Core/Src/ad7606.c ****     }
-ARM GAS  C:\usertemp\cces32Dd.s 			page 7
+  67:Core/Src/ad7606.c ****     fft_1I.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 207              		.loc 1 67 5 is_stmt 1 view .LVU46
+ 208              		.loc 1 67 33 is_stmt 0 view .LVU47
+ 209 00a6 0388     		ldrh	r3, [r0]
+ 210 00a8 1BB2     		sxth	r3, r3
+ 211 00aa 07EE103A 		vmov	s14, r3	@ int
+ 212              		.loc 1 67 43 view .LVU48
+ 213 00ae B8EEC77B 		vcvt.f64.s32	d7, s14
+ 214 00b2 27EE057B 		vmul.f64	d7, d7, d5
+ 215              		.loc 1 67 50 view .LVU49
+ 216 00b6 27EE067B 		vmul.f64	d7, d7, d6
+ 217 00ba B7EEC77B 		vcvt.f32.f64	s14, d7
+ 218              		.loc 1 67 31 view .LVU50
+ 219 00be 294B     		ldr	r3, .L11+28
+ 220 00c0 03EB8203 		add	r3, r3, r2, lsl #2
+ 221 00c4 83ED007A 		vstr.32	s14, [r3]
+  68:Core/Src/ad7606.c ****     fft_2I.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 222              		.loc 1 68 5 is_stmt 1 view .LVU51
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 6
 
 
-  76:Core/Src/ad7606.c **** }...
- 263              		.loc 1 76 1 is_stmt 0 view .LVU54
- 264 003c 10BD     		pop	{r4, pc}
- 265              	.LVL18:
- 266              	.L19:
- 267              		.loc 1 76 1 view .LVU55
- 268 003e 00BF     		.align	3
- 269              	.L18:
- 270 0040 00000000 		.word	0
- 271 0044 0000003F 		.word	1056964608
- 272 0048 00000000 		.word	.LC0
- 273 004c 00000000 		.word	testAdc
- 274 0050 14000000 		.word	.LC1
- 275              		.cfi_endproc
- 276              	.LFE340:
- 278              		.global	testAdc
- 279              		.section	.bss.testAdc,"aw",%nobits
- 280              		.align	2
- 283              	testAdc:
- 284 0000 00000000 		.space	16
- 284      00000000 
- 284      00000000 
- 284      00000000 
- 285              		.text
- 286              	.Letext0:
- 287              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 288              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 289              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
- 290              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
- 291              		.file 6 "Core/Inc/ad7606.h"
- 292              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
- 293              		.file 8 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 294              		.file 9 "<built-in>"
-ARM GAS  C:\usertemp\cces32Dd.s 			page 8
+ 223              		.loc 1 68 33 is_stmt 0 view .LVU52
+ 224 00c8 0388     		ldrh	r3, [r0]
+ 225 00ca 1BB2     		sxth	r3, r3
+ 226 00cc 07EE103A 		vmov	s14, r3	@ int
+ 227              		.loc 1 68 43 view .LVU53
+ 228 00d0 B8EEC77B 		vcvt.f64.s32	d7, s14
+ 229 00d4 27EE057B 		vmul.f64	d7, d7, d5
+ 230              		.loc 1 68 50 view .LVU54
+ 231 00d8 27EE067B 		vmul.f64	d7, d7, d6
+ 232 00dc B7EEC77B 		vcvt.f32.f64	s14, d7
+ 233              		.loc 1 68 31 view .LVU55
+ 234 00e0 214B     		ldr	r3, .L11+32
+ 235 00e2 03EB8203 		add	r3, r3, r2, lsl #2
+ 236 00e6 83ED007A 		vstr.32	s14, [r3]
+  69:Core/Src/ad7606.c ****     fft_3I.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 237              		.loc 1 69 5 is_stmt 1 view .LVU56
+ 238              		.loc 1 69 33 is_stmt 0 view .LVU57
+ 239 00ea 0388     		ldrh	r3, [r0]
+ 240 00ec 1BB2     		sxth	r3, r3
+ 241 00ee 07EE103A 		vmov	s14, r3	@ int
+ 242              		.loc 1 69 43 view .LVU58
+ 243 00f2 B8EEC77B 		vcvt.f64.s32	d7, s14
+ 244 00f6 27EE057B 		vmul.f64	d7, d7, d5
+ 245              		.loc 1 69 50 view .LVU59
+ 246 00fa 27EE067B 		vmul.f64	d7, d7, d6
+ 247 00fe B7EEC77B 		vcvt.f32.f64	s14, d7
+ 248              		.loc 1 69 31 view .LVU60
+ 249 0102 1A4B     		ldr	r3, .L11+36
+ 250 0104 03EB8203 		add	r3, r3, r2, lsl #2
+ 251 0108 83ED007A 		vstr.32	s14, [r3]
+  70:Core/Src/ad7606.c ****     fft_NI.adcConvertValue[j] = AD7606Addr* 10.0 / 32768.0;
+ 252              		.loc 1 70 5 is_stmt 1 view .LVU61
+ 253              		.loc 1 70 33 is_stmt 0 view .LVU62
+ 254 010c 0388     		ldrh	r3, [r0]
+ 255 010e 1BB2     		sxth	r3, r3
+ 256 0110 07EE103A 		vmov	s14, r3	@ int
+ 257              		.loc 1 70 43 view .LVU63
+ 258 0114 B8EEC77B 		vcvt.f64.s32	d7, s14
+ 259 0118 27EE057B 		vmul.f64	d7, d7, d5
+ 260              		.loc 1 70 50 view .LVU64
+ 261 011c 27EE067B 		vmul.f64	d7, d7, d6
+ 262 0120 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 263              		.loc 1 70 31 view .LVU65
+ 264 0124 124B     		ldr	r3, .L11+40
+ 265 0126 03EB8203 		add	r3, r3, r2, lsl #2
+ 266 012a 83ED007A 		vstr.32	s14, [r3]
+  71:Core/Src/ad7606.c **** 
+  72:Core/Src/ad7606.c **** 
+  73:Core/Src/ad7606.c ****     j += 1;
+ 267              		.loc 1 73 5 is_stmt 1 view .LVU66
+ 268              		.loc 1 73 7 is_stmt 0 view .LVU67
+ 269 012e 0131     		adds	r1, r1, #1
+ 270 0130 084B     		ldr	r3, .L11+12
+ 271 0132 1960     		str	r1, [r3]
+ 272              	.L6:
+  74:Core/Src/ad7606.c **** }
+ 273              		.loc 1 74 1 view .LVU68
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 7
+
+
+ 274 0134 08BD     		pop	{r3, pc}
+ 275              	.L10:
+  56:Core/Src/ad7606.c ****         HAL_TIMEx_PWMN_Stop(&htim8, TIM_CHANNEL_3);
+ 276              		.loc 1 56 9 is_stmt 1 view .LVU69
+  56:Core/Src/ad7606.c ****         HAL_TIMEx_PWMN_Stop(&htim8, TIM_CHANNEL_3);
+ 277              		.loc 1 56 11 is_stmt 0 view .LVU70
+ 278 0136 1346     		mov	r3, r2
+ 279 0138 0022     		movs	r2, #0
+ 280 013a 1A60     		str	r2, [r3]
+  57:Core/Src/ad7606.c ****        
+ 281              		.loc 1 57 9 is_stmt 1 view .LVU71
+ 282 013c 0821     		movs	r1, #8
+ 283 013e 0D48     		ldr	r0, .L11+44
+ 284 0140 FFF7FEFF 		bl	HAL_TIMEx_PWMN_Stop
+ 285              	.LVL8:
+  59:Core/Src/ad7606.c ****     }
+ 286              		.loc 1 59 9 view .LVU72
+ 287 0144 F6E7     		b	.L6
+ 288              	.L12:
+ 289 0146 00BF     		.align	3
+ 290              	.L11:
+ 291 0148 00000000 		.word	0
+ 292 014c 0000003F 		.word	1056964608
+ 293 0150 00000000 		.word	fft_1V
+ 294 0154 00000000 		.word	j.0
+ 295 0158 00000000 		.word	fft_2V
+ 296 015c 00000000 		.word	fft_3V
+ 297 0160 00000000 		.word	fft_NV
+ 298 0164 00000000 		.word	fft_1I
+ 299 0168 00000000 		.word	fft_2I
+ 300 016c 00000000 		.word	fft_3I
+ 301 0170 00000000 		.word	fft_NI
+ 302 0174 00000000 		.word	htim8
+ 303              		.cfi_endproc
+ 304              	.LFE577:
+ 306              		.section	.bss.j.0,"aw",%nobits
+ 307              		.align	2
+ 310              	j.0:
+ 311 0000 00000000 		.space	4
+ 312              		.text
+ 313              	.Letext0:
+ 314              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 315              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 316              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 317              		.file 5 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 318              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 319              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 320              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h"
+ 321              		.file 9 "Core/Inc/ad7606.h"
+ 322              		.file 10 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 323              		.file 11 "User/FFT/dsp_fft.h"
+ 324              		.file 12 "Core/Inc/tim.h"
+ 325              		.file 13 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ 326              		.file 14 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h"
+ARM GAS  C:\usertemp\ccqSkEJN.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 ad7606.c
-C:\usertemp\cces32Dd.s:20     .text.ini7606Paras:00000000 $t
-C:\usertemp\cces32Dd.s:25     .text.ini7606Paras:00000000 ini7606Paras
-C:\usertemp\cces32Dd.s:55     .text.ad7606ini:00000000 $t
-C:\usertemp\cces32Dd.s:61     .text.ad7606ini:00000000 ad7606ini
-C:\usertemp\cces32Dd.s:132    .text.ad7606ini:00000050 $d
-C:\usertemp\cces32Dd.s:137    .text.get_AD7606:00000000 $t
-C:\usertemp\cces32Dd.s:143    .text.get_AD7606:00000000 get_AD7606
-C:\usertemp\cces32Dd.s:156    .text.test_AD7606:00000000 $t
-C:\usertemp\cces32Dd.s:162    .text.test_AD7606:00000000 test_AD7606
-C:\usertemp\cces32Dd.s:198    .text.test_AD7606:00000018 $d
-C:\usertemp\cces32Dd.s:283    .bss.testAdc:00000000 testAdc
-C:\usertemp\cces32Dd.s:203    .rodata.print_AD7606.str1.4:00000000 $d
-C:\usertemp\cces32Dd.s:210    .text.print_AD7606:00000000 $t
-C:\usertemp\cces32Dd.s:216    .text.print_AD7606:00000000 print_AD7606
-C:\usertemp\cces32Dd.s:270    .text.print_AD7606:00000040 $d
-C:\usertemp\cces32Dd.s:280    .bss.testAdc:00000000 $d
+C:\usertemp\ccqSkEJN.s:20     .text.ini7606Paras:00000000 $t
+C:\usertemp\ccqSkEJN.s:25     .text.ini7606Paras:00000000 ini7606Paras
+C:\usertemp\ccqSkEJN.s:55     .text.ad7606ini:00000000 $t
+C:\usertemp\ccqSkEJN.s:61     .text.ad7606ini:00000000 ad7606ini
+C:\usertemp\ccqSkEJN.s:110    .text.ad7606ini:00000038 $d
+C:\usertemp\ccqSkEJN.s:115    .text.Get_AD7606:00000000 $t
+C:\usertemp\ccqSkEJN.s:121    .text.Get_AD7606:00000000 Get_AD7606
+C:\usertemp\ccqSkEJN.s:291    .text.Get_AD7606:00000148 $d
+C:\usertemp\ccqSkEJN.s:310    .bss.j.0:00000000 j.0
+C:\usertemp\ccqSkEJN.s:307    .bss.j.0:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
 HAL_Delay
-puts
-printf
+HAL_TIMEx_PWMN_Stop
+fft_1V
+fft_2V
+fft_3V
+fft_NV
+fft_1I
+fft_2I
+fft_3I
+fft_NI
+htim8

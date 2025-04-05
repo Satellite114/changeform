@@ -602,12 +602,13 @@ static void wave_model_btn_9_event_handler(lv_event_t *e) // X+
 				file_now = sd_count;
 			}
 			LV_LOG_USER("set filenow to %d", file_now);
+			uint8_t temp = OpenFileByIndex("0:test", file_now);
+			if (temp)
+			{
+				refersh_lvgl_image(guider_ui.wave_model_img_1);
+			}
 		}
-		uint8_t temp = OpenFileByIndex("0:test", file_now);
-		if (temp)
-		{
-			refersh_lvgl_image(guider_ui.wave_model_img_1);
-		}
+
 		taskEXIT_CRITICAL();
 		xTaskResumeAll();
 

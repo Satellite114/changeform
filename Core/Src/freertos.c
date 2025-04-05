@@ -263,8 +263,9 @@ void Refersh_LVGL(void const *argument)
   /* Infinite loop */
   for (;;)
   {
-    lv_task_handler(); // lvgl task handler
-    osDelay(1);
+    lv_task_handler();
+    // test
+    osDelay(30);
   }
   /* USER CODE END Refersh_LVGL */
 }
@@ -279,11 +280,29 @@ void Refersh_LVGL(void const *argument)
 void TASK_FFT(void const *argument)
 {
   /* USER CODE BEGIN TASK_FFT */
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+  HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
   /* Infinite loop */
   for (;;)
   {
-    lv_task_handler(); // lvgl task handler
-    osDelay(1);
+   fft_run(&fft_1V);
+    fft_run(&fft_2V);
+    fft_run(&fft_3V);
+    fft_run(&fft_NV);
+
+    fft_run(&fft_1I);
+    fft_run(&fft_2I);
+    fft_run(&fft_3I);
+    fft_run(&fft_NI);
+
+    PHASE_run(&P1);
+    PHASE_run(&P2);
+    PHASE_run(&P3);
+    PHASE_run(&PN);
+
+    Voltage_three_run(&Voltage);
+    HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
+    osDelay(100);
   }
   /* USER CODE END TASK_FFT */
 }
@@ -298,10 +317,39 @@ void TASK_FFT(void const *argument)
 void TASK_LVGL(void const *argument)
 {
   /* USER CODE BEGIN TASK_LVGL */
+  page_init();
+  ser1 = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_YELLOW), LV_CHART_AXIS_PRIMARY_Y);
+  ser2 = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_color_hex(0x00FF00), LV_CHART_AXIS_PRIMARY_Y);
+  ser3 = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
+  serN = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser1, fft_1V.LVGL_wave);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser2, fft_2V.LVGL_wave);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser3, fft_3V.LVGL_wave);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, serN, fft_NV.LVGL_wave);
+
+  ser1_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_YELLOW), LV_CHART_AXIS_PRIMARY_Y);
+  ser2_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_color_hex(0x00FF00), LV_CHART_AXIS_PRIMARY_Y);
+  ser3_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
+  serN_I = lv_chart_add_series(guider_ui.wave_model_chart_2, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
+  ser1_I->hidden = 1;
+  ser2_I->hidden = 1;
+  ser3_I->hidden = 1;
+  serN_I->hidden = 1;
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser1_I, fft_1I.LVGL_wave);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser2_I, fft_2I.LVGL_wave);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, ser3_I, fft_3I.LVGL_wave);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_2, serN_I, fft_NI.LVGL_wave);
+
+  lv_chart_series_t *ser_xb_1 = lv_chart_add_series(guider_ui.wave_model_chart_3, lv_palette_main(LV_PALETTE_YELLOW), LV_CHART_AXIS_PRIMARY_Y);
+  lv_chart_series_t *ser_xb_2 = lv_chart_add_series(guider_ui.wave_model_chart_3, lv_color_hex(0x00FF00), LV_CHART_AXIS_PRIMARY_Y);
+  lv_chart_series_t *ser_xb_3 = lv_chart_add_series(guider_ui.wave_model_chart_3, lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_3, ser_xb_1, fft_1V.LVGL_xb);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_3, ser_xb_2, fft_2V.LVGL_xb);
+  lv_chart_set_ext_y_array(guider_ui.wave_model_chart_3, ser_xb_3, fft_3V.LVGL_xb);
   /* Infinite loop */
   for (;;)
   {
-    HAL_GPIO_TogglePin(PG14_GPIO_Port, PG14_Pin);
+    task_page();
     osDelay(1000);
   }
   /* USER CODE END TASK_LVGL */
@@ -324,7 +372,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   // GPIO_PIN_12 == ADC Complete interrupt
   if (GPIO_Pin == GPIO_PIN_12)
   {
-    test_AD7606();
+    Get_AD7606();
   }
 }
 
