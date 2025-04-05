@@ -107,22 +107,47 @@ extern uint8_t LN_I_flag;
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId defaultTaskHandle;
-osThreadId taskLedHandle;
+osThreadId refersh_lvglHandle;
+osThreadId task_FFTHandle;
+osThreadId task_lvglHandle;
+osSemaphoreId EVENT_ADCHandle;
+osSemaphoreId EVENT_FFTHandle;
+osSemaphoreId EVENT_LVGL_REFERSHHandle;
+osSemaphoreId EVENT_LVGL_TASKHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
-void StartTask02(void const * argument);
+void Refersh_LVGL(void const * argument);
+void TASK_FFT(void const * argument);
+void TASK_LVGL(void const * argument);
 
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+
+/* Hook prototypes */
+void vApplicationMallocFailedHook(void);
+
+/* USER CODE BEGIN 5 */
+__weak void vApplicationMallocFailedHook(void)
+{
+   /* vApplicationMallocFailedHook() will only be called if
+   configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
+   function that will get called if a call to pvPortMalloc() fails.
+   pvPortMalloc() is called internally by the kernel whenever a task, queue,
+   timer or semaphore is created. It is also called by various parts of the
+   demo application. If heap_1.c or heap_2.c are used, then the size of the
+   heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
+   FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
+   to query the size of free heap space that remains (although it does not
+   provide information on how the remaining heap might be fragmented). */
+}
+/* USER CODE END 5 */
 
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
@@ -151,6 +176,23 @@ void MX_FREERTOS_Init(void) {
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
+  /* Create the semaphores(s) */
+  /* definition and creation of EVENT_ADC */
+  osSemaphoreDef(EVENT_ADC);
+  EVENT_ADCHandle = osSemaphoreCreate(osSemaphore(EVENT_ADC), 1);
+
+  /* definition and creation of EVENT_FFT */
+  osSemaphoreDef(EVENT_FFT);
+  EVENT_FFTHandle = osSemaphoreCreate(osSemaphore(EVENT_FFT), 1);
+
+  /* definition and creation of EVENT_LVGL_REFERSH */
+  osSemaphoreDef(EVENT_LVGL_REFERSH);
+  EVENT_LVGL_REFERSHHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_REFERSH), 1);
+
+  /* definition and creation of EVENT_LVGL_TASK */
+  osSemaphoreDef(EVENT_LVGL_TASK);
+  EVENT_LVGL_TASKHandle = osSemaphoreCreate(osSemaphore(EVENT_LVGL_TASK), 1);
+
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -164,13 +206,17 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 2048);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* definition and creation of refersh_lvgl */
+  osThreadDef(refersh_lvgl, Refersh_LVGL, osPriorityAboveNormal, 0, 1024);
+  refersh_lvglHandle = osThreadCreate(osThread(refersh_lvgl), NULL);
 
-  /* definition and creation of taskLed */
-  osThreadDef(taskLed, StartTask02, osPriorityIdle, 0, 128);
-  taskLedHandle = osThreadCreate(osThread(taskLed), NULL);
+  /* definition and creation of task_FFT */
+  osThreadDef(task_FFT, TASK_FFT, osPriorityNormal, 0, 1300);
+  task_FFTHandle = osThreadCreate(osThread(task_FFT), NULL);
+
+  /* definition and creation of task_lvgl */
+  osThreadDef(task_lvgl, TASK_LVGL, osPriorityNormal, 0, 1300);
+  task_lvglHandle = osThreadCreate(osThread(task_lvgl), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -178,47 +224,63 @@ void MX_FREERTOS_Init(void) {
 
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_Refersh_LVGL */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the refersh_lvgl thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* USER CODE END Header_Refersh_LVGL */
+void Refersh_LVGL(void const * argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
-  /* USER CODE BEGIN StartDefaultTask */
+  /* USER CODE BEGIN Refersh_LVGL */
   httpd_init();
-  // osThreadTerminate(defaultTaskHandle);
+  /* Infinite loop */
+  for(;;)
+  {    lv_task_handler(); //lvgl task handler
+    osDelay(1);
+  }
+  /* USER CODE END Refersh_LVGL */
+}
+
+/* USER CODE BEGIN Header_TASK_FFT */
+/**
+* @brief Function implementing the task_FFT thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_TASK_FFT */
+void TASK_FFT(void const * argument)
+{
+  /* USER CODE BEGIN TASK_FFT */
   /* Infinite loop */
   for(;;)
   {
     lv_task_handler(); //lvgl task handler
     osDelay(1);
- 
   }
-  /* USER CODE END StartDefaultTask */
+  /* USER CODE END TASK_FFT */
 }
 
-/* USER CODE BEGIN Header_StartTask02 */
+/* USER CODE BEGIN Header_TASK_LVGL */
 /**
-* @brief Function implementing the taskLed thread.
+* @brief Function implementing the task_lvgl thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void const * argument)
+/* USER CODE END Header_TASK_LVGL */
+void TASK_LVGL(void const * argument)
 {
-  /* USER CODE BEGIN StartTask02 */
+  /* USER CODE BEGIN TASK_LVGL */
   /* Infinite loop */
   for(;;)
   {
     HAL_GPIO_TogglePin(PG14_GPIO_Port,PG14_Pin);
-    osDelay(1000);
+    osDelay(1000);  
   }
-  /* USER CODE END StartTask02 */
+  /* USER CODE END TASK_LVGL */
 }
 
 /* Private application code --------------------------------------------------*/
@@ -242,6 +304,18 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   }
 
 }
+
+// void vApplicationMallocFailedHook(void)
+// {
+//   while(1)
+//   {
+//     /* USER CODE BEGIN WHILE */
+//     HAL_GPIO_TogglePin(PG14_GPIO_Port,PG14_Pin);
+//     osDelay(100);  
+//     /* USER CODE END WHILE */
+//   }
+// }
+
 
 
 

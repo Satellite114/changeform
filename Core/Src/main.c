@@ -163,7 +163,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim1);
   ad7606ini(&ad7606dev);
   MX_FATFS_Init();
-  // MyRTC_ReadTime();
+  //MyRTC_ReadTime();
   HAL_Delay(100);
   FatFs_Check();
   lv_port_fs_init();
