@@ -140,6 +140,15 @@ void page_switch()
 	}
 	if (page == 2) // 谐波模式
 	{
+
+		lv_obj_set_pos(guider_ui.wave_model_three, 300, 28);
+		lv_obj_set_pos(guider_ui.wave_model_two, 137, 28);
+		lv_obj_set_pos(guider_ui.wave_model_red, 330, 25);
+		lv_obj_set_pos(guider_ui.wave_model_green, 167, 25);
+		lv_obj_set_pos(guider_ui.wave_model_yellow, 1, 25);
+		lv_obj_set_pos(guider_ui.wave_model_num_1, -30, 30);
+
+		
 		lv_obj_clear_flag(guider_ui.wave_model_btn_10, LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(guider_ui.wave_model_btn_11, LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(guider_ui.wave_model_btn_12, LV_OBJ_FLAG_HIDDEN);
@@ -579,13 +588,13 @@ static void wave_model_btn_9_event_handler(lv_event_t *e) // X+
 			step--;
 			if (step == 0)
 			{
+				msg_notice(guider_ui.wave_model_msg, 2000, "The setting limit has been reached");
 				step = 1;
 			}
 		}
 		else if (page == 1)
 		{
-			vTaskSuspendAll();
-			taskENTER_CRITICAL();
+			
 			file_now--;
 			if (file_now < 0)
 			{

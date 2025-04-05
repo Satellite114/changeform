@@ -1,4 +1,4 @@
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
   28:User/FFT/dsp_fft.c ****     downsample_data(rat, fft->adcConvertValue, fft->length, fft->LVGL_wave, 256, step);
   29:User/FFT/dsp_fft.c ****     fft->RMS = sqrt(temp_RMS);
   30:User/FFT/dsp_fft.c **** 
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 2
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 2
 
 
   31:User/FFT/dsp_fft.c ****     fft->max_v = max_v;
@@ -89,7 +89,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
   56:User/FFT/dsp_fft.c ****     // step = 8;
   57:User/FFT/dsp_fft.c ****     for (uint16_t i = 0; i < 50; i++)
   58:User/FFT/dsp_fft.c ****     {
-  59:User/FFT/dsp_fft.c ****         fft->LVGL_xb[i] = fft->FFT_OUT[8 * (i + 1)] * 50;
+  59:User/FFT/dsp_fft.c ****         fft->LVGL_xb[i] = (fft->FFT_OUT[8 * (i + 1)]/fft->max_fft) * 100;
   60:User/FFT/dsp_fft.c ****     }
   61:User/FFT/dsp_fft.c **** 
   62:User/FFT/dsp_fft.c ****     // 计算基波频率
@@ -118,7 +118,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
   37              		.cfi_offset 3, -8
   38              		.cfi_offset 14, -4
   77:User/FFT/dsp_fft.c ****     float ans = 0.0;
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 3
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 3
 
 
   39              		.loc 1 77 5 is_stmt 1 view .LVU2
@@ -178,7 +178,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
   84 0038 9C46     		mov	ip, r3
   85              	.LVL5:
   86              		.loc 1 85 23 view .LVU19
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 4
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 4
 
 
   87 003a E6E7     		b	.L3
@@ -238,7 +238,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
   91:User/FFT/dsp_fft.c ****     {
  130              		.loc 1 91 53 is_stmt 1 discriminator 3 view .LVU36
  131 0068 6344     		add	r3, r3, ip
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 5
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 5
 
 
  132              	.LVL12:
@@ -298,7 +298,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  101:User/FFT/dsp_fft.c ****     float32_t max_v = buffer[offset];
  178              		.loc 1 101 5 is_stmt 1 view .LVU46
  179              		.loc 1 101 29 is_stmt 0 view .LVU47
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 6
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 6
 
 
  180 0002 01EB8004 		add	r4, r1, r0, lsl #2
@@ -358,7 +358,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  108:User/FFT/dsp_fft.c ****             max_idx = i;
  225              		.loc 1 108 19 view .LVU65
  226 003a B0EE677A 		vmov.f32	s14, s15
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 7
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 7
 
 
  227              	.LVL23:
@@ -418,7 +418,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  273 0002 0646     		mov	r6, r0
  118:User/FFT/dsp_fft.c **** 
  119:User/FFT/dsp_fft.c ****     uint16_t temp = fft->index_;
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 8
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 8
 
 
  274              		.loc 1 119 5 is_stmt 1 view .LVU77
@@ -478,7 +478,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  322 004a 06EB8303 		add	r3, r6, r3, lsl #2
  323              	.LVL31:
  126:User/FFT/dsp_fft.c **** 
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 9
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 9
 
 
  127:User/FFT/dsp_fft.c ****         fft->FFT_PHASE[i] = atan2f(imag, real) * (180.0f / M_PI);
@@ -538,7 +538,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  370 008c DCA54C40 		.word	1078765020
  371 0090 00004842 		.word	1112014848
  372              		.cfi_endproc
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 10
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 10
 
 
  373              	.LFE385:
@@ -598,7 +598,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  416 0018 A0F81412 		strh	r1, [r0, #532]	@ movhi
  144:User/FFT/dsp_fft.c ****     fft->max_fft = 0.0f;
  417              		.loc 1 144 5 is_stmt 1 view .LVU128
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 11
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 11
 
 
  418              		.loc 1 144 18 is_stmt 0 view .LVU129
@@ -658,7 +658,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  462 000c 43F20820 		movw	r0, #12808
  463 0010 2044     		add	r0, r0, r4
  464 0012 FFF7FEFF 		bl	free
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 12
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 12
 
 
  465              	.LVL45:
@@ -718,7 +718,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  164:User/FFT/dsp_fft.c ****     P->P = 0;
  513              		.loc 1 164 5 view .LVU149
  514              		.loc 1 164 10 is_stmt 0 view .LVU150
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 13
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 13
 
 
  515 0000 9FED097B 		vldr.64	d7, .L35
@@ -778,7 +778,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  560              		@ args = 0, pretend = 0, frame = 0
  561              		@ frame_needed = 0, uses_anonymous_args = 0
  562              		.loc 1 174 1 is_stmt 0 view .LVU167
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 14
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 14
 
 
  563 0000 70B5     		push	{r4, r5, r6, lr}
@@ -838,7 +838,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  613              		.loc 1 177 5 view .LVU182
  614 0034 11E0     		b	.L38
  615              	.LVL56:
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 15
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 15
 
 
  616              	.L39:
@@ -898,7 +898,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  657              		.loc 1 187 5 is_stmt 1 view .LVU198
  658              		.loc 1 187 20 is_stmt 0 view .LVU199
  659 007a 00F51045 		add	r5, r0, #36864
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 16
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 16
 
 
  660 007e 95EDBA9A 		vldr.32	s18, [r5, #744]
@@ -958,7 +958,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  703              		.loc 1 198 14 is_stmt 0 view .LVU220
  704 00d4 FFF7FEFF 		bl	cos
  705              	.LVL61:
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 17
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 17
 
 
  706              		.loc 1 198 12 discriminator 1 view .LVU221
@@ -1018,7 +1018,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  755              		.loc 1 204 5 is_stmt 1 view .LVU231
  756              		.loc 1 204 10 is_stmt 0 view .LVU232
  757 0008 9FED057B 		vldr.64	d7, .L44
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 18
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 18
 
 
  758 000c 80ED067B 		vstr.64	d7, [r0, #24]
@@ -1078,7 +1078,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  797 0000 7047     		bx	lr
  798              		.cfi_endproc
  799              	.LFE391:
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 19
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 19
 
 
  801              		.section	.text.calculate_unbalance,"ax",%progbits
@@ -1138,7 +1138,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  850 0038 20EE070B 		vmul.f64	d0, d0, d7
  851 003c 7047     		bx	lr
  852              	.L49:
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 20
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 20
 
 
  853 003e 00BF     		.align	3
@@ -1198,7 +1198,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  235:User/FFT/dsp_fft.c ****         double sum = 0;
  236:User/FFT/dsp_fft.c ****         for (int j = 0; j < step; j++)
  237:User/FFT/dsp_fft.c ****         {
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 21
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 21
 
 
  238:User/FFT/dsp_fft.c ****             sum += (input_array[i * step + j]) * rat + level;
@@ -1258,7 +1258,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  235:User/FFT/dsp_fft.c ****         for (int j = 0; j < step; j++)
  948              		.loc 1 235 16 view .LVU280
  949 005e 9FED026B 		vldr.64	d6, .L57
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 22
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 22
 
 
  950 0062 EAE7     		b	.L54
@@ -1318,7 +1318,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1001 0008 0446     		mov	r4, r0
   12:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
  1002              		.loc 1 12 5 is_stmt 1 view .LVU286
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 23
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 23
 
 
  1003              	.LVL83:
@@ -1335,13 +1335,13 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1010              	.LBE17:
   13:User/FFT/dsp_fft.c ****     // 谐波有效值： 频域幅值*2/采样点数
  1011              		.loc 1 13 15 view .LVU291
- 1012 000c 9FED678A 		vldr.32	s16, .L75
+ 1012 000c 9FED688A 		vldr.32	s16, .L75
   12:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
  1013              		.loc 1 12 34 view .LVU292
- 1014 0010 DFED678A 		vldr.32	s17, .L75+4
+ 1014 0010 DFED688A 		vldr.32	s17, .L75+4
   12:User/FFT/dsp_fft.c ****     float32_t temp_RMS = 0;
  1015              		.loc 1 12 15 view .LVU293
- 1016 0014 9FED679A 		vldr.32	s18, .L75+8
+ 1016 0014 9FED689A 		vldr.32	s18, .L75+8
  1017              	.LBB18:
   15:User/FFT/dsp_fft.c ****     {
  1018              		.loc 1 15 5 view .LVU294
@@ -1378,7 +1378,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1041 0032 05EB4200 		add	r0, r5, r2, lsl #1
  1042 0036 04EB8000 		add	r0, r4, r0, lsl #2
  1043 003a C0ED007A 		vstr.32	s15, [r0]
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 24
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 24
 
 
   19:User/FFT/dsp_fft.c **** 
@@ -1438,13 +1438,13 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1083              	.L73:
   26:User/FFT/dsp_fft.c ****     }
  1084              		.loc 1 26 19 view .LVU318
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 25
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 25
 
 
  1085              	.LBE18:
   28:User/FFT/dsp_fft.c ****     fft->RMS = sqrt(temp_RMS);
  1086              		.loc 1 28 5 is_stmt 1 view .LVU319
- 1087 007c 4E4B     		ldr	r3, .L75+12
+ 1087 007c 4F4B     		ldr	r3, .L75+12
  1088 007e D3ED007A 		vldr.32	s15, [r3]
  1089 0082 FCEEE77A 		vcvt.u32.f32	s15, s15
  1090 0086 CDED037A 		vstr.32	s15, [sp, #12]	@ int
@@ -1458,7 +1458,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1097 0098 2244     		add	r2, r2, r4
  1098 009a 89B2     		uxth	r1, r1
  1099 009c 04F10800 		add	r0, r4, #8
- 1100 00a0 464D     		ldr	r5, .L75+16
+ 1100 00a0 474D     		ldr	r5, .L75+16
  1101 00a2 95ED000A 		vldr.32	s0, [r5]
  1102 00a6 FFF7FEFF 		bl	downsample_data
  1103              	.LVL91:
@@ -1496,9 +1496,9 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1124 00ca 0123     		movs	r3, #1
  1125 00cc 0022     		movs	r2, #0
  1126 00ce 3119     		adds	r1, r6, r4
- 1127 00d0 3B48     		ldr	r0, .L75+20
+ 1127 00d0 3C48     		ldr	r0, .L75+20
  1128 00d2 FFF7FEFF 		bl	arm_cfft_f32
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 26
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 26
 
 
  1129              	.LVL93:
@@ -1533,7 +1533,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1149 00e8 9C46     		mov	ip, r3
   40:User/FFT/dsp_fft.c ****     uint16_t max_idx = 1;
  1150              		.loc 1 40 15 view .LVU341
- 1151 00ea 9FED367A 		vldr.32	s14, .L75+24
+ 1151 00ea DFED376A 		vldr.32	s13, .L75+24
  1152              	.LBB20:
   43:User/FFT/dsp_fft.c ****     {
  1153              		.loc 1 43 5 view .LVU342
@@ -1558,7 +1558,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1167              		.loc 1 43 28 discriminator 1 view .LVU347
  1168 00f6 B3EB510F 		cmp	r3, r1, lsr #1
  1169 00fa 0ED2     		bcs	.L74
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 27
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 27
 
 
   45:User/FFT/dsp_fft.c ****         {
@@ -1570,7 +1570,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1174 0104 D2ED007A 		vldr.32	s15, [r2]
   45:User/FFT/dsp_fft.c ****         {
  1175              		.loc 1 45 12 view .LVU350
- 1176 0108 F4EEC77A 		vcmpe.f32	s15, s14
+ 1176 0108 F4EEE67A 		vcmpe.f32	s15, s13
  1177 010c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
  1178 0110 EEDD     		ble	.L65
   48:User/FFT/dsp_fft.c ****         }
@@ -1579,7 +1579,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1181              	.LVL98:
   47:User/FFT/dsp_fft.c ****             max_idx = i;
  1182              		.loc 1 47 22 view .LVU352
- 1183 0114 B0EE677A 		vmov.f32	s14, s15
+ 1183 0114 F0EE676A 		vmov.f32	s13, s15
  1184              	.LVL99:
   47:User/FFT/dsp_fft.c ****             max_idx = i;
  1185              		.loc 1 47 22 view .LVU353
@@ -1597,7 +1597,7 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1194              	.LVL101:
   51:User/FFT/dsp_fft.c ****     fft->index_ = max_idx;
  1195              		.loc 1 51 18 view .LVU357
- 1196 011e 83ED867A 		vstr.32	s14, [r3, #536]
+ 1196 011e C3ED866A 		vstr.32	s13, [r3, #536]
   52:User/FFT/dsp_fft.c **** 
  1197              		.loc 1 52 5 is_stmt 1 view .LVU358
   52:User/FFT/dsp_fft.c **** 
@@ -1614,186 +1614,190 @@ ARM GAS  C:\usertemp\ccpfRE0a.s 			page 1
  1205 0126 0022     		movs	r2, #0
   57:User/FFT/dsp_fft.c ****     {
  1206              		.loc 1 57 5 view .LVU363
- 1207 0128 15E0     		b	.L67
+ 1207 0128 17E0     		b	.L67
  1208              	.LVL103:
  1209              	.L68:
   59:User/FFT/dsp_fft.c ****     }
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 28
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 28
 
 
  1210              		.loc 1 59 9 is_stmt 1 view .LVU364
   59:User/FFT/dsp_fft.c ****     }
- 1211              		.loc 1 59 47 is_stmt 0 view .LVU365
+ 1211              		.loc 1 59 48 is_stmt 0 view .LVU365
  1212 012a 501C     		adds	r0, r2, #1
   59:User/FFT/dsp_fft.c ****     }
- 1213              		.loc 1 59 42 view .LVU366
+ 1213              		.loc 1 59 43 view .LVU366
  1214 012c C300     		lsls	r3, r0, #3
   59:User/FFT/dsp_fft.c ****     }
- 1215              		.loc 1 59 39 view .LVU367
+ 1215              		.loc 1 59 40 view .LVU367
  1216 012e 03F68243 		addw	r3, r3, #3202
  1217 0132 04EB8303 		add	r3, r4, r3, lsl #2
- 1218 0136 D3ED007A 		vldr.32	s15, [r3]
+ 1218 0136 93ED007A 		vldr.32	s14, [r3]
   59:User/FFT/dsp_fft.c ****     }
  1219              		.loc 1 59 53 view .LVU368
- 1220 013a 9FED237A 		vldr.32	s14, .L75+28
- 1221 013e 67EE877A 		vmul.f32	s15, s15, s14
+ 1220 013a C7EE267A 		vdiv.f32	s15, s14, s13
   59:User/FFT/dsp_fft.c ****     }
- 1222              		.loc 1 59 25 view .LVU369
- 1223 0142 41F20413 		movw	r3, #4356
- 1224 0146 1344     		add	r3, r3, r2
- 1225 0148 FDEEE77A 		vcvt.s32.f32	s15, s15
- 1226 014c 17EE902A 		vmov	r2, s15	@ int
- 1227              	.LVL104:
+ 1221              		.loc 1 59 68 view .LVU369
+ 1222 013e 9FED237A 		vldr.32	s14, .L75+28
+ 1223 0142 67EE877A 		vmul.f32	s15, s15, s14
   59:User/FFT/dsp_fft.c ****     }
- 1228              		.loc 1 59 25 view .LVU370
- 1229 0150 24F81320 		strh	r2, [r4, r3, lsl #1]	@ movhi
+ 1224              		.loc 1 59 25 view .LVU370
+ 1225 0146 41F20413 		movw	r3, #4356
+ 1226 014a 1344     		add	r3, r3, r2
+ 1227 014c FDEEE77A 		vcvt.s32.f32	s15, s15
+ 1228 0150 17EE902A 		vmov	r2, s15	@ int
+ 1229              	.LVL104:
+  59:User/FFT/dsp_fft.c ****     }
+ 1230              		.loc 1 59 25 view .LVU371
+ 1231 0154 24F81320 		strh	r2, [r4, r3, lsl #1]	@ movhi
   57:User/FFT/dsp_fft.c ****     {
- 1230              		.loc 1 57 35 is_stmt 1 discriminator 3 view .LVU371
- 1231 0154 82B2     		uxth	r2, r0
- 1232              	.LVL105:
- 1233              	.L67:
+ 1232              		.loc 1 57 35 is_stmt 1 discriminator 3 view .LVU372
+ 1233 0158 82B2     		uxth	r2, r0
+ 1234              	.LVL105:
+ 1235              	.L67:
   57:User/FFT/dsp_fft.c ****     {
- 1234              		.loc 1 57 28 discriminator 1 view .LVU372
- 1235 0156 312A     		cmp	r2, #49
- 1236 0158 E7D9     		bls	.L68
- 1237              	.LBE21:
+ 1236              		.loc 1 57 28 discriminator 1 view .LVU373
+ 1237 015a 312A     		cmp	r2, #49
+ 1238 015c E5D9     		bls	.L68
+ 1239              	.LBE21:
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1238              		.loc 1 63 5 view .LVU373
+ 1240              		.loc 1 63 5 view .LVU374
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1239              		.loc 1 63 29 is_stmt 0 view .LVU374
- 1240 015a 2388     		ldrh	r3, [r4]
- 1241 015c 07EE903A 		vmov	s15, r3	@ int
+ 1241              		.loc 1 63 29 is_stmt 0 view .LVU375
+ 1242 015e 2388     		ldrh	r3, [r4]
+ 1243 0160 07EE903A 		vmov	s15, r3	@ int
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1242              		.loc 1 63 18 view .LVU375
- 1243 0160 F8EE677A 		vcvt.f32.u32	s15, s15
+ 1244              		.loc 1 63 18 view .LVU376
+ 1245 0164 F8EE677A 		vcvt.f32.u32	s15, s15
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1244              		.loc 1 63 45 view .LVU376
- 1245 0164 07EE101A 		vmov	s14, r1	@ int
- 1246 0168 B8EE477A 		vcvt.f32.u32	s14, s14
+ 1246              		.loc 1 63 45 view .LVU377
+ 1247 0168 07EE101A 		vmov	s14, r1	@ int
+ 1248 016c B8EE477A 		vcvt.f32.u32	s14, s14
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1247              		.loc 1 63 42 view .LVU377
- 1248 016c C7EE876A 		vdiv.f32	s13, s15, s14
+ 1249              		.loc 1 63 42 view .LVU378
+ 1250 0170 C7EE876A 		vdiv.f32	s13, s15, s14
+ 1251              	.LVL106:
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1249              		.loc 1 63 65 view .LVU378
- 1250 0170 07EE90CA 		vmov	s15, ip	@ int
- 1251 0174 F8EEE77A 		vcvt.f32.s32	s15, s15
- 1252 0178 67EEA67A 		vmul.f32	s15, s15, s13
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 29
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 29
 
 
+ 1252              		.loc 1 63 65 view .LVU379
+ 1253 0174 07EE90CA 		vmov	s15, ip	@ int
+ 1254 0178 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1255 017c 67EEA67A 		vmul.f32	s15, s15, s13
   63:User/FFT/dsp_fft.c ****     fft->DC = fft->FFT_OUT[0] / (float)fft->length;
- 1253              		.loc 1 63 15 view .LVU379
- 1254 017c 04F51046 		add	r6, r4, #36864
- 1255 0180 C6ED847A 		vstr.32	s15, [r6, #528]
+ 1256              		.loc 1 63 15 view .LVU380
+ 1257 0180 04F51046 		add	r6, r4, #36864
+ 1258 0184 C6ED847A 		vstr.32	s15, [r6, #528]
   64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
- 1256              		.loc 1 64 5 is_stmt 1 view .LVU380
+ 1259              		.loc 1 64 5 is_stmt 1 view .LVU381
   64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
- 1257              		.loc 1 64 27 is_stmt 0 view .LVU381
- 1258 0184 04F54053 		add	r3, r4, #12288
- 1259 0188 D3ED826A 		vldr.32	s13, [r3, #520]
+ 1260              		.loc 1 64 27 is_stmt 0 view .LVU382
+ 1261 0188 04F54053 		add	r3, r4, #12288
+ 1262 018c D3ED826A 		vldr.32	s13, [r3, #520]
   64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
- 1260              		.loc 1 64 31 view .LVU382
- 1261 018c C6EE877A 		vdiv.f32	s15, s13, s14
+ 1263              		.loc 1 64 31 view .LVU383
+ 1264 0190 C6EE877A 		vdiv.f32	s15, s13, s14
   64:User/FFT/dsp_fft.c ****     // 计算总谐波失真（THD）
- 1262              		.loc 1 64 13 view .LVU383
- 1263 0190 C6EDED7A 		vstr.32	s15, [r6, #948]
+ 1265              		.loc 1 64 13 view .LVU384
+ 1266 0194 C6EDED7A 		vstr.32	s15, [r6, #948]
   66:User/FFT/dsp_fft.c **** 
- 1264              		.loc 1 66 5 is_stmt 1 view .LVU384
+ 1267              		.loc 1 66 5 is_stmt 1 view .LVU385
   66:User/FFT/dsp_fft.c **** 
- 1265              		.loc 1 66 17 is_stmt 0 view .LVU385
- 1266 0194 2846     		mov	r0, r5
- 1267 0196 FFF7FEFF 		bl	THD
- 1268              	.LVL106:
+ 1268              		.loc 1 66 17 is_stmt 0 view .LVU386
+ 1269 0198 2846     		mov	r0, r5
+ 1270 019a FFF7FEFF 		bl	THD
+ 1271              	.LVL107:
   66:User/FFT/dsp_fft.c **** 
- 1269              		.loc 1 66 15 discriminator 1 view .LVU386
- 1270 019a 86ED870A 		vstr.32	s0, [r6, #540]
+ 1272              		.loc 1 66 15 discriminator 1 view .LVU387
+ 1273 019e 86ED870A 		vstr.32	s0, [r6, #540]
   69:User/FFT/dsp_fft.c **** 
- 1271              		.loc 1 69 5 is_stmt 1 view .LVU387
- 1272 019e 2046     		mov	r0, r4
- 1273 01a0 FFF7FEFF 		bl	calculatePhase
- 1274              	.LVL107:
+ 1274              		.loc 1 69 5 is_stmt 1 view .LVU388
+ 1275 01a2 2046     		mov	r0, r4
+ 1276 01a4 FFF7FEFF 		bl	calculatePhase
+ 1277              	.LVL108:
   73:User/FFT/dsp_fft.c **** 
- 1275              		.loc 1 73 1 is_stmt 0 view .LVU388
- 1276 01a4 04B0     		add	sp, sp, #16
- 1277              	.LCFI12:
- 1278              		.cfi_def_cfa_offset 32
- 1279              		@ sp needed
- 1280 01a6 BDEC048B 		vldm	sp!, {d8-d9}
- 1281              	.LCFI13:
- 1282              		.cfi_restore 82
- 1283              		.cfi_restore 83
- 1284              		.cfi_restore 80
- 1285              		.cfi_restore 81
- 1286              		.cfi_def_cfa_offset 16
- 1287              	.LVL108:
-  73:User/FFT/dsp_fft.c **** 
- 1288              		.loc 1 73 1 view .LVU389
- 1289 01aa 70BD     		pop	{r4, r5, r6, pc}
+ 1278              		.loc 1 73 1 is_stmt 0 view .LVU389
+ 1279 01a8 04B0     		add	sp, sp, #16
+ 1280              	.LCFI12:
+ 1281              		.cfi_def_cfa_offset 32
+ 1282              		@ sp needed
+ 1283 01aa BDEC048B 		vldm	sp!, {d8-d9}
+ 1284              	.LCFI13:
+ 1285              		.cfi_restore 82
+ 1286              		.cfi_restore 83
+ 1287              		.cfi_restore 80
+ 1288              		.cfi_restore 81
+ 1289              		.cfi_def_cfa_offset 16
  1290              	.LVL109:
- 1291              	.L76:
   73:User/FFT/dsp_fft.c **** 
- 1292              		.loc 1 73 1 view .LVU390
- 1293              		.align	2
- 1294              	.L75:
- 1295 01ac 00000000 		.word	0
- 1296 01b0 0000807F 		.word	2139095040
- 1297 01b4 000080FF 		.word	-8388608
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 30
+ 1291              		.loc 1 73 1 view .LVU390
+ 1292 01ae 70BD     		pop	{r4, r5, r6, pc}
+ 1293              	.LVL110:
+ 1294              	.L76:
+  73:User/FFT/dsp_fft.c **** 
+ 1295              		.loc 1 73 1 view .LVU391
+ 1296              		.align	2
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 30
 
 
- 1298 01b8 00000000 		.word	step
- 1299 01bc 00000000 		.word	rat
- 1300 01c0 00000000 		.word	arm_cfft_sR_f32_len2048
- 1301 01c4 000000CF 		.word	-822083584
- 1302 01c8 00004842 		.word	1112014848
- 1303              		.cfi_endproc
- 1304              	.LFE382:
- 1306              		.text
- 1307              	.Letext0:
- 1308              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 1309              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 1310              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
- 1311              		.file 5 "User/FFT/dsp_fft.h"
- 1312              		.file 6 "Drivers/CMSIS/DSP/Include/arm_const_structs.h"
- 1313              		.file 7 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
- 1314              		.file 8 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
-ARM GAS  C:\usertemp\ccpfRE0a.s 			page 31
+ 1297              	.L75:
+ 1298 01b0 00000000 		.word	0
+ 1299 01b4 0000807F 		.word	2139095040
+ 1300 01b8 000080FF 		.word	-8388608
+ 1301 01bc 00000000 		.word	step
+ 1302 01c0 00000000 		.word	rat
+ 1303 01c4 00000000 		.word	arm_cfft_sR_f32_len2048
+ 1304 01c8 000000CF 		.word	-822083584
+ 1305 01cc 0000C842 		.word	1120403456
+ 1306              		.cfi_endproc
+ 1307              	.LFE382:
+ 1309              		.text
+ 1310              	.Letext0:
+ 1311              		.file 2 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1312              		.file 3 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1313              		.file 4 "Drivers/CMSIS/DSP/Include/arm_math.h"
+ 1314              		.file 5 "User/FFT/dsp_fft.h"
+ 1315              		.file 6 "Drivers/CMSIS/DSP/Include/arm_const_structs.h"
+ 1316              		.file 7 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ 1317              		.file 8 "D:/armtoolchain/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/in
+ARM GAS  C:\usertemp\ccs0Qpun.s 			page 31
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 dsp_fft.c
-C:\usertemp\ccpfRE0a.s:20     .text.THD:00000000 $t
-C:\usertemp\ccpfRE0a.s:26     .text.THD:00000000 THD
-C:\usertemp\ccpfRE0a.s:154    .text.THD:0000007c $d
-C:\usertemp\ccpfRE0a.s:159    .text.fft_find_max:00000000 $t
-C:\usertemp\ccpfRE0a.s:165    .text.fft_find_max:00000000 fft_find_max
-C:\usertemp\ccpfRE0a.s:250    .text.calculatePhase:00000000 $t
-C:\usertemp\ccpfRE0a.s:256    .text.calculatePhase:00000000 calculatePhase
-C:\usertemp\ccpfRE0a.s:369    .text.calculatePhase:00000088 $d
-C:\usertemp\ccpfRE0a.s:376    .text.FFT_Init:00000000 $t
-C:\usertemp\ccpfRE0a.s:382    .text.FFT_Init:00000000 FFT_Init
-C:\usertemp\ccpfRE0a.s:432    .text.FFT_Free:00000000 $t
-C:\usertemp\ccpfRE0a.s:438    .text.FFT_Free:00000000 FFT_Free
-C:\usertemp\ccpfRE0a.s:499    .text.PHASE_Init:00000000 $t
-C:\usertemp\ccpfRE0a.s:505    .text.PHASE_Init:00000000 PHASE_Init
-C:\usertemp\ccpfRE0a.s:543    .text.PHASE_Init:00000028 $d
-C:\usertemp\ccpfRE0a.s:549    .text.PHASE_run:00000000 $t
-C:\usertemp\ccpfRE0a.s:555    .text.PHASE_run:00000000 PHASE_run
-C:\usertemp\ccpfRE0a.s:731    .text.PHASE_run:000000f0 $d
-C:\usertemp\ccpfRE0a.s:737    .text.Voltage_three_Init:00000000 $t
-C:\usertemp\ccpfRE0a.s:743    .text.Voltage_three_Init:00000000 Voltage_three_Init
-C:\usertemp\ccpfRE0a.s:776    .text.Voltage_three_Init:00000020 $d
-C:\usertemp\ccpfRE0a.s:782    .text.Voltage_three_run:00000000 $t
-C:\usertemp\ccpfRE0a.s:788    .text.Voltage_three_run:00000000 Voltage_three_run
-C:\usertemp\ccpfRE0a.s:802    .text.calculate_unbalance:00000000 $t
-C:\usertemp\ccpfRE0a.s:808    .text.calculate_unbalance:00000000 calculate_unbalance
-C:\usertemp\ccpfRE0a.s:855    .text.calculate_unbalance:00000040 $d
-C:\usertemp\ccpfRE0a.s:861    .text.downsample_data:00000000 $t
-C:\usertemp\ccpfRE0a.s:867    .text.downsample_data:00000000 downsample_data
-C:\usertemp\ccpfRE0a.s:963    .text.downsample_data:00000068 $d
-C:\usertemp\ccpfRE0a.s:970    .text.fft_run:00000000 $t
-C:\usertemp\ccpfRE0a.s:976    .text.fft_run:00000000 fft_run
-C:\usertemp\ccpfRE0a.s:1295   .text.fft_run:000001ac $d
+C:\usertemp\ccs0Qpun.s:20     .text.THD:00000000 $t
+C:\usertemp\ccs0Qpun.s:26     .text.THD:00000000 THD
+C:\usertemp\ccs0Qpun.s:154    .text.THD:0000007c $d
+C:\usertemp\ccs0Qpun.s:159    .text.fft_find_max:00000000 $t
+C:\usertemp\ccs0Qpun.s:165    .text.fft_find_max:00000000 fft_find_max
+C:\usertemp\ccs0Qpun.s:250    .text.calculatePhase:00000000 $t
+C:\usertemp\ccs0Qpun.s:256    .text.calculatePhase:00000000 calculatePhase
+C:\usertemp\ccs0Qpun.s:369    .text.calculatePhase:00000088 $d
+C:\usertemp\ccs0Qpun.s:376    .text.FFT_Init:00000000 $t
+C:\usertemp\ccs0Qpun.s:382    .text.FFT_Init:00000000 FFT_Init
+C:\usertemp\ccs0Qpun.s:432    .text.FFT_Free:00000000 $t
+C:\usertemp\ccs0Qpun.s:438    .text.FFT_Free:00000000 FFT_Free
+C:\usertemp\ccs0Qpun.s:499    .text.PHASE_Init:00000000 $t
+C:\usertemp\ccs0Qpun.s:505    .text.PHASE_Init:00000000 PHASE_Init
+C:\usertemp\ccs0Qpun.s:543    .text.PHASE_Init:00000028 $d
+C:\usertemp\ccs0Qpun.s:549    .text.PHASE_run:00000000 $t
+C:\usertemp\ccs0Qpun.s:555    .text.PHASE_run:00000000 PHASE_run
+C:\usertemp\ccs0Qpun.s:731    .text.PHASE_run:000000f0 $d
+C:\usertemp\ccs0Qpun.s:737    .text.Voltage_three_Init:00000000 $t
+C:\usertemp\ccs0Qpun.s:743    .text.Voltage_three_Init:00000000 Voltage_three_Init
+C:\usertemp\ccs0Qpun.s:776    .text.Voltage_three_Init:00000020 $d
+C:\usertemp\ccs0Qpun.s:782    .text.Voltage_three_run:00000000 $t
+C:\usertemp\ccs0Qpun.s:788    .text.Voltage_three_run:00000000 Voltage_three_run
+C:\usertemp\ccs0Qpun.s:802    .text.calculate_unbalance:00000000 $t
+C:\usertemp\ccs0Qpun.s:808    .text.calculate_unbalance:00000000 calculate_unbalance
+C:\usertemp\ccs0Qpun.s:855    .text.calculate_unbalance:00000040 $d
+C:\usertemp\ccs0Qpun.s:861    .text.downsample_data:00000000 $t
+C:\usertemp\ccs0Qpun.s:867    .text.downsample_data:00000000 downsample_data
+C:\usertemp\ccs0Qpun.s:963    .text.downsample_data:00000068 $d
+C:\usertemp\ccs0Qpun.s:970    .text.fft_run:00000000 $t
+C:\usertemp\ccs0Qpun.s:976    .text.fft_run:00000000 fft_run
+C:\usertemp\ccs0Qpun.s:1298   .text.fft_run:000001b0 $d
 
 UNDEFINED SYMBOLS
 sqrtf

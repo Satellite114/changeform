@@ -56,7 +56,7 @@ void fft_run(FFT *fft)
     // step = 8;
     for (uint16_t i = 0; i < 50; i++)
     {
-        fft->LVGL_xb[i] = fft->FFT_OUT[8 * (i + 1)] * 50;
+        fft->LVGL_xb[i] = (fft->FFT_OUT[8 * (i + 1)]/fft->max_fft) * 100;
     }
 
     // 计算基波频率

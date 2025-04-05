@@ -141,9 +141,10 @@ static void disp_init(void)
     W25N01_Set_ECC();
     Set_Backlight(100);
     GUI_CleanScreen();
-    // Set_Color(color_white, color_red);
-    Display_ON();
+    Set_Color(color_black, color_white);
+    Display_Text(250, 230, 1, "Initializing  device");
 
+    Display_ON();
 }
 
 // HAL_DMA_RegisterCallback(DMA_HandleTypeDef *hdma, HAL_DMA_CallbackIDTypeDef CallbackID, void (* pCallback)( DMA_HandleTypeDef * _hdma))

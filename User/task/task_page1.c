@@ -39,7 +39,7 @@ void page_init()
     lv_chart_set_type(guider_ui.wave_model_chart_3, LV_CHART_TYPE_BAR);
     lv_chart_set_point_count(guider_ui.wave_model_chart_3, 25); // 图表上点的个数
     lv_obj_set_style_pad_column(guider_ui.wave_model_chart_3, 0, LV_PART_MAIN);
-    lv_chart_set_range(guider_ui.wave_model_chart_3, LV_CHART_AXIS_PRIMARY_Y, 0, 500);
+    lv_chart_set_range(guider_ui.wave_model_chart_3, LV_CHART_AXIS_PRIMARY_Y, 0, 100);
     lv_chart_set_axis_tick(guider_ui.wave_model_chart_3, LV_CHART_AXIS_PRIMARY_Y, 5, 3, 5, 5, true, 40);        // 设置标签个数和大小
     lv_obj_set_style_line_color(guider_ui.wave_model_chart_3, lv_palette_main(LV_PALETTE_NONE), LV_PART_TICKS); // 标签的颜色
     lv_obj_set_style_text_color(guider_ui.wave_model_chart_3, lv_palette_main(LV_PALETTE_NONE), LV_PART_TICKS);
