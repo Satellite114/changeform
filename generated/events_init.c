@@ -536,8 +536,6 @@ static void wave_model_btn_6_event_handler(lv_event_t *e) // Ca截屏
 	case LV_EVENT_LONG_PRESSED:
 	{
 		char filename[60] = {0};
-		uint8_t temp = 0;
-
 		vTaskSuspendAll();
 		taskENTER_CRITICAL();
 		if (page == 0)
@@ -546,27 +544,19 @@ static void wave_model_btn_6_event_handler(lv_event_t *e) // Ca截屏
 			if (take_snapshot_with_buffer(guider_ui.wave_model_chart_2, filename))
 			{
 				sd_count++;
-				//msg_notice(guider_ui.wave_model_msg, 2000, "截屏成功");
-				temp = 1;
+				msg_notice(guider_ui.wave_model_msg, 2000, "Screenshot successful");
+
 				LV_LOG_USER("sd_count = %d\r\n", sd_count);
 				refersh_lvgl_image(guider_ui.wave_model_img_1);
 			}
 			else
 			{
-				temp = 0;
+				msg_notice(guider_ui.wave_model_msg, 2000, "Screenshot failed");
 			}
 		}
 
 		taskEXIT_CRITICAL();
 		xTaskResumeAll();
-		if (temp)
-		{
-			msg_notice(guider_ui.wave_model_msg, 2000, "Screenshot successful");
-		}
-		else
-		{
-			msg_notice(guider_ui.wave_model_msg, 2000, "Screenshot failed");
-		}
 
 		break;
 	}
@@ -582,7 +572,8 @@ static void wave_model_btn_9_event_handler(lv_event_t *e) // X+
 	{
 	case LV_EVENT_CLICKED:
 	{
-		// taskENTER_CRITICAL();
+		vTaskSuspendAll();
+		taskENTER_CRITICAL();
 		if (page == 0)
 		{
 			step--;
@@ -612,7 +603,6 @@ static void wave_model_btn_9_event_handler(lv_event_t *e) // X+
 		taskEXIT_CRITICAL();
 		xTaskResumeAll();
 
-		// taskENTER_CRITICAL();
 		break;
 	}
 	default:
