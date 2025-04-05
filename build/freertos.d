@@ -234,7 +234,9 @@ build/freertos.o: Core/Src/freertos.c \
  Drivers/CMSIS/DSP/Include/arm_const_structs.h \
  Drivers/CMSIS/DSP/Include/arm_math.h \
  Drivers/CMSIS/DSP/Include/arm_common_tables.h \
- lvgl/src/extra/widgets/chart/lv_chart.h User/task/task_page1.h
+ lvgl/src/extra/widgets/chart/lv_chart.h User/task/task_page1.h \
+ Core/Inc/gpio.h Core/Inc/sdmmc.h generated/events_init.h \
+ generated/gui_guider.h
 Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 Core/Inc/FreeRTOSConfig.h:
 Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -531,3 +533,7 @@ Drivers/CMSIS/DSP/Include/arm_math.h:
 Drivers/CMSIS/DSP/Include/arm_common_tables.h:
 lvgl/src/extra/widgets/chart/lv_chart.h:
 User/task/task_page1.h:
+Core/Inc/gpio.h:
+Core/Inc/sdmmc.h:
+generated/events_init.h:
+generated/gui_guider.h:

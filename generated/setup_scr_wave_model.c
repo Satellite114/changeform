@@ -14,17 +14,17 @@
 #include "widgets_init.h"
 #include "custom.h"
 #include "rtc.h"
-// extern uint16_t MyRTC_Time[5];
+extern uint16_t MyRTC_Time[5];
 int wave_model_digital_clock_1_min_value;
 int wave_model_digital_clock_1_hour_value;
 int wave_model_digital_clock_1_sec_value;
 char wave_model_digital_clock_1_meridiem[] = "";
 void setup_scr_wave_model(lv_ui *ui)
 {
-	// MyRTC_ReadTime();
-	// wave_model_digital_clock_1_min_value = MyRTC_Time[4];
-	// wave_model_digital_clock_1_hour_value = MyRTC_Time[3];
-	// wave_model_digital_clock_1_sec_value = MyRTC_Time[5];
+	MyRTC_ReadTime();
+	wave_model_digital_clock_1_min_value = MyRTC_Time[4];
+	wave_model_digital_clock_1_hour_value = MyRTC_Time[3];
+	wave_model_digital_clock_1_sec_value = MyRTC_Time[5];
 	// Write codes wave_model
 	ui->wave_model = lv_obj_create(NULL);
 	lv_obj_set_size(ui->wave_model, 640, 480);

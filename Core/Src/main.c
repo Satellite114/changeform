@@ -77,6 +77,7 @@ AD7606Dev ad7606dev;
 short adcResult;
 short adcBuf[testCHs];
 uint16_t cnt=0;
+uint16_t MyRTC_Time[] = {0, 0, 0, 0, 0, 0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -149,7 +150,7 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+ // HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
   // HAL_FMC_MspInit();
 
   lv_init();

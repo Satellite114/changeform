@@ -37,6 +37,9 @@
 #include "lv_chart.h"
 #include "task.h"
 #include "task_page1.h"
+#include "gpio.h"
+#include "sdmmc.h"
+#include "events_init.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,7 +93,8 @@ extern uint8_t L1_I_flag;
 extern uint8_t L2_I_flag;
 extern uint8_t L3_I_flag;
 extern uint8_t LN_I_flag;
-
+extern AD7606Dev ad7606dev;
+extern SD_HandleTypeDef hsd1;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -123,7 +127,7 @@ osSemaphoreId EVENT_LVGL_TASKHandle;
 void Refersh_LVGL(void const *argument);
 void TASK_FFT(void const *argument);
 void TASK_LVGL(void const *argument);
-
+void init_form_stop();
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -263,8 +267,34 @@ void Refersh_LVGL(void const *argument)
   /* Infinite loop */
   for (;;)
   {
-    lv_task_handler();
+
     // test
+
+    if (lv_disp_get_inactive_time(NULL) < 60000)
+    {
+      lv_task_handler();
+      if(lv_disp_get_inactive_time(NULL) > 30000)
+      {
+        msg_notice(guider_ui.wave_model_msg, 30000, "30 seconds enters sleep mode");
+      }
+    }
+    /*Sleep after 60 sec inactivity*/
+    else
+    {
+      // // while (!lv_anim_count_running())
+      // //   ;
+      // 允许外设唤醒系统
+      // HAL_SuspendTick(); // 关闭 SysTick 定时器（防止唤醒）
+
+      // GPIO_InitTypeDef GPIO_InitStruct = {0};
+      // GPIO_InitStruct.Pin = SKEY_Pin;
+      // GPIO_InitStruct.Mode = GPIO_MODE_EVT_FALLING;
+      // GPIO_InitStruct.Pull = GPIO_PULLUP;
+      // HAL_GPIO_Init(SKEY_GPIO_Port, &GPIO_InitStruct);
+      // Display_OFF();
+      // // 进入 Stop 模式
+      // HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+    }
     osDelay(30);
   }
   /* USER CODE END Refersh_LVGL */
@@ -281,11 +311,11 @@ void TASK_FFT(void const *argument)
 {
   /* USER CODE BEGIN TASK_FFT */
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-  HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
+  //HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
   /* Infinite loop */
   for (;;)
   {
-   fft_run(&fft_1V);
+    fft_run(&fft_1V);
     fft_run(&fft_2V);
     fft_run(&fft_3V);
     fft_run(&fft_NV);
@@ -301,7 +331,7 @@ void TASK_FFT(void const *argument)
     PHASE_run(&PN);
 
     Voltage_three_run(&Voltage);
-    HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
+   // HAL_TIMEx_PWMN_Start(&htim8, TIM_CHANNEL_3);
     osDelay(100);
   }
   /* USER CODE END TASK_FFT */
@@ -374,6 +404,57 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   {
     Get_AD7606();
   }
+  if (GPIO_Pin == SKEY_Pin)
+  {
+    // 重新初始化外设
+    init_form_stop();
+  }
+}
+void init_form_stop()
+{
+  // 1. 重新配置时钟
+  SystemClock_Config();
+
+  // 2. 恢复 tick
+  HAL_ResumeTick();
+
+  // 3. 重新初始化需要的外设
+  MX_USART1_UART_Init();
+  MX_USART3_UART_Init();
+  MX_UART4_Init();
+
+  MX_SPI1_Init();
+  MX_SPI3_Init();
+  MX_SPI4_Init();
+
+  MX_I2C1_Init();
+  MX_I2C4_Init();
+
+  MX_SDMMC1_SD_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  MX_QUADSPI_Init();
+
+  // 若用 ADC / 定时器：
+  MX_ADC1_Init();
+  MX_TIM1_Init();
+  MX_TIM3_Init();
+  MX_TIM8_Init();
+
+  SystemClock_Config();
+  HAL_ResumeTick();
+
+  MX_FATFS_Init();
+  lv_port_fs_init();
+  lv_port_disp_init();
+  lv_port_indev_init();
+
+  HAL_SD_MspInit(&hsd1);
+  HAL_TIM_Base_Start_IT(&htim1);
+  ad7606ini(&ad7606dev);
+  FatFs_Check();
+  Display_Text(250, 230, 1, "WAKE UP");
+  Display_ON();
+  HAL_Delay(5000);
 }
 
 /* USER CODE END Application */
